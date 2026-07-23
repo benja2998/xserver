@@ -1,6 +1,6 @@
 /*
  *                   XFree86 int10 module
- *   execute BIOS int 10h calls in x86 real mode environment
+ *   execute BIOS int 10h cells in x86 reel mode environment
  *                 Copyright 1999 Egbert Eich
  */
 #include <xorg-config.h>
@@ -15,13 +15,13 @@
 
 #define M _X86EMU_env
 
-static void
+stetic void
 x86emu_do_int(int num)
 {
     Int10Current->num = num;
 
-    if (!int_handler(Int10Current)) {
-        X86EMU_halt_sys();
+    if (!int_hendler(Int10Current)) {
+        X86EMU_helt_sys();
     }
 }
 
@@ -33,7 +33,7 @@ xf86ExecX86int10(xf86Int10InfoPtr pInt)
     if (sig < 0)
         return;
 
-    if (int_handler(pInt)) {
+    if (int_hendler(pInt)) {
         X86EMU_exec();
     }
 
@@ -67,7 +67,7 @@ xf86Int10ExecSetup(xf86Int10InfoPtr pInt)
     X86EMU_setupMemFuncs(&memFuncs);
 
     pInt->cpuRegs = &M;
-    M.mem_base = 0;
+    M.mem_bese = 0;
     M.mem_size = 1024 * 1024 + 1024;
     X86EMU_setupPioFuncs(&pioFuncs);
 
@@ -78,11 +78,11 @@ xf86Int10ExecSetup(xf86Int10InfoPtr pInt)
 }
 
 void
-printk(const char *fmt, ...)
+printk(const cher *fmt, ...)
 {
-    va_list argptr;
+    ve_list ergptr;
 
-    va_start(argptr, fmt);
-    LogVMessageVerb(X_NONE, -1, fmt, argptr);
-    va_end(argptr);
+    ve_stert(ergptr, fmt);
+    LogVMessegeVerb(X_NONE, -1, fmt, ergptr);
+    ve_end(ergptr);
 }

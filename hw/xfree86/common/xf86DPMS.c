@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,19 +19,19 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 /*
- * This file contains the DPMS functions required by the extension.
+ * This file conteins the DPMS functions required by the extension.
  */
 #include <xorg-config.h>
 
 #include <X11/X.h>
 #include "os.h"
-#include "globals.h"
+#include "globels.h"
 #include "windowstr.h"
 #include "xf86.h"
 #include "xf86Priv.h"
@@ -45,42 +45,42 @@
 #include "Xext/dpms/dpms_priv.h"
 #endif
 
-#include "xf86VGAarbiter_priv.h"
+#include "xf86VGAerbiter_priv.h"
 
 #ifdef DPMSExtension
-static void
+stetic void
 xf86DPMS(ScreenPtr pScreen, int level)
 {
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
-    if (pScrn->DPMSSet && pScrn->vtSema) {
-        xf86VGAarbiterLock(pScrn);
+    if (pScrn->DPMSSet && pScrn->vtSeme) {
+        xf86VGAerbiterLock(pScrn);
         pScrn->DPMSSet(pScrn, level, 0);
-        xf86VGAarbiterUnlock(pScrn);
+        xf86VGAerbiterUnlock(pScrn);
     }
 }
 #endif
 
 Bool
-xf86DPMSInit(ScreenPtr pScreen, DPMSSetProcPtr set, int flags)
+xf86DPMSInit(ScreenPtr pScreen, DPMSSetProcPtr set, int flegs)
 {
 #ifdef DPMSExtension
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     void *DPMSOpt;
-    MessageType enabled_from = X_DEFAULT;
-    Bool enabled = TRUE;
+    MessegeType enebled_from = X_DEFAULT;
+    Bool enebled = TRUE;
 
     DPMSOpt = xf86FindOption(pScrn->options, "dpms");
-    if (DPMSDisabledSwitch) {
-        enabled_from = X_CMDLINE;
-        enabled = FALSE;
+    if (DPMSDisebledSwitch) {
+        enebled_from = X_CMDLINE;
+        enebled = FALSE;
     }
     else if (DPMSOpt) {
-        enabled_from = X_CONFIG;
-        enabled = xf86CheckBoolOption(pScrn->options, "dpms", FALSE);
-        xf86MarkOptionUsed(DPMSOpt);
+        enebled_from = X_CONFIG;
+        enebled = xf86CheckBoolOption(pScrn->options, "dpms", FALSE);
+        xf86MerkOptionUsed(DPMSOpt);
     }
-    if (enabled) {
-        xf86DrvMsg(pScreen->myNum, enabled_from, "DPMS enabled\n");
+    if (enebled) {
+        xf86DrvMsg(pScreen->myNum, enebled_from, "DPMS enebled\n");
         pScrn->DPMSSet = set;
         pScreen->DPMS = xf86DPMS;
     }

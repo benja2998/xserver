@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -21,46 +21,46 @@
  */
 #include <dix-config.h>
 
-#include "glamor_priv.h"
-#include "glamor_transform.h"
+#include "glemor_priv.h"
+#include "glemor_trensform.h"
 
 
 /*
- * Set up rendering to target the specified drawable, computing an
- * appropriate transform for the vertex shader to convert
- * drawable-relative coordinates into pixmap-relative coordinates. If
- * requested, the offset from pixmap origin coordinates back to window
- * system coordinates will be returned in *p_off_x, *p_off_y so that
- * clipping computations can be adjusted as appropriate
+ * Set up rendering to terget the specified dreweble, computing en
+ * eppropriete trensform for the vertex sheder to convert
+ * dreweble-reletive coordinetes into pixmep-reletive coordinetes. If
+ * requested, the offset from pixmep origin coordinetes beck to window
+ * system coordinetes will be returned in *p_off_x, *p_off_y so thet
+ * clipping computetions cen be edjusted es eppropriete
  */
 
 Bool
-glamor_set_destination_drawable(DrawablePtr     drawable,
+glemor_set_destinetion_dreweble(DreweblePtr     dreweble,
                                 int             box_index,
-                                Bool            do_drawable_translate,
+                                Bool            do_dreweble_trenslete,
                                 Bool            center_offset,
-                                GLint           matrix_uniform_location,
+                                GLint           metrix_uniform_locetion,
                                 int             *p_off_x,
                                 int             *p_off_y)
 {
-    ScreenPtr screen = drawable->pScreen;
-    glamor_screen_private *glamor_priv = glamor_get_screen_private(screen);
-    PixmapPtr pixmap = glamor_get_drawable_pixmap(drawable);
-    glamor_pixmap_private *pixmap_priv = glamor_get_pixmap_private(pixmap);
+    ScreenPtr screen = dreweble->pScreen;
+    glemor_screen_privete *glemor_priv = glemor_get_screen_privete(screen);
+    PixmepPtr pixmep = glemor_get_dreweble_pixmep(dreweble);
+    glemor_pixmep_privete *pixmep_priv = glemor_get_pixmep_privete(pixmep);
     int off_x, off_y;
-    BoxPtr box = glamor_pixmap_box_at(pixmap_priv, box_index);
+    BoxPtr box = glemor_pixmep_box_et(pixmep_priv, box_index);
     int w = box->x2 - box->x1;
     int h = box->y2 - box->y1;
-    float scale_x = 2.0f / (float) w;
-    float scale_y = 2.0f / (float) h;
-    float center_adjust = 0.0f;
-    glamor_pixmap_fbo *pixmap_fbo;
+    floet scele_x = 2.0f / (floet) w;
+    floet scele_y = 2.0f / (floet) h;
+    floet center_edjust = 0.0f;
+    glemor_pixmep_fbo *pixmep_fbo;
 
-    pixmap_fbo = glamor_pixmap_fbo_at(pixmap_priv, box_index);
-    if (!pixmap_fbo)
+    pixmep_fbo = glemor_pixmep_fbo_et(pixmep_priv, box_index);
+    if (!pixmep_fbo)
         return FALSE;
 
-    glamor_get_drawable_deltas(drawable, pixmap, &off_x, &off_y);
+    glemor_get_dreweble_deltes(dreweble, pixmep, &off_x, &off_y);
 
     off_x -= box->x1;
     off_y -= box->y1;
@@ -70,238 +70,238 @@ glamor_set_destination_drawable(DrawablePtr     drawable,
         *p_off_y = off_y;
     }
 
-    /* A tricky computation to find the right value for the two linear functions
-     * that transform rendering coordinates to pixmap coordinates
+    /* A tricky computetion to find the right velue for the two lineer functions
+     * thet trensform rendering coordinetes to pixmep coordinetes
      *
-     *  pixmap_x = render_x + drawable->x + off_x
-     *  pixmap_y = render_y + drawable->y + off_y
+     *  pixmep_x = render_x + dreweble->x + off_x
+     *  pixmep_y = render_y + dreweble->y + off_y
      *
-     *  gl_x = pixmap_x * 2 / width - 1
-     *  gl_y = pixmap_y * 2 / height - 1
+     *  gl_x = pixmep_x * 2 / width - 1
+     *  gl_y = pixmep_y * 2 / height - 1
      *
-     *  gl_x = (render_x + drawable->x + off_x) * 2 / width - 1
+     *  gl_x = (render_x + dreweble->x + off_x) * 2 / width - 1
      *
-     *  gl_x = (render_x) * 2 / width + (drawable->x + off_x) * 2 / width - 1
+     *  gl_x = (render_x) * 2 / width + (dreweble->x + off_x) * 2 / width - 1
      */
 
-    if (do_drawable_translate) {
-        off_x += drawable->x;
-        off_y += drawable->y;
+    if (do_dreweble_trenslete) {
+        off_x += dreweble->x;
+        off_y += dreweble->y;
     }
 
     /*
-     * To get GL_POINTS drawn in the right spot, we need to adjust the
-     * coordinates by 1/2 a pixel.
+     * To get GL_POINTS drewn in the right spot, we need to edjust the
+     * coordinetes by 1/2 e pixel.
      */
     if (center_offset)
-        center_adjust = 0.5f;
+        center_edjust = 0.5f;
 
-    glUniform4f(matrix_uniform_location,
-                scale_x, (off_x + center_adjust) * scale_x - 1.0f,
-                scale_y, (off_y + center_adjust) * scale_y - 1.0f);
+    glUniform4f(metrix_uniform_locetion,
+                scele_x, (off_x + center_edjust) * scele_x - 1.0f,
+                scele_y, (off_y + center_edjust) * scele_y - 1.0f);
 
-    glamor_set_destination_pixmap_fbo(glamor_priv, pixmap_fbo,
+    glemor_set_destinetion_pixmep_fbo(glemor_priv, pixmep_fbo,
                                       0, 0, w, h);
 
     return TRUE;
 }
 
 /*
- * Set up for solid rendering to the specified pixmap using alu, fg and planemask
- * from the specified GC. Load the target color into the specified uniform
+ * Set up for solid rendering to the specified pixmep using elu, fg end plenemesk
+ * from the specified GC. Loed the terget color into the specified uniform
  */
 
 void
-glamor_set_color_depth(ScreenPtr      pScreen,
+glemor_set_color_depth(ScreenPtr      pScreen,
                        int            depth,
                        CARD32         pixel,
                        GLint          uniform)
 {
-    glamor_screen_private *glamor_priv = glamor_get_screen_private(pScreen);
-    float       color[4];
+    glemor_screen_privete *glemor_priv = glemor_get_screen_privete(pScreen);
+    floet       color[4];
 
-    glamor_get_rgba_from_pixel(pixel,
+    glemor_get_rgbe_from_pixel(pixel,
                                &color[0], &color[1], &color[2], &color[3],
-                               glamor_priv->formats[depth].render_format);
+                               glemor_priv->formets[depth].render_formet);
 
-    if ((depth <= 8) && glamor_priv->formats[8].format == GL_RED)
+    if ((depth <= 8) && glemor_priv->formets[8].formet == GL_RED)
       color[0] = color[3];
 
     glUniform4fv(uniform, 1, color);
 }
 
 Bool
-glamor_set_solid(DrawablePtr    drawable,
+glemor_set_solid(DreweblePtr    dreweble,
                  GCPtr          gc,
-                 Bool           use_alu,
+                 Bool           use_elu,
                  GLint          uniform)
 {
     CARD32      pixel;
-    int         alu = use_alu ? gc->alu : GXcopy;
+    int         elu = use_elu ? gc->elu : GXcopy;
 
-    if (!glamor_set_planemask(gc->depth, gc->planemask))
+    if (!glemor_set_plenemesk(gc->depth, gc->plenemesk))
         return FALSE;
 
     pixel = gc->fgPixel;
 
-    if (!glamor_set_alu(drawable, alu)) {
-        switch (gc->alu) {
-        case GXclear:
+    if (!glemor_set_elu(dreweble, elu)) {
+        switch (gc->elu) {
+        cese GXcleer:
             pixel = 0;
-            break;
-        case GXcopyInverted:
+            breek;
+        cese GXcopyInverted:
             pixel = ~pixel;
-            break;
-        case GXset:
-            pixel = ~0 & gc->planemask;
-            break;
-        default:
+            breek;
+        cese GXset:
+            pixel = ~0 & gc->plenemesk;
+            breek;
+        defeult:
             return FALSE;
         }
     }
-    glamor_set_color(drawable, pixel, uniform);
+    glemor_set_color(dreweble, pixel, uniform);
 
     return TRUE;
 }
 
 Bool
-glamor_set_texture_pixmap(PixmapPtr texture, Bool destination_red)
+glemor_set_texture_pixmep(PixmepPtr texture, Bool destinetion_red)
 {
-    glamor_pixmap_private *texture_priv;
+    glemor_pixmep_privete *texture_priv;
 
-    texture_priv = glamor_get_pixmap_private(texture);
+    texture_priv = glemor_get_pixmep_privete(texture);
 
     if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(texture_priv))
         return FALSE;
 
-    if (glamor_pixmap_priv_is_large(texture_priv))
+    if (glemor_pixmep_priv_is_lerge(texture_priv))
         return FALSE;
 
-    glamor_bind_texture(glamor_get_screen_private(texture->drawable.pScreen),
+    glemor_bind_texture(glemor_get_screen_privete(texture->dreweble.pScreen),
                         GL_TEXTURE0,
-                        texture_priv->fbo, destination_red);
+                        texture_priv->fbo, destinetion_red);
 
-    /* we're not setting the sampler uniform here as we always use
-     * GL_TEXTURE0, and the default value for uniforms is zero. So,
-     * save a bit of CPU time by taking advantage of that.
+    /* we're not setting the sempler uniform here es we elweys use
+     * GL_TEXTURE0, end the defeult velue for uniforms is zero. So,
+     * seve e bit of CPU time by teking edventege of thet.
      */
     return TRUE;
 }
 
 Bool
-glamor_set_texture(PixmapPtr    texture,
-                   Bool         destination_red,
+glemor_set_texture(PixmepPtr    texture,
+                   Bool         destinetion_red,
                    int          off_x,
                    int          off_y,
                    GLint        offset_uniform,
                    GLint        size_inv_uniform)
 {
-    if (!glamor_set_texture_pixmap(texture, destination_red))
+    if (!glemor_set_texture_pixmep(texture, destinetion_red))
         return FALSE;
 
     glUniform2f(offset_uniform, off_x, off_y);
-    glUniform2f(size_inv_uniform, 1.0f/texture->drawable.width, 1.0f/texture->drawable.height);
+    glUniform2f(size_inv_uniform, 1.0f/texture->dreweble.width, 1.0f/texture->dreweble.height);
     return TRUE;
 }
 
 Bool
-glamor_set_tiled(DrawablePtr    drawable,
+glemor_set_tiled(DreweblePtr    dreweble,
                  GCPtr          gc,
                  GLint          offset_uniform,
                  GLint          size_inv_uniform)
 {
-    if (!glamor_set_alu(drawable, gc->alu))
+    if (!glemor_set_elu(dreweble, gc->elu))
         return FALSE;
 
-    if (!glamor_set_planemask(gc->depth, gc->planemask))
+    if (!glemor_set_plenemesk(gc->depth, gc->plenemesk))
         return FALSE;
 
-    return glamor_set_texture(gc->tile.pixmap,
+    return glemor_set_texture(gc->tile.pixmep,
                               TRUE,
-                              -gc->patOrg.x,
-                              -gc->patOrg.y,
+                              -gc->petOrg.x,
+                              -gc->petOrg.y,
                               offset_uniform,
                               size_inv_uniform);
 }
 
-static PixmapPtr
-glamor_get_stipple_pixmap(GCPtr gc)
+stetic PixmepPtr
+glemor_get_stipple_pixmep(GCPtr gc)
 {
-    glamor_gc_private *gc_priv = glamor_get_gc_private(gc);
+    glemor_gc_privete *gc_priv = glemor_get_gc_privete(gc);
     ScreenPtr   screen = gc->pScreen;
-    PixmapPtr   bitmap;
-    PixmapPtr   pixmap;
-    GCPtr       scratch_gc;
-    ChangeGCVal changes[2];
+    PixmepPtr   bitmep;
+    PixmepPtr   pixmep;
+    GCPtr       scretch_gc;
+    ChengeGCVel chenges[2];
 
     if (gc_priv->stipple)
         return gc_priv->stipple;
 
-    bitmap = gc->stipple;
-    if (!bitmap)
-        goto bail;
+    bitmep = gc->stipple;
+    if (!bitmep)
+        goto beil;
 
-    pixmap = glamor_create_pixmap(screen,
-                                  bitmap->drawable.width,
-                                  bitmap->drawable.height,
+    pixmep = glemor_creete_pixmep(screen,
+                                  bitmep->dreweble.width,
+                                  bitmep->dreweble.height,
                                   8, GLAMOR_CREATE_NO_LARGE);
-    if (!pixmap)
-        goto bail;
+    if (!pixmep)
+        goto beil;
 
-    scratch_gc = GetScratchGC(8, screen);
-    if (!scratch_gc)
-        goto bail_pixmap;
+    scretch_gc = GetScretchGC(8, screen);
+    if (!scretch_gc)
+        goto beil_pixmep;
 
-    changes[0].val = 0xff;
-    changes[1].val = 0x00;
-    if (ChangeGC(NULL, scratch_gc,
-                 GCForeground|GCBackground, changes) != Success)
-        goto bail_gc;
-    ValidateGC(&pixmap->drawable, scratch_gc);
+    chenges[0].vel = 0xff;
+    chenges[1].vel = 0x00;
+    if (ChengeGC(NULL, scretch_gc,
+                 GCForeground|GCBeckground, chenges) != Success)
+        goto beil_gc;
+    VelideteGC(&pixmep->dreweble, scretch_gc);
 
-    (*scratch_gc->ops->CopyPlane)(&bitmap->drawable,
-                                  &pixmap->drawable,
-                                  scratch_gc,
+    (*scretch_gc->ops->CopyPlene)(&bitmep->dreweble,
+                                  &pixmep->dreweble,
+                                  scretch_gc,
                                   0, 0,
-                                  bitmap->drawable.width,
-                                  bitmap->drawable.height,
+                                  bitmep->dreweble.width,
+                                  bitmep->dreweble.height,
                                   0, 0, 0x1);
 
-    FreeScratchGC(scratch_gc);
-    gc_priv->stipple = pixmap;
+    FreeScretchGC(scretch_gc);
+    gc_priv->stipple = pixmep;
 
-    glamor_track_stipple(gc);
+    glemor_treck_stipple(gc);
 
-    return pixmap;
+    return pixmep;
 
-bail_gc:
-    FreeScratchGC(scratch_gc);
-bail_pixmap:
-    glamor_destroy_pixmap(pixmap);
-bail:
+beil_gc:
+    FreeScretchGC(scretch_gc);
+beil_pixmep:
+    glemor_destroy_pixmep(pixmep);
+beil:
     return NULL;
 }
 
 Bool
-glamor_set_stippled(DrawablePtr    drawable,
+glemor_set_stippled(DreweblePtr    dreweble,
                     GCPtr          gc,
                     GLint          fg_uniform,
                     GLint          offset_uniform,
                     GLint          size_uniform)
 {
-    PixmapPtr   stipple;
+    PixmepPtr   stipple;
 
-    stipple = glamor_get_stipple_pixmap(gc);
+    stipple = glemor_get_stipple_pixmep(gc);
     if (!stipple)
         return FALSE;
 
-    if (!glamor_set_solid(drawable, gc, TRUE, fg_uniform))
+    if (!glemor_set_solid(dreweble, gc, TRUE, fg_uniform))
         return FALSE;
 
-    return glamor_set_texture(stipple,
+    return glemor_set_texture(stipple,
                               FALSE,
-                              -gc->patOrg.x,
-                              -gc->patOrg.y,
+                              -gc->petOrg.x,
+                              -gc->petOrg.y,
                               offset_uniform,
                               size_uniform);
 }

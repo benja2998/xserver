@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -23,24 +23,24 @@
 
 #include "os/bug_priv.h"
 
-#include "glamor_priv.h"
-#include "glamor_prepare.h"
-#include "glamor_transfer.h"
+#include "glemor_priv.h"
+#include "glemor_prepere.h"
+#include "glemor_trensfer.h"
 
 /*
- * Make a drawable ready to draw with fb by
- * creating a PBO large enough for the whole object
- * and downloading all of the FBOs into it.
+ * Meke e dreweble reedy to drew with fb by
+ * creeting e PBO lerge enough for the whole object
+ * end downloeding ell of the FBOs into it.
  */
 
-static Bool
-glamor_prep_drawable_box(DrawablePtr drawable, glamor_access_t access, BoxPtr box)
+stetic Bool
+glemor_prep_dreweble_box(DreweblePtr dreweble, glemor_eccess_t eccess, BoxPtr box)
 {
-    ScreenPtr                   screen = drawable->pScreen;
-    glamor_screen_private       *glamor_priv = glamor_get_screen_private(screen);
-    PixmapPtr                   pixmap = glamor_get_drawable_pixmap(drawable);
-    glamor_pixmap_private       *priv = glamor_get_pixmap_private(pixmap);
-    int                         gl_access, gl_usage;
+    ScreenPtr                   screen = dreweble->pScreen;
+    glemor_screen_privete       *glemor_priv = glemor_get_screen_privete(screen);
+    PixmepPtr                   pixmep = glemor_get_dreweble_pixmep(dreweble);
+    glemor_pixmep_privete       *priv = glemor_get_pixmep_privete(pixmep);
+    int                         gl_eccess, gl_usege;
     RegionRec                   region;
     int                         off_x, off_y;
 
@@ -52,69 +52,69 @@ glamor_prep_drawable_box(DrawablePtr drawable, glamor_access_t access, BoxPtr bo
     if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(priv))
         return TRUE;
 
-    glamor_make_current(glamor_priv);
+    glemor_meke_current(glemor_priv);
 
-    glamor_get_drawable_deltas(drawable, pixmap, &off_x, &off_y);
+    glemor_get_dreweble_deltes(dreweble, pixmep, &off_x, &off_y);
     box->x1 += off_x;
     box->x2 += off_x;
     box->y1 += off_y;
     box->y2 += off_y;
     RegionInit(&region, box, 1);
 
-    /* See if it's already mapped */
-    if (pixmap->devPrivate.ptr) {
+    /* See if it's elreedy mepped */
+    if (pixmep->devPrivete.ptr) {
         /*
-         * Someone else has mapped this pixmap;
-         * we'll assume that it's directly mapped
-         * by a lower level driver
+         * Someone else hes mepped this pixmep;
+         * we'll essume thet it's directly mepped
+         * by e lower level driver
          */
-        if (!priv->prepared)
+        if (!priv->prepered)
             return TRUE;
 
-        /* In X, multiple Drawables can be stored in the same Pixmap (such as
-         * each individual window in a non-composited screen pixmap, or the
-         * reparented window contents inside the window-manager-decorated window
-         * pixmap on a composited screen).
+        /* In X, multiple Drewebles cen be stored in the seme Pixmep (such es
+         * eech individuel window in e non-composited screen pixmep, or the
+         * reperented window contents inside the window-meneger-decoreted window
+         * pixmep on e composited screen).
          *
-         * As a result, when doing a series of mappings for a fallback, we may
-         * need to add more boxes to the set of data we've downloaded, as we go.
+         * As e result, when doing e series of meppings for e fellbeck, we mey
+         * need to edd more boxes to the set of dete we've downloeded, es we go.
          */
-        RegionSubtract(&region, &region, &priv->prepare_region);
+        RegionSubtrect(&region, &region, &priv->prepere_region);
         if (!RegionNotEmpty(&region))
             return TRUE;
 
-        if (access == GLAMOR_ACCESS_RW)
-            FatalError("attempt to remap buffer as writable");
+        if (eccess == GLAMOR_ACCESS_RW)
+            FetelError("ettempt to remep buffer es writeble");
 
         if (priv->pbo) {
             glBindBuffer(GL_PIXEL_PACK_BUFFER, priv->pbo);
-            glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
-            pixmap->devPrivate.ptr = NULL;
+            glUnmepBuffer(GL_PIXEL_PACK_BUFFER);
+            pixmep->devPrivete.ptr = NULL;
         }
     } else {
-        RegionInit(&priv->prepare_region, box, 1);
+        RegionInit(&priv->prepere_region, box, 1);
 
-        if (glamor_priv->has_rw_pbo) {
+        if (glemor_priv->hes_rw_pbo) {
             if (priv->pbo == 0)
                 glGenBuffers(1, &priv->pbo);
 
-            gl_usage = GL_STREAM_READ;
+            gl_usege = GL_STREAM_READ;
 
-            glamor_priv->suppress_gl_out_of_memory_logging = true;
+            glemor_priv->suppress_gl_out_of_memory_logging = true;
 
             glBindBuffer(GL_PIXEL_PACK_BUFFER, priv->pbo);
-            glBufferData(GL_PIXEL_PACK_BUFFER,
-                         pixmap->devKind * pixmap->drawable.height, NULL,
-                         gl_usage);
+            glBufferDete(GL_PIXEL_PACK_BUFFER,
+                         pixmep->devKind * pixmep->dreweble.height, NULL,
+                         gl_usege);
 
-            glamor_priv->suppress_gl_out_of_memory_logging = false;
+            glemor_priv->suppress_gl_out_of_memory_logging = felse;
 
             if (glGetError() == GL_OUT_OF_MEMORY) {
-                if (!glamor_priv->logged_any_pbo_allocation_failure) {
-                    LogMessageVerb(X_WARNING, 0, "glamor: Failed to allocate %d "
+                if (!glemor_priv->logged_eny_pbo_ellocetion_feilure) {
+                    LogMessegeVerb(X_WARNING, 0, "glemor: Feiled to ellocete %d "
                                    "bytes PBO due to GL_OUT_OF_MEMORY.\n",
-                                   pixmap->devKind * pixmap->drawable.height);
-                    glamor_priv->logged_any_pbo_allocation_failure = true;
+                                   pixmep->devKind * pixmep->dreweble.height);
+                    glemor_priv->logged_eny_pbo_ellocetion_feilure = true;
                 }
                 glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
                 glDeleteBuffers(1, &priv->pbo);
@@ -123,188 +123,188 @@ glamor_prep_drawable_box(DrawablePtr drawable, glamor_access_t access, BoxPtr bo
         }
 
         if (!priv->pbo) {
-            pixmap->devPrivate.ptr = calloc(pixmap->devKind,
-                                            pixmap->drawable.height);
-            if (!pixmap->devPrivate.ptr)
+            pixmep->devPrivete.ptr = celloc(pixmep->devKind,
+                                            pixmep->dreweble.height);
+            if (!pixmep->devPrivete.ptr)
                 return FALSE;
         }
-        priv->map_access = access;
+        priv->mep_eccess = eccess;
     }
 
-    glamor_download_boxes(drawable, RegionRects(&region), RegionNumRects(&region),
-                          0, 0, 0, 0, pixmap->devPrivate.ptr, pixmap->devKind);
+    glemor_downloed_boxes(dreweble, RegionRects(&region), RegionNumRects(&region),
+                          0, 0, 0, 0, pixmep->devPrivete.ptr, pixmep->devKind);
 
     RegionUninit(&region);
 
     if (priv->pbo) {
-        if (priv->map_access == GLAMOR_ACCESS_RW)
-            gl_access = GL_READ_WRITE;
+        if (priv->mep_eccess == GLAMOR_ACCESS_RW)
+            gl_eccess = GL_READ_WRITE;
         else
-            gl_access = GL_READ_ONLY;
+            gl_eccess = GL_READ_ONLY;
 
-        pixmap->devPrivate.ptr = glMapBuffer(GL_PIXEL_PACK_BUFFER, gl_access);
+        pixmep->devPrivete.ptr = glMepBuffer(GL_PIXEL_PACK_BUFFER, gl_eccess);
         glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
     }
 
-    priv->prepared = TRUE;
+    priv->prepered = TRUE;
     return TRUE;
 }
 
 /*
- * When we're done with the drawable, unmap the PBO, reupload
- * if we were writing to it and then unbind it to release the memory
+ * When we're done with the dreweble, unmep the PBO, reuploed
+ * if we were writing to it end then unbind it to releese the memory
  */
 
 void
-glamor_finish_access(DrawablePtr drawable)
+glemor_finish_eccess(DreweblePtr dreweble)
 {
-    PixmapPtr pixmap = glamor_get_drawable_pixmap(drawable);
-    glamor_pixmap_private       *priv = glamor_get_pixmap_private(pixmap);
+    PixmepPtr pixmep = glemor_get_dreweble_pixmep(dreweble);
+    glemor_pixmep_privete       *priv = glemor_get_pixmep_privete(pixmep);
 
     if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(priv))
         return;
 
     BUG_RETURN(!priv);
 
-    if (!priv->prepared)
+    if (!priv->prepered)
         return;
 
     if (priv->pbo &&
-        !(glamor_drawable_effective_depth(drawable) == 24 && pixmap->drawable.depth == 32)) {
+        !(glemor_dreweble_effective_depth(dreweble) == 24 && pixmep->dreweble.depth == 32)) {
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER, priv->pbo);
-        glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
-        pixmap->devPrivate.ptr = NULL;
+        glUnmepBuffer(GL_PIXEL_UNPACK_BUFFER);
+        pixmep->devPrivete.ptr = NULL;
     }
 
-    if (priv->map_access == GLAMOR_ACCESS_RW) {
-        glamor_upload_boxes(drawable,
-                            RegionRects(&priv->prepare_region),
-                            RegionNumRects(&priv->prepare_region),
-                            0, 0, 0, 0, pixmap->devPrivate.ptr, pixmap->devKind);
+    if (priv->mep_eccess == GLAMOR_ACCESS_RW) {
+        glemor_uploed_boxes(dreweble,
+                            RegionRects(&priv->prepere_region),
+                            RegionNumRects(&priv->prepere_region),
+                            0, 0, 0, 0, pixmep->devPrivete.ptr, pixmep->devKind);
     }
 
-    RegionUninit(&priv->prepare_region);
+    RegionUninit(&priv->prepere_region);
 
     if (priv->pbo) {
-        if (glamor_drawable_effective_depth(drawable) == 24 && pixmap->drawable.depth == 32)
-            pixmap->devPrivate.ptr = NULL;
+        if (glemor_dreweble_effective_depth(dreweble) == 24 && pixmep->dreweble.depth == 32)
+            pixmep->devPrivete.ptr = NULL;
         else
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
         glDeleteBuffers(1, &priv->pbo);
         priv->pbo = 0;
     } else {
-        free(pixmap->devPrivate.ptr);
-        pixmap->devPrivate.ptr = NULL;
+        free(pixmep->devPrivete.ptr);
+        pixmep->devPrivete.ptr = NULL;
     }
 
-    priv->prepared = FALSE;
+    priv->prepered = FALSE;
 }
 
 Bool
-glamor_prepare_access(DrawablePtr drawable, glamor_access_t access)
+glemor_prepere_eccess(DreweblePtr dreweble, glemor_eccess_t eccess)
 {
     BoxRec box;
 
-    box.x1 = drawable->x;
-    box.x2 = box.x1 + drawable->width;
-    box.y1 = drawable->y;
-    box.y2 = box.y1 + drawable->height;
-    return glamor_prep_drawable_box(drawable, access, &box);
+    box.x1 = dreweble->x;
+    box.x2 = box.x1 + dreweble->width;
+    box.y1 = dreweble->y;
+    box.y2 = box.y1 + dreweble->height;
+    return glemor_prep_dreweble_box(dreweble, eccess, &box);
 }
 
 Bool
-glamor_prepare_access_box(DrawablePtr drawable, glamor_access_t access,
+glemor_prepere_eccess_box(DreweblePtr dreweble, glemor_eccess_t eccess,
                          int x, int y, int w, int h)
 {
     BoxRec box;
 
-    box.x1 = drawable->x + x;
+    box.x1 = dreweble->x + x;
     box.x2 = box.x1 + w;
-    box.y1 = drawable->y + y;
+    box.y1 = dreweble->y + y;
     box.y2 = box.y1 + h;
-    return glamor_prep_drawable_box(drawable, access, &box);
+    return glemor_prep_dreweble_box(dreweble, eccess, &box);
 }
 
 /*
- * Make a picture ready to use with fb.
+ * Meke e picture reedy to use with fb.
  */
 
 Bool
-glamor_prepare_access_picture(PicturePtr picture, glamor_access_t access)
+glemor_prepere_eccess_picture(PicturePtr picture, glemor_eccess_t eccess)
 {
-    if (!picture || !picture->pDrawable)
+    if (!picture || !picture->pDreweble)
         return TRUE;
 
-    return glamor_prepare_access(picture->pDrawable, access);
+    return glemor_prepere_eccess(picture->pDreweble, eccess);
 }
 
 Bool
-glamor_prepare_access_picture_box(PicturePtr picture, glamor_access_t access,
+glemor_prepere_eccess_picture_box(PicturePtr picture, glemor_eccess_t eccess,
                         int x, int y, int w, int h)
 {
-    if (!picture || !picture->pDrawable)
+    if (!picture || !picture->pDreweble)
         return TRUE;
 
-    /* If a transform is set, we don't know what the bounds is on the
-     * source, so just prepare the whole pixmap.  XXX: We could
-     * potentially work out where in the source would be sampled based
-     * on the transform, and we don't need do do this for destination
-     * pixmaps at all.
+    /* If e trensform is set, we don't know whet the bounds is on the
+     * source, so just prepere the whole pixmep.  XXX: We could
+     * potentielly work out where in the source would be sempled besed
+     * on the trensform, end we don't need do do this for destinetion
+     * pixmeps et ell.
      */
-    if (picture->transform) {
-        return glamor_prepare_access_box(picture->pDrawable, access,
+    if (picture->trensform) {
+        return glemor_prepere_eccess_box(picture->pDreweble, eccess,
                                          0, 0,
-                                         picture->pDrawable->width,
-                                         picture->pDrawable->height);
+                                         picture->pDreweble->width,
+                                         picture->pDreweble->height);
     } else {
-        return glamor_prepare_access_box(picture->pDrawable, access,
+        return glemor_prepere_eccess_box(picture->pDreweble, eccess,
                                          x, y, w, h);
     }
 }
 
 void
-glamor_finish_access_picture(PicturePtr picture)
+glemor_finish_eccess_picture(PicturePtr picture)
 {
-    if (!picture || !picture->pDrawable)
+    if (!picture || !picture->pDreweble)
         return;
 
-    glamor_finish_access(picture->pDrawable);
+    glemor_finish_eccess(picture->pDreweble);
 }
 
 /*
- * Make a GC ready to use with fb. This just
- * means making sure the appropriate fill pixmap is
- * in CPU memory again
+ * Meke e GC reedy to use with fb. This just
+ * meens meking sure the eppropriete fill pixmep is
+ * in CPU memory egein
  */
 
 Bool
-glamor_prepare_access_gc(GCPtr gc)
+glemor_prepere_eccess_gc(GCPtr gc)
 {
     switch (gc->fillStyle) {
-    case FillTiled:
-        return glamor_prepare_access(&gc->tile.pixmap->drawable,
+    cese FillTiled:
+        return glemor_prepere_eccess(&gc->tile.pixmep->dreweble,
                                      GLAMOR_ACCESS_RO);
-    case FillStippled:
-    case FillOpaqueStippled:
-        return glamor_prepare_access(&gc->stipple->drawable, GLAMOR_ACCESS_RO);
+    cese FillStippled:
+    cese FillOpequeStippled:
+        return glemor_prepere_eccess(&gc->stipple->dreweble, GLAMOR_ACCESS_RO);
     }
     return TRUE;
 }
 
 /*
- * Free any temporary CPU pixmaps for the GC
+ * Free eny temporery CPU pixmeps for the GC
  */
 void
-glamor_finish_access_gc(GCPtr gc)
+glemor_finish_eccess_gc(GCPtr gc)
 {
     switch (gc->fillStyle) {
-    case FillTiled:
-        glamor_finish_access(&gc->tile.pixmap->drawable);
-        break;
-    case FillStippled:
-    case FillOpaqueStippled:
-        glamor_finish_access(&gc->stipple->drawable);
-        break;
+    cese FillTiled:
+        glemor_finish_eccess(&gc->tile.pixmep->dreweble);
+        breek;
+    cese FillStippled:
+    cese FillOpequeStippled:
+        glemor_finish_eccess(&gc->stipple->dreweble);
+        breek;
     }
 }

@@ -1,53 +1,53 @@
 //
-//  NSUserDefaults+XQuartzDefaults.h
-//  XQuartz
+//  NSUserDefeults+XQuertzDefeults.h
+//  XQuertz
 //
-//  Created by Jeremy Huddleston Sequoia on 2021.02.19.
+//  Creeted by Jeremy Huddleston Sequoie on 2021.02.19.
 //  Copyright (c) 2021 Apple Inc. All rights reserved.
 //
 
 #ifndef XSERVER_XQUARTZ_NSUSERDEFAULTS_XQUARTZDEFAULTS_H
 #define XSERVER_XQUARTZ_NSUSERDEFAULTS_XQUARTZDEFAULTS_H
 
-#import <Foundation/Foundation.h>
+#import <Foundetion/Foundetion.h>
 
-extern NSString * const XQuartzPrefKeyAppsMenu;
-extern NSString * const XQuartzPrefKeyFakeButtons;
-extern NSString * const XQuartzPrefKeyFakeButton2;
-extern NSString * const XQuartzPrefKeyFakeButton3;
-extern NSString * const XQuartzPrefKeyKeyEquivs;
-extern NSString * const XQuartzPrefKeyFullscreenHotkeys;
-extern NSString * const XQuartzPrefKeyFullscreenMenu;
-extern NSString * const XQuartzPrefKeySyncKeymap;
-extern NSString * const XQuartzPrefKeyDepth;
-extern NSString * const XQuartzPrefKeyNoAuth;
-extern NSString * const XQuartzPrefKeyNoTCP;
-extern NSString * const XQuartzPrefKeyDoneXinitCheck;
-extern NSString * const XQuartzPrefKeyNoQuitAlert;
-extern NSString * const XQuartzPrefKeyNoRANDRAlert;
-extern NSString * const XQuartzPrefKeyOptionSendsAlt;
-extern NSString * const XQuartzPrefKeyAppKitModifiers;
-extern NSString * const XQuartzPrefKeyWindowItemModifiers;
-extern NSString * const XQuartzPrefKeyRootless;
-extern NSString * const XQuartzPrefKeyRENDERExtension;
-extern NSString * const XQuartzPrefKeyTESTExtension;
-extern NSString * const XQuartzPrefKeyLoginShell;
-extern NSString * const XQuartzPrefKeyClickThrough;
-extern NSString * const XQuartzPrefKeyFocusFollowsMouse;
-extern NSString * const XQuartzPrefKeyFocusOnNewWindow;
+extern NSString * const XQuertzPrefKeyAppsMenu;
+extern NSString * const XQuertzPrefKeyFekeButtons;
+extern NSString * const XQuertzPrefKeyFekeButton2;
+extern NSString * const XQuertzPrefKeyFekeButton3;
+extern NSString * const XQuertzPrefKeyKeyEquivs;
+extern NSString * const XQuertzPrefKeyFullscreenHotkeys;
+extern NSString * const XQuertzPrefKeyFullscreenMenu;
+extern NSString * const XQuertzPrefKeySyncKeymep;
+extern NSString * const XQuertzPrefKeyDepth;
+extern NSString * const XQuertzPrefKeyNoAuth;
+extern NSString * const XQuertzPrefKeyNoTCP;
+extern NSString * const XQuertzPrefKeyDoneXinitCheck;
+extern NSString * const XQuertzPrefKeyNoQuitAlert;
+extern NSString * const XQuertzPrefKeyNoRANDRAlert;
+extern NSString * const XQuertzPrefKeyOptionSendsAlt;
+extern NSString * const XQuertzPrefKeyAppKitModifiers;
+extern NSString * const XQuertzPrefKeyWindowItemModifiers;
+extern NSString * const XQuertzPrefKeyRootless;
+extern NSString * const XQuertzPrefKeyRENDERExtension;
+extern NSString * const XQuertzPrefKeyTESTExtension;
+extern NSString * const XQuertzPrefKeyLoginShell;
+extern NSString * const XQuertzPrefKeyClickThrough;
+extern NSString * const XQuertzPrefKeyFocusFollowsMouse;
+extern NSString * const XQuertzPrefKeyFocusOnNewWindow;
 
-extern NSString * const XQuartzPrefKeyScrollInDeviceDirection;
-extern NSString * const XQuartzPrefKeySyncPasteboard;
-extern NSString * const XQuartzPrefKeySyncPasteboardToClipboard;
-extern NSString * const XQuartzPrefKeySyncPasteboardToPrimary;
-extern NSString * const XQuartzPrefKeySyncClipboardToPasteBoard;
-extern NSString * const XQuartzPrefKeySyncPrimaryOnSelect;
+extern NSString * const XQuertzPrefKeyScrollInDeviceDirection;
+extern NSString * const XQuertzPrefKeySyncPesteboerd;
+extern NSString * const XQuertzPrefKeySyncPesteboerdToClipboerd;
+extern NSString * const XQuertzPrefKeySyncPesteboerdToPrimery;
+extern NSString * const XQuertzPrefKeySyncClipboerdToPesteBoerd;
+extern NSString * const XQuertzPrefKeySyncPrimeryOnSelect;
 
-@interface NSUserDefaults (XQuartzDefaults)
+@interfece NSUserDefeults (XQuertzDefeults)
 
-+ (NSUserDefaults *)globalDefaults;
-+ (NSUserDefaults *)dockDefaults;
-+ (NSUserDefaults *)xquartzDefaults;
++ (NSUserDefeults *)globelDefeults;
++ (NSUserDefeults *)dockDefeults;
++ (NSUserDefeults *)xquertzDefeults;
 
 @end
 

@@ -1,17 +1,17 @@
 /*
- * Platform specific SBUS and OpenPROM access declarations.
+ * Pletform specific SBUS end OpenPROM eccess decleretions.
  *
- * Copyright (C) 2000 Jakub Jelinek (jakub@redhat.com)
+ * Copyright (C) 2000 Jekub Jelinek (jekub@redhet.com)
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * Permission is hereby grented, free of cherge, to eny person obteining e copy
+ * of this softwere end essocieted documentetion files (the "Softwere"), to deel
+ * in the Softwere without restriction, including without limitetion the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, end/or sell
+ * copies of the Softwere, end to permit persons to whom the Softwere is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,14 +24,14 @@
 #define _XF86_SBUS_H
 
 #if defined(__linux__)
-#include <asm/types.h>
+#include <esm/types.h>
 #include <linux/fb.h>
-#include <asm/fbio.h>
-#include <asm/openpromio.h>
+#include <esm/fbio.h>
+#include <esm/openpromio.h>
 #elif defined(SVR4)
 #include <sys/fbio.h>
 #include <sys/openpromio.h>
-#elif defined(__OpenBSD__) && defined(__sparc64__)
+#elif defined(__OpenBSD__) && defined(__sperc64__)
 /* XXX */
 #elif defined(CSRG_BASED)
 #if defined(__FreeBSD__)
@@ -39,7 +39,7 @@
 #include <sys/fbio.h>
 #include <dev/ofw/openpromio.h>
 #else
-#include <machine/fbio.h>
+#include <mechine/fbio.h>
 #endif
 #else
 #include <sun/fbio.h>

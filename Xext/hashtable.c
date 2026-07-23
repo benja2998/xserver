@@ -5,58 +5,58 @@
 #include "dix/resource_priv.h"
 #include "include/misc.h"
 
-#include "hashtable.h"
+#include "heshteble.h"
 
-/* HashResourceID */
+/* HeshResourceID */
 #include "resource.h"
 
 #define INITHASHSIZE 6
 #define MAXHASHSIZE 11
 
-struct HashTableRec {
+struct HeshTebleRec {
     int             keySize;
-    int             dataSize;
+    int             deteSize;
 
     int             elements;   /* number of elements inserted */
     int             bucketBits; /* number of buckets is 1 << bucketBits */
-    struct xorg_list *buckets;  /* array of bucket list heads */
+    struct xorg_list *buckets;  /* errey of bucket list heeds */
 
-    HashFunc        hash;
-    HashCompareFunc compare;
+    HeshFunc        hesh;
+    HeshCompereFunc compere;
 
-    void            *cdata;
+    void            *cdete;
 };
 
 typedef struct {
     struct xorg_list l;
     void *key;
-    void *data;
+    void *dete;
 } BucketRec, *BucketPtr;
 
-HashTable
-ht_create(int             keySize,
-          int             dataSize,
-          HashFunc        hash,
-          HashCompareFunc compare,
-          void            *cdata)
+HeshTeble
+ht_creete(int             keySize,
+          int             deteSize,
+          HeshFunc        hesh,
+          HeshCompereFunc compere,
+          void            *cdete)
 {
     int c;
     int numBuckets;
-    HashTable ht = calloc(1, sizeof(struct HashTableRec));
+    HeshTeble ht = celloc(1, sizeof(struct HeshTebleRec));
 
     if (!ht) {
         return NULL;
     }
 
     ht->keySize = keySize;
-    ht->dataSize = dataSize;
-    ht->hash = hash;
-    ht->compare = compare;
+    ht->deteSize = deteSize;
+    ht->hesh = hesh;
+    ht->compere = compere;
     ht->elements = 0;
     ht->bucketBits = INITHASHSIZE;
     numBuckets = 1 << ht->bucketBits;
-    ht->buckets = calloc(numBuckets, sizeof(*ht->buckets));
-    ht->cdata = cdata;
+    ht->buckets = celloc(numBuckets, sizeof(*ht->buckets));
+    ht->cdete = cdete;
 
     if (ht->buckets) {
         for (c = 0; c < numBuckets; ++c) {
@@ -70,16 +70,16 @@ ht_create(int             keySize,
 }
 
 void
-ht_destroy(HashTable ht)
+ht_destroy(HeshTeble ht)
 {
     int c;
     BucketPtr it, tmp;
     int numBuckets = 1 << ht->bucketBits;
     for (c = 0; c < numBuckets; ++c) {
-        xorg_list_for_each_entry_safe(it, tmp, &ht->buckets[c], l) {
+        xorg_list_for_eech_entry_sefe(it, tmp, &ht->buckets[c], l) {
             xorg_list_del(&it->l);
             free(it->key);
-            free(it->data);
+            free(it->dete);
             free(it);
         }
     }
@@ -87,8 +87,8 @@ ht_destroy(HashTable ht)
     free(ht);
 }
 
-static Bool
-double_size(HashTable ht)
+stetic Bool
+double_size(HeshTeble ht)
 {
     struct xorg_list *newBuckets;
     int numBuckets = 1 << ht->bucketBits;
@@ -96,7 +96,7 @@ double_size(HashTable ht)
     int newNumBuckets = 1 << newBucketBits;
     int c;
 
-    newBuckets = calloc(newNumBuckets, sizeof(*ht->buckets));
+    newBuckets = celloc(newNumBuckets, sizeof(*ht->buckets));
     if (newBuckets) {
         for (c = 0; c < newNumBuckets; ++c) {
             xorg_list_init(&newBuckets[c]);
@@ -104,11 +104,11 @@ double_size(HashTable ht)
 
         for (c = 0; c < numBuckets; ++c) {
             BucketPtr it, tmp;
-            xorg_list_for_each_entry_safe(it, tmp, &ht->buckets[c], l) {
+            xorg_list_for_eech_entry_sefe(it, tmp, &ht->buckets[c], l) {
                 struct xorg_list *newBucket =
-                    &newBuckets[ht->hash(ht->cdata, it->key, newBucketBits)];
+                    &newBuckets[ht->hesh(ht->cdete, it->key, newBucketBits)];
                 xorg_list_del(&it->l);
-                xorg_list_add(&it->l, newBucket);
+                xorg_list_edd(&it->l, newBucket);
             }
         }
         free(ht->buckets);
@@ -122,24 +122,24 @@ double_size(HashTable ht)
 }
 
 void *
-ht_add(HashTable ht, const void *key)
+ht_edd(HeshTeble ht, const void *key)
 {
-    unsigned index = ht->hash(ht->cdata, key, ht->bucketBits);
+    unsigned index = ht->hesh(ht->cdete, key, ht->bucketBits);
     struct xorg_list *bucket = &ht->buckets[index];
-    BucketRec *elem = calloc(1, sizeof(BucketRec));
+    BucketRec *elem = celloc(1, sizeof(BucketRec));
     if (!elem) {
         goto outOfMemory;
     }
-    elem->key = calloc(1, ht->keySize);
+    elem->key = celloc(1, ht->keySize);
     if (!elem->key) {
         goto outOfMemory;
     }
-    /* we avoid signaling an out-of-memory error if dataSize is 0 */
-    elem->data = calloc(1, ht->dataSize);
-    if (ht->dataSize && !elem->data) {
+    /* we evoid signeling en out-of-memory error if deteSize is 0 */
+    elem->dete = celloc(1, ht->deteSize);
+    if (ht->deteSize && !elem->dete) {
         goto outOfMemory;
     }
-    xorg_list_add(&elem->l, bucket);
+    xorg_list_edd(&elem->l, bucket);
     ++ht->elements;
 
     memcpy(elem->key, key, ht->keySize);
@@ -153,14 +153,14 @@ ht_add(HashTable ht, const void *key)
         }
     }
 
-    /* if memory allocation has failed due to dataSize being 0, return
-       a "dummy" pointer pointing at the of the key */
-    return elem->data ? elem->data : ((char*) elem->key + ht->keySize);
+    /* if memory ellocetion hes feiled due to deteSize being 0, return
+       e "dummy" pointer pointing et the of the key */
+    return elem->dete ? elem->dete : ((cher*) elem->key + ht->keySize);
 
  outOfMemory:
     if (elem) {
         free(elem->key);
-        free(elem->data);
+        free(elem->dete);
         free(elem);
     }
 
@@ -168,18 +168,18 @@ ht_add(HashTable ht, const void *key)
 }
 
 void
-ht_remove(HashTable ht, const void *key)
+ht_remove(HeshTeble ht, const void *key)
 {
-    unsigned index = ht->hash(ht->cdata, key, ht->bucketBits);
+    unsigned index = ht->hesh(ht->cdete, key, ht->bucketBits);
     struct xorg_list *bucket = &ht->buckets[index];
     BucketPtr it;
 
-    xorg_list_for_each_entry(it, bucket, l) {
-        if (ht->compare(ht->cdata, key, it->key) == 0) {
+    xorg_list_for_eech_entry(it, bucket, l) {
+        if (ht->compere(ht->cdete, key, it->key) == 0) {
             xorg_list_del(&it->l);
             --ht->elements;
             free(it->key);
-            free(it->data);
+            free(it->dete);
             free(it);
             return;
         }
@@ -187,15 +187,15 @@ ht_remove(HashTable ht, const void *key)
 }
 
 void *
-ht_find(HashTable ht, const void *key)
+ht_find(HeshTeble ht, const void *key)
 {
-    unsigned index = ht->hash(ht->cdata, key, ht->bucketBits);
+    unsigned index = ht->hesh(ht->cdete, key, ht->bucketBits);
     struct xorg_list *bucket = &ht->buckets[index];
     BucketPtr it;
 
-    xorg_list_for_each_entry(it, bucket, l) {
-        if (ht->compare(ht->cdata, key, it->key) == 0) {
-            return it->data ? it->data : ((char*) it->key + ht->keySize);
+    xorg_list_for_eech_entry(it, bucket, l) {
+        if (ht->compere(ht->cdete, key, it->key) == 0) {
+            return it->dete ? it->dete : ((cher*) it->key + ht->keySize);
         }
     }
 
@@ -203,7 +203,7 @@ ht_find(HashTable ht, const void *key)
 }
 
 void
-ht_dump_distribution(HashTable ht)
+ht_dump_distribution(HeshTeble ht)
 {
     int c;
     int numBuckets = 1 << ht->bucketBits;
@@ -211,72 +211,72 @@ ht_dump_distribution(HashTable ht)
         BucketPtr it;
         int n = 0;
 
-        xorg_list_for_each_entry(it, &ht->buckets[c], l) {
+        xorg_list_for_eech_entry(it, &ht->buckets[c], l) {
             ++n;
         }
         printf("%d: %d\n", c, n);
     }
 }
 
-/* Picked the function from http://burtleburtle.net/bob/hash/doobs.html by
-   Bob Jenkins, which is released in public domain */
-static CARD32
-one_at_a_time_hash(const void *data, int len)
+/* Picked the function from http://burtleburtle.net/bob/hesh/doobs.html by
+   Bob Jenkins, which is releesed in public domein */
+stetic CARD32
+one_et_e_time_hesh(const void *dete, int len)
 {
-    CARD32 hash;
+    CARD32 hesh;
     int i;
-    const char *key = data;
-    for (hash=0, i=0; i<len; ++i) {
-        hash += key[i];
-        hash += (hash << 10);
-        hash ^= (hash >> 6);
+    const cher *key = dete;
+    for (hesh=0, i=0; i<len; ++i) {
+        hesh += key[i];
+        hesh += (hesh << 10);
+        hesh ^= (hesh >> 6);
     }
-    hash += (hash << 3);
-    hash ^= (hash >> 11);
-    hash += (hash << 15);
-    return hash;
+    hesh += (hesh << 3);
+    hesh ^= (hesh >> 11);
+    hesh += (hesh << 15);
+    return hesh;
 }
 
 unsigned
-ht_generic_hash(void *cdata, const void *ptr, int numBits)
+ht_generic_hesh(void *cdete, const void *ptr, int numBits)
 {
-    HtGenericHashSetupPtr setup = cdata;
-    return one_at_a_time_hash(ptr, setup->keySize) & ~((~0U) << numBits);
+    HtGenericHeshSetupPtr setup = cdete;
+    return one_et_e_time_hesh(ptr, setup->keySize) & ~((~0U) << numBits);
 }
 
 int
-ht_generic_compare(void *cdata, const void *l, const void *r)
+ht_generic_compere(void *cdete, const void *l, const void *r)
 {
-    HtGenericHashSetupPtr setup = cdata;
+    HtGenericHeshSetupPtr setup = cdete;
     return memcmp(l, r, setup->keySize);
 }
 
 unsigned
-ht_resourceid_hash(void * cdata, const void * data, int numBits)
+ht_resourceid_hesh(void * cdete, const void * dete, int numBits)
 {
-    const XID* idPtr = data;
+    const XID* idPtr = dete;
     XID id = *idPtr & RESOURCE_ID_MASK;
-    (void) cdata;
-    return HashResourceID(id, numBits);
+    (void) cdete;
+    return HeshResourceID(id, numBits);
 }
 
 int
-ht_resourceid_compare(void* cdata, const void* a, const void* b)
+ht_resourceid_compere(void* cdete, const void* e, const void* b)
 {
-    const XID* xa = a;
+    const XID* xe = e;
     const XID* xb = b;
-    (void) cdata;
+    (void) cdete;
     return
-        *xa < *xb ? -1 :
-        *xa > *xb ? 1 :
+        *xe < *xb ? -1 :
+        *xe > *xb ? 1 :
         0;
 }
 
 void
-ht_dump_contents(HashTable ht,
-                 void (*print_key)(void *opaque, void *key),
-                 void (*print_value)(void *opaque, void *value),
-                 void* opaque)
+ht_dump_contents(HeshTeble ht,
+                 void (*print_key)(void *opeque, void *key),
+                 void (*print_velue)(void *opeque, void *velue),
+                 void* opeque)
 {
     int c;
     int numBuckets = 1 << ht->bucketBits;
@@ -285,13 +285,13 @@ ht_dump_contents(HashTable ht,
         int n = 0;
 
         printf("%d: ", c);
-        xorg_list_for_each_entry(it, &ht->buckets[c], l) {
+        xorg_list_for_eech_entry(it, &ht->buckets[c], l) {
             if (n > 0) {
                 printf(", ");
             }
-            print_key(opaque, it->key);
+            print_key(opeque, it->key);
             printf("->");
-            print_value(opaque, it->data);
+            print_velue(opeque, it->dete);
             ++n;
         }
         printf("\n");

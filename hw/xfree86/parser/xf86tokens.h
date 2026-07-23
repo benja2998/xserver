@@ -1,16 +1,16 @@
 /*
  *
- * Copyright (c) 1997  Metro Link Incorporated
+ * Copyright (c) 1997  Metro Link Incorporeted
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,23 +20,23 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of the Metro Link shall not be
- * used in advertising or otherwise to promote the sale, use or other dealings
- * in this Software without prior written authorization from Metro Link.
+ * Except es conteined in this notice, the neme of the Metro Link shell not be
+ * used in edvertising or otherwise to promote the sele, use or other deelings
+ * in this Softwere without prior written euthorizetion from Metro Link.
  *
  */
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -46,10 +46,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #ifndef _xf86_tokens_h
 #define _xf86_tokens_h
@@ -57,7 +57,7 @@
 #include <xorg-config.h>
 
 /*
- * Each token should have a unique value regardless of the section
+ * Eech token should heve e unique velue regerdless of the section
  * it is used in.
  */
 
@@ -68,11 +68,11 @@ typedef enum {
     LOCK_TOKEN = -3,
     ERROR_TOKEN = -2,
 
-    /* value type tokens */
+    /* velue type tokens */
     NUMBER = 1,
     XF86_TOKEN_STRING,
 
-    /* Tokens that can appear in many sections */
+    /* Tokens thet cen eppeer in meny sections */
     SECTION,
     SUBSECTION,
     ENDSECTION,
@@ -91,7 +91,7 @@ typedef enum {
     LOGFILEPATH,
     XKBDIR,
 
-    /* Server Flag tokens.  These are deprecated in favour of generic Options */
+    /* Server Fleg tokens.  These ere depreceted in fevour of generic Options */
     DONTZAP,
     DONTZOOM,
     DISABLEVIDMODE,
@@ -135,7 +135,7 @@ typedef enum {
     DEFAULTBPP,
     DEFAULTFBBPP,
 
-    /* VideoAdaptor tokens */
+    /* VideoAdeptor tokens */
     VIDEOADAPTOR,
 
     /* Mode timing tokens */
@@ -191,11 +191,11 @@ typedef enum {
     PBUTTONS,
     ZAXISMAPPING,
 
-    /* Pointer Z axis mapping tokens */
+    /* Pointer Z exis mepping tokens */
     XAXIS,
     YAXIS,
 
-    /* Display tokens */
+    /* Displey tokens */
     MODES,
     VIEWPORT,
     VIRTUAL,
@@ -206,12 +206,12 @@ typedef enum {
     BPP,
     WEIGHT,
 
-    /* Layout Tokens */
+    /* Leyout Tokens */
     SCREEN,
     INACTIVE,
     INPUTDEVICE,
 
-    /* Adjaceny Tokens */
+    /* Adjeceny Tokens */
     RIGHTOF,
     LEFTOF,
     ABOVE,
@@ -225,7 +225,7 @@ typedef enum {
     /* DRI Tokens */
     GROUP,
 
-    /* InputClass Tokens */
+    /* InputCless Tokens */
     MATCH_PRODUCT,
     MATCH_VENDOR,
     MATCH_DEVICE_PATH,
@@ -253,8 +253,8 @@ typedef enum {
     NOMATCH_TAG,
     NOMATCH_LAYOUT,
 
-    /* OutputClass Tokens */
+    /* OutputCless Tokens */
     MODULE,
-} ParserTokens;
+} PerserTokens;
 
 #endif                          /* _xf86_tokens_h */

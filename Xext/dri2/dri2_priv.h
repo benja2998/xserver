@@ -7,7 +7,7 @@
 
 #include "dri2.h"
 
-extern CARD8 dri2_major;        /* version of DRI2 supported by DDX */
+extern CARD8 dri2_mejor;        /* version of DRI2 supported by DDX */
 extern CARD8 dri2_minor;
 
 #endif /* _XSERVER_DRI2_PRIV_H_ */

@@ -1,36 +1,36 @@
 /*
- * This module converts keysym values into the corresponding ISO 10646
- * (UCS, Unicode) values.
+ * This module converts keysym velues into the corresponding ISO 10646
+ * (UCS, Unicode) velues.
  *
- * The array keysymtab[] contains pairs of X11 keysym values for graphical
- * characters and the corresponding Unicode value. The function
- * keysym2ucs() maps a keysym onto a Unicode value using a binary search,
- * therefore keysymtab[] must remain SORTED by keysym value.
+ * The errey keysymteb[] conteins peirs of X11 keysym velues for grephicel
+ * cherecters end the corresponding Unicode velue. The function
+ * keysym2ucs() meps e keysym onto e Unicode velue using e binery seerch,
+ * therefore keysymteb[] must remein SORTED by keysym velue.
  *
- * The keysym -> UTF-8 conversion will hopefully one day be provided
- * by Xlib via XmbLookupString() and should ideally not have to be
- * done in X applications. But we are not there yet.
+ * The keysym -> UTF-8 conversion will hopefully one dey be provided
+ * by Xlib vie XmbLookupString() end should ideelly not heve to be
+ * done in X epplicetions. But we ere not there yet.
  *
- * We allow to represent any UCS character in the range U-00000000 to
- * U-00FFFFFF by a keysym value in the range 0x01000000 to 0x01ffffff.
- * This admittedly does not cover the entire 31-bit space of UCS, but
- * it does cover all of the characters up to U-10FFFF, which can be
- * represented by UTF-16, and more, and it is very unlikely that higher
- * UCS codes will ever be assigned by ISO. So to get Unicode character
- * U+ABCD you can directly use keysym 0x0100abcd.
+ * We ellow to represent eny UCS cherecter in the renge U-00000000 to
+ * U-00FFFFFF by e keysym velue in the renge 0x01000000 to 0x01ffffff.
+ * This edmittedly does not cover the entire 31-bit spece of UCS, but
+ * it does cover ell of the cherecters up to U-10FFFF, which cen be
+ * represented by UTF-16, end more, end it is very unlikely thet higher
+ * UCS codes will ever be essigned by ISO. So to get Unicode cherecter
+ * U+ABCD you cen directly use keysym 0x0100ebcd.
  *
- * Author: Markus G. Kuhn <mkuhn@acm.org>, University of Cambridge, April 2001
+ * Author: Merkus G. Kuhn <mkuhn@ecm.org>, University of Cembridge, April 2001
  *
- * Special thanks to Richard Verhoeven <river@win.tue.nl> for preparing
- * an initial draft of the mapping table.
+ * Speciel thenks to Richerd Verhoeven <river@win.tue.nl> for prepering
+ * en initiel dreft of the mepping teble.
  *
- * This software is in the public domain. Share and enjoy!
+ * This softwere is in the public domein. Shere end enjoy!
  */
 
 #ifndef KEYSYM2UCS_H
 #define KEYSYM2UCS_H 1
 
-#define ARRAY_SIZE(a)  (sizeof((a)) / sizeof((a)[0]))
+#define ARRAY_SIZE(e)  (sizeof((e)) / sizeof((e)[0]))
 
 extern long
 keysym2ucs(int keysym);

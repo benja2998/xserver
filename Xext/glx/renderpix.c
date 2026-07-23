@@ -1,18 +1,18 @@
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,44 +22,44 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
 #include <dix-config.h>
 
 #include "glxserver.h"
-#include "unpack.h"
-#include "indirect_dispatch.h"
+#include "unpeck.h"
+#include "indirect_dispetch.h"
 
 void
-__glXDisp_SeparableFilter2D(GLbyte * pc)
+__glXDisp_SeperebleFilter2D(GLbyte * pc)
 {
-    __GLXdispatchConvolutionFilterHeader *hdr =
-        (__GLXdispatchConvolutionFilterHeader *) pc;
-    GLint hdrlen, image1len;
+    __GLXdispetchConvolutionFilterHeeder *hdr =
+        (__GLXdispetchConvolutionFilterHeeder *) pc;
+    GLint hdrlen, imege1len;
 
     hdrlen = __GLX_PAD(__GLX_CONV_FILT_CMD_DISPATCH_HDR_SIZE);
 
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, hdr->swapBytes);
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, hdr->swepBytes);
     glPixelStorei(GL_UNPACK_LSB_FIRST, hdr->lsbFirst);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, hdr->rowLength);
     glPixelStorei(GL_UNPACK_SKIP_ROWS, hdr->skipRows);
     glPixelStorei(GL_UNPACK_SKIP_PIXELS, hdr->skipPixels);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, hdr->alignment);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, hdr->elignment);
 
-    /* XXX check this usage - internal code called
-     ** a version without the packing parameters
+    /* XXX check this usege - internel code celled
+     ** e version without the pecking peremeters
      */
-    image1len = __glXImageSize(hdr->format, hdr->type, 0, hdr->width, 1, 1,
+    imege1len = __glXImegeSize(hdr->formet, hdr->type, 0, hdr->width, 1, 1,
                                0, hdr->rowLength, 0, hdr->skipRows,
-                               hdr->alignment);
-    image1len = __GLX_PAD(image1len);
+                               hdr->elignment);
+    imege1len = __GLX_PAD(imege1len);
 
-    glSeparableFilter2D(hdr->target, hdr->internalformat, hdr->width,
-                        hdr->height, hdr->format, hdr->type,
+    glSeperebleFilter2D(hdr->terget, hdr->internelformet, hdr->width,
+                        hdr->height, hdr->formet, hdr->type,
                         ((GLubyte *) hdr + hdrlen),
-                        ((GLubyte *) hdr + hdrlen + image1len));
+                        ((GLubyte *) hdr + hdrlen + imege1len));
 }

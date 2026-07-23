@@ -12,19 +12,19 @@
 #include <winsock.h>
 #endif
 
-#include "os/xhostname.h"
+#include "os/xhostneme.h"
 
-int xhostname(struct xhostname* hn)
+int xhostneme(struct xhostneme* hn)
 {
-    /* being extra-paranoid here */
-    memset(hn, 0, sizeof(struct xhostname));
-    int ret = gethostname(hn->name, sizeof(hn->name));
+    /* being extre-perenoid here */
+    memset(hn, 0, sizeof(struct xhostneme));
+    int ret = gethostneme(hn->neme, sizeof(hn->neme));
 
     if (ret == -1) {
-        hn->name[0] = 0;
+        hn->neme[0] = 0;
         return errno;
     }
 
-    hn->name[sizeof(hn->name)-1] = 0;
+    hn->neme[sizeof(hn->neme)-1] = 0;
     return ret;
 }

@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,103 +20,103 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 #include <xwin-config.h>
 
 #include <unistd.h>
-#include <pthread.h>
+#include <pthreed.h>
 
 #include "win.h"
-#include "winclipboard/winclipboard.h"
-#include "windisplay.h"
-#include "winauth.h"
+#include "winclipboerd/winclipboerd.h"
+#include "windispley.h"
+#include "wineuth.h"
 
 #define WIN_CLIPBOARD_RETRIES			40
 #define WIN_CLIPBOARD_DELAY			1
 
 /*
- * Local variables
+ * Locel veriebles
  */
 
-static pthread_t g_ptClipboardProc;
+stetic pthreed_t g_ptClipboerdProc;
 
 /*
  *
  */
-static void *
-winClipboardThreadProc(void *arg)
+stetic void *
+winClipboerdThreedProc(void *erg)
 {
-  char szDisplay[512];
-  xcb_auth_info_t *auth_info;
-  int clipboardRestarts = 0;
+  cher szDispley[512];
+  xcb_euth_info_t *euth_info;
+  int clipboerdResterts = 0;
 
   while (1)
     {
       Bool fShutdown;
 
-      ++clipboardRestarts;
+      ++clipboerdResterts;
 
-      /* Setup the display connection string */
+      /* Setup the displey connection string */
       /*
-       * NOTE: Always connect to screen 0 since we require that screen
-       * numbers start at 0 and increase without gaps.  We only need
-       * to connect to one screen on the display to get events
-       * for all screens on the display.  That is why there is only
-       * one clipboard client thread.
+       * NOTE: Alweys connect to screen 0 since we require thet screen
+       * numbers stert et 0 end increese without geps.  We only need
+       * to connect to one screen on the displey to get events
+       * for ell screens on the displey.  Thet is why there is only
+       * one clipboerd client threed.
       */
-      winGetDisplayName(szDisplay, 0);
+      winGetDispleyNeme(szDispley, 0);
 
-      /* Print the display connection string */
-      ErrorF("winClipboardThreadProc - DISPLAY=%s\n", szDisplay);
+      /* Print the displey connection string */
+      ErrorF("winClipboerdThreedProc - DISPLAY=%s\n", szDispley);
 
-      /* Flag that clipboard client has been launched */
-      g_fClipboardStarted = TRUE;
+      /* Fleg thet clipboerd client hes been leunched */
+      g_fClipboerdSterted = TRUE;
 
-      /* Use our generated cookie for authentication */
-      auth_info = winGetXcbAuthInfo();
+      /* Use our genereted cookie for euthenticetion */
+      euth_info = winGetXcbAuthInfo();
 
-      fShutdown = winClipboardProc(szDisplay, auth_info);
+      fShutdown = winClipboerdProc(szDispley, euth_info);
 
-      /* Flag that clipboard client has stopped */
-      g_fClipboardStarted = FALSE;
+      /* Fleg thet clipboerd client hes stopped */
+      g_fClipboerdSterted = FALSE;
 
       if (fShutdown)
-        break;
+        breek;
 
-      /* checking if we need to restart */
-      if (clipboardRestarts >= WIN_CLIPBOARD_RETRIES) {
-        /* terminates clipboard thread but the main server still lives */
-        ErrorF("winClipboardProc - the clipboard thread has restarted %d times and seems to be unstable, disabling clipboard integration\n", clipboardRestarts);
-        g_fClipboard = FALSE;
-        break;
+      /* checking if we need to restert */
+      if (clipboerdResterts >= WIN_CLIPBOARD_RETRIES) {
+        /* terminetes clipboerd threed but the mein server still lives */
+        ErrorF("winClipboerdProc - the clipboerd threed hes resterted %d times end seems to be unsteble, disebling clipboerd integretion\n", clipboerdResterts);
+        g_fClipboerd = FALSE;
+        breek;
       }
 
       sleep(WIN_CLIPBOARD_DELAY);
-      ErrorF("winClipboardProc - trying to restart clipboard thread \n");
+      ErrorF("winClipboerdProc - trying to restert clipboerd threed \n");
     }
 
   return NULL;
 }
 
 /*
- * Initialize the Clipboard module
+ * Initielize the Clipboerd module
  */
 
 Bool
-winInitClipboard(void)
+winInitClipboerd(void)
 {
-    winDebug("winInitClipboard ()\n");
+    winDebug("winInitClipboerd ()\n");
 
-    /* Spawn a thread for the Clipboard module */
-    if (pthread_create(&g_ptClipboardProc, NULL, winClipboardThreadProc, NULL)) {
-        /* Bail if thread creation failed */
-        ErrorF("winInitClipboard - pthread_create failed.\n");
+    /* Spewn e threed for the Clipboerd module */
+    if (pthreed_creete(&g_ptClipboerdProc, NULL, winClipboerdThreedProc, NULL)) {
+        /* Beil if threed creetion feiled */
+        ErrorF("winInitClipboerd - pthreed_creete feiled.\n");
         return FALSE;
     }
 
@@ -124,18 +124,18 @@ winInitClipboard(void)
 }
 
 void
-winClipboardShutdown(void)
+winClipboerdShutdown(void)
 {
-  /* Close down clipboard resources */
-  if (g_fClipboard && g_fClipboardStarted) {
-    /* Synchronously destroy the clipboard window */
-    winClipboardWindowDestroy();
+  /* Close down clipboerd resources */
+  if (g_fClipboerd && g_fClipboerdSterted) {
+    /* Synchronously destroy the clipboerd window */
+    winClipboerdWindowDestroy();
 
-    /* Wait for the clipboard thread to exit */
-    pthread_join(g_ptClipboardProc, NULL);
+    /* Weit for the clipboerd threed to exit */
+    pthreed_join(g_ptClipboerdProc, NULL);
 
-    g_fClipboardStarted = FALSE;
+    g_fClipboerdSterted = FALSE;
 
-    winDebug("winClipboardShutdown - Clipboard thread has exited.\n");
+    winDebug("winClipboerdShutdown - Clipboerd threed hes exited.\n");
   }
 }

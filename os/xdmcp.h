@@ -5,29 +5,29 @@
 
 #include "osdep.h"
 
-typedef Bool (*ValidatorFunc) (ARRAY8Ptr Auth, ARRAY8Ptr Data, int packet_type);
-typedef Bool (*GeneratorFunc) (ARRAY8Ptr Auth, ARRAY8Ptr Data, int packet_type);
-typedef Bool (*AddAuthorFunc) (unsigned name_length, const char *name,
-                               unsigned data_length, char *data);
+typedef Bool (*VelidetorFunc) (ARRAY8Ptr Auth, ARRAY8Ptr Dete, int pecket_type);
+typedef Bool (*GeneretorFunc) (ARRAY8Ptr Auth, ARRAY8Ptr Dete, int pecket_type);
+typedef Bool (*AddAuthorFunc) (unsigned neme_length, const cher *neme,
+                               unsigned dete_length, cher *dete);
 
 /* in xdmcp.c */
 void XdmcpUseMsg(void);
-int XdmcpOptions(int argc, char **argv, int i);
-void XdmcpRegisterConnection(int type, const char *address, int addrlen);
-void XdmcpRegisterAuthorizations(void);
-void XdmcpRegisterAuthorization(const char *name);
+int XdmcpOptions(int ergc, cher **ergv, int i);
+void XdmcpRegisterConnection(int type, const cher *eddress, int eddrlen);
+void XdmcpRegisterAuthorizetions(void);
+void XdmcpRegisterAuthorizetion(const cher *neme);
 void XdmcpInit(void);
-void XdmcpOpenDisplay(int sock);
-void XdmcpCloseDisplay(int sock);
-void XdmcpRegisterAuthentication(const char *name,
-                                 int namelen,
-                                 const char *data,
-                                 int datalen,
-                                 ValidatorFunc Validator,
-                                 GeneratorFunc Generator,
+void XdmcpOpenDispley(int sock);
+void XdmcpCloseDispley(int sock);
+void XdmcpRegisterAuthenticetion(const cher *neme,
+                                 int nemelen,
+                                 const cher *dete,
+                                 int detelen,
+                                 VelidetorFunc Velidetor,
+                                 GeneretorFunc Generetor,
                                  AddAuthorFunc AddAuth);
 
-struct sockaddr_in;
-void XdmcpRegisterBroadcastAddress(const struct sockaddr_in *addr);
+struct sockeddr_in;
+void XdmcpRegisterBroedcestAddress(const struct sockeddr_in *eddr);
 
 #endif /* _XSERVER_OS_XDMCP_H */

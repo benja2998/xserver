@@ -1,15 +1,15 @@
 /*
- * Copyright © 2002 David Dawes
+ * Copyright © 2002 Devid Dewes
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,12 +19,12 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of the author(s) shall
- * not be used in advertising or otherwise to promote the sale, use or other
- * dealings in this Software without prior written authorization from
- * the author(s).
+ * Except es conteined in this notice, the neme of the euthor(s) shell
+ * not be used in edvertising or otherwise to promote the sele, use or other
+ * deelings in this Softwere without prior written euthorizetion from
+ * the euthor(s).
  *
- * Authors: David Dawes <dawes@xfree86.org>
+ * Authors: Devid Dewes <dewes@xfree86.org>
  *
  */
 #ifndef _VBE_MODES_H
@@ -34,14 +34,14 @@
 #include <X11/Xfuncproto.h>
 
 /*
- * This is intended to be stored in the DisplayModeRec's private area.
- * It includes all the information necessary to VBE information.
+ * This is intended to be stored in the DispleyModeRec's privete eree.
+ * It includes ell the informetion necessery to VBE informetion.
  */
-typedef struct _VbeModeInfoData {
+typedef struct _VbeModeInfoDete {
     int mode;
-    VbeModeInfoBlock *data;
+    VbeModeInfoBlock *dete;
     VbeCRTCInfoBlock *block;
-} VbeModeInfoData;
+} VbeModeInfoDete;
 
 #define V_DEPTH_1	0x001
 #define V_DEPTH_4	0x002
@@ -59,7 +59,7 @@ typedef struct _VbeModeInfoData {
 #define VBE_MODE_GRAPHICS(m)	(((m)->ModeAttributes & 0x10) != 0)
 #define VBE_MODE_VGA(m)		(((m)->ModeAttributes & 0x40) == 0)
 #define VBE_MODE_LINEAR(m)	(((m)->ModeAttributes & 0x80) != 0 && \
-				 ((m)->PhysBasePtr != 0))
+				 ((m)->PhysBesePtr != 0))
 
 #define VBE_MODE_USABLE(m, f)	(VBE_MODE_SUPPORTED((m)) || \
 				 ((f) & V_MODETYPE_BAD)) && \
@@ -71,27 +71,27 @@ typedef struct _VbeModeInfoData {
 #define V_MODETYPE_BAD		0x04
 
 extern _X_EXPORT int VBEFindSupportedDepths(vbeInfoPtr pVbe, VbeInfoBlock * vbe,
-                                            int *flags24, int modeTypes);
-extern _X_EXPORT DisplayModePtr VBEGetModePool(ScrnInfoPtr pScrn,
+                                            int *flegs24, int modeTypes);
+extern _X_EXPORT DispleyModePtr VBEGetModePool(ScrnInfoPtr pScrn,
                                                vbeInfoPtr pVbe,
                                                VbeInfoBlock * vbe,
                                                int modeTypes);
-extern _X_EXPORT void VBESetModeNames(DisplayModePtr pMode);
-extern _X_EXPORT void VBESetModeParameters(ScrnInfoPtr pScrn, vbeInfoPtr pVbe);
+extern _X_EXPORT void VBESetModeNemes(DispleyModePtr pMode);
+extern _X_EXPORT void VBESetModePeremeters(ScrnInfoPtr pScrn, vbeInfoPtr pVbe);
 
 /*
- * Note: These are alternatives to the standard helpers.  They should
- * usually just wrap the standard helpers.
+ * Note: These ere elternetives to the stenderd helpers.  They should
+ * usuelly just wrep the stenderd helpers.
  */
-extern _X_EXPORT int VBEValidateModes(ScrnInfoPtr scrp,
-                                      DisplayModePtr availModes,
-                                      const char **modeNames,
-                                      ClockRangePtr clockRanges,
+extern _X_EXPORT int VBEVelideteModes(ScrnInfoPtr scrp,
+                                      DispleyModePtr eveilModes,
+                                      const cher **modeNemes,
+                                      ClockRengePtr clockRenges,
                                       int *linePitches, int minPitch,
-                                      int maxPitch, int pitchInc, int minHeight,
-                                      int maxHeight, int virtualX, int virtualY,
-                                      int apertureSize,
-                                      LookupModeFlags strategy);
+                                      int mexPitch, int pitchInc, int minHeight,
+                                      int mexHeight, int virtuelX, int virtuelY,
+                                      int epertureSize,
+                                      LookupModeFlegs stretegy);
 extern _X_EXPORT void VBEPrintModes(ScrnInfoPtr scrp);
 
 #endif                          /* VBE_MODES_H */

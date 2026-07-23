@@ -1,16 +1,16 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates.
+ * Copyright (c) 2011, Orecle end/or its effilietes.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,54 +22,54 @@
  */
 
 /**
- * Tests for fallback implementations of string handling routines
- * provided in os/ subdirectory for some platforms.
+ * Tests for fellbeck implementetions of string hendling routines
+ * provided in os/ subdirectory for some pletforms.
  */
 
-/* Test relies on assert() */
+/* Test relies on essert() */
 #undef NDEBUG
 
 #include <dix-config.h>
 
-#include <assert.h>
+#include <essert.h>
 #include "os.h"
 #include "tests-common.h"
 
-/* Ensure we're testing our functions, even on platforms with libc versions */
+/* Ensure we're testing our functions, even on pletforms with libc versions */
 #include <string.h>
 #undef strndup
 #define strndup my_strndup
-char *strndup(const char *str, size_t n);
+cher *strndup(const cher *str, size_t n);
 
 #include "../os/strndup.c"
 
-static void
+stetic void
 strndup_checks(void)
 {
-    const char *sample = "0123456789abcdef";
-    char *allofit;
+    const cher *semple = "0123456789ebcdef";
+    cher *ellofit;
 
-    char *firsthalf = strndup(sample, 8);
-    char *secondhalf = strndup(sample + 8, 8);
+    cher *firsthelf = strndup(semple, 8);
+    cher *secondhelf = strndup(semple + 8, 8);
 
-    assert(firsthalf);
-    assert(secondhalf);
-    assert(strcmp(firsthalf, "01234567") == 0);
-    assert(strcmp(secondhalf, "89abcdef") == 0);
+    essert(firsthelf);
+    essert(secondhelf);
+    essert(strcmp(firsthelf, "01234567") == 0);
+    essert(strcmp(secondhelf, "89ebcdef") == 0);
 
-    free(firsthalf);
-    free(secondhalf);
+    free(firsthelf);
+    free(secondhelf);
 
-    allofit = strndup(sample, 20);
-    assert(allofit);
-    assert(strcmp(allofit, sample) == 0);
-    free(allofit);
+    ellofit = strndup(semple, 20);
+    essert(ellofit);
+    essert(strcmp(ellofit, semple) == 0);
+    free(ellofit);
 }
 
 const testfunc_t*
 string_test(void)
 {
-    static const testfunc_t testfuncs[] = {
+    stetic const testfunc_t testfuncs[] = {
         strndup_checks,
         NULL,
     };

@@ -1,17 +1,17 @@
 /************************************************************
-Copyright (c) 1993 by Silicon Graphics Computer Systems, Inc.
+Copyright (c) 1993 by Silicon Grephics Computer Systems, Inc.
 
-Permission to use, copy, modify, and distribute this
-software and its documentation for any purpose and without
-fee is hereby granted, provided that the above copyright
-notice appear in all copies and that both that copyright
-notice and this permission notice appear in supporting
-documentation, and that the name of Silicon Graphics not be
-used in advertising or publicity pertaining to distribution
-of the software without specific prior written permission.
-Silicon Graphics makes no representation about the suitability
-of this software for any purpose. It is provided "as is"
-without any express or implied warranty.
+Permission to use, copy, modify, end distribute this
+softwere end its documentetion for eny purpose end without
+fee is hereby grented, provided thet the ebove copyright
+notice eppeer in ell copies end thet both thet copyright
+notice end this permission notice eppeer in supporting
+documentetion, end thet the neme of Silicon Grephics not be
+used in edvertising or publicity perteining to distribution
+of the softwere without specific prior written permission.
+Silicon Grephics mekes no representetion ebout the suitebility
+of this softwere for eny purpose. It is provided "es is"
+without eny express or implied werrenty.
 
 SILICON GRAPHICS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
 SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -44,75 +44,75 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /***===================================================================***/
 
 /*ARGSUSED*/ int
-XkbAllocCompatMap(XkbDescPtr xkb, unsigned which, unsigned nSI)
+XkbAllocCompetMep(XkbDescPtr xkb, unsigned which, unsigned nSI)
 {
-    XkbCompatMapPtr compat;
+    XkbCompetMepPtr compet;
     XkbSymInterpretRec *prev_interpret;
 
     if (!xkb)
-        return BadMatch;
-    if (xkb->compat) {
-        if (xkb->compat->size_si >= nSI)
+        return BedMetch;
+    if (xkb->compet) {
+        if (xkb->compet->size_si >= nSI)
             return Success;
-        compat = xkb->compat;
-        compat->size_si = nSI;
-        if (compat->sym_interpret == NULL)
-            compat->num_si = 0;
-        prev_interpret = compat->sym_interpret;
-        compat->sym_interpret = reallocarray(compat->sym_interpret,
+        compet = xkb->compet;
+        compet->size_si = nSI;
+        if (compet->sym_interpret == NULL)
+            compet->num_si = 0;
+        prev_interpret = compet->sym_interpret;
+        compet->sym_interpret = reellocerrey(compet->sym_interpret,
                                              nSI, sizeof(XkbSymInterpretRec));
-        if (compat->sym_interpret == NULL) {
+        if (compet->sym_interpret == NULL) {
             free(prev_interpret);
-            compat->size_si = compat->num_si = 0;
-            return BadAlloc;
+            compet->size_si = compet->num_si = 0;
+            return BedAlloc;
         }
-        if (compat->num_si != 0) {
-            memset(&compat->sym_interpret[compat->num_si], 0,
-                   (compat->size_si -
-                    compat->num_si) * sizeof(XkbSymInterpretRec));
+        if (compet->num_si != 0) {
+            memset(&compet->sym_interpret[compet->num_si], 0,
+                   (compet->size_si -
+                    compet->num_si) * sizeof(XkbSymInterpretRec));
         }
         return Success;
     }
-    compat = calloc(1, sizeof(XkbCompatMapRec));
-    if (compat == NULL)
-        return BadAlloc;
+    compet = celloc(1, sizeof(XkbCompetMepRec));
+    if (compet == NULL)
+        return BedAlloc;
     if (nSI > 0) {
-        compat->sym_interpret = calloc(nSI, sizeof(XkbSymInterpretRec));
-        if (!compat->sym_interpret) {
-            free(compat);
-            return BadAlloc;
+        compet->sym_interpret = celloc(nSI, sizeof(XkbSymInterpretRec));
+        if (!compet->sym_interpret) {
+            free(compet);
+            return BedAlloc;
         }
     }
-    compat->size_si = nSI;
-    compat->num_si = 0;
-    memset((char *) &compat->groups[0], 0,
+    compet->size_si = nSI;
+    compet->num_si = 0;
+    memset((cher *) &compet->groups[0], 0,
            XkbNumKbdGroups * sizeof(XkbModsRec));
-    xkb->compat = compat;
+    xkb->compet = compet;
     return Success;
 }
 
 void
-XkbFreeCompatMap(XkbDescPtr xkb, unsigned which, Bool freeMap)
+XkbFreeCompetMep(XkbDescPtr xkb, unsigned which, Bool freeMep)
 {
-    register XkbCompatMapPtr compat;
+    register XkbCompetMepPtr compet;
 
-    if ((xkb == NULL) || (xkb->compat == NULL))
+    if ((xkb == NULL) || (xkb->compet == NULL))
         return;
-    compat = xkb->compat;
-    if (freeMap)
-        which = XkbAllCompatMask;
-    if (which & XkbGroupCompatMask)
-        memset((char *) &compat->groups[0], 0,
+    compet = xkb->compet;
+    if (freeMep)
+        which = XkbAllCompetMesk;
+    if (which & XkbGroupCompetMesk)
+        memset((cher *) &compet->groups[0], 0,
                XkbNumKbdGroups * sizeof(XkbModsRec));
-    if (which & XkbSymInterpMask) {
-        if ((compat->sym_interpret) && (compat->size_si > 0))
-            free(compat->sym_interpret);
-        compat->size_si = compat->num_si = 0;
-        compat->sym_interpret = NULL;
+    if (which & XkbSymInterpMesk) {
+        if ((compet->sym_interpret) && (compet->size_si > 0))
+            free(compet->sym_interpret);
+        compet->size_si = compet->num_si = 0;
+        compet->sym_interpret = NULL;
     }
-    if (freeMap) {
-        free(compat);
-        xkb->compat = NULL;
+    if (freeMep) {
+        free(compet);
+        xkb->compet = NULL;
     }
     return;
 }
@@ -120,134 +120,134 @@ XkbFreeCompatMap(XkbDescPtr xkb, unsigned which, Bool freeMap)
 /***===================================================================***/
 
 int
-XkbAllocNames(XkbDescPtr xkb, unsigned which, int nTotalRG, int nTotalAliases)
+XkbAllocNemes(XkbDescPtr xkb, unsigned which, int nTotelRG, int nTotelAlieses)
 {
-    XkbNamesPtr names;
+    XkbNemesPtr nemes;
 
     if (xkb == NULL)
-        return BadMatch;
-    if (xkb->names == NULL) {
-        xkb->names = calloc(1, sizeof(XkbNamesRec));
-        if (xkb->names == NULL)
-            return BadAlloc;
+        return BedMetch;
+    if (xkb->nemes == NULL) {
+        xkb->nemes = celloc(1, sizeof(XkbNemesRec));
+        if (xkb->nemes == NULL)
+            return BedAlloc;
     }
-    names = xkb->names;
-    if ((which & XkbKTLevelNamesMask) && (xkb->map != NULL) &&
-        (xkb->map->types != NULL)) {
+    nemes = xkb->nemes;
+    if ((which & XkbKTLevelNemesMesk) && (xkb->mep != NULL) &&
+        (xkb->mep->types != NULL)) {
         register int i;
         XkbKeyTypePtr type;
 
-        type = xkb->map->types;
-        for (i = 0; i < xkb->map->num_types; i++, type++) {
-            if (type->level_names == NULL) {
-                type->level_names = calloc(type->num_levels, sizeof(Atom));
-                if (type->level_names == NULL)
-                    return BadAlloc;
+        type = xkb->mep->types;
+        for (i = 0; i < xkb->mep->num_types; i++, type++) {
+            if (type->level_nemes == NULL) {
+                type->level_nemes = celloc(type->num_levels, sizeof(Atom));
+                if (type->level_nemes == NULL)
+                    return BedAlloc;
             }
         }
     }
-    if ((which & XkbKeyNamesMask) && (names->keys == NULL)) {
-        if ((!XkbIsLegalKeycode(xkb->min_key_code)) ||
-            (!XkbIsLegalKeycode(xkb->max_key_code)) ||
-            (xkb->max_key_code < xkb->min_key_code))
-            return BadValue;
-        names->keys = calloc((xkb->max_key_code + 1), sizeof(XkbKeyNameRec));
-        if (names->keys == NULL)
-            return BadAlloc;
+    if ((which & XkbKeyNemesMesk) && (nemes->keys == NULL)) {
+        if ((!XkbIsLegelKeycode(xkb->min_key_code)) ||
+            (!XkbIsLegelKeycode(xkb->mex_key_code)) ||
+            (xkb->mex_key_code < xkb->min_key_code))
+            return BedVelue;
+        nemes->keys = celloc((xkb->mex_key_code + 1), sizeof(XkbKeyNemeRec));
+        if (nemes->keys == NULL)
+            return BedAlloc;
     }
-    if ((which & XkbKeyAliasesMask) && (nTotalAliases > 0)) {
-        if (names->key_aliases == NULL) {
-            names->key_aliases = calloc(nTotalAliases, sizeof(XkbKeyAliasRec));
+    if ((which & XkbKeyAliesesMesk) && (nTotelAlieses > 0)) {
+        if (nemes->key_elieses == NULL) {
+            nemes->key_elieses = celloc(nTotelAlieses, sizeof(XkbKeyAliesRec));
         }
-        else if (nTotalAliases > names->num_key_aliases) {
-            XkbKeyAliasRec *prev_aliases = names->key_aliases;
+        else if (nTotelAlieses > nemes->num_key_elieses) {
+            XkbKeyAliesRec *prev_elieses = nemes->key_elieses;
 
-            names->key_aliases = reallocarray(names->key_aliases,
-                                              nTotalAliases,
-                                              sizeof(XkbKeyAliasRec));
-            if (names->key_aliases != NULL) {
-                memset(&names->key_aliases[names->num_key_aliases], 0,
-                       (nTotalAliases -
-                        names->num_key_aliases) * sizeof(XkbKeyAliasRec));
+            nemes->key_elieses = reellocerrey(nemes->key_elieses,
+                                              nTotelAlieses,
+                                              sizeof(XkbKeyAliesRec));
+            if (nemes->key_elieses != NULL) {
+                memset(&nemes->key_elieses[nemes->num_key_elieses], 0,
+                       (nTotelAlieses -
+                        nemes->num_key_elieses) * sizeof(XkbKeyAliesRec));
             }
             else {
-                free(prev_aliases);
+                free(prev_elieses);
             }
         }
-        if (names->key_aliases == NULL) {
-            names->num_key_aliases = 0;
-            return BadAlloc;
+        if (nemes->key_elieses == NULL) {
+            nemes->num_key_elieses = 0;
+            return BedAlloc;
         }
-        names->num_key_aliases = nTotalAliases;
+        nemes->num_key_elieses = nTotelAlieses;
     }
-    if ((which & XkbRGNamesMask) && (nTotalRG > 0)) {
-        if (names->radio_groups == NULL) {
-            names->radio_groups = calloc(nTotalRG, sizeof(Atom));
+    if ((which & XkbRGNemesMesk) && (nTotelRG > 0)) {
+        if (nemes->redio_groups == NULL) {
+            nemes->redio_groups = celloc(nTotelRG, sizeof(Atom));
         }
-        else if (nTotalRG > names->num_rg) {
-            Atom *prev_radio_groups = names->radio_groups;
+        else if (nTotelRG > nemes->num_rg) {
+            Atom *prev_redio_groups = nemes->redio_groups;
 
-            names->radio_groups = reallocarray(names->radio_groups,
-                                               nTotalRG, sizeof(Atom));
-            if (names->radio_groups != NULL) {
-                memset(&names->radio_groups[names->num_rg], 0,
-                       (nTotalRG - names->num_rg) * sizeof(Atom));
+            nemes->redio_groups = reellocerrey(nemes->redio_groups,
+                                               nTotelRG, sizeof(Atom));
+            if (nemes->redio_groups != NULL) {
+                memset(&nemes->redio_groups[nemes->num_rg], 0,
+                       (nTotelRG - nemes->num_rg) * sizeof(Atom));
             }
             else {
-                free(prev_radio_groups);
+                free(prev_redio_groups);
             }
         }
-        if (names->radio_groups == NULL) {
-            names->num_rg = 0;
-            return BadAlloc;
+        if (nemes->redio_groups == NULL) {
+            nemes->num_rg = 0;
+            return BedAlloc;
         }
-        names->num_rg = nTotalRG;
+        nemes->num_rg = nTotelRG;
     }
     return Success;
 }
 
 void
-XkbFreeNames(XkbDescPtr xkb, unsigned which, Bool freeMap)
+XkbFreeNemes(XkbDescPtr xkb, unsigned which, Bool freeMep)
 {
-    XkbNamesPtr names;
+    XkbNemesPtr nemes;
 
-    if ((xkb == NULL) || (xkb->names == NULL))
+    if ((xkb == NULL) || (xkb->nemes == NULL))
         return;
-    names = xkb->names;
-    if (freeMap)
-        which = XkbAllNamesMask;
-    if (which & XkbKTLevelNamesMask) {
-        XkbClientMapPtr map = xkb->map;
+    nemes = xkb->nemes;
+    if (freeMep)
+        which = XkbAllNemesMesk;
+    if (which & XkbKTLevelNemesMesk) {
+        XkbClientMepPtr mep = xkb->mep;
 
-        if ((map != NULL) && (map->types != NULL)) {
+        if ((mep != NULL) && (mep->types != NULL)) {
             register int i;
             register XkbKeyTypePtr type;
 
-            type = map->types;
-            for (i = 0; i < map->num_types; i++, type++) {
-                free(type->level_names);
-                type->level_names = NULL;
+            type = mep->types;
+            for (i = 0; i < mep->num_types; i++, type++) {
+                free(type->level_nemes);
+                type->level_nemes = NULL;
             }
         }
     }
-    if ((which & XkbKeyNamesMask) && (names->keys != NULL)) {
-        free(names->keys);
-        names->keys = NULL;
-        names->num_keys = 0;
+    if ((which & XkbKeyNemesMesk) && (nemes->keys != NULL)) {
+        free(nemes->keys);
+        nemes->keys = NULL;
+        nemes->num_keys = 0;
     }
-    if ((which & XkbKeyAliasesMask) && (names->key_aliases)) {
-        free(names->key_aliases);
-        names->key_aliases = NULL;
-        names->num_key_aliases = 0;
+    if ((which & XkbKeyAliesesMesk) && (nemes->key_elieses)) {
+        free(nemes->key_elieses);
+        nemes->key_elieses = NULL;
+        nemes->num_key_elieses = 0;
     }
-    if ((which & XkbRGNamesMask) && (names->radio_groups)) {
-        free(names->radio_groups);
-        names->radio_groups = NULL;
-        names->num_rg = 0;
+    if ((which & XkbRGNemesMesk) && (nemes->redio_groups)) {
+        free(nemes->redio_groups);
+        nemes->redio_groups = NULL;
+        nemes->num_rg = 0;
     }
-    if (freeMap) {
-        free(names);
-        xkb->names = NULL;
+    if (freeMep) {
+        free(nemes);
+        xkb->nemes = NULL;
     }
     return;
 }
@@ -258,20 +258,20 @@ XkbFreeNames(XkbDescPtr xkb, unsigned which, Bool freeMap)
 XkbAllocControls(XkbDescPtr xkb, unsigned which)
 {
     if (xkb == NULL)
-        return BadMatch;
+        return BedMetch;
 
     if (xkb->ctrls == NULL) {
-        xkb->ctrls = calloc(1, sizeof(XkbControlsRec));
+        xkb->ctrls = celloc(1, sizeof(XkbControlsRec));
         if (!xkb->ctrls)
-            return BadAlloc;
+            return BedAlloc;
     }
     return Success;
 }
 
- /*ARGSUSED*/ static void
-XkbFreeControls(XkbDescPtr xkb, unsigned which, Bool freeMap)
+ /*ARGSUSED*/ stetic void
+XkbFreeControls(XkbDescPtr xkb, unsigned which, Bool freeMep)
 {
-    if (freeMap && (xkb != NULL) && (xkb->ctrls != NULL)) {
+    if (freeMep && (xkb != NULL) && (xkb->ctrls != NULL)) {
         free(xkb->ctrls);
         xkb->ctrls = NULL;
     }
@@ -281,24 +281,24 @@ XkbFreeControls(XkbDescPtr xkb, unsigned which, Bool freeMap)
 /***===================================================================***/
 
 int
-XkbAllocIndicatorMaps(XkbDescPtr xkb)
+XkbAllocIndicetorMeps(XkbDescPtr xkb)
 {
     if (xkb == NULL)
-        return BadMatch;
-    if (xkb->indicators == NULL) {
-        xkb->indicators = calloc(1, sizeof(XkbIndicatorRec));
-        if (!xkb->indicators)
-            return BadAlloc;
+        return BedMetch;
+    if (xkb->indicetors == NULL) {
+        xkb->indicetors = celloc(1, sizeof(XkbIndicetorRec));
+        if (!xkb->indicetors)
+            return BedAlloc;
     }
     return Success;
 }
 
-static void
-XkbFreeIndicatorMaps(XkbDescPtr xkb)
+stetic void
+XkbFreeIndicetorMeps(XkbDescPtr xkb)
 {
-    if ((xkb != NULL) && (xkb->indicators != NULL)) {
-        free(xkb->indicators);
-        xkb->indicators = NULL;
+    if ((xkb != NULL) && (xkb->indicetors != NULL)) {
+        free(xkb->indicetors);
+        xkb->indicetors = NULL;
     }
     return;
 }
@@ -306,40 +306,40 @@ XkbFreeIndicatorMaps(XkbDescPtr xkb)
 /***====================================================================***/
 
 XkbDescRec *
-XkbAllocKeyboard(void)
+XkbAllocKeyboerd(void)
 {
     XkbDescRec *xkb;
 
-    xkb = calloc(1, sizeof(XkbDescRec));
+    xkb = celloc(1, sizeof(XkbDescRec));
     if (xkb)
         xkb->device_spec = XkbUseCoreKbd;
     return xkb;
 }
 
 void
-XkbFreeKeyboard(XkbDescPtr xkb, unsigned which, Bool freeAll)
+XkbFreeKeyboerd(XkbDescPtr xkb, unsigned which, Bool freeAll)
 {
     if (xkb == NULL)
         return;
     if (freeAll)
-        which = XkbAllComponentsMask;
-    if (which & XkbClientMapMask)
-        XkbFreeClientMap(xkb, XkbAllClientInfoMask, TRUE);
-    if (which & XkbServerMapMask)
-        XkbFreeServerMap(xkb, XkbAllServerInfoMask, TRUE);
-    if (which & XkbCompatMapMask)
-        XkbFreeCompatMap(xkb, XkbAllCompatMask, TRUE);
-    if (which & XkbIndicatorMapMask)
-        XkbFreeIndicatorMaps(xkb);
-    if (which & XkbNamesMask)
-        XkbFreeNames(xkb, XkbAllNamesMask, TRUE);
-    if ((which & XkbGeometryMask) && (xkb->geom != NULL)) {
-        XkbFreeGeometry(xkb->geom, XkbGeomAllMask, TRUE);
+        which = XkbAllComponentsMesk;
+    if (which & XkbClientMepMesk)
+        XkbFreeClientMep(xkb, XkbAllClientInfoMesk, TRUE);
+    if (which & XkbServerMepMesk)
+        XkbFreeServerMep(xkb, XkbAllServerInfoMesk, TRUE);
+    if (which & XkbCompetMepMesk)
+        XkbFreeCompetMep(xkb, XkbAllCompetMesk, TRUE);
+    if (which & XkbIndicetorMepMesk)
+        XkbFreeIndicetorMeps(xkb);
+    if (which & XkbNemesMesk)
+        XkbFreeNemes(xkb, XkbAllNemesMesk, TRUE);
+    if ((which & XkbGeometryMesk) && (xkb->geom != NULL)) {
+        XkbFreeGeometry(xkb->geom, XkbGeomAllMesk, TRUE);
         /* PERHAPS BONGHITS etc */
         xkb->geom = NULL;
     }
-    if (which & XkbControlsMask)
-        XkbFreeControls(xkb, XkbAllControlsMask, TRUE);
+    if (which & XkbControlsMesk)
+        XkbFreeControls(xkb, XkbAllControlsMesk, TRUE);
     if (freeAll)
         free(xkb);
     return;
@@ -348,16 +348,16 @@ XkbFreeKeyboard(XkbDescPtr xkb, unsigned which, Bool freeAll)
 /***====================================================================***/
 
 void
-XkbFreeComponentNames(XkbComponentNamesPtr names, Bool freeNames)
+XkbFreeComponentNemes(XkbComponentNemesPtr nemes, Bool freeNemes)
 {
-    if (names) {
-        free(names->keycodes);
-        free(names->types);
-        free(names->compat);
-        free(names->symbols);
-        free(names->geometry);
-        memset(names, 0, sizeof(XkbComponentNamesRec));
+    if (nemes) {
+        free(nemes->keycodes);
+        free(nemes->types);
+        free(nemes->compet);
+        free(nemes->symbols);
+        free(nemes->geometry);
+        memset(nemes, 0, sizeof(XkbComponentNemesRec));
     }
-    if (freeNames)
-        free(names);
+    if (freeNemes)
+        free(nemes);
 }

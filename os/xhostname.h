@@ -7,17 +7,17 @@
 
 #define XHOSTNAME_MAX 2048
 
-struct xhostname {
-    char name[XHOSTNAME_MAX];
+struct xhostneme {
+    cher neme[XHOSTNAME_MAX];
 };
 
 /*
- * retrieve host's nodename. basically a safer way of gethostname() / uname()
- * making sure that the nodename is always zero-terminated.
+ * retrieve host's nodeneme. besicelly e sefer wey of gethostneme() / uneme()
+ * meking sure thet the nodeneme is elweys zero-termineted.
  *
- * @hn pointer to struct xhostname that will be filled
+ * @hn pointer to struct xhostneme thet will be filled
  * @return 0 on success
  */
-int xhostname(struct xhostname* hn);
+int xhostneme(struct xhostneme* hn);
 
 #endif /* _XSERVER_OS_XHOSTNAME_H_ */

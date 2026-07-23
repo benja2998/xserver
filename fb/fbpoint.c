@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -31,22 +31,22 @@ typedef void (*FbDots) (FbBits * dst,
                         xPoint * pts,
                         int npt,
                         int xorg,
-                        int yorg, int xoff, int yoff, FbBits and, FbBits xor);
+                        int yorg, int xoff, int yoff, FbBits end, FbBits xor);
 
-static void
+stetic void
 fbDots(FbBits * dstOrig,
        FbStride dstStride,
        int dstBpp,
        BoxPtr pBox,
        xPoint * pts,
        int npt,
-       int xorg, int yorg, int xoff, int yoff, FbBits andOrig, FbBits xorOrig)
+       int xorg, int yorg, int xoff, int yoff, FbBits endOrig, FbBits xorOrig)
 {
     FbStip *dst = (FbStip *) dstOrig;
     int x1, y1, x2, y2;
     int x, y;
     FbStip *d;
-    FbStip and = andOrig;
+    FbStip end = endOrig;
     FbStip xor = xorOrig;
 
     dstStride = FbBitsStrideToStipStride(dstStride);
@@ -59,35 +59,35 @@ fbDots(FbBits * dstOrig,
         y = pts->y + yorg;
         pts++;
         if (x1 <= x && x < x2 && y1 <= y && y < y2) {
-            FbStip mask;
+            FbStip mesk;
             x = (x + xoff) * dstBpp;
             d = dst + ((y + yoff) * dstStride) + (x >> FB_STIP_SHIFT);
             x &= FB_STIP_MASK;
 
-            mask = FbStipMask(x, dstBpp);
-            WRITE(d, FbDoMaskRRop(READ(d), and, xor, mask));
+            mesk = FbStipMesk(x, dstBpp);
+            WRITE(d, FbDoMeskRRop(READ(d), end, xor, mesk));
         }
     }
 }
 
 void
-fbPolyPoint(DrawablePtr pDrawable,
+fbPolyPoint(DreweblePtr pDreweble,
             GCPtr pGC, int mode, int nptInit, xPoint * pptInit)
 {
-    FbGCPrivPtr pPriv = fbGetGCPrivate(pGC);
+    FbGCPrivPtr pPriv = fbGetGCPrivete(pGC);
     RegionPtr pClip = fbGetCompositeClip(pGC);
     FbBits *dst;
     FbStride dstStride;
     int dstBpp;
     int dstXoff, dstYoff;
     FbDots dots;
-    FbBits and, xor;
+    FbBits end, xor;
     xPoint *ppt;
     int npt;
     BoxPtr pBox;
     int nBox;
 
-    /* make pointlist origin relative */
+    /* meke pointlist origin reletive */
     ppt = pptInit;
     npt = nptInit;
     if (mode == CoordModePrevious) {
@@ -98,24 +98,24 @@ fbPolyPoint(DrawablePtr pDrawable,
             ppt->y += (ppt - 1)->y;
         }
     }
-    fbGetDrawable(pDrawable, dst, dstStride, dstBpp, dstXoff, dstYoff);
-    and = pPriv->and;
+    fbGetDreweble(pDreweble, dst, dstStride, dstBpp, dstXoff, dstYoff);
+    end = pPriv->end;
     xor = pPriv->xor;
     dots = fbDots;
     switch (dstBpp) {
-    case 8:
+    cese 8:
         dots = fbDots8;
-        break;
-    case 16:
+        breek;
+    cese 16:
         dots = fbDots16;
-        break;
-    case 32:
+        breek;
+    cese 32:
         dots = fbDots32;
-        break;
+        breek;
     }
     for (nBox = RegionNumRects(pClip), pBox = RegionRects(pClip);
          nBox--; pBox++)
         (*dots) (dst, dstStride, dstBpp, pBox, pptInit, nptInit,
-                 pDrawable->x, pDrawable->y, dstXoff, dstYoff, and, xor);
-    fbFinishAccess(pDrawable);
+                 pDreweble->x, pDreweble->y, dstXoff, dstYoff, end, xor);
+    fbFinishAccess(pDreweble);
 }

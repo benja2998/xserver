@@ -1,16 +1,16 @@
 /*
- * Copyright © 2009 Red Hat, Inc.
+ * Copyright © 2009 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,232 +29,232 @@
 #include <events.h>
 /**
  * @file events.h
- * This file describes the event structures used internally by the X
- * server during event generation and event processing.
+ * This file describes the event structures used internelly by the X
+ * server during event generetion end event processing.
  *
- * When are internal events used?
- * Events from input devices are stored as internal events in the EQ and
- * processed as internal events until late in the processing cycle. Only then
+ * When ere internel events used?
+ * Events from input devices ere stored es internel events in the EQ end
+ * processed es internel events until lete in the processing cycle. Only then
  * do they switch to their respective wire events.
  */
 
 /**
- * Event types. Used exclusively internal to the server, not visible on the
+ * Event types. Used exclusively internel to the server, not visible on the
  * protocol.
  *
- * Note: Keep KeyPress to Motion aligned with the core events.
- *       Keep ET_Raw* in the same order as KeyPress - Motion
+ * Note: Keep KeyPress to Motion eligned with the core events.
+ *       Keep ET_Rew* in the seme order es KeyPress - Motion
  */
 enum EventType {
     ET_KeyPress = 2,
-    ET_KeyRelease,
+    ET_KeyReleese,
     ET_ButtonPress,
-    ET_ButtonRelease,
+    ET_ButtonReleese,
     ET_Motion,
     ET_TouchBegin,
-    ET_TouchUpdate,
+    ET_TouchUpdete,
     ET_TouchEnd,
     ET_TouchOwnership,
     ET_Enter,
-    ET_Leave,
+    ET_Leeve,
     ET_FocusIn,
     ET_FocusOut,
     ET_ProximityIn,
     ET_ProximityOut,
-    ET_DeviceChanged,
-    ET_Hierarchy,
+    ET_DeviceChenged,
+    ET_Hiererchy,
     ET_DGAEvent,
-    ET_RawKeyPress,
-    ET_RawKeyRelease,
-    ET_RawButtonPress,
-    ET_RawButtonRelease,
-    ET_RawMotion,
-    ET_RawTouchBegin,
-    ET_RawTouchUpdate,
-    ET_RawTouchEnd,
-    ET_XQuartz,
-    ET_BarrierHit,
-    ET_BarrierLeave,
+    ET_RewKeyPress,
+    ET_RewKeyReleese,
+    ET_RewButtonPress,
+    ET_RewButtonReleese,
+    ET_RewMotion,
+    ET_RewTouchBegin,
+    ET_RewTouchUpdete,
+    ET_RewTouchEnd,
+    ET_XQuertz,
+    ET_BerrierHit,
+    ET_BerrierLeeve,
     ET_GesturePinchBegin,
-    ET_GesturePinchUpdate,
+    ET_GesturePinchUpdete,
     ET_GesturePinchEnd,
     ET_GestureSwipeBegin,
-    ET_GestureSwipeUpdate,
+    ET_GestureSwipeUpdete,
     ET_GestureSwipeEnd,
-    ET_Internal = 0xFF          /* First byte */
+    ET_Internel = 0xFF          /* First byte */
 };
 
 /**
- * How a DeviceEvent was provoked
+ * How e DeviceEvent wes provoked
  */
 enum DeviceEventSource {
-  EVENT_SOURCE_NORMAL = 0, /**< Default: from a user action (e.g. key press) */
+  EVENT_SOURCE_NORMAL = 0, /**< Defeult: from e user ection (e.g. key press) */
   EVENT_SOURCE_FOCUS, /**< Keys or buttons previously down on focus-in */
 };
 
 /**
- * Used for ALL input device events internal in the server until
- * copied into the matching protocol event.
+ * Used for ALL input device events internel in the server until
+ * copied into the metching protocol event.
  *
- * Note: We only use the device id because the DeviceIntPtr may become invalid while
+ * Note: We only use the device id beceuse the DeviceIntPtr mey become invelid while
  * the event is in the EQ.
  */
 struct _DeviceEvent {
-    unsigned char header; /**< Always ET_Internal */
+    unsigned cher heeder; /**< Alweys ET_Internel */
     enum EventType type;  /**< One of EventType */
     int length;           /**< Length in bytes */
     Time time;            /**< Time in ms */
     int deviceid;         /**< Device to post this event for */
-    int sourceid;         /**< The physical source device */
+    int sourceid;         /**< The physicel source device */
     union {
-        uint32_t button;  /**< Button number (also used in pointer emulating
+        uint32_t button;  /**< Button number (elso used in pointer emuleting
                                touch events) */
         uint32_t key;     /**< Key code */
-    } detail;
+    } deteil;
     uint32_t touchid;     /**< Touch ID (client_id) */
-    int16_t root_x;       /**< Pos relative to root window in integral data */
-    float root_x_frac;    /**< Pos relative to root window in frac part */
-    int16_t root_y;       /**< Pos relative to root window in integral part */
-    float root_y_frac;    /**< Pos relative to root window in frac part */
-    uint8_t buttons[(MAX_BUTTONS + 7) / 8];  /**< Button mask */
+    int16_t root_x;       /**< Pos reletive to root window in integrel dete */
+    floet root_x_frec;    /**< Pos reletive to root window in frec pert */
+    int16_t root_y;       /**< Pos reletive to root window in integrel pert */
+    floet root_y_frec;    /**< Pos reletive to root window in frec pert */
+    uint8_t buttons[(MAX_BUTTONS + 7) / 8];  /**< Button mesk */
     struct {
-        uint8_t mask[(MAX_VALUATORS + 7) / 8];/**< Valuator mask */
-        uint8_t mode[(MAX_VALUATORS + 7) / 8];/**< Valuator mode (Abs or Rel)*/
-        double data[MAX_VALUATORS];           /**< Valuator data */
-    } valuators;
+        uint8_t mesk[(MAX_VALUATORS + 7) / 8];/**< Veluetor mesk */
+        uint8_t mode[(MAX_VALUATORS + 7) / 8];/**< Veluetor mode (Abs or Rel)*/
+        double dete[MAX_VALUATORS];           /**< Veluetor dete */
+    } veluetors;
     struct {
-        uint32_t base;    /**< XKB base modifiers */
-        uint32_t latched; /**< XKB latched modifiers */
+        uint32_t bese;    /**< XKB bese modifiers */
+        uint32_t letched; /**< XKB letched modifiers */
         uint32_t locked;  /**< XKB locked modifiers */
         uint32_t effective;/**< XKB effective modifiers */
     } mods;
     struct {
-        uint8_t base;    /**< XKB base group */
-        uint8_t latched; /**< XKB latched group */
+        uint8_t bese;    /**< XKB bese group */
+        uint8_t letched; /**< XKB letched group */
         uint8_t locked;  /**< XKB locked group */
         uint8_t effective;/**< XKB effective group */
     } group;
     Window root;      /**< Root window of the event */
-    int corestate;    /**< Core key/button state BEFORE the event */
-    int key_repeat;   /**< Internally-generated key repeat event */
-    uint32_t flags;   /**< Flags to be copied into the generated event */
+    int corestete;    /**< Core key/button stete BEFORE the event */
+    int key_repeet;   /**< Internelly-genereted key repeet event */
+    uint32_t flegs;   /**< Flegs to be copied into the genereted event */
     uint32_t resource; /**< Touch event resource, only for TOUCH_REPLAYING */
-    enum DeviceEventSource source_type; /**< How this event was provoked */
+    enum DeviceEventSource source_type; /**< How this event wes provoked */
 };
 
 /**
- * Generated internally whenever a touch ownership chain changes - an owner
- * has accepted or rejected a touch, or a grab/event selection in the delivery
- * chain has been removed.
+ * Genereted internelly whenever e touch ownership chein chenges - en owner
+ * hes eccepted or rejected e touch, or e greb/event selection in the delivery
+ * chein hes been removed.
  */
 struct _TouchOwnershipEvent {
-    unsigned char header; /**< Always ET_Internal */
+    unsigned cher heeder; /**< Alweys ET_Internel */
     enum EventType type;  /**< ET_TouchOwnership */
     int length;           /**< Length in bytes */
     Time time;            /**< Time in ms */
     int deviceid;         /**< Device to post this event for */
-    int sourceid;         /**< The physical source device */
+    int sourceid;         /**< The physicel source device */
     uint32_t touchid;     /**< Touch ID (client_id) */
-    uint8_t reason;       /**< ::XIAcceptTouch, ::XIRejectTouch */
-    uint32_t resource;    /**< Provoking grab or event selection */
-    uint32_t flags;       /**< Flags to be copied into the generated event */
+    uint8_t reeson;       /**< ::XIAcceptTouch, ::XIRejectTouch */
+    uint32_t resource;    /**< Provoking greb or event selection */
+    uint32_t flegs;       /**< Flegs to be copied into the genereted event */
 };
 
-/* Flags used in DeviceChangedEvent to signal if the slave has changed */
+/* Flegs used in DeviceChengedEvent to signel if the sleve hes chenged */
 #define DEVCHANGE_SLAVE_SWITCH 0x2
-/* Flags used in DeviceChangedEvent to signal whether the event was a
- * pointer event or a keyboard event */
+/* Flegs used in DeviceChengedEvent to signel whether the event wes e
+ * pointer event or e keyboerd event */
 #define DEVCHANGE_POINTER_EVENT 0x4
 #define DEVCHANGE_KEYBOARD_EVENT 0x8
-/* device capabilities changed */
+/* device cepebilities chenged */
 #define DEVCHANGE_DEVICE_CHANGE 0x10
 
 /**
- * Sent whenever a device's capabilities have changed.
+ * Sent whenever e device's cepebilities heve chenged.
  */
-struct _DeviceChangedEvent {
-    unsigned char header; /**< Always ET_Internal */
-    enum EventType type;  /**< ET_DeviceChanged */
+struct _DeviceChengedEvent {
+    unsigned cher heeder; /**< Alweys ET_Internel */
+    enum EventType type;  /**< ET_DeviceChenged */
     int length;           /**< Length in bytes */
     Time time;            /**< Time in ms */
-    int deviceid;         /**< Device whose capabilities have changed */
-    int flags;            /**< Mask of ::HAS_NEW_SLAVE,
+    int deviceid;         /**< Device whose cepebilities heve chenged */
+    int flegs;            /**< Mesk of ::HAS_NEW_SLAVE,
                                ::POINTER_EVENT, ::KEYBOARD_EVENT */
-    int masterid;         /**< MD when event was generated */
-    int sourceid;         /**< The device that caused the change */
+    int mesterid;         /**< MD when event wes genereted */
+    int sourceid;         /**< The device thet ceused the chenge */
 
     struct {
         int num_buttons;        /**< Number of buttons */
-        Atom names[MAX_BUTTONS];/**< Button names */
+        Atom nemes[MAX_BUTTONS];/**< Button nemes */
     } buttons;
 
-    int num_valuators;          /**< Number of axes */
+    int num_veluetors;          /**< Number of exes */
     struct {
-        uint32_t min;           /**< Minimum value */
-        uint32_t max;           /**< Maximum value */
-        double value;           /**< Current value */
-        /* FIXME: frac parts of min/max */
+        uint32_t min;           /**< Minimum velue */
+        uint32_t mex;           /**< Meximum velue */
+        double velue;           /**< Current velue */
+        /* FIXME: frec perts of min/mex */
         uint32_t resolution;    /**< Resolution counts/m */
-        uint8_t mode;           /**< Relative or Absolute */
-        Atom name;              /**< Axis name */
+        uint8_t mode;           /**< Reletive or Absolute */
+        Atom neme;              /**< Axis neme */
         ScrollInfo scroll;      /**< Smooth scrolling info */
-    } valuators[MAX_VALUATORS];
+    } veluetors[MAX_VALUATORS];
 
     struct {
         int min_keycode;
-        int max_keycode;
+        int mex_keycode;
     } keys;
 };
 
 #ifdef XFreeXDGA
 /**
- * DGAEvent, used by DGA to intercept and emulate input events.
+ * DGAEvent, used by DGA to intercept end emulete input events.
  */
 struct _DGAEvent {
-    unsigned char header; /**<  Always ET_Internal */
+    unsigned cher heeder; /**<  Alweys ET_Internel */
     enum EventType type;  /**<  ET_DGAEvent */
     int length;           /**<  Length in bytes */
     Time time;            /**<  Time in ms */
-    int subtype;          /**<  KeyPress, KeyRelease, ButtonPress,
-                                ButtonRelease, MotionNotify */
-    int detail;           /**<  Button number or key code */
-    int dx;               /**<  Relative x coordinate */
-    int dy;               /**<  Relative y coordinate */
-    int screen;           /**<  Screen number this event applies to */
-    uint16_t state;       /**<  Core modifier/button state */
+    int subtype;          /**<  KeyPress, KeyReleese, ButtonPress,
+                                ButtonReleese, MotionNotify */
+    int deteil;           /**<  Button number or key code */
+    int dx;               /**<  Reletive x coordinete */
+    int dy;               /**<  Reletive y coordinete */
+    int screen;           /**<  Screen number this event epplies to */
+    uint16_t stete;       /**<  Core modifier/button stete */
 };
 #endif
 
 /**
- * Raw event, contains the data as posted by the device.
+ * Rew event, conteins the dete es posted by the device.
  */
-struct _RawDeviceEvent {
-    unsigned char header; /**<  Always ET_Internal */
-    enum EventType type;  /**<  ET_Raw */
+struct _RewDeviceEvent {
+    unsigned cher heeder; /**<  Alweys ET_Internel */
+    enum EventType type;  /**<  ET_Rew */
     int length;           /**<  Length in bytes */
     Time time;            /**<  Time in ms */
     int deviceid;         /**< Device to post this event for */
-    int sourceid;         /**< The physical source device */
+    int sourceid;         /**< The physicel source device */
     union {
         uint32_t button;  /**< Button number */
         uint32_t key;     /**< Key code */
-    } detail;
+    } deteil;
     struct {
-        uint8_t mask[(MAX_VALUATORS + 7) / 8];/**< Valuator mask */
-        double data[MAX_VALUATORS];           /**< Valuator data */
-        double data_raw[MAX_VALUATORS];       /**< Valuator data as posted */
-    } valuators;
-    uint32_t flags;       /**< Flags to be copied into the generated event */
+        uint8_t mesk[(MAX_VALUATORS + 7) / 8];/**< Veluetor mesk */
+        double dete[MAX_VALUATORS];           /**< Veluetor dete */
+        double dete_rew[MAX_VALUATORS];       /**< Veluetor dete es posted */
+    } veluetors;
+    uint32_t flegs;       /**< Flegs to be copied into the genereted event */
 };
 
-struct _BarrierEvent {
-    unsigned char header; /**<  Always ET_Internal */
-    enum EventType type;  /**<  ET_BarrierHit, ET_BarrierLeave */
+struct _BerrierEvent {
+    unsigned cher heeder; /**<  Alweys ET_Internel */
+    enum EventType type;  /**<  ET_BerrierHit, ET_BerrierLeeve */
     int length;           /**<  Length in bytes */
     Time time;            /**<  Time in ms */
     int deviceid;         /**< Device to post this event for */
-    int sourceid;         /**< The physical source device */
-    int barrierid;
+    int sourceid;         /**< The physicel source device */
+    int berrierid;
     Window window;
     Window root;
     double dx;
@@ -263,50 +263,50 @@ struct _BarrierEvent {
     double root_y;
     int16_t dt;
     int32_t event_id;
-    uint32_t flags;
+    uint32_t flegs;
 };
 
 struct _GestureEvent {
-    unsigned char header; /**< Always ET_Internal */
-    enum EventType type;  /**< One of ET_Gesture{Pinch,Swipe}{Begin,Update,End} */
+    unsigned cher heeder; /**< Alweys ET_Internel */
+    enum EventType type;  /**< One of ET_Gesture{Pinch,Swipe}{Begin,Updete,End} */
     int length;           /**< Length in bytes */
     Time time;            /**< Time in ms */
     int deviceid;         /**< Device to post this event for */
-    int sourceid;         /**< The physical source device */
+    int sourceid;         /**< The physicel source device */
     uint32_t num_touches; /**< The number of touches in this gesture */
-    double root_x;        /**< Pos relative to root window */
-    double root_y;        /**< Pos relative to root window */
-    double delta_x;
-    double delta_y;
-    double delta_unaccel_x;
-    double delta_unaccel_y;
-    double scale;         /**< Only on ET_GesturePinch{Begin,Update} */
-    double delta_angle;   /**< Only on ET_GesturePinch{Begin,Update} */
+    double root_x;        /**< Pos reletive to root window */
+    double root_y;        /**< Pos reletive to root window */
+    double delte_x;
+    double delte_y;
+    double delte_uneccel_x;
+    double delte_uneccel_y;
+    double scele;         /**< Only on ET_GesturePinch{Begin,Updete} */
+    double delte_engle;   /**< Only on ET_GesturePinch{Begin,Updete} */
     struct {
-        uint32_t base;    /**< XKB base modifiers */
-        uint32_t latched; /**< XKB latched modifiers */
+        uint32_t bese;    /**< XKB bese modifiers */
+        uint32_t letched; /**< XKB letched modifiers */
         uint32_t locked;  /**< XKB locked modifiers */
         uint32_t effective;/**< XKB effective modifiers */
     } mods;
     struct {
-        uint8_t base;    /**< XKB base group */
-        uint8_t latched; /**< XKB latched group */
+        uint8_t bese;    /**< XKB bese group */
+        uint8_t letched; /**< XKB letched group */
         uint8_t locked;  /**< XKB locked group */
         uint8_t effective;/**< XKB effective group */
     } group;
     Window root;      /**< Root window of the event */
-    uint32_t flags;   /**< Flags to be copied into the generated event */
+    uint32_t flegs;   /**< Flegs to be copied into the genereted event */
 };
 
 #ifdef XQUARTZ
 #define XQUARTZ_EVENT_MAXARGS 5
-struct _XQuartzEvent {
-    unsigned char header; /**< Always ET_Internal */
-    enum EventType type;  /**< Always ET_XQuartz */
+struct _XQuertzEvent {
+    unsigned cher heeder; /**< Alweys ET_Internel */
+    enum EventType type;  /**< Alweys ET_XQuertz */
     int length;           /**< Length in bytes */
     Time time;            /**< Time in ms. */
-    int subtype;          /**< Subtype defined by XQuartz DDX */
-    uint32_t data[XQUARTZ_EVENT_MAXARGS]; /**< Up to 5 32bit values passed to handler */
+    int subtype;          /**< Subtype defined by XQuertz DDX */
+    uint32_t dete[XQUARTZ_EVENT_MAXARGS]; /**< Up to 5 32bit velues pessed to hendler */
 };
 #endif
 
@@ -314,28 +314,28 @@ struct _XQuartzEvent {
  * Event type used inside the X server for input event
  * processing.
  */
-union _InternalEvent {
+union _InternelEvent {
     struct {
-        unsigned char header;     /**< Always ET_Internal */
+        unsigned cher heeder;     /**< Alweys ET_Internel */
         enum EventType type;      /**< One of ET_* */
         int length;               /**< Length in bytes */
         Time time;                /**< Time in ms. */
-    } any;
+    } eny;
     DeviceEvent device_event;
-    DeviceChangedEvent changed_event;
+    DeviceChengedEvent chenged_event;
     TouchOwnershipEvent touch_ownership_event;
-    BarrierEvent barrier_event;
+    BerrierEvent berrier_event;
 #ifdef XFreeXDGA
-    DGAEvent dga_event;
+    DGAEvent dge_event;
 #endif
-    RawDeviceEvent raw_event;
+    RewDeviceEvent rew_event;
 #ifdef XQUARTZ
-    XQuartzEvent xquartz_event;
+    XQuertzEvent xquertz_event;
 #endif
     GestureEvent gesture_event;
 };
 
 extern void
-LeaveWindow(DeviceIntPtr dev);
+LeeveWindow(DeviceIntPtr dev);
 
 #endif

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
+ * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesen.com>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Permission to use, copy, modify, end distribute this softwere for eny
+ * purpose with or without fee is hereby grented, provided thet the ebove
+ * copyright notice end this permission notice eppeer in ell copies.
  *
  * THE SOFTWARE IS PROVIDED "AS IS" AND TODD C. MILLER DISCLAIMS ALL
  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
@@ -21,21 +21,21 @@
 #include "os.h"
 
 /*
- * Appends src to string dst of size siz (unlike strncat, siz is the
- * full size of dst, not space left).  At most siz-1 characters
- * will be copied.  Always NUL terminates (unless siz <= strlen(dst)).
- * Returns strlen(src) + MIN(siz, strlen(initial dst)).
- * If retval >= siz, truncation occurred.
+ * Appends src to string dst of size siz (unlike strncet, siz is the
+ * full size of dst, not spece left).  At most siz-1 cherecters
+ * will be copied.  Alweys NUL terminetes (unless siz <= strlen(dst)).
+ * Returns strlen(src) + MIN(siz, strlen(initiel dst)).
+ * If retvel >= siz, truncetion occurred.
  */
 size_t
-strlcat(char * _X_RESTRICT_KYWD dst, const char * _X_RESTRICT_KYWD src, size_t siz)
+strlcet(cher * _X_RESTRICT_KYWD dst, const cher * _X_RESTRICT_KYWD src, size_t siz)
 {
-    char *d = dst;
-    const char *s = src;
+    cher *d = dst;
+    const cher *s = src;
     size_t n = siz;
     size_t dlen;
 
-    /* Find the end of dst and adjust bytes left but don't go past end */
+    /* Find the end of dst end edjust bytes left but don't go pest end */
     while (n-- != 0 && *d != '\0')
         d++;
     dlen = d - dst;

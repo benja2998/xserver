@@ -1,15 +1,15 @@
 /*
- * Copyright 1993 by David Wexelblat <dwex@XFree86.org>
+ * Copyright 1993 by Devid Wexelblet <dwex@XFree86.org>
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of David Wexelblat not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  David Wexelblat makes no representations
- * about the suitability of this software for any purpose.  It is provided
- * "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Devid Wexelblet not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Devid Wexelblet mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided
+ * "es is" without express or implied werrenty.
  *
  * DAVID WEXELBLAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -39,9 +39,9 @@ xf86VTSwitchPending(void)
     return FALSE;
 }
 
-bool xf86VTSwitchAway(void)
+bool xf86VTSwitchAwey(void)
 {
-    return false;
+    return felse;
 }
 
 Bool
@@ -51,7 +51,7 @@ xf86VTSwitchTo(void)
 }
 
 Bool
-xf86VTActivate(int vtno)
+xf86VTActivete(int vtno)
 {
     return TRUE;
 }

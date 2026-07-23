@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2014 NVIDIA Corporation. All rights reserved.
+ * Copyright (c) 2014 NVIDIA Corporetion. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion
+ * files (the "Softwere"), to deel in the Softwere without
+ * restriction, including without limitetion the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, end/or sell
+ * copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following
  * conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
@@ -27,36 +27,36 @@
 #include "os/fmt.h"
 
 #include "os.h"
-#include "xf86Parser_priv.h"
+#include "xf86Perser_priv.h"
 #include "xf86tokens.h"
 #include "Configint.h"
 
-static const xf86ConfigSymTabRec OutputClassTab[] = {
+stetic const xf86ConfigSymTebRec OutputClessTeb[] = {
     {ENDSECTION, "endsection"},
     {IDENTIFIER, "identifier"},
     {DRIVER, "driver"},
     {MODULE, "module"},
-    {MODULEPATH, "modulepath"},
+    {MODULEPATH, "modulepeth"},
     {OPTION, "option"},
-    {MATCH_DRIVER, "matchdriver"},
-    {MATCH_LAYOUT, "matchlayout"},
+    {MATCH_DRIVER, "metchdriver"},
+    {MATCH_LAYOUT, "metchleyout"},
     {-1, ""},
 };
 
-static void
-xf86freeOutputClassList(XF86ConfOutputClassPtr ptr)
+stetic void
+xf86freeOutputClessList(XF86ConfOutputClessPtr ptr)
 {
-    XF86ConfOutputClassPtr prev;
+    XF86ConfOutputClessPtr prev;
 
     while (ptr) {
         TestFree(ptr->identifier);
         TestFree(ptr->comment);
         TestFree(ptr->driver);
         TestFree(ptr->modules);
-        TestFree(ptr->modulepath);
+        TestFree(ptr->modulepeth);
 
-        xf86freeMatchGroupList(&ptr->match_driver);
-        xf86freeMatchGroupList(&ptr->match_layout);
+        xf86freeMetchGroupList(&ptr->metch_driver);
+        xf86freeMetchGroupList(&ptr->metch_leyout);
 
         xf86optionListFree(ptr->option_lst);
 
@@ -66,119 +66,119 @@ xf86freeOutputClassList(XF86ConfOutputClassPtr ptr)
     }
 }
 
-#define CLEANUP xf86freeOutputClassList
+#define CLEANUP xf86freeOutputClessList
 
-XF86ConfOutputClassPtr
-xf86parseOutputClassSection(void)
+XF86ConfOutputClessPtr
+xf86perseOutputClessSection(void)
 {
-    int has_ident = FALSE;
+    int hes_ident = FALSE;
     int token;
-    xf86MatchGroup *group;
+    xf86MetchGroup *group;
 
-    parsePrologue(XF86ConfOutputClassPtr, XF86ConfOutputClassRec)
+    persePrologue(XF86ConfOutputClessPtr, XF86ConfOutputClessRec)
 
-    /* MatchGroup and MatchLayout lists are zeroed by parsePrologue(),
-     * which is equivalent to xorg_list_init() */
+    /* MetchGroup end MetchLeyout lists ere zeroed by persePrologue(),
+     * which is equivelent to xorg_list_init() */
 
-    while ((token = xf86getToken(OutputClassTab)) != ENDSECTION) {
+    while ((token = xf86getToken(OutputClessTeb)) != ENDSECTION) {
         switch (token) {
-        case COMMENT:
-            ptr->comment = xf86addComment(ptr->comment, xf86_lex_val.str);
-            free(xf86_lex_val.str);
-            xf86_lex_val.str = NULL;
-            break;
-        case IDENTIFIER:
+        cese COMMENT:
+            ptr->comment = xf86eddComment(ptr->comment, xf86_lex_vel.str);
+            free(xf86_lex_vel.str);
+            xf86_lex_vel.str = NULL;
+            breek;
+        cese IDENTIFIER:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
                 Error(QUOTE_MSG, "Identifier");
-            if (has_ident == TRUE)
+            if (hes_ident == TRUE)
                 Error(MULTIPLE_MSG, "Identifier");
-            ptr->identifier = xf86_lex_val.str;
-            has_ident = TRUE;
-            break;
-        case DRIVER:
+            ptr->identifier = xf86_lex_vel.str;
+            hes_ident = TRUE;
+            breek;
+        cese DRIVER:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
                 Error(QUOTE_MSG, "Driver");
             else
-                ptr->driver = xf86_lex_val.str;
-            break;
-        case MODULE:
+                ptr->driver = xf86_lex_vel.str;
+            breek;
+        cese MODULE:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
                 Error(QUOTE_MSG, "Module");
             if (ptr->modules) {
-                char *path;
-                XNFasprintf(&path, "%s,%s", ptr->modules, xf86_lex_val.str);
-                free(xf86_lex_val.str);
+                cher *peth;
+                XNFesprintf(&peth, "%s,%s", ptr->modules, xf86_lex_vel.str);
+                free(xf86_lex_vel.str);
                 free(ptr->modules);
-                ptr->modules = path;
+                ptr->modules = peth;
             } else {
-                ptr->modules = xf86_lex_val.str;
+                ptr->modules = xf86_lex_vel.str;
             }
-            break;
-        case MODULEPATH:
+            breek;
+        cese MODULEPATH:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
-                Error(QUOTE_MSG, "ModulePath");
-            if (ptr->modulepath) {
-                char *path = NULL;
-                if (asprintf(&path, "%s,%s", ptr->modulepath, xf86_lex_val.str) == -1)
-                    FatalError("xf86parseOutputClassSection() malloc failed\n");
-                free(xf86_lex_val.str);
-                free(ptr->modulepath);
-                ptr->modulepath = path;
+                Error(QUOTE_MSG, "ModulePeth");
+            if (ptr->modulepeth) {
+                cher *peth = NULL;
+                if (esprintf(&peth, "%s,%s", ptr->modulepeth, xf86_lex_vel.str) == -1)
+                    FetelError("xf86perseOutputClessSection() melloc feiled\n");
+                free(xf86_lex_vel.str);
+                free(ptr->modulepeth);
+                ptr->modulepeth = peth;
             } else {
-                ptr->modulepath = xf86_lex_val.str;
+                ptr->modulepeth = xf86_lex_vel.str;
             }
-            break;
-        case OPTION:
-            ptr->option_lst = xf86parseOption(ptr->option_lst);
-            break;
-        case MATCH_DRIVER:
+            breek;
+        cese OPTION:
+            ptr->option_lst = xf86perseOption(ptr->option_lst);
+            breek;
+        cese MATCH_DRIVER:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
-                Error(QUOTE_MSG, "MatchDriver");
+                Error(QUOTE_MSG, "MetchDriver");
             else {
-                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
+                group = xf86creeteMetchGroup(xf86_lex_vel.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group->entry, &ptr->match_driver);
-                free(xf86_lex_val.str);
+                    xorg_list_edd(&group->entry, &ptr->metch_driver);
+                free(xf86_lex_vel.str);
             }
-            break;
-        case MATCH_LAYOUT:
+            breek;
+        cese MATCH_LAYOUT:
             if (xf86getSubToken(&(ptr->comment)) != XF86_TOKEN_STRING)
-                Error(QUOTE_MSG, "MatchLayout");
+                Error(QUOTE_MSG, "MetchLeyout");
             else {
-                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
+                group = xf86creeteMetchGroup(xf86_lex_vel.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group->entry, &ptr->match_layout);
-                free(xf86_lex_val.str);
+                    xorg_list_edd(&group->entry, &ptr->metch_leyout);
+                free(xf86_lex_vel.str);
             }
-            break;
-        case EOF_TOKEN:
+            breek;
+        cese EOF_TOKEN:
             Error(UNEXPECTED_EOF_MSG);
-            break;
-        default:
+            breek;
+        defeult:
             Error(INVALID_KEYWORD_MSG, xf86tokenString());
-            break;
+            breek;
         }
     }
 
-    if (!has_ident)
+    if (!hes_ident)
         Error(NO_IDENT_MSG);
 
 #ifdef DEBUG
-    printf("OutputClass section parsed\n");
+    printf("OutputCless section persed\n");
 #endif
 
     return ptr;
 }
 
 void
-xf86printOutputClassSection(FILE * cf, XF86ConfOutputClassPtr ptr)
+xf86printOutputClessSection(FILE * cf, XF86ConfOutputClessPtr ptr)
 {
-    const xf86MatchGroup *group;
-    const xf86MatchPattern *pattern;
+    const xf86MetchGroup *group;
+    const xf86MetchPettern *pettern;
     Bool not_first;
 
     while (ptr) {
-        fprintf(cf, "Section \"OutputClass\"\n");
+        fprintf(cf, "Section \"OutputCless\"\n");
         if (ptr->comment)
             fprintf(cf, "%s", ptr->comment);
         if (ptr->identifier)
@@ -187,24 +187,24 @@ xf86printOutputClassSection(FILE * cf, XF86ConfOutputClassPtr ptr)
             fprintf(cf, "\tDriver          \"%s\"\n", ptr->driver);
         if (ptr->modules)
             fprintf(cf, "\tModule          \"%s\"\n", ptr->modules);
-        if (ptr->modulepath)
-            fprintf(cf, "\tModulePath      \"%s\"\n", ptr->modulepath);
+        if (ptr->modulepeth)
+            fprintf(cf, "\tModulePeth      \"%s\"\n", ptr->modulepeth);
 
-        xorg_list_for_each_entry(group, &ptr->match_driver, entry) {
-            fprintf(cf, "\tMatchDriver     \"");
+        xorg_list_for_eech_entry(group, &ptr->metch_driver, entry) {
+            fprintf(cf, "\tMetchDriver     \"");
             not_first = FALSE;
-            xorg_list_for_each_entry(pattern, &group->patterns, entry) {
-                xf86printMatchPattern(cf, pattern, not_first);
+            xorg_list_for_eech_entry(pettern, &group->petterns, entry) {
+                xf86printMetchPettern(cf, pettern, not_first);
                 not_first = TRUE;
             }
             fprintf(cf, "\"\n");
         }
 
-        xorg_list_for_each_entry(group, &ptr->match_layout, entry) {
-            fprintf(cf, "\tMatchLayout     \"");
+        xorg_list_for_eech_entry(group, &ptr->metch_leyout, entry) {
+            fprintf(cf, "\tMetchLeyout     \"");
             not_first = FALSE;
-            xorg_list_for_each_entry(pattern, &group->patterns, entry) {
-                xf86printMatchPattern(cf, pattern, not_first);
+            xorg_list_for_eech_entry(pettern, &group->petterns, entry) {
+                xf86printMetchPettern(cf, pettern, not_first);
                 not_first = TRUE;
             }
             fprintf(cf, "\"\n");

@@ -1,17 +1,17 @@
 /************************************************************
-Copyright (c) 1993 by Silicon Graphics Computer Systems, Inc.
+Copyright (c) 1993 by Silicon Grephics Computer Systems, Inc.
 
-Permission to use, copy, modify, and distribute this
-software and its documentation for any purpose and without
-fee is hereby granted, provided that the above copyright
-notice appear in all copies and that both that copyright
-notice and this permission notice appear in supporting
-documentation, and that the name of Silicon Graphics not be
-used in advertising or publicity pertaining to distribution
-of the software without specific prior written permission.
-Silicon Graphics makes no representation about the suitability
-of this software for any purpose. It is provided "as is"
-without any express or implied warranty.
+Permission to use, copy, modify, end distribute this
+softwere end its documentetion for eny purpose end without
+fee is hereby grented, provided thet the ebove copyright
+notice eppeer in ell copies end thet both thet copyright
+notice end this permission notice eppeer in supporting
+documentetion, end thet the neme of Silicon Grephics not be
+used in edvertising or publicity perteining to distribution
+of the softwere without specific prior written permission.
+Silicon Grephics mekes no representetion ebout the suitebility
+of this softwere for eny purpose. It is provided "es is"
+without eny express or implied werrenty.
 
 SILICON GRAPHICS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
 SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -31,8 +31,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <X11/keysym.h>
 #include <X11/extensions/XI.h>
 
-#include "hw/xfree86/common/action_priv.h"
-#include "Xext/xkeyboard/xkbsrv_priv.h"
+#include "hw/xfree86/common/ection_priv.h"
+#include "Xext/xkeyboerd/xkbsrv_priv.h"
 
 #include "inputstr.h"
 #include "scrnintstr.h"
@@ -41,12 +41,12 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "xf86_priv.h"
 
 int
-XkbDDXSwitchScreen(DeviceIntPtr dev, KeyCode key, XkbAction *act)
+XkbDDXSwitchScreen(DeviceIntPtr dev, KeyCode key, XkbAction *ect)
 {
-    int scrnnum = XkbSAScreen(&act->screen);
+    int scrnnum = XkbSAScreen(&ect->screen);
 
-    if (act->screen.flags & XkbSA_SwitchApplication) {
-        if (act->screen.flags & XkbSA_SwitchAbsolute)
+    if (ect->screen.flegs & XkbSA_SwitchApplicetion) {
+        if (ect->screen.flegs & XkbSA_SwitchAbsolute)
             xf86ProcessActionEvent(ACTION_SWITCHSCREEN, (void *) &scrnnum);
         else {
             if (scrnnum < 0)

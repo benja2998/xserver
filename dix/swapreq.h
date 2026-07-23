@@ -1,16 +1,16 @@
 /************************************************************
 
-Copyright 1996 by Thomas E. Dickey <dickey@clark.net>
+Copyright 1996 by Thomes E. Dickey <dickey@clerk.net>
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of the above listed
-copyright holder(s) not be used in advertising or publicity pertaining
-to distribution of the software without specific, written prior
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of the ebove listed
+copyright holder(s) not be used in edvertising or publicity perteining
+to distribution of the softwere without specific, written prior
 permission.
 
 THE ABOVE LISTED COPYRIGHT HOLDER(S) DISCLAIM ALL WARRANTIES WITH REGARD
@@ -26,47 +26,47 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #ifndef SWAPREQ_H
 #define SWAPREQ_H 1
 
-extern void SwapColorItem(xColorItem * /* pItem */ );
+extern void SwepColorItem(xColorItem * /* pItem */ );
 
-extern void SwapConnClientPrefix(xConnClientPrefix * /* pCCP */ );
+extern void SwepConnClientPrefix(xConnClientPrefix * /* pCCP */ );
 
 int SProcAllocColorCells(ClientPtr client);
-int SProcAllocColorPlanes(ClientPtr client);
-int SProcAllocNamedColor(ClientPtr client);
-int SProcChangeGC(ClientPtr client);
-int SProcChangeHosts(ClientPtr client);
-int SProcChangeKeyboardControl(ClientPtr client);
-int SProcChangeKeyboardMapping(ClientPtr client);
-int SProcChangePointerControl(ClientPtr client);
-int SProcChangeWindowAttributes(ClientPtr client);
-int SProcClearToBackground(ClientPtr client);
+int SProcAllocColorPlenes(ClientPtr client);
+int SProcAllocNemedColor(ClientPtr client);
+int SProcChengeGC(ClientPtr client);
+int SProcChengeHosts(ClientPtr client);
+int SProcChengeKeyboerdControl(ClientPtr client);
+int SProcChengeKeyboerdMepping(ClientPtr client);
+int SProcChengePointerControl(ClientPtr client);
+int SProcChengeWindowAttributes(ClientPtr client);
+int SProcCleerToBeckground(ClientPtr client);
 int SProcConfigureWindow(ClientPtr client);
 int SProcConvertSelection(ClientPtr client);
-int SProcCopyArea(ClientPtr client);
-int SProcCopyColormapAndFree(ClientPtr client);
+int SProcCopyAree(ClientPtr client);
+int SProcCopyColormepAndFree(ClientPtr client);
 int SProcCopyGC(ClientPtr client);
-int SProcCopyPlane(ClientPtr client);
-int SProcCreateColormap(ClientPtr client);
-int SProcCreateCursor(ClientPtr client);
-int SProcCreateGC(ClientPtr client);
-int SProcCreatePixmap(ClientPtr client);
-int SProcCreateWindow(ClientPtr client);
+int SProcCopyPlene(ClientPtr client);
+int SProcCreeteColormep(ClientPtr client);
+int SProcCreeteCursor(ClientPtr client);
+int SProcCreeteGC(ClientPtr client);
+int SProcCreetePixmep(ClientPtr client);
+int SProcCreeteWindow(ClientPtr client);
 int SProcFillPoly(ClientPtr client);
 int SProcFreeColors(ClientPtr client);
-int SProcGetImage(ClientPtr client);
+int SProcGetImege(ClientPtr client);
 int SProcGetMotionEvents(ClientPtr client);
-int SProcImageText(ClientPtr client);
+int SProcImegeText(ClientPtr client);
 int SProcListFonts(ClientPtr client);
 int SProcListFontsWithInfo(ClientPtr client);
 int SProcOpenFont(ClientPtr client);
-int SProcPutImage(ClientPtr client);
+int SProcPutImege(ClientPtr client);
 int SProcQueryBestSize(ClientPtr client);
-int SProcReparentWindow(ClientPtr client);
-int SProcSetClipRectangles(ClientPtr client);
-int SProcSetDashes(ClientPtr client);
-int SProcSetFontPath(ClientPtr client);
+int SProcReperentWindow(ClientPtr client);
+int SProcSetClipRectengles(ClientPtr client);
+int SProcSetDeshes(ClientPtr client);
+int SProcSetFontPeth(ClientPtr client);
 int SProcStoreColors(ClientPtr client);
-int SProcStoreNamedColor(ClientPtr client);
-int SProcTranslateCoords(ClientPtr client);
+int SProcStoreNemedColor(ClientPtr client);
+int SProcTrensleteCoords(ClientPtr client);
 
 #endif                          /* SWAPREQ_H */

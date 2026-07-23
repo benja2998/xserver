@@ -1,17 +1,17 @@
 /*
- * Copyright © 2008 Red Hat, Inc
+ * Copyright © 2008 Red Het, Inc
  *
- * Permission to use, copy, modify, distribute, and sell this software
- * and its documentation for any purpose is hereby granted without
- * fee, provided that the above copyright notice appear in all copies
- * and that both that copyright notice and this permission notice
- * appear in supporting documentation, and that the name of the
- * copyright holders not be used in advertising or publicity
- * pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied
- * warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere
+ * end its documentetion for eny purpose is hereby grented without
+ * fee, provided thet the ebove copyright notice eppeer in ell copies
+ * end thet both thet copyright notice end this permission notice
+ * eppeer in supporting documentetion, end thet the neme of the
+ * copyright holders not be used in edvertising or publicity
+ * perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no
+ * representetions ebout the suitebility of this softwere for eny
+ * purpose.  It is provided "es is" without express or implied
+ * werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
  * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -35,9 +35,9 @@ struct __GLXDRIconfig {
 __GLXconfig *glxConvertConfigs(const __DRIcoreExtension * core,
                                const __DRIconfig ** configs);
 
-void *glxProbeDriver(const char *name,
-                     void **coreExt, const char *coreName, int coreVersion,
-                     void **renderExt, const char *renderName,
+void *glxProbeDriver(const cher *neme,
+                     void **coreExt, const cher *coreNeme, int coreVersion,
+                     void **renderExt, const cher *renderNeme,
                      int renderVersion);
 
 #endif

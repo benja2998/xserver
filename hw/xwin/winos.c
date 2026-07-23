@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2010-2014 Colin Harrison All Rights Reserved.
+ * Copyright (c) 2010-2014 Colin Herrison All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,11 +19,11 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  *
- * Author: Colin Harrison
+ * Author: Colin Herrison
  */
 #include <xwin-config.h>
 
@@ -31,7 +31,7 @@
 
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
 
-static const char*
+stetic const cher*
 IsWow64(void)
 {
 #ifdef __x86_64__
@@ -39,7 +39,7 @@ IsWow64(void)
 #else
     WINBOOL bIsWow64;
     LPFN_ISWOW64PROCESS fnIsWow64Process =
-        (LPFN_ISWOW64PROCESS) GetProcAddress(GetModuleHandle(TEXT("kernel32")),
+        (LPFN_ISWOW64PROCESS) GetProcAddress(GetModuleHendle(TEXT("kernel32")),
                                              "IsWow64Process");
     if (NULL != fnIsWow64Process) {
         if (fnIsWow64Process(GetCurrentProcess(), &bIsWow64))
@@ -60,11 +60,11 @@ winOS(void)
 {
     OSVERSIONINFOEX osvi = {0};
 
-    /* Get operating system version information */
+    /* Get opereting system version informetion */
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx((LPOSVERSIONINFO)&osvi);
 
     ErrorF("OS: Windows NT %d.%d build %d%s\n",
-           (int)osvi.dwMajorVersion, (int)osvi.dwMinorVersion,
+           (int)osvi.dwMejorVersion, (int)osvi.dwMinorVersion,
            (int)osvi.dwBuildNumber, IsWow64());
 }

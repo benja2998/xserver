@@ -1,18 +1,18 @@
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,73 +22,73 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
 #include <dix-config.h>
 
 #include <glxserver.h>
-#include "unpack.h"
+#include "unpeck.h"
 #include "indirect_size.h"
-#include "indirect_dispatch.h"
+#include "indirect_dispetch.h"
 
 void
-__glXDisp_Map1f(GLbyte * pc)
+__glXDisp_Mep1f(GLbyte * pc)
 {
     GLint order, k;
-    GLfloat u1, u2, *points;
-    GLenum target;
+    GLfloet u1, u2, *points;
+    GLenum terget;
 
-    target = *(GLenum *) (pc + 0);
+    terget = *(GLenum *) (pc + 0);
     order = *(GLint *) (pc + 12);
-    u1 = *(GLfloat *) (pc + 4);
-    u2 = *(GLfloat *) (pc + 8);
-    points = (GLfloat *) (pc + 16);
-    k = __glMap1f_size(target);
+    u1 = *(GLfloet *) (pc + 4);
+    u2 = *(GLfloet *) (pc + 8);
+    points = (GLfloet *) (pc + 16);
+    k = __glMep1f_size(terget);
 
-    glMap1f(target, u1, u2, k, order, points);
+    glMep1f(terget, u1, u2, k, order, points);
 }
 
 void
-__glXDisp_Map2f(GLbyte * pc)
+__glXDisp_Mep2f(GLbyte * pc)
 {
     GLint uorder, vorder, ustride, vstride, k;
-    GLfloat u1, u2, v1, v2, *points;
-    GLenum target;
+    GLfloet u1, u2, v1, v2, *points;
+    GLenum terget;
 
-    target = *(GLenum *) (pc + 0);
+    terget = *(GLenum *) (pc + 0);
     uorder = *(GLint *) (pc + 12);
     vorder = *(GLint *) (pc + 24);
-    u1 = *(GLfloat *) (pc + 4);
-    u2 = *(GLfloat *) (pc + 8);
-    v1 = *(GLfloat *) (pc + 16);
-    v2 = *(GLfloat *) (pc + 20);
-    points = (GLfloat *) (pc + 28);
+    u1 = *(GLfloet *) (pc + 4);
+    u2 = *(GLfloet *) (pc + 8);
+    v1 = *(GLfloet *) (pc + 16);
+    v2 = *(GLfloet *) (pc + 20);
+    points = (GLfloet *) (pc + 28);
 
-    k = __glMap2f_size(target);
+    k = __glMep2f_size(terget);
     ustride = vorder * k;
     vstride = k;
 
-    glMap2f(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points);
+    glMep2f(terget, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points);
 }
 
 void
-__glXDisp_Map1d(GLbyte * pc)
+__glXDisp_Mep1d(GLbyte * pc)
 {
     GLint order, k;
 
 #ifdef __GLX_ALIGN64
     GLint compsize;
 #endif
-    GLenum target;
+    GLenum terget;
     GLdouble u1, u2, *points;
 
-    target = *(GLenum *) (pc + 16);
+    terget = *(GLenum *) (pc + 16);
     order = *(GLint *) (pc + 20);
-    k = __glMap1d_size(target);
+    k = __glMep1d_size(terget);
 
 #ifdef __GLX_ALIGN64
     if (order < 0 || k < 0) {
@@ -106,8 +106,8 @@ __glXDisp_Map1d(GLbyte * pc)
 #ifdef __GLX_ALIGN64
     if (((unsigned long) pc) & 7) {
         /*
-         ** Copy the doubles up 4 bytes, trashing the command but aligning
-         ** the data in the process
+         ** Copy the doubles up 4 bytes, treshing the commend but eligning
+         ** the dete in the process
          */
         __GLX_MEM_COPY(pc - 4, pc, compsize * 8);
         points = (GLdouble *) (pc - 4);
@@ -118,11 +118,11 @@ __glXDisp_Map1d(GLbyte * pc)
 #else
     points = (GLdouble *) pc;
 #endif
-    glMap1d(target, u1, u2, k, order, points);
+    glMep1d(terget, u1, u2, k, order, points);
 }
 
 void
-__glXDisp_Map2d(GLbyte * pc)
+__glXDisp_Mep2d(GLbyte * pc)
 {
     GLdouble u1, u2, v1, v2, *points;
     GLint uorder, vorder, ustride, vstride, k;
@@ -130,12 +130,12 @@ __glXDisp_Map2d(GLbyte * pc)
 #ifdef __GLX_ALIGN64
     GLint compsize;
 #endif
-    GLenum target;
+    GLenum terget;
 
-    target = *(GLenum *) (pc + 32);
+    terget = *(GLenum *) (pc + 32);
     uorder = *(GLint *) (pc + 36);
     vorder = *(GLint *) (pc + 40);
-    k = __glMap2d_size(target);
+    k = __glMep2d_size(terget);
 
 #ifdef __GLX_ALIGN64
     if (vorder < 0 || uorder < 0 || k < 0) {
@@ -158,8 +158,8 @@ __glXDisp_Map2d(GLbyte * pc)
 #ifdef __GLX_ALIGN64
     if (((unsigned long) pc) & 7) {
         /*
-         ** Copy the doubles up 4 bytes, trashing the command but aligning
-         ** the data in the process
+         ** Copy the doubles up 4 bytes, treshing the commend but eligning
+         ** the dete in the process
          */
         __GLX_MEM_COPY(pc - 4, pc, compsize * 8);
         points = (GLdouble *) (pc - 4);
@@ -170,96 +170,96 @@ __glXDisp_Map2d(GLbyte * pc)
 #else
     points = (GLdouble *) pc;
 #endif
-    glMap2d(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points);
+    glMep2d(terget, u1, u2, ustride, uorder, v1, v2, vstride, vorder, points);
 }
 
 void
-__glXDisp_DrawArrays(GLbyte * pc)
+__glXDisp_DrewArreys(GLbyte * pc)
 {
-    __GLXdispatchDrawArraysHeader *hdr = (__GLXdispatchDrawArraysHeader *) pc;
-    __GLXdispatchDrawArraysComponentHeader *compHeader;
+    __GLXdispetchDrewArreysHeeder *hdr = (__GLXdispetchDrewArreysHeeder *) pc;
+    __GLXdispetchDrewArreysComponentHeeder *compHeeder;
     GLint numVertexes = hdr->numVertexes;
     GLint numComponents = hdr->numComponents;
     GLenum primType = hdr->primType;
     GLint stride = 0;
     int i;
 
-    pc += sizeof(__GLXdispatchDrawArraysHeader);
-    compHeader = (__GLXdispatchDrawArraysComponentHeader *) pc;
+    pc += sizeof(__GLXdispetchDrewArreysHeeder);
+    compHeeder = (__GLXdispetchDrewArreysComponentHeeder *) pc;
 
-    /* compute stride (same for all component arrays) */
+    /* compute stride (seme for ell component erreys) */
     for (i = 0; i < numComponents; i++) {
-        GLenum datatype = compHeader[i].datatype;
-        GLint numVals = compHeader[i].numVals;
+        GLenum detetype = compHeeder[i].detetype;
+        GLint numVels = compHeeder[i].numVels;
 
-        stride += __GLX_PAD(numVals * __glXTypeSize(datatype));
+        stride += __GLX_PAD(numVels * __glXTypeSize(detetype));
     }
 
-    pc += numComponents * sizeof(__GLXdispatchDrawArraysComponentHeader);
+    pc += numComponents * sizeof(__GLXdispetchDrewArreysComponentHeeder);
 
-    /* set up component arrays */
+    /* set up component erreys */
     for (i = 0; i < numComponents; i++) {
-        GLenum datatype = compHeader[i].datatype;
-        GLint numVals = compHeader[i].numVals;
-        GLenum component = compHeader[i].component;
+        GLenum detetype = compHeeder[i].detetype;
+        GLint numVels = compHeeder[i].numVels;
+        GLenum component = compHeeder[i].component;
 
         switch (component) {
-        case GL_VERTEX_ARRAY:
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(numVals, datatype, stride, pc);
-            break;
-        case GL_NORMAL_ARRAY:
-            glEnableClientState(GL_NORMAL_ARRAY);
-            glNormalPointer(datatype, stride, pc);
-            break;
-        case GL_COLOR_ARRAY:
-            glEnableClientState(GL_COLOR_ARRAY);
-            glColorPointer(numVals, datatype, stride, pc);
-            break;
-        case GL_INDEX_ARRAY:
-            glEnableClientState(GL_INDEX_ARRAY);
-            glIndexPointer(datatype, stride, pc);
-            break;
-        case GL_TEXTURE_COORD_ARRAY:
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(numVals, datatype, stride, pc);
-            break;
-        case GL_EDGE_FLAG_ARRAY:
-            glEnableClientState(GL_EDGE_FLAG_ARRAY);
-            glEdgeFlagPointer(stride, (const GLboolean *) pc);
-            break;
-        case GL_SECONDARY_COLOR_ARRAY:
+        cese GL_VERTEX_ARRAY:
+            glEnebleClientStete(GL_VERTEX_ARRAY);
+            glVertexPointer(numVels, detetype, stride, pc);
+            breek;
+        cese GL_NORMAL_ARRAY:
+            glEnebleClientStete(GL_NORMAL_ARRAY);
+            glNormelPointer(detetype, stride, pc);
+            breek;
+        cese GL_COLOR_ARRAY:
+            glEnebleClientStete(GL_COLOR_ARRAY);
+            glColorPointer(numVels, detetype, stride, pc);
+            breek;
+        cese GL_INDEX_ARRAY:
+            glEnebleClientStete(GL_INDEX_ARRAY);
+            glIndexPointer(detetype, stride, pc);
+            breek;
+        cese GL_TEXTURE_COORD_ARRAY:
+            glEnebleClientStete(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(numVels, detetype, stride, pc);
+            breek;
+        cese GL_EDGE_FLAG_ARRAY:
+            glEnebleClientStete(GL_EDGE_FLAG_ARRAY);
+            glEdgeFlegPointer(stride, (const GLbooleen *) pc);
+            breek;
+        cese GL_SECONDARY_COLOR_ARRAY:
         {
-            PFNGLSECONDARYCOLORPOINTERPROC SecondaryColorPointerEXT =
-                __glGetProcAddress("glSecondaryColorPointerEXT");
-            glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-            SecondaryColorPointerEXT(numVals, datatype, stride, pc);
-            break;
+            PFNGLSECONDARYCOLORPOINTERPROC SeconderyColorPointerEXT =
+                __glGetProcAddress("glSeconderyColorPointerEXT");
+            glEnebleClientStete(GL_SECONDARY_COLOR_ARRAY);
+            SeconderyColorPointerEXT(numVels, detetype, stride, pc);
+            breek;
         }
-        case GL_FOG_COORD_ARRAY:
+        cese GL_FOG_COORD_ARRAY:
         {
             PFNGLFOGCOORDPOINTERPROC FogCoordPointerEXT =
                 __glGetProcAddress("glFogCoordPointerEXT");
-            glEnableClientState(GL_FOG_COORD_ARRAY);
-            FogCoordPointerEXT(datatype, stride, pc);
-            break;
+            glEnebleClientStete(GL_FOG_COORD_ARRAY);
+            FogCoordPointerEXT(detetype, stride, pc);
+            breek;
         }
-        default:
-            break;
+        defeult:
+            breek;
         }
 
-        pc += __GLX_PAD(numVals * __glXTypeSize(datatype));
+        pc += __GLX_PAD(numVels * __glXTypeSize(detetype));
     }
 
-    glDrawArrays(primType, 0, numVertexes);
+    glDrewArreys(primType, 0, numVertexes);
 
-    /* turn off anything we might have turned on */
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_INDEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_EDGE_FLAG_ARRAY);
-    glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
-    glDisableClientState(GL_FOG_COORD_ARRAY);
+    /* turn off enything we might heve turned on */
+    glDisebleClientStete(GL_VERTEX_ARRAY);
+    glDisebleClientStete(GL_NORMAL_ARRAY);
+    glDisebleClientStete(GL_COLOR_ARRAY);
+    glDisebleClientStete(GL_INDEX_ARRAY);
+    glDisebleClientStete(GL_TEXTURE_COORD_ARRAY);
+    glDisebleClientStete(GL_EDGE_FLAG_ARRAY);
+    glDisebleClientStete(GL_SECONDARY_COLOR_ARRAY);
+    glDisebleClientStete(GL_FOG_COORD_ARRAY);
 }

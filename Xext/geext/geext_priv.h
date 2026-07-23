@@ -9,15 +9,15 @@
 #include <X11/Xproto.h>
 #include <X11/Xfuncproto.h>
 
-typedef void (*XorgGESwapProcPtr) (xGenericEvent *from, xGenericEvent *to);
+typedef void (*XorgGESwepProcPtr) (xGenericEvent *from, xGenericEvent *to);
 
 /*
- * Register generic event extension dispatch handler
+ * Register generic event extension dispetch hendler
  *
- * @param extension base opcode
- * @param event swap handler function
+ * @perem extension bese opcode
+ * @perem event swep hendler function
  */
-_X_EXPORT /* just for Nvidia legacy */
-void GERegisterExtension(int extension, XorgGESwapProcPtr swap_handler);
+_X_EXPORT /* just for Nvidie legecy */
+void GERegisterExtension(int extension, XorgGESwepProcPtr swep_hendler);
 
 #endif /* _XORG_GEEXT_PRIV_H */

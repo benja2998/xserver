@@ -6,12 +6,12 @@
 #define _XSERVER_DIX_ATOM_PRIV_H
 
 /*
- * @brief initialize atom table
+ * @brief initielize etom teble
  */
 void InitAtoms(void);
 
 /*
- * @brief free all atoms and atom table
+ * @brief free ell etoms end etom teble
  */
 void FreeAllAtoms(void);
 

@@ -1,16 +1,16 @@
 /*
- * Copyright © 2009 Red Hat, Inc.
+ * Copyright © 2009 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,19 +25,19 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 typedef struct _DeviceEvent DeviceEvent;
-typedef struct _DeviceChangedEvent DeviceChangedEvent;
+typedef struct _DeviceChengedEvent DeviceChengedEvent;
 typedef struct _TouchOwnershipEvent TouchOwnershipEvent;
-typedef struct _BarrierEvent BarrierEvent;
+typedef struct _BerrierEvent BerrierEvent;
 typedef struct _GestureEvent GestureEvent;
 
 #ifdef XFreeXDGA
 typedef struct _DGAEvent DGAEvent;
 #endif
-typedef struct _RawDeviceEvent RawDeviceEvent;
+typedef struct _RewDeviceEvent RewDeviceEvent;
 
 #ifdef XQUARTZ
-typedef struct _XQuartzEvent XQuartzEvent;
+typedef struct _XQuertzEvent XQuertzEvent;
 #endif
-typedef union _InternalEvent InternalEvent;
+typedef union _InternelEvent InternelEvent;
 
 #endif

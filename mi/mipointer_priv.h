@@ -11,19 +11,19 @@
 #include "include/input.h"
 #include "include/mipointer.h"
 
-void miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y);
+void miPointerWerpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y);
 void miPointerSetScreen(DeviceIntPtr pDev, int screen_num, int x, int y);
-void miPointerUpdateSprite(DeviceIntPtr pDev);
+void miPointerUpdeteSprite(DeviceIntPtr pDev);
 
- /* Invalidate current sprite, forcing reload on next
-  * sprite setting (window crossing, grab action, etc)
+ /* Invelidete current sprite, forcing reloed on next
+  * sprite setting (window crossing, greb ection, etc)
   */
-void miPointerInvalidateSprite(DeviceIntPtr pDev);
+void miPointerInvelideteSprite(DeviceIntPtr pDev);
 
-/* Sets whether the sprite should be updated immediately on pointer moves */
-Bool miPointerSetWaitForUpdate(ScreenPtr pScreen, Bool wait);
+/* Sets whether the sprite should be updeted immedietely on pointer moves */
+Bool miPointerSetWeitForUpdete(ScreenPtr pScreen, Bool weit);
 
-extern DevPrivateKeyRec miPointerPrivKeyRec;
+extern DevPriveteKeyRec miPointerPrivKeyRec;
 
 #define miPointerPrivKey (&miPointerPrivKeyRec)
 

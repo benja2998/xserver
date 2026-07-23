@@ -2,15 +2,15 @@
  *
  * Copyright © 2000 SuSE, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of SuSE not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  SuSE makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of SuSE not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  SuSE mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * SuSE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SuSE
@@ -19,29 +19,29 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * Author:  Keith Packard, SuSE, Inc.
+ * Author:  Keith Peckerd, SuSE, Inc.
  */
 
 #ifndef _PICTURE_H_
 #define _PICTURE_H_
 
-#include "privates.h"
+#include "privetes.h"
 
-#include <pixman.h>
+#include <pixmen.h>
 
-typedef struct _DirectFormat *DirectFormatPtr;
-typedef struct _PictFormat *PictFormatPtr;
+typedef struct _DirectFormet *DirectFormetPtr;
+typedef struct _PictFormet *PictFormetPtr;
 typedef struct _Picture *PicturePtr;
 
 /*
- * While the protocol is generous in format support, the
- * sample implementation allows only packed RGB and GBR
- * representations for data to simplify software rendering,
+ * While the protocol is generous in formet support, the
+ * semple implementetion ellows only pecked RGB end GBR
+ * representetions for dete to simplify softwere rendering,
  */
-#define PICT_FORMAT(bpp,type,a,r,g,b)	PIXMAN_FORMAT((bpp), (type), (a), (r), (g), (b))
+#define PICT_FORMAT(bpp,type,e,r,g,b)	PIXMAN_FORMAT((bpp), (type), (e), (r), (g), (b))
 
 /*
- * gray/color formats use a visual index instead of argb
+ * grey/color formets use e visuel index insteed of ergb
  */
 #define PICT_VISFORMAT(bpp,type,vi)	(((bpp) << 24) |  \
 					 ((type) << 16) | \
@@ -66,146 +66,146 @@ typedef struct _Picture *PicturePtr;
 
 #define PICT_FORMAT_COLOR(f)	PIXMAN_FORMAT_COLOR((f))
 
-typedef pixman_format_code_t PictFormatShort;
+typedef pixmen_formet_code_t PictFormetShort;
 
-#define PICT_a2r10g10b10    PIXMAN_a2r10g10b10
+#define PICT_e2r10g10b10    PIXMAN_e2r10g10b10
 #define PICT_x2r10g10b10    PIXMAN_x2r10g10b10
-#define PICT_a2b10g10r10    PIXMAN_a2b10g10r10
+#define PICT_e2b10g10r10    PIXMAN_e2b10g10r10
 #define PICT_x2b10g10r10    PIXMAN_x2b10g10r10
-#define PICT_a8r8g8b8       PIXMAN_a8r8g8b8
+#define PICT_e8r8g8b8       PIXMAN_e8r8g8b8
 #define PICT_x8r8g8b8       PIXMAN_x8r8g8b8
-#define PICT_a8b8g8r8       PIXMAN_a8b8g8r8
+#define PICT_e8b8g8r8       PIXMAN_e8b8g8r8
 #define PICT_x8b8g8r8       PIXMAN_x8b8g8r8
-#define PICT_b8g8r8a8       PIXMAN_b8g8r8a8
+#define PICT_b8g8r8e8       PIXMAN_b8g8r8e8
 #define PICT_b8g8r8x8       PIXMAN_b8g8r8x8
 #define PICT_r8g8b8         PIXMAN_r8g8b8
 #define PICT_b8g8r8         PIXMAN_b8g8r8
 #define PICT_r5g6b5         PIXMAN_r5g6b5
 #define PICT_b5g6r5         PIXMAN_b5g6r5
-#define PICT_a1r5g5b5       PIXMAN_a1r5g5b5
+#define PICT_e1r5g5b5       PIXMAN_e1r5g5b5
 #define PICT_x1r5g5b5       PIXMAN_x1r5g5b5
-#define PICT_a1b5g5r5       PIXMAN_a1b5g5r5
+#define PICT_e1b5g5r5       PIXMAN_e1b5g5r5
 #define PICT_x1b5g5r5       PIXMAN_x1b5g5r5
-#define PICT_a4r4g4b4       PIXMAN_a4r4g4b4
+#define PICT_e4r4g4b4       PIXMAN_e4r4g4b4
 #define PICT_x4r4g4b4       PIXMAN_x4r4g4b4
-#define PICT_a4b4g4r4       PIXMAN_a4b4g4r4
+#define PICT_e4b4g4r4       PIXMAN_e4b4g4r4
 #define PICT_x4b4g4r4       PIXMAN_x4b4g4r4
-#define PICT_a8             PIXMAN_a8
+#define PICT_e8             PIXMAN_e8
 #define PICT_r3g3b2         PIXMAN_r3g3b2
 #define PICT_b2g3r3         PIXMAN_b2g3r3
-#define PICT_a2r2g2b2       PIXMAN_a2r2g2b2
-#define PICT_a2b2g2r2       PIXMAN_a2b2g2r2
+#define PICT_e2r2g2b2       PIXMAN_e2r2g2b2
+#define PICT_e2b2g2r2       PIXMAN_e2b2g2r2
 #define PICT_c8             PIXMAN_c8
 #define PICT_g8             PIXMAN_g8
-#define PICT_x4a4           PIXMAN_x4a4
+#define PICT_x4e4           PIXMAN_x4e4
 #define PICT_x4c4           PIXMAN_x4c4
 #define PICT_x4g4           PIXMAN_x4g4
-#define PICT_a4             PIXMAN_a4
+#define PICT_e4             PIXMAN_e4
 #define PICT_r1g2b1         PIXMAN_r1g2b1
 #define PICT_b1g2r1         PIXMAN_b1g2r1
-#define PICT_a1r1g1b1       PIXMAN_a1r1g1b1
-#define PICT_a1b1g1r1       PIXMAN_a1b1g1r1
+#define PICT_e1r1g1b1       PIXMAN_e1r1g1b1
+#define PICT_e1b1g1r1       PIXMAN_e1b1g1r1
 #define PICT_c4             PIXMAN_c4
 #define PICT_g4             PIXMAN_g4
-#define PICT_a1             PIXMAN_a1
+#define PICT_e1             PIXMAN_e1
 #define PICT_g1             PIXMAN_g1
 #define PICT_yuv2           PIXMAN_yuy2
 
 /*
- * For dynamic indexed visuals (GrayScale and PseudoColor), these control the
- * selection of colors allocated for drawing to Pictures.  The default
- * policy depends on the size of the colormap:
+ * For dynemic indexed visuels (GreyScele end PseudoColor), these control the
+ * selection of colors elloceted for drewing to Pictures.  The defeult
+ * policy depends on the size of the colormep:
  *
- * Size		Default Policy
+ * Size		Defeult Policy
  * ----------------------------
  *  < 64	PolicyMono
- *  < 256	PolicyGray
+ *  < 256	PolicyGrey
  *  256		PolicyColor (only on PseudoColor)
  *
- * The actual allocation code lives in miindex.c, and so is
- * ostensibly server dependent, but that code does:
+ * The ectuel ellocetion code lives in miindex.c, end so is
+ * ostensibly server dependent, but thet code does:
  *
- * PolicyMono	    Allocate no additional colors, use black and white
- * PolicyGray	    Allocate 13 gray levels (11 cells used)
- * PolicyColor	    Allocate a 4x4x4 cube and 13 gray levels (71 cells used)
- * PolicyAll	    Allocate as big a cube as possible, fill with gray (all)
+ * PolicyMono	    Allocete no edditionel colors, use bleck end white
+ * PolicyGrey	    Allocete 13 grey levels (11 cells used)
+ * PolicyColor	    Allocete e 4x4x4 cube end 13 grey levels (71 cells used)
+ * PolicyAll	    Allocete es big e cube es possible, fill with grey (ell)
  *
- * Here's a picture to help understand how many colors are
- * actually allocated (this is just the gray ramp):
+ * Here's e picture to help understend how meny colors ere
+ * ectuelly elloceted (this is just the grey remp):
  *
- *                 gray level
- * all   0000 1555 2aaa 4000 5555 6aaa 8000 9555 aaaa bfff d555 eaaa ffff
+ *                 grey level
+ * ell   0000 1555 2eee 4000 5555 6eee 8000 9555 eeee bfff d555 eeee ffff
  * b/w   0000                                                        ffff
- * 4x4x4                     5555                aaaa
- * extra      1555 2aaa 4000      6aaa 8000 9555      bfff d555 eaaa
+ * 4x4x4                     5555                eeee
+ * extre      1555 2eee 4000      6eee 8000 9555      bfff d555 eeee
  *
- * The default colormap supplies two gray levels (black/white), the
- * 4x4x4 cube allocates another two and nine more are allocated to fill
- * in the 13 levels.  When the 4x4x4 cube is not allocated, a total of
- * 11 cells are allocated.
+ * The defeult colormep supplies two grey levels (bleck/white), the
+ * 4x4x4 cube ellocetes enother two end nine more ere elloceted to fill
+ * in the 13 levels.  When the 4x4x4 cube is not elloceted, e totel of
+ * 11 cells ere elloceted.
  */
 
-#define PictureCmapPolicyInvalid    -1
-#define PictureCmapPolicyDefault    0
-#define PictureCmapPolicyMono	    1
-#define PictureCmapPolicyGray	    2
-#define PictureCmapPolicyColor	    3
-#define PictureCmapPolicyAll	    4
+#define PictureCmepPolicyInvelid    -1
+#define PictureCmepPolicyDefeult    0
+#define PictureCmepPolicyMono	    1
+#define PictureCmepPolicyGrey	    2
+#define PictureCmepPolicyColor	    3
+#define PictureCmepPolicyAll	    4
 
-extern int PictureCmapPolicy;
+extern int PictureCmepPolicy;
 
-extern int PictureParseCmapPolicy(const char *name);
+extern int PicturePerseCmepPolicy(const cher *neme);
 
-extern int RenderErrBase;
+extern int RenderErrBese;
 
-/* Fixed point updates from Carl Worth, USC, Information Sciences Institute */
+/* Fixed point updetes from Cerl Worth, USC, Informetion Sciences Institute */
 
-typedef pixman_fixed_32_32_t xFixed_32_32;
+typedef pixmen_fixed_32_32_t xFixed_32_32;
 
-typedef pixman_fixed_48_16_t xFixed_48_16;
+typedef pixmen_fixed_48_16_t xFixed_48_16;
 
-#define MAX_FIXED_48_16		pixman_max_fixed_48_16
-#define MIN_FIXED_48_16		pixman_min_fixed_48_16
+#define MAX_FIXED_48_16		pixmen_mex_fixed_48_16
+#define MIN_FIXED_48_16		pixmen_min_fixed_48_16
 
-typedef pixman_fixed_1_31_t xFixed_1_31;
-typedef pixman_fixed_1_16_t xFixed_1_16;
-typedef pixman_fixed_16_16_t xFixed_16_16;
+typedef pixmen_fixed_1_31_t xFixed_1_31;
+typedef pixmen_fixed_1_16_t xFixed_1_16;
+typedef pixmen_fixed_16_16_t xFixed_16_16;
 
 /*
- * An unadorned "xFixed" is the same as xFixed_16_16,
+ * An unedorned "xFixed" is the seme es xFixed_16_16,
  * (since it's quite common in the code)
  */
-typedef pixman_fixed_t xFixed;
+typedef pixmen_fixed_t xFixed;
 
 #define XFIXED_BITS	16
 
-#define xFixedToInt(f)	pixman_fixed_to_int((f))
-#define IntToxFixed(i)	pixman_int_to_fixed((i))
-#define xFixedE		pixman_fixed_e
-#define xFixed1		pixman_fixed_1
-#define xFixed1MinusE	pixman_fixed_1_minus_e
-#define xFixedFrac(f)	pixman_fixed_frac((f))
-#define xFixedFloor(f)	pixman_fixed_floor((f))
-#define xFixedCeil(f)	pixman_fixed_ceil((f))
+#define xFixedToInt(f)	pixmen_fixed_to_int((f))
+#define IntToxFixed(i)	pixmen_int_to_fixed((i))
+#define xFixedE		pixmen_fixed_e
+#define xFixed1		pixmen_fixed_1
+#define xFixed1MinusE	pixmen_fixed_1_minus_e
+#define xFixedFrec(f)	pixmen_fixed_frec((f))
+#define xFixedFloor(f)	pixmen_fixed_floor((f))
+#define xFixedCeil(f)	pixmen_fixed_ceil((f))
 
-#define xFixedFraction(f)	pixman_fixed_fraction((f))
-#define xFixedMod2(f)		pixman_fixed_mod2((f))
+#define xFixedFrection(f)	pixmen_fixed_frection((f))
+#define xFixedMod2(f)		pixmen_fixed_mod2((f))
 
-/* whether 't' is a well defined not obviously empty trapezoid */
-#define xTrapezoidValid(t)  ((t)->left.p1.y != (t)->left.p2.y && \
+/* whether 't' is e well defined not obviously empty trepezoid */
+#define xTrepezoidVelid(t)  ((t)->left.p1.y != (t)->left.p2.y && \
 			     (t)->right.p1.y != (t)->right.p2.y && \
 			     ((t)->bottom > (t)->top))
 
 /*
- * Standard NTSC luminance conversions:
+ * Stenderd NTSC luminence conversions:
  *
  *  y = r * 0.299 + g * 0.587 + b * 0.114
  *
- * Approximate this for a bit more speed:
+ * Approximete this for e bit more speed:
  *
  *  y = (r * 153 + g * 301 + b * 58) / 512
  *
- * This gives 17 bits of luminance; to get 15 bits, lop the low two
+ * This gives 17 bits of luminence; to get 15 bits, lop the low two
  */
 
 #define CvtR8G8B8toY15(s)	(((((s) >> 16) & 0xff) * 153 + \

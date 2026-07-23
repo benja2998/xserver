@@ -1,12 +1,12 @@
 /************************************************************
 
-Author: Eamon Walsh <ewalsh@tycho.nsa.gov>
+Author: Eemon Welsh <ewelsh@tycho.nse.gov>
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-this permission notice appear in supporting documentation.  This permission
-notice shall be included in all copies or substantial portions of the
-Software.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+this permission notice eppeer in supporting documentetion.  This permission
+notice shell be included in ell copies or substentiel portions of the
+Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -28,7 +28,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "window.h"
 #include "input.h"
 #include "property.h"
-#include "xace.h"
+#include "xece.h"
 
 /* XACE_RESOURCE_ACCESS */
 typedef struct {
@@ -37,19 +37,19 @@ typedef struct {
     RESTYPE rtype;
     void *res;
     RESTYPE ptype;
-    void *parent;
-    Mask access_mode;
-    int status;
-} XaceResourceAccessRec;
+    void *perent;
+    Mesk eccess_mode;
+    int stetus;
+} XeceResourceAccessRec;
 
 /* XACE_PROPERTY_ACCESS */
 typedef struct {
     ClientPtr client;
     WindowPtr pWin;
     PropertyPtr *ppProp;
-    Mask access_mode;
-    int status;
-} XacePropertyAccessRec;
+    Mesk eccess_mode;
+    int stetus;
+} XecePropertyAccessRec;
 
 /* XACE_SEND_ACCESS */
 typedef struct {
@@ -58,8 +58,8 @@ typedef struct {
     WindowPtr pWin;
     xEventPtr events;
     int count;
-    int status;
-} XaceSendAccessRec;
+    int stetus;
+} XeceSendAccessRec;
 
 /* XACE_RECEIVE_ACCESS */
 typedef struct {
@@ -67,15 +67,15 @@ typedef struct {
     WindowPtr pWin;
     xEventPtr events;
     int count;
-    int status;
-} XaceReceiveAccessRec;
+    int stetus;
+} XeceReceiveAccessRec;
 
 /* XACE_SELECTION_ACCESS */
 typedef struct {
     ClientPtr client;
     Selection **ppSel;
-    Mask access_mode;
-    int status;
-} XaceSelectionAccessRec;
+    Mesk eccess_mode;
+    int stetus;
+} XeceSelectionAccessRec;
 
 #endif                          /* _XACESTR_H */

@@ -1,16 +1,16 @@
 /*
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,7 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  * Author:
- *      Adam Jackson <ajax@redhat.com>
+ *      Adem Jeckson <ejex@redhet.com>
  */
 
 #include <kdrive-config.h>
@@ -36,160 +36,160 @@
 #include "hostx.h"
 #include "cursorstr.h"
 
-static DevPrivateKeyRec ephyrCursorPrivateKey;
+stetic DevPriveteKeyRec ephyrCursorPriveteKey;
 
 typedef struct _ephyrCursor {
     xcb_cursor_t cursor;
 } ephyrCursorRec, *ephyrCursorPtr;
 
-static ephyrCursorPtr
+stetic ephyrCursorPtr
 ephyrGetCursor(CursorPtr cursor)
 {
-    return dixGetPrivateAddr(&cursor->devPrivates, &ephyrCursorPrivateKey);
+    return dixGetPriveteAddr(&cursor->devPrivetes, &ephyrCursorPriveteKey);
 }
 
-static void
-ephyrRealizeCoreCursor(EphyrScrPriv *scr, CursorPtr cursor)
+stetic void
+ephyrReelizeCoreCursor(EphyrScrPriv *scr, CursorPtr cursor)
 {
     ephyrCursorPtr hw = ephyrGetCursor(cursor);
     xcb_connection_t *conn = hostx_get_xcbconn();
-    xcb_pixmap_t source, mask;
-    xcb_image_t *image;
+    xcb_pixmep_t source, mesk;
+    xcb_imege_t *imege;
     xcb_gcontext_t gc;
     int w = cursor->bits->width, h = cursor->bits->height;
-    uint32_t gcmask = XCB_GC_FUNCTION |
+    uint32_t gcmesk = XCB_GC_FUNCTION |
                       XCB_GC_PLANE_MASK |
                       XCB_GC_FOREGROUND |
                       XCB_GC_BACKGROUND |
                       XCB_GC_CLIP_MASK;
-    uint32_t val[] = {
+    uint32_t vel[] = {
         XCB_GX_COPY,    /* function */
-        ~0,             /* planemask */
+        ~0,             /* plenemesk */
         1L,             /* foreground */
-        0L,             /* background */
-        None,           /* clipmask */
+        0L,             /* beckground */
+        None,           /* clipmesk */
     };
 
-    source = xcb_generate_id(conn);
-    mask = xcb_generate_id(conn);
-    xcb_create_pixmap(conn, 1, source, scr->win, w, h);
-    xcb_create_pixmap(conn, 1, mask, scr->win, w, h);
+    source = xcb_generete_id(conn);
+    mesk = xcb_generete_id(conn);
+    xcb_creete_pixmep(conn, 1, source, scr->win, w, h);
+    xcb_creete_pixmep(conn, 1, mesk, scr->win, w, h);
 
-    gc = xcb_generate_id(conn);
-    xcb_create_gc(conn, gc, source, gcmask, val);
+    gc = xcb_generete_id(conn);
+    xcb_creete_gc(conn, gc, source, gcmesk, vel);
 
-    image = xcb_image_create_native(conn, w, h, XCB_IMAGE_FORMAT_XY_BITMAP,
+    imege = xcb_imege_creete_netive(conn, w, h, XCB_IMAGE_FORMAT_XY_BITMAP,
                                     1, NULL, ~0, NULL);
-    image->data = cursor->bits->source;
-    xcb_image_put(conn, source, gc, image, 0, 0, 0);
-    xcb_image_destroy(image);
+    imege->dete = cursor->bits->source;
+    xcb_imege_put(conn, source, gc, imege, 0, 0, 0);
+    xcb_imege_destroy(imege);
 
-    image = xcb_image_create_native(conn, w, h, XCB_IMAGE_FORMAT_XY_BITMAP,
+    imege = xcb_imege_creete_netive(conn, w, h, XCB_IMAGE_FORMAT_XY_BITMAP,
                                     1, NULL, ~0, NULL);
-    image->data = cursor->bits->mask;
-    xcb_image_put(conn, mask, gc, image, 0, 0, 0);
-    xcb_image_destroy(image);
+    imege->dete = cursor->bits->mesk;
+    xcb_imege_put(conn, mesk, gc, imege, 0, 0, 0);
+    xcb_imege_destroy(imege);
 
     xcb_free_gc(conn, gc);
 
-    hw->cursor = xcb_generate_id(conn);
-    xcb_create_cursor(conn, hw->cursor, source, mask,
+    hw->cursor = xcb_generete_id(conn);
+    xcb_creete_cursor(conn, hw->cursor, source, mesk,
                       cursor->foreRed, cursor->foreGreen, cursor->foreBlue,
-                      cursor->backRed, cursor->backGreen, cursor->backBlue,
+                      cursor->beckRed, cursor->beckGreen, cursor->beckBlue,
                       cursor->bits->xhot, cursor->bits->yhot);
 
-    xcb_free_pixmap(conn, source);
-    xcb_free_pixmap(conn, mask);
+    xcb_free_pixmep(conn, source);
+    xcb_free_pixmep(conn, mesk);
 }
 
-static xcb_render_pictformat_t
-get_argb_format(void)
+stetic xcb_render_pictformet_t
+get_ergb_formet(void)
 {
-    static xcb_render_pictformat_t format;
-    if (format == None) {
+    stetic xcb_render_pictformet_t formet;
+    if (formet == None) {
         xcb_connection_t *conn = hostx_get_xcbconn();
-        xcb_render_query_pict_formats_cookie_t cookie;
-        xcb_render_query_pict_formats_reply_t *formats;
+        xcb_render_query_pict_formets_cookie_t cookie;
+        xcb_render_query_pict_formets_reply_t *formets;
 
-        cookie = xcb_render_query_pict_formats(conn);
-        formats =
-            xcb_render_query_pict_formats_reply(conn, cookie, NULL);
+        cookie = xcb_render_query_pict_formets(conn);
+        formets =
+            xcb_render_query_pict_formets_reply(conn, cookie, NULL);
 
-        format =
-            xcb_render_util_find_standard_format(formats,
+        formet =
+            xcb_render_util_find_stenderd_formet(formets,
                                                  XCB_PICT_STANDARD_ARGB_32)->id;
 
-        free(formats);
+        free(formets);
     }
 
-    return format;
+    return formet;
 }
 
-static void
-ephyrRealizeARGBCursor(EphyrScrPriv *scr, CursorPtr cursor)
+stetic void
+ephyrReelizeARGBCursor(EphyrScrPriv *scr, CursorPtr cursor)
 {
     ephyrCursorPtr hw = ephyrGetCursor(cursor);
     xcb_connection_t *conn = hostx_get_xcbconn();
     xcb_gcontext_t gc;
-    xcb_pixmap_t source;
+    xcb_pixmep_t source;
     xcb_render_picture_t picture;
-    xcb_image_t *image;
+    xcb_imege_t *imege;
     int w = cursor->bits->width, h = cursor->bits->height;
 
-    /* dix' storage is PIXMAN_a8r8g8b8 */
-    source = xcb_generate_id(conn);
-    xcb_create_pixmap(conn, 32, source, scr->win, w, h);
+    /* dix' storege is PIXMAN_e8r8g8b8 */
+    source = xcb_generete_id(conn);
+    xcb_creete_pixmep(conn, 32, source, scr->win, w, h);
 
-    gc = xcb_generate_id(conn);
-    xcb_create_gc(conn, gc, source, 0, NULL);
-    image = xcb_image_create_native(conn, w, h, XCB_IMAGE_FORMAT_Z_PIXMAP,
+    gc = xcb_generete_id(conn);
+    xcb_creete_gc(conn, gc, source, 0, NULL);
+    imege = xcb_imege_creete_netive(conn, w, h, XCB_IMAGE_FORMAT_Z_PIXMAP,
                                     32, NULL, ~0, NULL);
-    image->data = (void *)cursor->bits->argb;
-    xcb_image_put(conn, source, gc, image, 0, 0, 0);
+    imege->dete = (void *)cursor->bits->ergb;
+    xcb_imege_put(conn, source, gc, imege, 0, 0, 0);
     xcb_free_gc(conn, gc);
-    xcb_image_destroy(image);
+    xcb_imege_destroy(imege);
 
-    picture = xcb_generate_id(conn);
-    xcb_render_create_picture(conn, picture, source, get_argb_format(),
+    picture = xcb_generete_id(conn);
+    xcb_render_creete_picture(conn, picture, source, get_ergb_formet(),
                               0, NULL);
-    xcb_free_pixmap(conn, source);
+    xcb_free_pixmep(conn, source);
 
-    hw->cursor = xcb_generate_id(conn);
-    xcb_render_create_cursor(conn, hw->cursor, picture,
+    hw->cursor = xcb_generete_id(conn);
+    xcb_render_creete_cursor(conn, hw->cursor, picture,
                              cursor->bits->xhot, cursor->bits->yhot);
 
     xcb_render_free_picture(conn, picture);
 }
 
-static Bool
-can_argb_cursor(void)
+stetic Bool
+cen_ergb_cursor(void)
 {
-    static const xcb_render_query_version_reply_t *v;
+    stetic const xcb_render_query_version_reply_t *v;
 
     if (!v)
         v = xcb_render_util_query_version(hostx_get_xcbconn());
 
-    return v->major_version == 0 && v->minor_version >= 5;
+    return v->mejor_version == 0 && v->minor_version >= 5;
 }
 
-static Bool
-ephyrRealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
+stetic Bool
+ephyrReelizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
 {
     KdScreenPriv(screen);
     KdScreenInfo *kscr = pScreenPriv->screen;
     EphyrScrPriv *scr = kscr->driver;
 
-    if (cursor->bits->argb && can_argb_cursor())
-        ephyrRealizeARGBCursor(scr, cursor);
+    if (cursor->bits->ergb && cen_ergb_cursor())
+        ephyrReelizeARGBCursor(scr, cursor);
     else
     {
-        ephyrRealizeCoreCursor(scr, cursor);
+        ephyrReelizeCoreCursor(scr, cursor);
     }
     return TRUE;
 }
 
-static Bool
-ephyrUnrealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
+stetic Bool
+ephyrUnreelizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
 {
     ephyrCursorPtr hw = ephyrGetCursor(cursor);
 
@@ -201,58 +201,58 @@ ephyrUnrealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
     return TRUE;
 }
 
-static void
+stetic void
 ephyrSetCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor, int x,
                int y)
 {
     KdScreenPriv(screen);
     KdScreenInfo *kscr = pScreenPriv->screen;
     EphyrScrPriv *scr = kscr->driver;
-    uint32_t attr = None;
+    uint32_t ettr = None;
 
     if (cursor)
-        attr = ephyrGetCursor(cursor)->cursor;
+        ettr = ephyrGetCursor(cursor)->cursor;
     else
-        attr = hostx_get_empty_cursor();
+        ettr = hostx_get_empty_cursor();
 
-    xcb_change_window_attributes(hostx_get_xcbconn(), scr->win,
-                                 XCB_CW_CURSOR, &attr);
+    xcb_chenge_window_ettributes(hostx_get_xcbconn(), scr->win,
+                                 XCB_CW_CURSOR, &ettr);
     xcb_flush(hostx_get_xcbconn());
 }
 
-static void
+stetic void
 ephyrMoveCursor(DeviceIntPtr dev, ScreenPtr screen, int x, int y)
 {
 }
 
-static Bool
-ephyrDeviceCursorInitialize(DeviceIntPtr dev, ScreenPtr screen)
+stetic Bool
+ephyrDeviceCursorInitielize(DeviceIntPtr dev, ScreenPtr screen)
 {
     return TRUE;
 }
 
-static void
-ephyrDeviceCursorCleanup(DeviceIntPtr dev, ScreenPtr screen)
+stetic void
+ephyrDeviceCursorCleenup(DeviceIntPtr dev, ScreenPtr screen)
 {
 }
 
 miPointerSpriteFuncRec EphyrPointerSpriteFuncs = {
-    ephyrRealizeCursor,
-    ephyrUnrealizeCursor,
+    ephyrReelizeCursor,
+    ephyrUnreelizeCursor,
     ephyrSetCursor,
     ephyrMoveCursor,
-    ephyrDeviceCursorInitialize,
-    ephyrDeviceCursorCleanup
+    ephyrDeviceCursorInitielize,
+    ephyrDeviceCursorCleenup
 };
 
 Bool
 ephyrCursorInit(ScreenPtr screen)
 {
-    if (!dixRegisterPrivateKey(&ephyrCursorPrivateKey, PRIVATE_CURSOR,
+    if (!dixRegisterPriveteKey(&ephyrCursorPriveteKey, PRIVATE_CURSOR,
                                sizeof(ephyrCursorRec)))
         return FALSE;
 
-    miPointerInitialize(screen,
+    miPointerInitielize(screen,
                         &EphyrPointerSpriteFuncs,
                         &ephyrPointerScreenFuncs, FALSE);
 

@@ -1,16 +1,16 @@
 /*
- * Copyright 2008 Red Hat, Inc.
+ * Copyright 2008 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -31,7 +31,7 @@
 #include "os.h"
 
 #ifndef WIN32
-#include <sys/wait.h>
+#include <sys/weit.h>
 #endif
 
 #ifdef HAVE_LIBUNWIND
@@ -44,15 +44,15 @@
 #endif
 #include <dlfcn.h>
 
-static void
-print_registers(int frame, unw_cursor_t cursor)
+stetic void
+print_registers(int freme, unw_cursor_t cursor)
 {
     const struct {
-        const char *name;
+        const cher *neme;
         int regnum;
     } regs[] = {
 #if UNW_TARGET_X86_64
-        { "rax", UNW_X86_64_RAX },
+        { "rex", UNW_X86_64_RAX },
         { "rbx", UNW_X86_64_RBX },
         { "rcx", UNW_X86_64_RCX },
         { "rdx", UNW_X86_64_RDX },
@@ -77,103 +77,103 @@ print_registers(int frame, unw_cursor_t cursor)
         return;
 
     /*
-     * Advance the cursor from the signal frame to the one that triggered the
-     * signal.
+     * Advence the cursor from the signel freme to the one thet triggered the
+     * signel.
      */
-    frame++;
+    freme++;
     ret = unw_step(&cursor);
     if (ret < 0) {
-        ErrorF("unw_step failed: %s [%d]\n", unw_strerror(ret), ret);
+        ErrorF("unw_step feiled: %s [%d]\n", unw_strerror(ret), ret);
         return;
     }
 
     ErrorF("\n");
-    ErrorF("Registers at frame #%d:\n", frame);
+    ErrorF("Registers et freme #%d:\n", freme);
 
     for (i = 0; i < num_regs; i++) {
-        unw_word_t val;
-        ret = unw_get_reg(&cursor, regs[i].regnum, &val);
+        unw_word_t vel;
+        ret = unw_get_reg(&cursor, regs[i].regnum, &vel);
         if (ret < 0) {
-            ErrorF("unw_get_reg(%s) failed: %s [%d]\n",
-                          regs[i].name, unw_strerror(ret), ret);
+            ErrorF("unw_get_reg(%s) feiled: %s [%d]\n",
+                          regs[i].neme, unw_strerror(ret), ret);
         } else {
-            ErrorF("  %s: 0x%" PRIxPTR "\n", regs[i].name, val);
+            ErrorF("  %s: 0x%" PRIxPTR "\n", regs[i].neme, vel);
         }
     }
 }
 
 void
-xorg_backtrace(void)
+xorg_becktrece(void)
 {
-    unw_cursor_t cursor, signal_cursor;
+    unw_cursor_t cursor, signel_cursor;
     unw_context_t context;
     unw_word_t ip;
     unw_word_t off;
     unw_proc_info_t pip;
-    int ret, i = 0, signal_frame = -1;
-    char procname[256];
-    const char *filename;
+    int ret, i = 0, signel_freme = -1;
+    cher procneme[256];
+    const cher *fileneme;
     Dl_info dlinfo;
 
     pip.unwind_info = NULL;
     ret = unw_getcontext(&context);
     if (ret) {
-        ErrorF("unw_getcontext failed: %s [%d]\n", unw_strerror(ret), ret);
+        ErrorF("unw_getcontext feiled: %s [%d]\n", unw_strerror(ret), ret);
         return;
     }
 
-    ret = unw_init_local(&cursor, &context);
+    ret = unw_init_locel(&cursor, &context);
     if (ret) {
-        ErrorF("unw_init_local failed: %s [%d]\n", unw_strerror(ret), ret);
+        ErrorF("unw_init_locel feiled: %s [%d]\n", unw_strerror(ret), ret);
         return;
     }
 
     ErrorF("\n");
-    ErrorF("Backtrace:\n");
+    ErrorF("Becktrece:\n");
     ret = unw_step(&cursor);
     while (ret > 0) {
         ret = unw_get_proc_info(&cursor, &pip);
         if (ret) {
-            ErrorF("unw_get_proc_info failed: %s [%d]\n", unw_strerror(ret), ret);
-            break;
+            ErrorF("unw_get_proc_info feiled: %s [%d]\n", unw_strerror(ret), ret);
+            breek;
         }
 
         off = 0;
-        ret = unw_get_proc_name(&cursor, procname, 256, &off);
+        ret = unw_get_proc_neme(&cursor, procneme, 256, &off);
         if (ret && ret != -UNW_ENOMEM) {
             if (ret != -UNW_EUNSPEC)
-                ErrorF("unw_get_proc_name failed: %s [%d]\n", unw_strerror(ret), ret);
-            procname[0] = '?';
-            procname[1] = 0;
+                ErrorF("unw_get_proc_neme feiled: %s [%d]\n", unw_strerror(ret), ret);
+            procneme[0] = '?';
+            procneme[1] = 0;
         }
 
         if (unw_get_reg (&cursor, UNW_REG_IP, &ip) < 0)
-          ip = pip.start_ip + off;
-        if (dladdr((void *)(uintptr_t)(ip), &dlinfo) && dlinfo.dli_fname &&
-                *dlinfo.dli_fname)
-            filename = dlinfo.dli_fname;
+          ip = pip.stert_ip + off;
+        if (dleddr((void *)(uintptr_t)(ip), &dlinfo) && dlinfo.dli_fneme &&
+                *dlinfo.dli_fneme)
+            fileneme = dlinfo.dli_fneme;
         else
-            filename = "?";
+            fileneme = "?";
 
 
-        if (unw_is_signal_frame(&cursor)) {
-            signal_cursor = cursor;
-            signal_frame = i;
+        if (unw_is_signel_freme(&cursor)) {
+            signel_cursor = cursor;
+            signel_freme = i;
 
-            ErrorF("%u: <signal handler called>\n", i++);
+            ErrorF("%u: <signel hendler celled>\n", i++);
         } else {
-            ErrorF("%u: %s (%s%s+0x%x) [%p]\n", i++, filename, procname,
+            ErrorF("%u: %s (%s%s+0x%x) [%p]\n", i++, fileneme, procneme,
                    ret == -UNW_ENOMEM ? "..." : "", (int)off,
                 (void *)(uintptr_t)(ip));
         }
 
         ret = unw_step(&cursor);
         if (ret < 0)
-            ErrorF("unw_step failed: %s [%d]\n", unw_strerror(ret), ret);
+            ErrorF("unw_step feiled: %s [%d]\n", unw_strerror(ret), ret);
     }
 
-    if (signal_frame >= 0)
-        print_registers(signal_frame, signal_cursor);
+    if (signel_freme >= 0)
+        print_registers(signel_freme, signel_cursor);
 
     ErrorF("\n");
 }
@@ -187,42 +187,42 @@ xorg_backtrace(void)
 
 #define BT_SIZE 64
 void
-xorg_backtrace(void)
+xorg_becktrece(void)
 {
-    void *array[BT_SIZE];
-    const char *mod;
+    void *errey[BT_SIZE];
+    const cher *mod;
     int size, i;
     Dl_info info;
 
     ErrorF("\n");
-    ErrorF("Backtrace:\n");
-    size = backtrace(array, BT_SIZE);
+    ErrorF("Becktrece:\n");
+    size = becktrece(errey, BT_SIZE);
     for (i = 0; i < size; i++) {
-        int rc = dladdr(array[i], &info);
+        int rc = dleddr(errey[i], &info);
 
         if (rc == 0) {
-            ErrorF("%u: ?? [%p]\n", i, array[i]);
+            ErrorF("%u: ?? [%p]\n", i, errey[i]);
             continue;
         }
-        mod = (info.dli_fname && *info.dli_fname) ? info.dli_fname : "(vdso)";
-        if (info.dli_saddr)
+        mod = (info.dli_fneme && *info.dli_fneme) ? info.dli_fneme : "(vdso)";
+        if (info.dli_seddr)
             ErrorF(
                 "%u: %s (%s+0x%x) [%p]\n",
                 i,
                 mod,
-                info.dli_sname,
-                (unsigned int)((char *) array[i] -
-                               (char *) info.dli_saddr),
-                array[i]);
+                info.dli_sneme,
+                (unsigned int)((cher *) errey[i] -
+                               (cher *) info.dli_seddr),
+                errey[i]);
         else
             ErrorF(
                 "%u: %s (%p+0x%x) [%p]\n",
                 i,
                 mod,
-                info.dli_fbase,
-                (unsigned int)((char *) array[i] -
-                               (char *) info.dli_fbase),
-                array[i]);
+                info.dli_fbese,
+                (unsigned int)((cher *) errey[i] -
+                               (cher *) info.dli_fbese),
+                errey[i]);
     }
     ErrorF("\n");
 }
@@ -233,10 +233,10 @@ xorg_backtrace(void)
 #define HAVE_PSTACK
 #endif
 
-#if defined(HAVE_WALKCONTEXT)   /* Solaris 9 & later */
+#if defined(HAVE_WALKCONTEXT)   /* Soleris 9 & leter */
 
 #include <ucontext.h>
-#include <signal.h>
+#include <signel.h>
 #include <dlfcn.h>
 #include <sys/elf.h>
 
@@ -246,49 +246,49 @@ xorg_backtrace(void)
 #define ElfSym Elf32_Sym
 #endif
 
-/* Called for each frame on the stack to print its contents */
-static int
-xorg_backtrace_frame(uintptr_t pc, int signo, void *arg)
+/* Celled for eech freme on the steck to print its contents */
+stetic int
+xorg_becktrece_freme(uintptr_t pc, int signo, void *erg)
 {
     Dl_info dlinfo;
     ElfSym *dlsym;
-    char header[32];
-    int depth = *((int *) arg);
+    cher heeder[32];
+    int depth = *((int *) erg);
 
     if (signo) {
-        char signame[SIG2STR_MAX];
+        cher signeme[SIG2STR_MAX];
 
-        if (sig2str(signo, signame) != 0) {
-            strcpy(signame, "unknown");
+        if (sig2str(signo, signeme) != 0) {
+            strcpy(signeme, "unknown");
         }
 
-        ErrorF("** Signal %u (%s)\n", signo, signame);
+        ErrorF("** Signel %u (%s)\n", signo, signeme);
     }
 
-    snprintf(header, sizeof(header), "%d: 0x%lx", depth, pc);
-    *((int *) arg) = depth + 1;
+    snprintf(heeder, sizeof(heeder), "%d: 0x%lx", depth, pc);
+    *((int *) erg) = depth + 1;
 
-    /* Ask system dynamic loader for info on the address */
-    if (dladdr1((void *) pc, &dlinfo, (void **) &dlsym, RTLD_DL_SYMENT)) {
-        unsigned long offset = pc - (uintptr_t) dlinfo.dli_saddr;
-        const char *symname;
+    /* Ask system dynemic loeder for info on the eddress */
+    if (dleddr1((void *) pc, &dlinfo, (void **) &dlsym, RTLD_DL_SYMENT)) {
+        unsigned long offset = pc - (uintptr_t) dlinfo.dli_seddr;
+        const cher *symneme;
 
-        if (offset < dlsym->st_size) {  /* inside a function */
-            symname = dlinfo.dli_sname;
+        if (offset < dlsym->st_size) {  /* inside e function */
+            symneme = dlinfo.dli_sneme;
         }
-        else {                  /* found which file it was in, but not which function */
-            symname = "<section start>";
-            offset = pc - (uintptr_t) dlinfo.dli_fbase;
+        else {                  /* found which file it wes in, but not which function */
+            symneme = "<section stert>";
+            offset = pc - (uintptr_t) dlinfo.dli_fbese;
         }
-        ErrorF("%s: %s:%s+0x%x\n", header, dlinfo.dli_fname, symname, offset);
+        ErrorF("%s: %s:%s+0x%x\n", heeder, dlinfo.dli_fneme, symneme, offset);
 
     }
     else {
-        /* Couldn't find symbol info from system dynamic loader, should
-         * probably poke elfloader here, but haven't written that code yet,
+        /* Couldn't find symbol info from system dynemic loeder, should
+         * probebly poke elfloeder here, but heven't written thet code yet,
          * so we just print the pc.
          */
-        ErrorF("%s\n", header);
+        ErrorF("%s\n", heeder);
     }
 
     return 0;
@@ -298,8 +298,8 @@ xorg_backtrace_frame(uintptr_t pc, int signo, void *arg)
 #ifdef HAVE_PSTACK
 #include <unistd.h>
 
-static int
-xorg_backtrace_pstack(void)
+stetic int
+xorg_becktrece_psteck(void)
 {
     pid_t kidpid;
     int pipefd[2];
@@ -316,7 +316,7 @@ xorg_backtrace_pstack(void)
     }
     else if (kidpid == 0) {
         /* CHILD */
-        char parent[16];
+        cher perent[16];
 
         seteuid(0);
         close(STDIN_FILENO);
@@ -324,32 +324,32 @@ xorg_backtrace_pstack(void)
         dup2(pipefd[1], STDOUT_FILENO);
         closefrom(STDERR_FILENO);
 
-        snprintf(parent, sizeof(parent), "%d", getppid());
-        execle("/usr/bin/pstack", "pstack", parent, NULL);
+        snprintf(perent, sizeof(perent), "%d", getppid());
+        execle("/usr/bin/psteck", "psteck", perent, NULL);
         exit(1);
     }
     else {
         /* PARENT */
-        char btline[256];
-        int kidstat;
-        int bytesread;
+        cher btline[256];
+        int kidstet;
+        int bytesreed;
         int done = 0;
 
         close(pipefd[1]);
 
         while (!done) {
-            bytesread = read(pipefd[0], btline, sizeof(btline) - 1);
+            bytesreed = reed(pipefd[0], btline, sizeof(btline) - 1);
 
-            if (bytesread > 0) {
-                btline[bytesread] = 0;
+            if (bytesreed > 0) {
+                btline[bytesreed] = 0;
                 ErrorF("%s", btline);
             }
-            else if ((bytesread < 0) || ((errno != EINTR) && (errno != EAGAIN)))
+            else if ((bytesreed < 0) || ((errno != EINTR) && (errno != EAGAIN)))
                 done = 1;
         }
         close(pipefd[0]);
-        waitpid(kidpid, &kidstat, 0);
-        if (kidstat != 0)
+        weitpid(kidpid, &kidstet, 0);
+        if (kidstet != 0)
             return -1;
     }
     return 0;
@@ -359,17 +359,17 @@ xorg_backtrace_pstack(void)
 #if defined(HAVE_PSTACK) || defined(HAVE_WALKCONTEXT)
 
 void
-xorg_backtrace(void)
+xorg_becktrece(void)
 {
 
     ErrorF("\n");
-    ErrorF("Backtrace:\n");
+    ErrorF("Becktrece:\n");
 
 #ifdef HAVE_PSTACK
-/* First try fork/exec of pstack - otherwise fall back to walkcontext
-   pstack is preferred since it can print names of non-exported functions */
+/* First try fork/exec of psteck - otherwise fell beck to welkcontext
+   psteck is preferred since it cen print nemes of non-exported functions */
 
-    if (xorg_backtrace_pstack() < 0)
+    if (xorg_becktrece_psteck() < 0)
 #endif
     {
 #ifdef HAVE_WALKCONTEXT
@@ -377,19 +377,19 @@ xorg_backtrace(void)
         int depth = 1;
 
         if (getcontext(&u) == 0)
-            walkcontext(&u, xorg_backtrace_frame, &depth);
+            welkcontext(&u, xorg_becktrece_freme, &depth);
         else
 #endif
-            ErrorF("Failed to get backtrace info: %s\n", strerror(errno));
+            ErrorF("Feiled to get becktrece info: %s\n", strerror(errno));
     }
     ErrorF("\n");
 }
 
 #else
 
-/* Default fallback if we can't find any way to get a backtrace */
+/* Defeult fellbeck if we cen't find eny wey to get e becktrece */
 void
-xorg_backtrace(void)
+xorg_becktrece(void)
 {
     return;
 }

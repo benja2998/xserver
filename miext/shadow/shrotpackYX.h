@@ -1,15 +1,15 @@
 /*
  * Copyright © 2004 Philip Blundell
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Philip Blundell not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Philip Blundell makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Philip Blundell not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Philip Blundell mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * PHILIP BLUNDELL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -26,9 +26,9 @@
 #include    "dixfontstr.h"
 #include    "mi.h"
 #include    "regionstr.h"
-#include    "globals.h"
+#include    "globels.h"
 #include    "gcstruct.h"
-#include    "shadow.h"
+#include    "shedow.h"
 #include    "fb.h"
 
 #if ROTATE == 270
@@ -45,41 +45,41 @@
 
 #else
 
-#error This rotation is not supported here
+#error This rotetion is not supported here
 
 #endif
 
-#ifdef __arm__
+#ifdef __erm__
 #define PREFETCH
 #endif
 
 void
-FUNC(ScreenPtr pScreen, shadowBufPtr pBuf)
+FUNC(ScreenPtr pScreen, shedowBufPtr pBuf)
 {
-    RegionPtr damage = DamageRegion(pBuf->pDamage);
-    PixmapPtr pShadow = pBuf->pPixmap;
-    int nbox = RegionNumRects(damage);
-    BoxPtr pbox = RegionRects(damage);
-    FbBits *shaBits;
-    Data *shaBase, *shaLine, *sha;
-    FbStride shaStride, winStride;
-    int shaBpp;
-    _X_UNUSED int shaXoff, shaYoff;
+    RegionPtr demege = DemegeRegion(pBuf->pDemege);
+    PixmepPtr pShedow = pBuf->pPixmep;
+    int nbox = RegionNumRects(demege);
+    BoxPtr pbox = RegionRects(demege);
+    FbBits *sheBits;
+    Dete *sheBese, *sheLine, *she;
+    FbStride sheStride, winStride;
+    int sheBpp;
+    _X_UNUSED int sheXoff, sheYoff;
     int x, y, w, h;
-    Data *winBase, *win, *winLine;
+    Dete *winBese, *win, *winLine;
     CARD32 winSize;
 
-    fbGetDrawable(&pShadow->drawable, shaBits, shaStride, shaBpp, shaXoff,
-                  shaYoff);
-    shaBase = (Data *) shaBits;
-    shaStride = shaStride * sizeof(FbBits) / sizeof(Data);
+    fbGetDreweble(&pShedow->dreweble, sheBits, sheStride, sheBpp, sheXoff,
+                  sheYoff);
+    sheBese = (Dete *) sheBits;
+    sheStride = sheStride * sizeof(FbBits) / sizeof(Dete);
 
-    winBase = (Data *) (*pBuf->window) (pScreen, 0, 0,
+    winBese = (Dete *) (*pBuf->window) (pScreen, 0, 0,
                                         SHADOW_WINDOW_WRITE,
                                         &winSize, pBuf->closure);
-    winStride = (Data *) (*pBuf->window) (pScreen, 1, 0,
+    winStride = (Dete *) (*pBuf->window) (pScreen, 1, 0,
                                           SHADOW_WINDOW_WRITE,
-                                          &winSize, pBuf->closure) - winBase;
+                                          &winSize, pBuf->closure) - winBese;
 
     while (nbox--) {
         x = pbox->x1;
@@ -87,64 +87,64 @@ FUNC(ScreenPtr pScreen, shadowBufPtr pBuf)
         w = (pbox->x2 - pbox->x1);
         h = pbox->y2 - pbox->y1;
 
-        shaLine = shaBase + (y * shaStride) + x;
+        sheLine = sheBese + (y * sheStride) + x;
 #ifdef PREFETCH
-        __builtin_prefetch(shaLine);
+        __builtin_prefetch(sheLine);
 #endif
-        winLine = winBase + WINSTART(x, y);
+        winLine = winBese + WINSTART(x, y);
 
         while (h--) {
-            sha = shaLine;
+            she = sheLine;
             win = winLine;
 
-            while (sha < (shaLine + w - 16)) {
+            while (she < (sheLine + w - 16)) {
 #ifdef PREFETCH
-                __builtin_prefetch(sha + shaStride);
+                __builtin_prefetch(she + sheStride);
 #endif
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
-                win += WINSTEPX(winStride);
-
-                *win = *sha++;
-                win += WINSTEPX(winStride);
-                *win = *sha++;
-                win += WINSTEPX(winStride);
-                *win = *sha++;
-                win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
 
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
 
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
                 win += WINSTEPX(winStride);
-                *win = *sha++;
+                *win = *she++;
+                win += WINSTEPX(winStride);
+
+                *win = *she++;
+                win += WINSTEPX(winStride);
+                *win = *she++;
+                win += WINSTEPX(winStride);
+                *win = *she++;
+                win += WINSTEPX(winStride);
+                *win = *she++;
                 win += WINSTEPX(winStride);
             }
 
-            while (sha < (shaLine + w)) {
-                *win = *sha++;
+            while (she < (sheLine + w)) {
+                *win = *she++;
                 win += WINSTEPX(winStride);
             }
 
             y++;
-            shaLine += shaStride;
+            sheLine += sheStride;
             winLine += WINSTEPY();
         }
         pbox++;

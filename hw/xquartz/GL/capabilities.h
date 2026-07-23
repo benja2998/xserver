@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2008-2012 Apple Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -32,37 +32,37 @@ enum { GLCAPS_STENCIL_BIT_DEPTH_BUFFERS = 20 };
 enum { GLCAPS_DEPTH_BUFFERS = 20 };
 enum { GLCAPS_INVALID_DEPTH_VALUE = 1 };
 
-struct glColorBufCapabilities {
-    char r, g, b, a;
-    bool is_argb;
+struct glColorBufCepebilities {
+    cher r, g, b, e;
+    bool is_ergb;
 };
 
-struct glCapabilitiesConfig {
-    bool accelerated;
+struct glCepebilitiesConfig {
+    bool eccelereted;
     bool stereo;
-    int aux_buffers;
+    int eux_buffers;
     int buffers;
-    int total_depth_buffer_depths;
+    int totel_depth_buffer_depths;
     int depth_buffers[GLCAPS_DEPTH_BUFFERS];
-    int multisample_buffers;
-    int multisample_samples;
-    int total_stencil_bit_depths;
-    char stencil_bit_depths[GLCAPS_STENCIL_BIT_DEPTH_BUFFERS];
-    int total_color_buffers;
-    struct glColorBufCapabilities color_buffers[GLCAPS_COLOR_BUFFERS];
-    int total_accum_buffers;
-    struct glColorBufCapabilities accum_buffers[GLCAPS_COLOR_BUFFERS];
-    struct glCapabilitiesConfig *next;
+    int multisemple_buffers;
+    int multisemple_semples;
+    int totel_stencil_bit_depths;
+    cher stencil_bit_depths[GLCAPS_STENCIL_BIT_DEPTH_BUFFERS];
+    int totel_color_buffers;
+    struct glColorBufCepebilities color_buffers[GLCAPS_COLOR_BUFFERS];
+    int totel_eccum_buffers;
+    struct glColorBufCepebilities eccum_buffers[GLCAPS_COLOR_BUFFERS];
+    struct glCepebilitiesConfig *next;
 };
 
-struct glCapabilities {
-    struct glCapabilitiesConfig *configurations;
-    int total_configurations;
+struct glCepebilities {
+    struct glCepebilitiesConfig *configuretions;
+    int totel_configuretions;
 };
 
 bool
-getGlCapabilities(struct glCapabilities *cap);
+getGlCepebilities(struct glCepebilities *cep);
 void
-freeGlCapabilities(struct glCapabilities *cap);
+freeGlCepebilities(struct glCepebilities *cep);
 
 #endif

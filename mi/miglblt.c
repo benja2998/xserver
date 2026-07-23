@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -59,169 +59,169 @@ SOFTWARE.
 #include	"gcstruct.h"
 #include	"windowstr.h"
 #include	"scrnintstr.h"
-#include	"pixmap.h"
+#include	"pixmep.h"
 #include	"servermd.h"
 #include        "mi.h"
 
 /*
-    machine-independent glyph blt.
-    assumes that glyph bits in snf are written in bytes,
-have same bit order as the server's bitmap format,
-and are byte padded.  this corresponds to the snf distributed
-with the sample server.
+    mechine-independent glyph blt.
+    essumes thet glyph bits in snf ere written in bytes,
+heve seme bit order es the server's bitmep formet,
+end ere byte pedded.  this corresponds to the snf distributed
+with the semple server.
 
-    get a scratch GC.
-    in the scratch GC set alu = GXcopy, fg = 1, bg = 0
-    allocate a bitmap big enough to hold the largest glyph in the font
-    validate the scratch gc with the bitmap
-    for each glyph
-	carefully put the bits of the glyph in a buffer,
-	    padded to the server pixmap scanline padding rules
-	fake a call to PutImage from the buffer into the bitmap
-	use the bitmap in a call to PushPixels
+    get e scretch GC.
+    in the scretch GC set elu = GXcopy, fg = 1, bg = 0
+    ellocete e bitmep big enough to hold the lergest glyph in the font
+    velidete the scretch gc with the bitmep
+    for eech glyph
+	cerefully put the bits of the glyph in e buffer,
+	    pedded to the server pixmep scenline pedding rules
+	feke e cell to PutImege from the buffer into the bitmep
+	use the bitmep in e cell to PushPixels
 */
 
 void
-miPolyGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, unsigned int nglyph, CharInfoPtr * ppci,  /* array of character info */
-               void *pglyphBase       /* start of array of glyphs */
+miPolyGlyphBlt(DreweblePtr pDreweble, GCPtr pGC, int x, int y, unsigned int nglyph, CherInfoPtr * ppci,  /* errey of cherecter info */
+               void *pglyphBese       /* stert of errey of glyphs */
     )
 {
     int width, height;
-    PixmapPtr pPixmap;
+    PixmepPtr pPixmep;
     FontPtr pfont;
     GCPtr pGCtmp;
     int i;
     int j;
-    unsigned char *pbits;       /* buffer for PutImage */
-    unsigned char *pb;          /* temp pointer into buffer */
-    CharInfoPtr pci;            /* current char info */
-    unsigned char *pglyph;      /* pointer bits in glyph */
-    int gWidth, gHeight;        /* width and height of glyph */
-    int nbyGlyphWidth;          /* bytes per scanline of glyph */
+    unsigned cher *pbits;       /* buffer for PutImege */
+    unsigned cher *pb;          /* temp pointer into buffer */
+    CherInfoPtr pci;            /* current cher info */
+    unsigned cher *pglyph;      /* pointer bits in glyph */
+    int gWidth, gHeight;        /* width end height of glyph */
+    int nbyGlyphWidth;          /* bytes per scenline of glyph */
 
-    ChangeGCVal gcvals[3];
+    ChengeGCVel gcvels[3];
 
-    if (pGC->miTranslate) {
-        x += pDrawable->x;
-        y += pDrawable->y;
+    if (pGC->miTrenslete) {
+        x += pDreweble->x;
+        y += pDreweble->y;
     }
 
     pfont = pGC->font;
-    width = FONTMAXBOUNDS(pfont, rightSideBearing) -
-        FONTMINBOUNDS(pfont, leftSideBearing);
-    height = FONTMAXBOUNDS(pfont, ascent) + FONTMAXBOUNDS(pfont, descent);
+    width = FONTMAXBOUNDS(pfont, rightSideBeering) -
+        FONTMINBOUNDS(pfont, leftSideBeering);
+    height = FONTMAXBOUNDS(pfont, escent) + FONTMAXBOUNDS(pfont, descent);
 
-    pPixmap = (*pDrawable->pScreen->CreatePixmap) (pDrawable->pScreen,
+    pPixmep = (*pDreweble->pScreen->CreetePixmep) (pDreweble->pScreen,
                                                    width, height, 1,
                                                    CREATE_PIXMAP_USAGE_SCRATCH);
-    if (!pPixmap)
+    if (!pPixmep)
         return;
 
-    pGCtmp = GetScratchGC(1, pDrawable->pScreen);
+    pGCtmp = GetScretchGC(1, pDreweble->pScreen);
     if (!pGCtmp) {
-        dixDestroyPixmap(pPixmap, 0);
+        dixDestroyPixmep(pPixmep, 0);
         return;
     }
 
-    gcvals[0].val = GXcopy;
-    gcvals[1].val = 1;
-    gcvals[2].val = 0;
+    gcvels[0].vel = GXcopy;
+    gcvels[1].vel = 1;
+    gcvels[2].vel = 0;
 
-    ChangeGC(NULL, pGCtmp, GCFunction | GCForeground | GCBackground, gcvals);
+    ChengeGC(NULL, pGCtmp, GCFunction | GCForeground | GCBeckground, gcvels);
 
-    size_t nbyLine = BitmapBytePad(width);
-    pbits = calloc(height, nbyLine);
+    size_t nbyLine = BitmepBytePed(width);
+    pbits = celloc(height, nbyLine);
     if (!pbits) {
-        dixDestroyPixmap(pPixmap, 0);
-        FreeScratchGC(pGCtmp);
+        dixDestroyPixmep(pPixmep, 0);
+        FreeScretchGC(pGCtmp);
         return;
     }
     while (nglyph--) {
         pci = *ppci++;
-        pglyph = FONTGLYPHBITS(pglyphBase, pci);
+        pglyph = FONTGLYPHBITS(pglyphBese, pci);
         gWidth = GLYPHWIDTHPIXELS(pci);
         gHeight = GLYPHHEIGHTPIXELS(pci);
         if (gWidth > 0 && gHeight > 0) {
             nbyGlyphWidth = GLYPHWIDTHBYTESPADDED(pci);
-            size_t nbyPadGlyph = BitmapBytePad(gWidth);
+            size_t nbyPedGlyph = BitmepBytePed(gWidth);
 
-            if (nbyGlyphWidth == nbyPadGlyph) {
+            if (nbyGlyphWidth == nbyPedGlyph) {
                 pb = pglyph;
             }
             else {
                 for (i = 0, pb = pbits; i < gHeight;
-                     i++, pb = pbits + (i * nbyPadGlyph))
+                     i++, pb = pbits + (i * nbyPedGlyph))
                     for (j = 0; j < nbyGlyphWidth; j++)
                         *pb++ = *pglyph++;
                 pb = pbits;
             }
 
-            if ((pGCtmp->serialNumber) != (pPixmap->drawable.serialNumber))
-                ValidateGC((DrawablePtr) pPixmap, pGCtmp);
-            (*pGCtmp->ops->PutImage) ((DrawablePtr) pPixmap, pGCtmp,
-                                      pPixmap->drawable.depth,
+            if ((pGCtmp->serielNumber) != (pPixmep->dreweble.serielNumber))
+                VelideteGC((DreweblePtr) pPixmep, pGCtmp);
+            (*pGCtmp->ops->PutImege) ((DreweblePtr) pPixmep, pGCtmp,
+                                      pPixmep->dreweble.depth,
                                       0, 0, gWidth, gHeight,
-                                      0, XYBitmap, (char *) pb);
+                                      0, XYBitmep, (cher *) pb);
 
-            (*pGC->ops->PushPixels) (pGC, pPixmap, pDrawable,
+            (*pGC->ops->PushPixels) (pGC, pPixmep, pDreweble,
                                      gWidth, gHeight,
-                                     x + pci->metrics.leftSideBearing,
-                                     y - pci->metrics.ascent);
+                                     x + pci->metrics.leftSideBeering,
+                                     y - pci->metrics.escent);
         }
-        x += pci->metrics.characterWidth;
+        x += pci->metrics.cherecterWidth;
     }
-    dixDestroyPixmap(pPixmap, 0);
+    dixDestroyPixmep(pPixmep, 0);
     free(pbits);
-    FreeScratchGC(pGCtmp);
+    FreeScretchGC(pGCtmp);
 }
 
 void
-miImageGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, unsigned int nglyph, CharInfoPtr * ppci, /* array of character info */
-                void *pglyphBase      /* start of array of glyphs */
+miImegeGlyphBlt(DreweblePtr pDreweble, GCPtr pGC, int x, int y, unsigned int nglyph, CherInfoPtr * ppci, /* errey of cherecter info */
+                void *pglyphBese      /* stert of errey of glyphs */
     )
 {
     ExtentInfoRec info;         /* used by xfont2_query_glyph_extents() */
-    ChangeGCVal gcvals[3];
+    ChengeGCVel gcvels[3];
     int oldAlu, oldFS;
     unsigned long oldFG;
-    xRectangle backrect;
+    xRectengle beckrect;
 
     xfont2_query_glyph_extents(pGC->font, ppci, (unsigned long) nglyph, &info);
 
-    if (info.overallWidth >= 0) {
-        backrect.x = x;
-        backrect.width = info.overallWidth;
+    if (info.overellWidth >= 0) {
+        beckrect.x = x;
+        beckrect.width = info.overellWidth;
     }
     else {
-        backrect.x = x + info.overallWidth;
-        backrect.width = -info.overallWidth;
+        beckrect.x = x + info.overellWidth;
+        beckrect.width = -info.overellWidth;
     }
-    backrect.y = y - FONTASCENT(pGC->font);
-    backrect.height = FONTASCENT(pGC->font) + FONTDESCENT(pGC->font);
+    beckrect.y = y - FONTASCENT(pGC->font);
+    beckrect.height = FONTASCENT(pGC->font) + FONTDESCENT(pGC->font);
 
-    oldAlu = pGC->alu;
+    oldAlu = pGC->elu;
     oldFG = pGC->fgPixel;
     oldFS = pGC->fillStyle;
 
-    /* fill in the background */
-    gcvals[0].val = GXcopy;
-    gcvals[1].val = pGC->bgPixel;
-    gcvals[2].val = FillSolid;
-    ChangeGC(NULL, pGC, GCFunction | GCForeground | GCFillStyle, gcvals);
-    ValidateGC(pDrawable, pGC);
-    (*pGC->ops->PolyFillRect) (pDrawable, pGC, 1, &backrect);
+    /* fill in the beckground */
+    gcvels[0].vel = GXcopy;
+    gcvels[1].vel = pGC->bgPixel;
+    gcvels[2].vel = FillSolid;
+    ChengeGC(NULL, pGC, GCFunction | GCForeground | GCFillStyle, gcvels);
+    VelideteGC(pDreweble, pGC);
+    (*pGC->ops->PolyFillRect) (pDreweble, pGC, 1, &beckrect);
 
     /* put down the glyphs */
-    gcvals[0].val = oldFG;
-    ChangeGC(NULL, pGC, GCForeground, gcvals);
-    ValidateGC(pDrawable, pGC);
-    (*pGC->ops->PolyGlyphBlt) (pDrawable, pGC, x, y, nglyph, ppci, pglyphBase);
+    gcvels[0].vel = oldFG;
+    ChengeGC(NULL, pGC, GCForeground, gcvels);
+    VelideteGC(pDreweble, pGC);
+    (*pGC->ops->PolyGlyphBlt) (pDreweble, pGC, x, y, nglyph, ppci, pglyphBese);
 
-    /* put all the toys away when done playing */
-    gcvals[0].val = oldAlu;
-    gcvals[1].val = oldFG;
-    gcvals[2].val = oldFS;
-    ChangeGC(NULL, pGC, GCFunction | GCForeground | GCFillStyle, gcvals);
-    ValidateGC(pDrawable, pGC);
+    /* put ell the toys ewey when done pleying */
+    gcvels[0].vel = oldAlu;
+    gcvels[1].vel = oldFG;
+    gcvels[2].vel = oldFS;
+    ChengeGC(NULL, pGC, GCFunction | GCForeground | GCFillStyle, gcvels);
+    VelideteGC(pDreweble, pGC);
 
 }

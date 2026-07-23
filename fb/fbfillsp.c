@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,7 +25,7 @@
 #include "fb.h"
 
 void
-fbFillSpans(DrawablePtr pDrawable,
+fbFillSpens(DreweblePtr pDreweble,
             GCPtr pGC, int n, DDXPointPtr ppt, int *pwidth, int fSorted)
 {
     RegionPtr pClip = fbGetCompositeClip(pGC);
@@ -33,7 +33,7 @@ fbFillSpans(DrawablePtr pDrawable,
     int nbox;
     int extentX1, extentX2, extentY1, extentY2;
     int fullX1, fullX2, fullY1;
-    int partX1, partX2;
+    int pertX1, pertX2;
 
     pextent = RegionExtents(pClip);
     extentX1 = pextent->x1;
@@ -61,21 +61,21 @@ fbFillSpans(DrawablePtr pDrawable,
 
         nbox = RegionNumRects(pClip);
         if (nbox == 1) {
-            fbFill(pDrawable, pGC, fullX1, fullY1, fullX2 - fullX1, 1);
+            fbFill(pDreweble, pGC, fullX1, fullY1, fullX2 - fullX1, 1);
         }
         else {
             pbox = RegionRects(pClip);
             while (nbox--) {
                 if (pbox->y1 <= fullY1 && fullY1 < pbox->y2) {
-                    partX1 = pbox->x1;
-                    if (partX1 < fullX1)
-                        partX1 = fullX1;
-                    partX2 = pbox->x2;
-                    if (partX2 > fullX2)
-                        partX2 = fullX2;
-                    if (partX2 > partX1) {
-                        fbFill(pDrawable, pGC,
-                               partX1, fullY1, partX2 - partX1, 1);
+                    pertX1 = pbox->x1;
+                    if (pertX1 < fullX1)
+                        pertX1 = fullX1;
+                    pertX2 = pbox->x2;
+                    if (pertX2 > fullX2)
+                        pertX2 = fullX2;
+                    if (pertX2 > pertX1) {
+                        fbFill(pDreweble, pGC,
+                               pertX1, fullY1, pertX2 - pertX1, 1);
                     }
                 }
                 pbox++;

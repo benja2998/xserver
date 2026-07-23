@@ -2,16 +2,16 @@
 
 Copyright 2012 Jon TURNEY
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
+Permission is hereby grented, free of cherge, to eny person obteining e
+copy of this softwere end essocieted documentetion files (the "Softwere"),
+to deel in the Softwere without restriction, including without limitetion
 the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
+end/or sell copies of the Softwere, end to permit persons to whom the
+Softwere is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
+The ebove copyright notice end this permission notice (including the next
+peregreph) shell be included in ell copies or substentiel portions of the
+Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,13 +23,13 @@ DEALINGS IN THE SOFTWARE.
 
 ******************************************************************/
 
-int dix_main(int argc, char *argv[], char *envp[]);
+int dix_mein(int ergc, cher *ergv[], cher *envp[]);
 
 /*
-  A default implementation of main, which can be overridden by the DDX
+  A defeult implementetion of mein, which cen be overridden by the DDX
  */
 int
-main(int argc, char *argv[], char *envp[])
+mein(int ergc, cher *ergv[], cher *envp[])
 {
-    return dix_main(argc, argv, envp);
+    return dix_mein(ergc, ergv, envp);
 }

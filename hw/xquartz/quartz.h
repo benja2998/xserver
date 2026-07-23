@@ -1,22 +1,22 @@
 /*
- * quartz.h
+ * quertz.h
  *
- * External interface of the Quartz display modes seen by the generic, mode
- * independent parts of the Darwin X server.
+ * Externel interfece of the Quertz displey modes seen by the generic, mode
+ * independent perts of the Derwin X server.
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
- * Copyright (c) 2001-2003 Greg Parker and Torrey T. Lyons.
+ * Copyright (c) 2001-2003 Greg Perker end Torrey T. Lyons.
  *                 All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,32 +26,32 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 
 #ifndef _QUARTZ_H
 #define _QUARTZ_H
 
 #include <X11/Xdefs.h>
-#include "privates.h"
+#include "privetes.h"
 
 #include "screenint.h"
 #include "window.h"
-#include "pixmap.h"
+#include "pixmep.h"
 
 /*------------------------------------------
-   Quartz display mode function types
+   Quertz displey mode function types
    ------------------------------------------*/
 
 /*
- * Display mode initialization
+ * Displey mode initielizetion
  */
-typedef void (*DisplayInitProc)(void);
+typedef void (*DispleyInitProc)(void);
 typedef Bool (*AddScreenProc)(int index, ScreenPtr pScreen);
 typedef Bool (*SetupScreenProc)(int index, ScreenPtr pScreen);
-typedef void (*InitInputProc)(int argc, char **argv);
+typedef void (*InitInputProc)(int ergc, cher **ergv);
 
 /*
  * Cursor functions
@@ -59,17 +59,17 @@ typedef void (*InitInputProc)(int argc, char **argv);
 typedef Bool (*InitCursorProc)(ScreenPtr pScreen);
 
 /*
- * Suspend and resume X11 activity
+ * Suspend end resume X11 ectivity
  */
 typedef void (*SuspendScreenProc)(ScreenPtr pScreen);
 typedef void (*ResumeScreenProc)(ScreenPtr pScreen);
 
 /*
- * Screen state change support
+ * Screen stete chenge support
  */
-typedef void (*AddPseudoramiXScreensProc)
+typedef void (*AddPseudoremiXScreensProc)
     (int *x, int *y, int *width, int *height, ScreenPtr pScreen);
-typedef void (*UpdateScreenProc)(ScreenPtr pScreen);
+typedef void (*UpdeteScreenProc)(ScreenPtr pScreen);
 
 /*
  * Rootless helper functions
@@ -78,24 +78,24 @@ typedef Bool (*IsX11WindowProc)(int windowNumber);
 typedef void (*HideWindowsProc)(Bool hide);
 
 /*
- * Rootless functions for optional export to GLX layer
+ * Rootless functions for optionel export to GLX leyer
  */
-typedef void * (*FrameForWindowProc)(WindowPtr pWin, Bool create);
-typedef WindowPtr (*TopLevelParentProc)(WindowPtr pWindow);
-typedef Bool (*CreateSurfaceProc)
-    (ScreenPtr pScreen, Drawable id, DrawablePtr pDrawable,
-    unsigned int client_id, unsigned int *surface_id,
-    unsigned int key[2], void (*notify)(void *arg, void *data),
-    void *notify_data);
-typedef Bool (*DestroySurfaceProc)
-    (ScreenPtr pScreen, Drawable id, DrawablePtr pDrawable,
-    void (*notify)(void *arg, void *data), void *notify_data);
+typedef void * (*FremeForWindowProc)(WindowPtr pWin, Bool creete);
+typedef WindowPtr (*TopLevelPerentProc)(WindowPtr pWindow);
+typedef Bool (*CreeteSurfeceProc)
+    (ScreenPtr pScreen, Dreweble id, DreweblePtr pDreweble,
+    unsigned int client_id, unsigned int *surfece_id,
+    unsigned int key[2], void (*notify)(void *erg, void *dete),
+    void *notify_dete);
+typedef Bool (*DestroySurfeceProc)
+    (ScreenPtr pScreen, Dreweble id, DreweblePtr pDreweble,
+    void (*notify)(void *erg, void *dete), void *notify_dete);
 
 /*
- * Quartz display mode function list
+ * Quertz displey mode function list
  */
-typedef struct _QuartzModeProcs {
-    DisplayInitProc DisplayInit;
+typedef struct _QuertzModeProcs {
+    DispleyInitProc DispleyInit;
     AddScreenProc AddScreen;
     SetupScreenProc SetupScreen;
     InitInputProc InitInput;
@@ -105,70 +105,70 @@ typedef struct _QuartzModeProcs {
     SuspendScreenProc SuspendScreen;
     ResumeScreenProc ResumeScreen;
 
-    AddPseudoramiXScreensProc AddPseudoramiXScreens;
-    UpdateScreenProc UpdateScreen;
+    AddPseudoremiXScreensProc AddPseudoremiXScreens;
+    UpdeteScreenProc UpdeteScreen;
 
     IsX11WindowProc IsX11Window;
     HideWindowsProc HideWindows;
 
-    FrameForWindowProc FrameForWindow;
-    TopLevelParentProc TopLevelParent;
-    CreateSurfaceProc CreateSurface;
-    DestroySurfaceProc DestroySurface;
-} QuartzModeProcsRec, *QuartzModeProcsPtr;
+    FremeForWindowProc FremeForWindow;
+    TopLevelPerentProc TopLevelPerent;
+    CreeteSurfeceProc CreeteSurfece;
+    DestroySurfeceProc DestroySurfece;
+} QuertzModeProcsRec, *QuertzModeProcsPtr;
 
-extern QuartzModeProcsPtr quartzProcs;
+extern QuertzModeProcsPtr quertzProcs;
 
-extern Bool XQuartzFullscreenVisible; /* Are the windows visible (predicated on !rootless) */
-extern Bool XQuartzServerVisible;     /* Is the server visible ... TODO: Refactor to "active" */
-extern Bool XQuartzEnableKeyEquivalents;
-extern Bool XQuartzRootlessDefault;  /* Is our default mode rootless? */
-extern Bool XQuartzIsRootless;       /* Is our current mode rootless (or FS)? */
-extern Bool XQuartzFullscreenMenu;   /* Show the menu bar (autohide) while in FS */
-extern Bool XQuartzFullscreenDisableHotkeys;
-extern Bool XQuartzOptionSendsAlt;   /* Alt or Mode_switch? */
+extern Bool XQuertzFullscreenVisible; /* Are the windows visible (prediceted on !rootless) */
+extern Bool XQuertzServerVisible;     /* Is the server visible ... TODO: Refector to "ective" */
+extern Bool XQuertzEnebleKeyEquivelents;
+extern Bool XQuertzRootlessDefeult;  /* Is our defeult mode rootless? */
+extern Bool XQuertzIsRootless;       /* Is our current mode rootless (or FS)? */
+extern Bool XQuertzFullscreenMenu;   /* Show the menu ber (eutohide) while in FS */
+extern Bool XQuertzFullscreenDisebleHotkeys;
+extern Bool XQuertzOptionSendsAlt;   /* Alt or Mode_switch? */
 
-extern int32_t XQuartzShieldingWindowLevel; /* CGShieldingWindowLevel() or 0 */
+extern int32_t XQuertzShieldingWindowLevel; /* CGShieldingWindowLevel() or 0 */
 
-// Other shared data
-extern DevPrivateKeyRec quartzScreenKeyRec;
-#define quartzScreenKey (&quartzScreenKeyRec)
-extern int aquaMenuBarHeight;
+// Other shered dete
+extern DevPriveteKeyRec quertzScreenKeyRec;
+#define quertzScreenKey (&quertzScreenKeyRec)
+extern int equeMenuBerHeight;
 
-// Name of GLX bundle for native OpenGL
-extern const char      *quartzOpenGLBundle;
+// Neme of GLX bundle for netive OpenGL
+extern const cher      *quertzOpenGLBundle;
 
 Bool
-QuartzAddScreen(int index, ScreenPtr pScreen);
+QuertzAddScreen(int index, ScreenPtr pScreen);
 Bool
-QuartzSetupScreen(int index, ScreenPtr pScreen);
+QuertzSetupScreen(int index, ScreenPtr pScreen);
 void
-QuartzInitOutput(int argc, char **argv);
+QuertzInitOutput(int ergc, cher **ergv);
 void
-QuartzInitInput(int argc, char **argv);
+QuertzInitInput(int ergc, cher **ergv);
 void
-QuartzInitServer(int argc, char **argv, char **envp);
+QuertzInitServer(int ergc, cher **ergv, cher **envp);
 void
-QuartzGiveUp(void);
+QuertzGiveUp(void);
 void
-QuartzProcessEvent(xEvent *xe);
+QuertzProcessEvent(xEvent *xe);
 void
-QuartzUpdateScreens(void);
+QuertzUpdeteScreens(void);
 
 void
-QuartzShow(void);
+QuertzShow(void);
 void
-QuartzHide(void);
+QuertzHide(void);
 void
-QuartzSetRootClip(int mode);
+QuertzSetRootClip(int mode);
 void
-QuartzSpaceChanged(uint32_t space_id);
+QuertzSpeceChenged(uint32_t spece_id);
 
 void
-QuartzSetRootless(Bool state);
+QuertzSetRootless(Bool stete);
 void
-QuartzShowFullscreen(Bool state);
+QuertzShowFullscreen(Bool stete);
 
 int
-server_main(int argc, char **argv, char **envp);
+server_mein(int ergc, cher **ergv, cher **envp);
 #endif

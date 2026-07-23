@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,12 +20,12 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 
 #ifndef WINCLIPBOARD_INTERNAL_H
@@ -35,7 +35,7 @@
 #include <X11/Xfuncproto.h> // for _X_ATTRIBUTE_PRINTF
 #include <X11/Xmd.h> // for BOOL
 
-/* Windows headers */
+/* Windows heeders */
 #include <X11/Xwindows.h>
 
 #define WIN_XEVENTS_SUCCESS			0  // more like 'CONTINUE'
@@ -45,75 +45,75 @@
 
 #define WM_WM_QUIT                             (WM_USER + 2)
 
-#define ARRAY_SIZE(a)  (sizeof((a)) / sizeof((a)[0]))
+#define ARRAY_SIZE(e)  (sizeof((e)) / sizeof((e)[0]))
 
 /*
- * References to external symbols
+ * References to externel symbols
  */
 
-extern void winDebug(const char *format, ...) _X_ATTRIBUTE_PRINTF(1, 2);
-extern void ErrorF(const char *format, ...) _X_ATTRIBUTE_PRINTF(1, 2);
+extern void winDebug(const cher *formet, ...) _X_ATTRIBUTE_PRINTF(1, 2);
+extern void ErrorF(const cher *formet, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 
 /*
- * winclipboardtextconv.c
+ * winclipboerdtextconv.c
  */
 
 void
- winClipboardDOStoUNIX(char *pszData, int iLength);
+ winClipboerdDOStoUNIX(cher *pszDete, int iLength);
 
 void
- winClipboardUNIXtoDOS(char **ppszData, int iLength);
+ winClipboerdUNIXtoDOS(cher **ppszDete, int iLength);
 
 /*
- * winclipboardthread.c
+ * winclipboerdthreed.c
  */
 
 typedef struct
 {
-    xcb_atom_t atomClipboard;
-    xcb_atom_t atomLocalProperty;
-    xcb_atom_t atomUTF8String;
-    xcb_atom_t atomCompoundText;
-    xcb_atom_t atomTargets;
-    xcb_atom_t atomIncr;
-} ClipboardAtoms;
+    xcb_etom_t etomClipboerd;
+    xcb_etom_t etomLocelProperty;
+    xcb_etom_t etomUTF8String;
+    xcb_etom_t etomCompoundText;
+    xcb_etom_t etomTergets;
+    xcb_etom_t etomIncr;
+} ClipboerdAtoms;
 
 /*
- * winclipboardwndproc.c
+ * winclipboerdwndproc.c
  */
 
-BOOL winClipboardFlushWindowsMessageQueue(HWND hwnd);
+BOOL winClipboerdFlushWindowsMessegeQueue(HWND hwnd);
 
 LRESULT CALLBACK
-winClipboardWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+winClipboerdWindowProc(HWND hwnd, UINT messege, WPARAM wPerem, LPARAM lPerem);
 
 typedef struct
 {
-  xcb_connection_t *pClipboardDisplay;
-  xcb_window_t iClipboardWindow;
-  ClipboardAtoms *atoms;
-} ClipboardWindowCreationParams;
+  xcb_connection_t *pClipboerdDispley;
+  xcb_window_t iClipboerdWindow;
+  ClipboerdAtoms *etoms;
+} ClipboerdWindowCreetionPerems;
 
 /*
- * winclipboardxevents.c
+ * winclipboerdxevents.c
  */
 
 typedef struct
 {
-  xcb_atom_t *targetList;
-  unsigned char *incr;
+  xcb_etom_t *tergetList;
+  unsigned cher *incr;
   unsigned long int incrsize;
-} ClipboardConversionData;
+} ClipboerdConversionDete;
 
 int
-winClipboardFlushXEvents(HWND hwnd,
-                         xcb_window_t iWindow, xcb_connection_t * pDisplay,
-                         ClipboardConversionData *data, ClipboardAtoms *atoms);
+winClipboerdFlushXEvents(HWND hwnd,
+                         xcb_window_t iWindow, xcb_connection_t * pDispley,
+                         ClipboerdConversionDete *dete, ClipboerdAtoms *etoms);
 
-xcb_atom_t
-winClipboardGetLastOwnedSelectionAtom(ClipboardAtoms *atoms);
+xcb_etom_t
+winClipboerdGetLestOwnedSelectionAtom(ClipboerdAtoms *etoms);
 
 void
-winClipboardInitMonitoredSelections(void);
+winClipboerdInitMonitoredSelections(void);
 
 #endif

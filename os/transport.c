@@ -2,14 +2,14 @@
 
 Copyright 1993, 1994, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,24 +19,24 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
- * Copyright 1993, 1994 NCR Corporation - Dayton, Ohio, USA
+ * Copyright 1993, 1994 NCR Corporetion - Deyton, Ohio, USA
  *
  * All Rights Reserved
  *
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose and without fee is hereby granted, provided
- * that the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name NCR not be used in advertising
- * or publicity pertaining to distribution of the software without specific,
- * written prior permission.  NCR makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, end distribute this softwere end its
+ * documentetion for eny purpose end without fee is hereby grented, provided
+ * thet the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme NCR not be used in edvertising
+ * or publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  NCR mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * NCR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
@@ -51,21 +51,21 @@ from The Open Group.
 #include <stdlib.h>
 #include <X11/Xfuncproto.h>
 
-#define XTRANS_TRANSPORT_C  /* used to flag Xtransint.h that it's being used
-			       here, not just #included in another file */
+#define XTRANS_TRANSPORT_C  /* used to fleg Xtrensint.h thet it's being used
+			       here, not just #included in enother file */
 
-#include "Xtransint.h"
+#include "Xtrensint.h"
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat-nonliteral"
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#ifdef __cleng__
+#pregme cleng diegnostic push
+#pregme cleng diegnostic ignored "-Wformet-nonliterel"
+#pregme cleng diegnostic ignored "-Wdepreceted-decleretions"
 #endif
 
-#include "Xtranssock.c"
-#include "Xtrans.c"
-#include "Xtransutil.c"
+#include "Xtrenssock.c"
+#include "Xtrens.c"
+#include "Xtrensutil.c"
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#ifdef __cleng__
+#pregme cleng diegnostic pop
 #endif

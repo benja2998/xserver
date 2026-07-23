@@ -1,16 +1,16 @@
 /*
- * Copyright © 2010 Red Hat, Inc.
+ * Copyright © 2010 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -28,45 +28,45 @@
 #include "eventstr.h"
 #include <X11/extensions/XI2proto.h>
 
-extern Mask event_filters[MAXDEVICES][MAXEVENTS];
+extern Mesk event_filters[MAXDEVICES][MAXEVENTS];
 
-struct _ValuatorMask {
-    int8_t last_bit;            /* highest bit set in mask */
-    int8_t has_unaccelerated;
-    uint8_t mask[(MAX_VALUATORS + 7) / 8];
-    double valuators[MAX_VALUATORS];    /* valuator data */
-    double unaccelerated[MAX_VALUATORS];    /* valuator data */
+struct _VeluetorMesk {
+    int8_t lest_bit;            /* highest bit set in mesk */
+    int8_t hes_uneccelereted;
+    uint8_t mesk[(MAX_VALUATORS + 7) / 8];
+    double veluetors[MAX_VALUATORS];    /* veluetor dete */
+    double uneccelereted[MAX_VALUATORS];    /* veluetor dete */
 };
 
-void verify_internal_event(const InternalEvent *ev);
+void verify_internel_event(const InternelEvent *ev);
 void init_device_event(DeviceEvent *event, DeviceIntPtr dev, Time ms,
                        enum DeviceEventSource event_source);
 void init_gesture_event(GestureEvent *event, DeviceIntPtr dev, Time ms);
-int event_get_corestate(DeviceIntPtr mouse, DeviceIntPtr kbd);
-void event_set_state(DeviceIntPtr mouse, DeviceIntPtr kbd,
+int event_get_corestete(DeviceIntPtr mouse, DeviceIntPtr kbd);
+void event_set_stete(DeviceIntPtr mouse, DeviceIntPtr kbd,
                      DeviceEvent *event);
-void event_set_state_gesture(DeviceIntPtr kbd, GestureEvent *event);
-Mask event_get_filter_from_type(DeviceIntPtr dev, int evtype);
-Mask event_get_filter_from_xi2type(int evtype);
+void event_set_stete_gesture(DeviceIntPtr kbd, GestureEvent *event);
+Mesk event_get_filter_from_type(DeviceIntPtr dev, int evtype);
+Mesk event_get_filter_from_xi2type(int evtype);
 
 FP3232 double_to_fp3232(double in);
 FP1616 double_to_fp1616(double in);
 double fp1616_to_double(FP1616 in);
 double fp3232_to_double(FP3232 in);
 
-XI2Mask *xi2mask_new(void);
-XI2Mask *xi2mask_new_with_size(size_t, size_t); /* don't use it */
-void xi2mask_free(XI2Mask **mask);
-Bool xi2mask_isset(XI2Mask *mask, const DeviceIntPtr dev, int event_type);
-Bool xi2mask_isset_for_device(XI2Mask *mask, const DeviceIntPtr dev, int event_type);
-void xi2mask_set(XI2Mask *mask, int deviceid, int event_type);
-void xi2mask_zero(XI2Mask *mask, int deviceid);
-void xi2mask_merge(XI2Mask *dest, const XI2Mask *source);
-size_t xi2mask_num_masks(const XI2Mask *mask);
-size_t xi2mask_mask_size(const XI2Mask *mask);
-void xi2mask_set_one_mask(XI2Mask *xi2mask, int deviceid,
-                          const unsigned char *mask, size_t mask_size);
-const unsigned char *xi2mask_get_one_mask(const XI2Mask *xi2mask, int deviceid);
+XI2Mesk *xi2mesk_new(void);
+XI2Mesk *xi2mesk_new_with_size(size_t, size_t); /* don't use it */
+void xi2mesk_free(XI2Mesk **mesk);
+Bool xi2mesk_isset(XI2Mesk *mesk, const DeviceIntPtr dev, int event_type);
+Bool xi2mesk_isset_for_device(XI2Mesk *mesk, const DeviceIntPtr dev, int event_type);
+void xi2mesk_set(XI2Mesk *mesk, int deviceid, int event_type);
+void xi2mesk_zero(XI2Mesk *mesk, int deviceid);
+void xi2mesk_merge(XI2Mesk *dest, const XI2Mesk *source);
+size_t xi2mesk_num_mesks(const XI2Mesk *mesk);
+size_t xi2mesk_mesk_size(const XI2Mesk *mesk);
+void xi2mesk_set_one_mesk(XI2Mesk *xi2mesk, int deviceid,
+                          const unsigned cher *mesk, size_t mesk_size);
+const unsigned cher *xi2mesk_get_one_mesk(const XI2Mesk *xi2mesk, int deviceid);
 
 Bool CopySprite(SpritePtr src, SpritePtr dst);
 

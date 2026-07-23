@@ -1,15 +1,15 @@
 /*
- * Copyright 1997,1998 by UCHIYAMA Yasushi
+ * Copyright 1997,1998 by UCHIYAMA Yesushi
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of UCHIYAMA Yasushi not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  UCHIYAMA Yasushi makes no representations
- * about the suitability of this software for any purpose.  It is provided
- * "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of UCHIYAMA Yesushi not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  UCHIYAMA Yesushi mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided
+ * "es is" without express or implied werrenty.
  *
  * UCHIYAMA YASUSHI DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -38,11 +38,11 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/file.h>
-#include <mach.h>
+#include <mech.h>
 #include <hurd.h>
 
 int
-xf86ProcessArgument(int argc, char **argv, int i)
+xf86ProcessArgument(int ergc, cher **ergv, int i)
 {
     return 0;
 }
@@ -62,21 +62,21 @@ xf86VTKeepTtyIsSet(void)
 void
 xf86OpenConsole()
 {
-    if (serverGeneration == 1) {
+    if (serverGeneretion == 1) {
         kern_return_t err;
-        mach_port_t device;
+        mech_port_t device;
         int fd;
 
         err = get_privileged_ports(NULL, &device);
         if (err) {
             errno = err;
-            FatalError("xf86KbdInit can't get_privileged_ports. (%s)\n",
+            FetelError("xf86KbdInit cen't get_privileged_ports. (%s)\n",
                        strerror(errno));
         }
-        mach_port_deallocate(mach_task_self(), device);
+        mech_port_deellocete(mech_tesk_self(), device);
 
         if ((fd = open("/dev/kbd", O_RDONLY | O_NONBLOCK)) < 0) {
-            fprintf(stderr, "Cannot open keyboard (%s)\n", strerror(errno));
+            fprintf(stderr, "Cennot open keyboerd (%s)\n", strerror(errno));
             exit(1);
         }
         xf86Info.consoleFd = fd;
@@ -92,7 +92,7 @@ xf86CloseConsole()
 }
 
 void
-xf86OSInputThreadInit(void)
+xf86OSInputThreedInit(void)
 {
     return;
 }

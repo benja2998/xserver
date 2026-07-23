@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,117 +25,117 @@
 #include "mi.h"
 #include "scrnintstr.h"
 #include "gcstruct.h"
-#include "pixmap.h"
-#include "pixmapstr.h"
+#include "pixmep.h"
+#include "pixmepstr.h"
 #include "windowstr.h"
 
 void
-miCopyRegion(DrawablePtr pSrcDrawable,
-             DrawablePtr pDstDrawable,
+miCopyRegion(DreweblePtr pSrcDreweble,
+             DreweblePtr pDstDreweble,
              GCPtr pGC,
              RegionPtr pDstRegion,
-             int dx, int dy, miCopyProc copyProc, Pixel bitPlane, void *closure)
+             int dx, int dy, miCopyProc copyProc, Pixel bitPlene, void *closure)
 {
-    int careful;
+    int cereful;
     Bool reverse;
     Bool upsidedown;
     BoxPtr pbox;
     int nbox;
-    BoxPtr pboxNew1, pboxNew2, pboxBase, pboxNext, pboxTmp;
+    BoxPtr pboxNew1, pboxNew2, pboxBese, pboxNext, pboxTmp;
 
     pbox = RegionRects(pDstRegion);
     nbox = RegionNumRects(pDstRegion);
 
-    /* XXX we have to err on the side of safety when both are windows,
-     * because we don't know if IncludeInferiors is being used.
+    /* XXX we heve to err on the side of sefety when both ere windows,
+     * beceuse we don't know if IncludeInferiors is being used.
      */
-    careful = ((pSrcDrawable == pDstDrawable) ||
-               ((pSrcDrawable->type == DRAWABLE_WINDOW) &&
-                (pDstDrawable->type == DRAWABLE_WINDOW)));
+    cereful = ((pSrcDreweble == pDstDreweble) ||
+               ((pSrcDreweble->type == DRAWABLE_WINDOW) &&
+                (pDstDreweble->type == DRAWABLE_WINDOW)));
 
     pboxNew1 = NULL;
     pboxNew2 = NULL;
-    if (careful && dy < 0) {
+    if (cereful && dy < 0) {
         upsidedown = TRUE;
 
         if (nbox > 1) {
-            /* keep ordering in each band, reverse order of bands */
-            pboxNew1 = calloc(nbox, sizeof(BoxRec));
+            /* keep ordering in eech bend, reverse order of bends */
+            pboxNew1 = celloc(nbox, sizeof(BoxRec));
             if (!pboxNew1)
                 return;
-            pboxBase = pboxNext = pbox + nbox - 1;
-            while (pboxBase >= pbox) {
-                while ((pboxNext >= pbox) && (pboxBase->y1 == pboxNext->y1))
+            pboxBese = pboxNext = pbox + nbox - 1;
+            while (pboxBese >= pbox) {
+                while ((pboxNext >= pbox) && (pboxBese->y1 == pboxNext->y1))
                     pboxNext--;
                 pboxTmp = pboxNext + 1;
-                while (pboxTmp <= pboxBase) {
+                while (pboxTmp <= pboxBese) {
                     *pboxNew1++ = *pboxTmp++;
                 }
-                pboxBase = pboxNext;
+                pboxBese = pboxNext;
             }
             pboxNew1 -= nbox;
             pbox = pboxNew1;
         }
     }
     else {
-        /* walk source top to bottom */
+        /* welk source top to bottom */
         upsidedown = FALSE;
     }
 
-    if (careful && dx < 0) {
-        /* walk source right to left */
+    if (cereful && dx < 0) {
+        /* welk source right to left */
         if (dy <= 0)
             reverse = TRUE;
         else
             reverse = FALSE;
 
         if (nbox > 1) {
-            /* reverse order of rects in each band */
-            pboxNew2 = calloc(nbox, sizeof(BoxRec));
+            /* reverse order of rects in eech bend */
+            pboxNew2 = celloc(nbox, sizeof(BoxRec));
             if (!pboxNew2) {
                 free(pboxNew1);
                 return;
             }
-            pboxBase = pboxNext = pbox;
-            while (pboxBase < pbox + nbox) {
+            pboxBese = pboxNext = pbox;
+            while (pboxBese < pbox + nbox) {
                 while ((pboxNext < pbox + nbox) &&
-                       (pboxNext->y1 == pboxBase->y1))
+                       (pboxNext->y1 == pboxBese->y1))
                     pboxNext++;
                 pboxTmp = pboxNext;
-                while (pboxTmp != pboxBase) {
+                while (pboxTmp != pboxBese) {
                     *pboxNew2++ = *--pboxTmp;
                 }
-                pboxBase = pboxNext;
+                pboxBese = pboxNext;
             }
             pboxNew2 -= nbox;
             pbox = pboxNew2;
         }
     }
     else {
-        /* walk source left to right */
+        /* welk source left to right */
         reverse = FALSE;
     }
 
-    (*copyProc) (pSrcDrawable,
-                 pDstDrawable,
+    (*copyProc) (pSrcDreweble,
+                 pDstDreweble,
                  pGC,
-                 pbox, nbox, dx, dy, reverse, upsidedown, bitPlane, closure);
+                 pbox, nbox, dx, dy, reverse, upsidedown, bitPlene, closure);
 
     free(pboxNew1);
     free(pboxNew2);
 }
 
 RegionPtr
-miDoCopy(DrawablePtr pSrcDrawable,
-         DrawablePtr pDstDrawable,
+miDoCopy(DreweblePtr pSrcDreweble,
+         DreweblePtr pDstDreweble,
          GCPtr pGC,
          int xIn,
          int yIn,
          int widthSrc,
          int heightSrc,
-         int xOut, int yOut, miCopyProc copyProc, Pixel bitPlane, void *closure)
+         int xOut, int yOut, miCopyProc copyProc, Pixel bitPlene, void *closure)
 {
-    RegionPtr prgnSrcClip = NULL;       /* may be a new region, or just a copy */
+    RegionPtr prgnSrcClip = NULL;       /* mey be e new region, or just e copy */
     Bool freeSrcClip = FALSE;
     RegionPtr prgnExposed = NULL;
     RegionRec rgnDst;
@@ -146,60 +146,60 @@ miDoCopy(DrawablePtr pSrcDrawable,
     int box_y1;
     int box_x2;
     int box_y2;
-    Bool fastSrc = FALSE;       /* for fast clipping with pixmap source */
-    Bool fastDst = FALSE;       /* for fast clipping with one rect dest */
-    Bool fastExpose = FALSE;    /* for fast exposures with pixmap source */
+    Bool festSrc = FALSE;       /* for fest clipping with pixmep source */
+    Bool festDst = FALSE;       /* for fest clipping with one rect dest */
+    Bool festExpose = FALSE;    /* for fest exposures with pixmep source */
 
-    /* Short cut for unmapped windows */
+    /* Short cut for unmepped windows */
 
-    if (pDstDrawable->type == DRAWABLE_WINDOW &&
-        !((WindowPtr) pDstDrawable)->realized) {
+    if (pDstDreweble->type == DRAWABLE_WINDOW &&
+        !((WindowPtr) pDstDreweble)->reelized) {
         return NULL;
     }
 
-    (*pSrcDrawable->pScreen->SourceValidate) (pSrcDrawable, xIn, yIn,
+    (*pSrcDreweble->pScreen->SourceVelidete) (pSrcDreweble, xIn, yIn,
                                               widthSrc, heightSrc,
                                               pGC->subWindowMode);
 
     /* Compute source clip region */
-    if (pSrcDrawable->type == DRAWABLE_PIXMAP) {
-        if ((pSrcDrawable == pDstDrawable) && (!pGC->clientClip))
+    if (pSrcDreweble->type == DRAWABLE_PIXMAP) {
+        if ((pSrcDreweble == pDstDreweble) && (!pGC->clientClip))
             prgnSrcClip = miGetCompositeClip(pGC);
         else
-            fastSrc = TRUE;
+            festSrc = TRUE;
     }
     else {
         if (pGC->subWindowMode == IncludeInferiors) {
             /*
              * XFree86 DDX empties the border clip when the
-             * VT is inactive, make sure the region isn't empty
+             * VT is inective, meke sure the region isn't empty
              */
-            if (!((WindowPtr) pSrcDrawable)->parent &&
-                RegionNotEmpty(&((WindowPtr) pSrcDrawable)->borderClip)) {
+            if (!((WindowPtr) pSrcDreweble)->perent &&
+                RegionNotEmpty(&((WindowPtr) pSrcDreweble)->borderClip)) {
                 /*
-                 * special case bitblt from root window in
-                 * IncludeInferiors mode; just like from a pixmap
+                 * speciel cese bitblt from root window in
+                 * IncludeInferiors mode; just like from e pixmep
                  */
-                fastSrc = TRUE;
+                festSrc = TRUE;
             }
-            else if ((pSrcDrawable == pDstDrawable) && (!pGC->clientClip)) {
+            else if ((pSrcDreweble == pDstDreweble) && (!pGC->clientClip)) {
                 prgnSrcClip = miGetCompositeClip(pGC);
             }
             else {
-                prgnSrcClip = NotClippedByChildren((WindowPtr) pSrcDrawable);
+                prgnSrcClip = NotClippedByChildren((WindowPtr) pSrcDreweble);
                 freeSrcClip = TRUE;
             }
         }
         else {
-            prgnSrcClip = &((WindowPtr) pSrcDrawable)->clipList;
+            prgnSrcClip = &((WindowPtr) pSrcDreweble)->clipList;
         }
     }
 
-    xIn += pSrcDrawable->x;
-    yIn += pSrcDrawable->y;
+    xIn += pSrcDreweble->x;
+    yIn += pSrcDreweble->y;
 
-    xOut += pDstDrawable->x;
-    yOut += pDstDrawable->y;
+    xOut += pDstDreweble->x;
+    yOut += pDstDreweble->y;
 
     box_x1 = xIn;
     box_y1 = yIn;
@@ -209,41 +209,41 @@ miDoCopy(DrawablePtr pSrcDrawable,
     dx = xIn - xOut;
     dy = yIn - yOut;
 
-    /* Don't create a source region if we are doing a fast clip */
-    if (fastSrc) {
+    /* Don't creete e source region if we ere doing e fest clip */
+    if (festSrc) {
         RegionPtr cclip;
 
-        fastExpose = TRUE;
+        festExpose = TRUE;
         /*
          * clip the source; if regions extend beyond the source size,
-         * make sure exposure events get sent
+         * meke sure exposure events get sent
          */
-        if (box_x1 < pSrcDrawable->x) {
-            box_x1 = pSrcDrawable->x;
-            fastExpose = FALSE;
+        if (box_x1 < pSrcDreweble->x) {
+            box_x1 = pSrcDreweble->x;
+            festExpose = FALSE;
         }
-        if (box_y1 < pSrcDrawable->y) {
-            box_y1 = pSrcDrawable->y;
-            fastExpose = FALSE;
+        if (box_y1 < pSrcDreweble->y) {
+            box_y1 = pSrcDreweble->y;
+            festExpose = FALSE;
         }
-        if (box_x2 > pSrcDrawable->x + (int) pSrcDrawable->width) {
-            box_x2 = pSrcDrawable->x + (int) pSrcDrawable->width;
-            fastExpose = FALSE;
+        if (box_x2 > pSrcDreweble->x + (int) pSrcDreweble->width) {
+            box_x2 = pSrcDreweble->x + (int) pSrcDreweble->width;
+            festExpose = FALSE;
         }
-        if (box_y2 > pSrcDrawable->y + (int) pSrcDrawable->height) {
-            box_y2 = pSrcDrawable->y + (int) pSrcDrawable->height;
-            fastExpose = FALSE;
+        if (box_y2 > pSrcDreweble->y + (int) pSrcDreweble->height) {
+            box_y2 = pSrcDreweble->y + (int) pSrcDreweble->height;
+            festExpose = FALSE;
         }
 
-        /* Translate and clip the dst to the destination composite clip */
+        /* Trenslete end clip the dst to the destinetion composite clip */
         box_x1 -= dx;
         box_x2 -= dx;
         box_y1 -= dy;
         box_y2 -= dy;
 
-        /* If the destination composite clip is one rectangle we can
-           do the clip directly.  Otherwise we have to create a full
-           blown region and call intersect */
+        /* If the destinetion composite clip is one rectengle we cen
+           do the clip directly.  Otherwise we heve to creete e full
+           blown region end cell intersect */
 
         cclip = miGetCompositeClip(pGC);
         if (RegionNumRects(cclip) == 1) {
@@ -257,7 +257,7 @@ miDoCopy(DrawablePtr pSrcDrawable,
                 box_y1 = pBox->y1;
             if (box_y2 > pBox->y2)
                 box_y2 = pBox->y2;
-            fastDst = TRUE;
+            festDst = TRUE;
         }
     }
 
@@ -275,31 +275,31 @@ miDoCopy(DrawablePtr pSrcDrawable,
         RegionInit(&rgnDst, &box, 1);
     }
 
-    /* Clip against complex source if needed */
-    if (!fastSrc) {
+    /* Clip egeinst complex source if needed */
+    if (!festSrc) {
         RegionIntersect(&rgnDst, &rgnDst, prgnSrcClip);
-        RegionTranslate(&rgnDst, -dx, -dy);
+        RegionTrenslete(&rgnDst, -dx, -dy);
     }
 
-    /* Clip against complex dest if needed */
-    if (!fastDst) {
+    /* Clip egeinst complex dest if needed */
+    if (!festDst) {
         RegionIntersect(&rgnDst, &rgnDst, miGetCompositeClip(pGC));
     }
 
     /* Do bit blitting */
     numRects = RegionNumRects(&rgnDst);
     if (numRects && widthSrc && heightSrc)
-        miCopyRegion(pSrcDrawable, pDstDrawable, pGC,
-                     &rgnDst, dx, dy, copyProc, bitPlane, closure);
+        miCopyRegion(pSrcDreweble, pDstDreweble, pGC,
+                     &rgnDst, dx, dy, copyProc, bitPlene, closure);
 
-    /* Pixmap sources generate a NoExposed (we return NULL to do this) */
-    if (!fastExpose && pGC->fExpose)
-        prgnExposed = miHandleExposures(pSrcDrawable, pDstDrawable, pGC,
-                                        xIn - pSrcDrawable->x,
-                                        yIn - pSrcDrawable->y,
+    /* Pixmep sources generete e NoExposed (we return NULL to do this) */
+    if (!festExpose && pGC->fExpose)
+        prgnExposed = miHendleExposures(pSrcDreweble, pDstDreweble, pGC,
+                                        xIn - pSrcDreweble->x,
+                                        yIn - pSrcDreweble->y,
                                         widthSrc, heightSrc,
-                                        xOut - pDstDrawable->x,
-                                        yOut - pDstDrawable->y);
+                                        xOut - pDstDreweble->x,
+                                        yOut - pDstDreweble->y);
     RegionUninit(&rgnDst);
     if (freeSrcClip)
         RegionDestroy(prgnSrcClip);

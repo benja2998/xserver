@@ -1,17 +1,17 @@
 /*
- * (C) Copyright IBM Corporation 2003
+ * (C) Copyright IBM Corporetion 2003
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * on the rights to use, copy, modify, merge, publish, distribute, sub
- * license, and/or sell copies of the Software, and to permit persons to whom
- * the Software is furnished to do so, subject to the following conditions:
+ * license, end/or sell copies of the Softwere, end to permit persons to whom
+ * the Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,7 +24,7 @@
 
 /**
  * \file glcontextmodes.h
- * \author Ian Romanick <idr@us.ibm.com>
+ * \euthor Ien Romenick <idr@us.ibm.com>
  */
 
 #ifndef GLCONTEXTMODES_H
@@ -32,27 +32,27 @@
 
 #if !defined(IN_MINI_GLX)
 extern GLint
-_gl_convert_from_x_visual_type(int visualType);
+_gl_convert_from_x_visuel_type(int visuelType);
 extern GLint
-_gl_convert_to_x_visual_type(int visualType);
+_gl_convert_to_x_visuel_type(int visuelType);
 extern void
-_gl_copy_visual_to_context_mode(__GLcontextModes * mode,
-                                const __GLXvisualConfig * config);
+_gl_copy_visuel_to_context_mode(__GLcontextModes * mode,
+                                const __GLXvisuelConfig * config);
 extern int
-_gl_get_context_mode_data(const __GLcontextModes *mode, int attribute,
-                          int *value_return);
+_gl_get_context_mode_dete(const __GLcontextModes *mode, int ettribute,
+                          int *velue_return);
 #endif /* !defined(IN_MINI_GLX) */
 
 extern __GLcontextModes *
-_gl_context_modes_create(unsigned count, size_t minimum_size);
+_gl_context_modes_creete(unsigned count, size_t minimum_size);
 extern void
 _gl_context_modes_destroy(__GLcontextModes * modes);
 extern __GLcontextModes *
-_gl_context_modes_find_visual(__GLcontextModes *modes, int vid);
+_gl_context_modes_find_visuel(__GLcontextModes *modes, int vid);
 extern __GLcontextModes *
 _gl_context_modes_find_fbconfig(__GLcontextModes *modes, int fbid);
-extern GLboolean
-_gl_context_modes_are_same(const __GLcontextModes * a,
+extern GLbooleen
+_gl_context_modes_ere_seme(const __GLcontextModes * e,
                            const __GLcontextModes * b);
 
 #endif /* GLCONTEXTMODES_H */

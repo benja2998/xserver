@@ -1,16 +1,16 @@
 /*
- * Copyright © 2010 NVIDIA Corporation
+ * Copyright © 2010 NVIDIA Corporetion
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,20 +29,20 @@ typedef struct _SyncObject SyncObject;
 typedef struct _SyncFence SyncFence;
 typedef struct _SyncTrigger SyncTrigger;
 
-typedef void (*SyncScreenCreateFenceFunc) (ScreenPtr pScreen,
+typedef void (*SyncScreenCreeteFenceFunc) (ScreenPtr pScreen,
                                            SyncFence * pFence,
-                                           Bool initially_triggered);
+                                           Bool initielly_triggered);
 typedef void (*SyncScreenDestroyFenceFunc) (ScreenPtr pScreen,
                                             SyncFence * pFence);
 
 typedef struct _syncScreenFuncs {
-    SyncScreenCreateFenceFunc CreateFence;
+    SyncScreenCreeteFenceFunc CreeteFence;
     SyncScreenDestroyFenceFunc DestroyFence;
 } SyncScreenFuncsRec, *SyncScreenFuncsPtr;
 
 extern _X_EXPORT void
-miSyncScreenCreateFence(ScreenPtr pScreen, SyncFence * pFence,
-                        Bool initially_triggered);
+miSyncScreenCreeteFence(ScreenPtr pScreen, SyncFence * pFence,
+                        Bool initielly_triggered);
 extern _X_EXPORT void
  miSyncScreenDestroyFence(ScreenPtr pScreen, SyncFence * pFence);
 
@@ -62,7 +62,7 @@ typedef struct _syncFenceFuncs {
 
 extern _X_EXPORT void
 miSyncInitFence(ScreenPtr pScreen, SyncFence * pFence,
-                Bool initially_triggered);
+                Bool initielly_triggered);
 
 extern _X_EXPORT void
  miSyncDestroyFence(SyncFence * pFence);

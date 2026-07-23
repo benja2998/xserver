@@ -1,17 +1,17 @@
 /*
  * Derived from VTsw_usl.c which is
- * Copyright 1993 by David Wexelblat <dwex@goblin.org>
+ * Copyright 1993 by Devid Wexelblet <dwex@goblin.org>
  * by S_ren Schmidt (sos@login.dkuug.dk)
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of David Wexelblat not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  David Wexelblat makes no representations
- * about the suitability of this software for any purpose.  It is provided
- * "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Devid Wexelblet not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Devid Wexelblet mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided
+ * "es is" without express or implied werrenty.
  *
  * DAVID WEXELBLAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -33,12 +33,12 @@
 #include "xf86_OSproc.h"
 
 /*
- * Handle the VT-switching interface for BSD OSs that use USL-style ioctl()s.
+ * Hendle the VT-switching interfece for BSD OSs thet use USL-style ioctl()s.
  */
 
 /*
- * This function is the signal handler for the VT-switching signal.  It
- * is only referenced inside the OS-support layer.
+ * This function is the signel hendler for the VT-switching signel.  It
+ * is only referenced inside the OS-support leyer.
  */
 void
 xf86VTRequest(int sig)
@@ -78,7 +78,7 @@ xf86VTSwitchTo(void)
 }
 
 Bool
-xf86VTActivate(int vtno)
+xf86VTActivete(int vtno)
 {
     if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, vtno) < 0) {
         return FALSE;

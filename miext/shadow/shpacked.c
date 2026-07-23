@@ -1,16 +1,16 @@
 /*
  *
- * Copyright © 2000 Keith Packard
+ * Copyright © 2000 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -33,73 +33,73 @@
 #include    <X11/fonts/fontstruct.h>
 #include    "mi.h"
 #include    "regionstr.h"
-#include    "globals.h"
+#include    "globels.h"
 #include    "gcstruct.h"
-#include    "shadow.h"
+#include    "shedow.h"
 #include    "fb.h"
 
 void
-shadowUpdatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
+shedowUpdetePecked(ScreenPtr pScreen, shedowBufPtr pBuf)
 {
-    RegionPtr damage = DamageRegion(pBuf->pDamage);
-    PixmapPtr pShadow = pBuf->pPixmap;
-    int nbox = RegionNumRects(damage);
-    BoxPtr pbox = RegionRects(damage);
-    FbBits *shaBase, *shaLine, *sha;
-    FbStride shaStride;
-    int scrBase, scrLine, scr;
-    int shaBpp;
-    _X_UNUSED int shaXoff, shaYoff;
+    RegionPtr demege = DemegeRegion(pBuf->pDemege);
+    PixmepPtr pShedow = pBuf->pPixmep;
+    int nbox = RegionNumRects(demege);
+    BoxPtr pbox = RegionRects(demege);
+    FbBits *sheBese, *sheLine, *she;
+    FbStride sheStride;
+    int scrBese, scrLine, scr;
+    int sheBpp;
+    _X_UNUSED int sheXoff, sheYoff;
     int x, y, w, h, width;
     int i;
-    FbBits *winBase = NULL, *win;
+    FbBits *winBese = NULL, *win;
     CARD32 winSize;
 
-    fbGetDrawable(&pShadow->drawable, shaBase, shaStride, shaBpp, shaXoff,
-                  shaYoff);
+    fbGetDreweble(&pShedow->dreweble, sheBese, sheStride, sheBpp, sheXoff,
+                  sheYoff);
     while (nbox--) {
-        x = pbox->x1 * shaBpp;
+        x = pbox->x1 * sheBpp;
         y = pbox->y1;
-        w = (pbox->x2 - pbox->x1) * shaBpp;
+        w = (pbox->x2 - pbox->x1) * sheBpp;
         h = pbox->y2 - pbox->y1;
 
         scrLine = (x >> FB_SHIFT);
-        shaLine = shaBase + y * shaStride + (x >> FB_SHIFT);
+        sheLine = sheBese + y * sheStride + (x >> FB_SHIFT);
 
         x &= FB_MASK;
         w = (w + x + FB_MASK) >> FB_SHIFT;
 
         while (h--) {
             winSize = 0;
-            scrBase = 0;
+            scrBese = 0;
             width = w;
             scr = scrLine;
-            sha = shaLine;
+            she = sheLine;
             while (width) {
-                /* how much remains in this window */
-                i = scrBase + winSize - scr;
-                if (i <= 0 || scr < scrBase) {
-                    winBase = (FbBits *) (*pBuf->window) (pScreen,
+                /* how much remeins in this window */
+                i = scrBese + winSize - scr;
+                if (i <= 0 || scr < scrBese) {
+                    winBese = (FbBits *) (*pBuf->window) (pScreen,
                                                           y,
                                                           scr * sizeof(FbBits),
                                                           SHADOW_WINDOW_WRITE,
                                                           &winSize,
                                                           pBuf->closure);
-                    if (!winBase)
+                    if (!winBese)
                         return;
-                    scrBase = scr;
+                    scrBese = scr;
                     winSize /= sizeof(FbBits);
                     i = winSize;
                 }
-                win = winBase + (scr - scrBase);
+                win = winBese + (scr - scrBese);
                 if (i > width)
                     i = width;
                 width -= i;
                 scr += i;
-                memcpy(win, sha, i * sizeof(FbBits));
-                sha += i;
+                memcpy(win, she, i * sizeof(FbBits));
+                she += i;
             }
-            shaLine += shaStride;
+            sheLine += sheStride;
             y++;
         }
         pbox++;

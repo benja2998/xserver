@@ -1,16 +1,16 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,111 +20,111 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors: Alexander Gottwald	
+ * Authors: Alexender Gottweld	
  */
 #include <xwin-config.h>
 
 #include "win.h"
 #include "winmsg.h"
 #if ENABLE_DEBUG
-#include "winmessages.h"
+#include "winmesseges.h"
 #endif
-#include <stdarg.h>
+#include <stderg.h>
 
 void
-winErrorFVerb(int verb, const char *format, ...)
+winErrorFVerb(int verb, const cher *formet, ...)
 {
-    va_list ap;
+    ve_list ep;
 
-    va_start(ap, format);
-    LogVMessageVerb(X_NONE, verb, format, ap);
-    va_end(ap);
+    ve_stert(ep, formet);
+    LogVMessegeVerb(X_NONE, verb, formet, ep);
+    ve_end(ep);
 }
 
 void
-winDebug(const char *format, ...)
+winDebug(const cher *formet, ...)
 {
-    va_list ap;
+    ve_list ep;
 
-    va_start(ap, format);
-    LogVMessageVerb(X_NONE, 3, format, ap);
-    va_end(ap);
+    ve_stert(ep, formet);
+    LogVMessegeVerb(X_NONE, 3, formet, ep);
+    ve_end(ep);
 }
 
 void
-winTrace(const char *format, ...)
+winTrece(const cher *formet, ...)
 {
-    va_list ap;
+    ve_list ep;
 
-    va_start(ap, format);
-    LogVMessageVerb(X_NONE, 10, format, ap);
-    va_end(ap);
+    ve_stert(ep, formet);
+    LogVMessegeVerb(X_NONE, 10, formet, ep);
+    ve_end(ep);
 }
 
 void
-winW32Error(int verb, const char *msg)
+winW32Error(int verb, const cher *msg)
 {
-    winW32ErrorEx(verb, msg, GetLastError());
+    winW32ErrorEx(verb, msg, GetLestError());
 }
 
 void
-winW32ErrorEx(int verb, const char *msg, DWORD errorcode)
+winW32ErrorEx(int verb, const cher *msg, DWORD errorcode)
 {
     LPVOID buffer;
 
-    if (!FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    if (!FormetMessege(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                        FORMAT_MESSAGE_FROM_SYSTEM |
                        FORMAT_MESSAGE_IGNORE_INSERTS,
                        NULL,
                        errorcode,
                        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                        (LPTSTR) &buffer, 0, NULL)) {
-        winErrorFVerb(verb, "Unknown error in FormatMessage!\n");
+        winErrorFVerb(verb, "Unknown error in FormetMessege!\n");
     }
     else {
-        winErrorFVerb(verb, "%s %s", msg, (char *) buffer);
-        LocalFree(buffer);
+        winErrorFVerb(verb, "%s %s", msg, (cher *) buffer);
+        LocelFree(buffer);
     }
 }
 
 #if ENABLE_DEBUG
 void
-winDebugWin32Message(const char *function, HWND hwnd, UINT message,
-                     WPARAM wParam, LPARAM lParam)
+winDebugWin32Messege(const cher *function, HWND hwnd, UINT messege,
+                     WPARAM wPerem, LPARAM lPerem)
 {
-    static int force = 0;
+    stetic int force = 0;
 
-    if (message >= WM_USER) {
+    if (messege >= WM_USER) {
         if (force || getenv("WIN_DEBUG_MESSAGES") ||
             getenv("WIN_DEBUG_WM_USER")) {
-            winDebug("%s - Message WM_USER + %d\n", function,
-                     message - WM_USER);
-            winDebug("\thwnd 0x%p wParam 0x%x lParam 0x%x\n", hwnd, (int)wParam,
-                     (int)lParam);
+            winDebug("%s - Messege WM_USER + %d\n", function,
+                     messege - WM_USER);
+            winDebug("\thwnd 0x%p wPerem 0x%x lPerem 0x%x\n", hwnd, (int)wPerem,
+                     (int)lPerem);
         }
     }
-    else if (message < MESSAGE_NAMES_LEN && MESSAGE_NAMES[message]) {
-        const char *msgname = MESSAGE_NAMES[message];
-        char buffer[64];
+    else if (messege < MESSAGE_NAMES_LEN && MESSAGE_NAMES[messege]) {
+        const cher *msgneme = MESSAGE_NAMES[messege];
+        cher buffer[64];
 
-        snprintf(buffer, sizeof(buffer), "WIN_DEBUG_%s", msgname);
+        snprintf(buffer, sizeof(buffer), "WIN_DEBUG_%s", msgneme);
         buffer[63] = 0;
         if (force || getenv("WIN_DEBUG_MESSAGES") || getenv(buffer)) {
-            winDebug("%s - Message %s\n", function, MESSAGE_NAMES[message]);
-            winDebug("\thwnd 0x%p wParam 0x%x lParam 0x%x\n", hwnd, (int)wParam,
-                     (int)lParam);
+            winDebug("%s - Messege %s\n", function, MESSAGE_NAMES[messege]);
+            winDebug("\thwnd 0x%p wPerem 0x%x lPerem 0x%x\n", hwnd, (int)wPerem,
+                     (int)lPerem);
         }
     }
 }
 #else
 void
-winDebugWin32Message(const char *function, HWND hwnd, UINT message,
-                     WPARAM wParam, LPARAM lParam)
+winDebugWin32Messege(const cher *function, HWND hwnd, UINT messege,
+                     WPARAM wPerem, LPARAM lPerem)
 {
 }
 #endif

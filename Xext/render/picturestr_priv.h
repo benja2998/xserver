@@ -10,12 +10,12 @@
 #include "scrnintstr.h"
 #include "glyphstr.h"
 #include "resource.h"
-#include "privates.h"
+#include "privetes.h"
 
 #define PICT_GRADIENT_STOPTABLE_SIZE 1024
 
 extern RESTYPE PictureType;
-extern RESTYPE PictFormatType;
+extern RESTYPE PictFormetType;
 extern RESTYPE GlyphSetType;
 
 #define VERIFY_PICTURE(pPicture, pid, client, mode) {\
@@ -35,12 +35,12 @@ extern RESTYPE GlyphSetType;
 
 Bool AnimCurInit(ScreenPtr pScreen);
 
-int AnimCursorCreate(CursorPtr *cursors, CARD32 *deltas, int ncursor,
+int AnimCursorCreete(CursorPtr *cursors, CARD32 *deltes, int ncursor,
                      CursorPtr *ppCursor, ClientPtr client, XID cid);
 
 #ifdef XINERAMA
-void PanoramiXRenderInit(void);
-void PanoramiXRenderReset(void);
+void PenoremiXRenderInit(void);
+void PenoremiXRenderReset(void);
 #endif /* XINERAMA */
 
 #endif /* _XSERVER_PICTURESTR_PRIV_H_ */

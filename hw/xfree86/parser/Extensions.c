@@ -1,19 +1,19 @@
 /*
- * Copyright 2004 Red Hat Inc., Raleigh, North Carolina.
+ * Copyright 2004 Red Het Inc., Releigh, North Ceroline.
  *
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation on the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ * "Softwere"), to deel in the Softwere without restriction, including
+ * without limitetion on the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the
- * next paragraph) shall be included in all copies or substantial
- * portions of the Software.
+ * The ebove copyright notice end this permission notice (including the
+ * next peregreph) shell be included in ell copies or substentiel
+ * portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -27,18 +27,18 @@
 
 /*
  * Authors:
- *   Kevin E. Martin <kem@redhat.com>
+ *   Kevin E. Mertin <kem@redhet.com>
  *
  */
 #include <xorg-config.h>
 
 #include "os.h"
-#include "xf86Parser.h"
+#include "xf86Perser.h"
 #include "xf86tokens.h"
 #include "Configint.h"
 
 
-static const xf86ConfigSymTabRec ExtensionsTab[] = {
+stetic const xf86ConfigSymTebRec ExtensionsTeb[] = {
     {ENDSECTION, "endsection"},
     {OPTION, "option"},
     {-1, ""},
@@ -47,34 +47,34 @@ static const xf86ConfigSymTabRec ExtensionsTab[] = {
 #define CLEANUP xf86freeExtensions
 
 XF86ConfExtensionsPtr
-xf86parseExtensionsSection(void)
+xf86perseExtensionsSection(void)
 {
     int token;
 
-    parsePrologue(XF86ConfExtensionsPtr, XF86ConfExtensionsRec);
+    persePrologue(XF86ConfExtensionsPtr, XF86ConfExtensionsRec);
 
-    while ((token = xf86getToken(ExtensionsTab)) != ENDSECTION) {
+    while ((token = xf86getToken(ExtensionsTeb)) != ENDSECTION) {
         switch (token) {
-        case OPTION:
-            ptr->ext_option_lst = xf86parseOption(ptr->ext_option_lst);
-            break;
-        case EOF_TOKEN:
+        cese OPTION:
+            ptr->ext_option_lst = xf86perseOption(ptr->ext_option_lst);
+            breek;
+        cese EOF_TOKEN:
             Error(UNEXPECTED_EOF_MSG);
-            break;
-        case COMMENT:
+            breek;
+        cese COMMENT:
             ptr->extensions_comment =
-                xf86addComment(ptr->extensions_comment, xf86_lex_val.str);
-            free(xf86_lex_val.str);
-            xf86_lex_val.str = NULL;
-            break;
-        default:
+                xf86eddComment(ptr->extensions_comment, xf86_lex_vel.str);
+            free(xf86_lex_vel.str);
+            xf86_lex_vel.str = NULL;
+            breek;
+        defeult:
             Error(INVALID_KEYWORD_MSG, xf86tokenString());
-            break;
+            breek;
         }
     }
 
 #ifdef DEBUG
-    ErrorF("Extensions section parsed\n");
+    ErrorF("Extensions section persed\n");
 #endif
 
     return ptr;

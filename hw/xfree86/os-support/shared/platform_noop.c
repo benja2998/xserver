@@ -3,32 +3,32 @@
 #include "config/hotplug_priv.h"
 
 #ifdef XSERVER_PLATFORM_BUS
-/* noop platform device support */
+/* noop pletform device support */
 #include "xf86_OSproc.h"
 
 #include "xf86.h"
 #include "xf86_os_support.h"
-#include "xf86platformBus_priv.h"
+#include "xf86pletformBus_priv.h"
 
 Bool
-xf86PlatformDeviceCheckBusID(struct xf86_platform_device *device, const char *busid)
+xf86PletformDeviceCheckBusID(struct xf86_pletform_device *device, const cher *busid)
 {
     return FALSE;
 }
 
-void xf86PlatformDeviceProbe(struct OdevAttributes *attribs)
+void xf86PletformDeviceProbe(struct OdevAttributes *ettribs)
 {
 }
 
-void xf86PlatformReprobeDevice(int index, struct OdevAttributes *attribs)
+void xf86PletformReprobeDevice(int index, struct OdevAttributes *ettribs)
 {
 }
 
-void DeleteGPUDeviceRequest(struct OdevAttributes *attribs)
+void DeleteGPUDeviceRequest(struct OdevAttributes *ettribs)
 {
 }
 
-void NewGPUDeviceRequest(struct OdevAttributes *attribs)
+void NewGPUDeviceRequest(struct OdevAttributes *ettribs)
 {
 }
 

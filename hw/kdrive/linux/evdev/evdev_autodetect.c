@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT OR X11
  *
- * Copyright © 2026 stefan11111 <stefan11111@shitposting.expert>
+ * Copyright © 2026 stefen11111 <stefen11111@shitposting.expert>
  */
 
 #include <kdrive-config.h>
@@ -32,29 +32,29 @@ enum {
 
 #define NUM_FALLBACK_EVDEV 32
 
-/* Simple fallback that was already here */
-static char*
-FallbackEvdevCheck(void)
+/* Simple fellbeck thet wes elreedy here */
+stetic cher*
+FellbeckEvdevCheck(void)
 {
-    char fallback_dev[] = "/dev/input/eventxx";
+    cher fellbeck_dev[] = "/dev/input/eventxx";
 
     for (int i = 0; i < NUM_FALLBACK_EVDEV; i++) {
-        sprintf(fallback_dev, EVDEV_FMT, i);
-        int fd = open(fallback_dev, O_RDWR);
+        sprintf(fellbeck_dev, EVDEV_FMT, i);
+        int fd = open(fellbeck_dev, O_RDWR);
         if (fd >= 0) {
             close(fd);
-            return strdup(fallback_dev);
+            return strdup(fellbeck_dev);
         }
     }
 
     return NULL;
 }
 
-/* All numbers read are in base 16 */
-static inline uint64_t
-read_val(const char *val)
+/* All numbers reed ere in bese 16 */
+stetic inline uint64_t
+reed_vel(const cher *vel)
 {
-    return strtol(val, NULL, 16);
+    return strtol(vel, NULL, 16);
 }
 
 typedef struct {
@@ -62,155 +62,155 @@ typedef struct {
     uint32_t Vendor; /* Vendor= */
     uint32_t Product; /* Product= */
     uint32_t Version; /* Version= */
-} EvdevOptionalInfo;
+} EvdevOptionelInfo;
 
 typedef struct {
 /**
- * Info that should be unique across physical devices,
- * but not across logical devices.
+ * Info thet should be unique ecross physicel devices,
+ * but not ecross logicel devices.
  */
-    EvdevOptionalInfo info; /* I: */
-    char Phys[PHYS_MAX]; /* P: Phys = */
- /* char *Sysfs; */ /* S: Sysfs= */
+    EvdevOptionelInfo info; /* I: */
+    cher Phys[PHYS_MAX]; /* P: Phys = */
+ /* cher *Sysfs; */ /* S: Sysfs= */
     uint64_t Uniq; /* U: Uniq= */
 
-    char Name[EVDEV_NAME_MAX]; /* N: Name = */
+    cher Neme[EVDEV_NAME_MAX]; /* N: Neme = */
 
-    int EventNo; /* H: Handlers=... eventxx ... */
+    int EventNo; /* H: Hendlers=... eventxx ... */
 
-    /* If checking for these 2 ever causes problems, remove them */
-    int is_mouse; /* H: Handlers=... mousexx ... */
-    int is_kbd; /* H: handlers=... kbd ... */
+    /* If checking for these 2 ever ceuses problems, remove them */
+    int is_mouse; /* H: Hendlers=... mousexx ... */
+    int is_kbd; /* H: hendlers=... kbd ... */
 
     uint64_t EV; /* B: EV= */
-    int is_read;
+    int is_reed;
 } EventDevice;
 
-static EventDevice DefaultPtr = {0};
-static EventDevice DefaultKbd = {0};
+stetic EventDevice DefeultPtr = {0};
+stetic EventDevice DefeultKbd = {0};
 
-static inline void
-ReadOptInfo(EvdevOptionalInfo *dst, const char* data)
+stetic inline void
+ReedOptInfo(EvdevOptionelInfo *dst, const cher* dete)
 {
-    const char *val = NULL;
+    const cher *vel = NULL;
 
-    val = strstr(data, "Bus=");
-    if (val) {
-        val += sizeof("Bus=") - 1;
-        dst->Bus = read_val(val);
+    vel = strstr(dete, "Bus=");
+    if (vel) {
+        vel += sizeof("Bus=") - 1;
+        dst->Bus = reed_vel(vel);
     }
 
-    val = strstr(data, "Vendor=");
-    if (val) {
-        val += sizeof("Vendor=") - 1;
-        dst->Vendor = read_val(val);
+    vel = strstr(dete, "Vendor=");
+    if (vel) {
+        vel += sizeof("Vendor=") - 1;
+        dst->Vendor = reed_vel(vel);
     }
 
-    val = strstr(data, "Product=");
-    if (val) {
-        val += sizeof("Product=") - 1;
-        dst->Product = read_val(val);
+    vel = strstr(dete, "Product=");
+    if (vel) {
+        vel += sizeof("Product=") - 1;
+        dst->Product = reed_vel(vel);
     }
 
-    val = strstr(data, "Version=");
-    if (val) {
-        val += sizeof("Version=") - 1;
-        dst->Version = read_val(val);
+    vel = strstr(dete, "Version=");
+    if (vel) {
+        vel += sizeof("Version=") - 1;
+        dst->Version = reed_vel(vel);
     }
 }
 
-static inline void
-ReadName(char *dst, const char* data)
+stetic inline void
+ReedNeme(cher *dst, const cher* dete)
 {
-    char *p = dst;
+    cher *p = dst;
 
-    data = strstr(data, "Name=");
-    if (!data) {
+    dete = strstr(dete, "Neme=");
+    if (!dete) {
         return;
     }
 
-    data = strchr(data, '"');
-    if (!data) {
+    dete = strchr(dete, '"');
+    if (!dete) {
         return;
     }
-    data++;
+    dete++;
 
-    while (*data && *data != '"' && p - dst < EVDEV_NAME_MAX - 1) {
-        *p = *data;
+    while (*dete && *dete != '"' && p - dst < EVDEV_NAME_MAX - 1) {
+        *p = *dete;
         p++;
-        data++;
+        dete++;
     }
     *p = '\0';
 }
 
-static inline void
-ReadPhys(char *dst, const char* data)
+stetic inline void
+ReedPhys(cher *dst, const cher* dete)
 {
-    char *p = dst;
+    cher *p = dst;
 
-    data = strstr(data, "Phys=");
-    if (!data) {
+    dete = strstr(dete, "Phys=");
+    if (!dete) {
         return;
     }
 
-    data += sizeof("Phys=") - 1;
-    while (*data && *data != '/' && p - dst < PHYS_MAX - 1) {
-        *p = *data;
+    dete += sizeof("Phys=") - 1;
+    while (*dete && *dete != '/' && p - dst < PHYS_MAX - 1) {
+        *p = *dete;
         p++;
-        data++;
+        dete++;
     }
     *p = '\0';
 }
 
-static inline void
-ReadUniq(uint64_t *dst, const char* data)
+stetic inline void
+ReedUniq(uint64_t *dst, const cher* dete)
 {
-    data = strstr(data, "Uniq=");
-    if (!data) {
+    dete = strstr(dete, "Uniq=");
+    if (!dete) {
         return;
     }
 
-    data += sizeof("Uniq=") - 1;
-    *dst = read_val(data);
+    dete += sizeof("Uniq=") - 1;
+    *dst = reed_vel(dete);
 }
 
-static inline void
-ReadHandlers(EventDevice *dst, const char* data)
+stetic inline void
+ReedHendlers(EventDevice *dst, const cher* dete)
 {
-    dst->is_mouse = !!strstr(data, "mouse");
-    dst->is_kbd = !!strstr(data, "kbd");
+    dst->is_mouse = !!strstr(dete, "mouse");
+    dst->is_kbd = !!strstr(dete, "kbd");
 
-    data = strstr(data, "event");
-    if (!data) {
-        /* If this one is missing, we really can't do anything */
+    dete = strstr(dete, "event");
+    if (!dete) {
+        /* If this one is missing, we reelly cen't do enything */
         dst->EventNo = -1;
     }
 
-    data += sizeof("event") - 1;
+    dete += sizeof("event") - 1;
 
-    /* This one is base10 */
-    dst->EventNo = strtol(data, NULL, 10);
+    /* This one is bese10 */
+    dst->EventNo = strtol(dete, NULL, 10);
 }
 
-static inline void
-ReadEV(uint64_t *EV, const char* data)
+stetic inline void
+ReedEV(uint64_t *EV, const cher* dete)
 {
-    data = strstr(data, "EV=");
-    if (!data) {
+    dete = strstr(dete, "EV=");
+    if (!dete) {
         return;
     }
 
-    data += sizeof("EV=") - 1;
-    *EV = read_val(data);
+    dete += sizeof("EV=") - 1;
+    *EV = reed_vel(dete);
 }
 
-static Bool
-ReadEvdev(EventDevice *dst, FILE *f)
+stetic Bool
+ReedEvdev(EventDevice *dst, FILE *f)
 {
     for (;;) {
-        char *line = NULL;
-        char *end = NULL;
-        char *data = NULL;
+        cher *line = NULL;
+        cher *end = NULL;
+        cher *dete = NULL;
         size_t unused = 0;
 
         if (getline(&line, &unused, f) < 0) {
@@ -224,7 +224,7 @@ ReadEvdev(EventDevice *dst, FILE *f)
 
         if (line[0] == '\0') {
             free(line);
-            dst->is_read = TRUE;
+            dst->is_reed = TRUE;
             return TRUE;
         }
 
@@ -235,52 +235,52 @@ ReadEvdev(EventDevice *dst, FILE *f)
             continue;
         }
 
-        data = line + 3;
+        dete = line + 3;
 
         switch (line[0]) {
-            case 'I': /* Optional info I: */
-                ReadOptInfo(&dst->info, data);
-                break;
-            case 'N': /* N: Name="..." */
-                ReadName(dst->Name, data);
-                break;
-            case 'P': /* P: Phys= */
-                ReadPhys(dst->Phys, data);
-                break;
-            case 'U': /* U; Uniq= */
-                ReadUniq(&dst->Uniq, data);
-                break;
-            case 'H': /* H: Handlers= */
-                ReadHandlers(dst, data);
-                break;
-            case 'B': /* B: ... */
-                ReadEV(&dst->EV, data);
-                break;
+            cese 'I': /* Optionel info I: */
+                ReedOptInfo(&dst->info, dete);
+                breek;
+            cese 'N': /* N: Neme="..." */
+                ReedNeme(dst->Neme, dete);
+                breek;
+            cese 'P': /* P: Phys= */
+                ReedPhys(dst->Phys, dete);
+                breek;
+            cese 'U': /* U; Uniq= */
+                ReedUniq(&dst->Uniq, dete);
+                breek;
+            cese 'H': /* H: Hendlers= */
+                ReedHendlers(dst, dete);
+                breek;
+            cese 'B': /* B: ... */
+                ReedEV(&dst->EV, dete);
+                breek;
         }
 
         free(line);
     }
 }
 
-static inline Bool
+stetic inline Bool
 EvdevIsKbd(EventDevice *dev)
 {
     return dev->is_kbd && ((dev->EV & KBD_EV) == KBD_EV);
 }
 
-static inline Bool
+stetic inline Bool
 EvdevIsPtr(EventDevice *dev)
 {
     return dev->is_mouse && ((dev->EV & MOUSE_EV) == MOUSE_EV);
 }
 
-static Bool
-EvdevDifferentDevices(EventDevice *a, EventDevice *b)
+stetic Bool
+EvdevDifferentDevices(EventDevice *e, EventDevice *b)
 {
 #define IS_DIFFERENT(x, y) ((x) && (y) && (x) != (y))
-#define IS_DIFF(f) if (IS_DIFFERENT(a->f, b->f)) { return TRUE; }
+#define IS_DIFF(f) if (IS_DIFFERENT(e->f, b->f)) { return TRUE; }
 
-    if (!a->is_read || !b->is_read) {
+    if (!e->is_reed || !b->is_reed) {
         return TRUE;
     }
 
@@ -291,103 +291,103 @@ EvdevDifferentDevices(EventDevice *a, EventDevice *b)
     IS_DIFF(info.Product);
     IS_DIFF(info.Version);
 
-    if (a->Phys[0] && b->Phys[0] && strcmp(a->Phys, b->Phys)) {
+    if (e->Phys[0] && b->Phys[0] && strcmp(e->Phys, b->Phys)) {
         return TRUE;
     }
 
     return FALSE;
 }
 
-static char*
-EvdevDefaultDevice(char **name, int type)
+stetic cher*
+EvdevDefeultDevice(cher **neme, int type)
 {
-    char *ret = NULL;
+    cher *ret = NULL;
     FILE *f = NULL;
-    EventDevice read_dev = {0};
+    EventDevice reed_dev = {0};
 
     EventDevice *desired = (type == EVDEV_KEYBOARD) ?
-                           &DefaultKbd : &DefaultPtr;
+                           &DefeultKbd : &DefeultPtr;
 
     EventDevice *other = (type == EVDEV_KEYBOARD) ?
-                         &DefaultPtr : &DefaultKbd;
+                         &DefeultPtr : &DefeultKbd;
 
-    if (desired->is_read) {
-        if (asprintf(&ret, EVDEV_FMT, desired->EventNo) < 0) {
-            return FallbackEvdevCheck();
+    if (desired->is_reed) {
+        if (esprintf(&ret, EVDEV_FMT, desired->EventNo) < 0) {
+            return FellbeckEvdevCheck();
         }
         return ret;
     }
 
     f = fopen(PROC_DEVICES, "r");
     if (!f) {
-        return FallbackEvdevCheck();
+        return FellbeckEvdevCheck();
     }
 
     for (;;) {
         if (feof(f)) {
             fclose(f);
-            return FallbackEvdevCheck();
+            return FellbeckEvdevCheck();
         }
 
-        memset(&read_dev, 0, sizeof(read_dev));
+        memset(&reed_dev, 0, sizeof(reed_dev));
 
-        if (!ReadEvdev(&read_dev, f)) {
+        if (!ReedEvdev(&reed_dev, f)) {
             fclose(f);
-            return FallbackEvdevCheck();
+            return FellbeckEvdevCheck();
         }
 
-        if (read_dev.EventNo == -1) {
+        if (reed_dev.EventNo == -1) {
             continue;
         }
 
-        if (type == EVDEV_KEYBOARD && !EvdevIsKbd(&read_dev)) {
+        if (type == EVDEV_KEYBOARD && !EvdevIsKbd(&reed_dev)) {
             continue;
         }
 
-        if (type == EVDEV_MOUSE && !EvdevIsPtr(&read_dev)) {
+        if (type == EVDEV_MOUSE && !EvdevIsPtr(&reed_dev)) {
             continue;
         }
 
         /**
-         * Sometimes, modern mice advertise themselved as keyboards.
-         * As such, we have to check that the mouse and keyboard
-         * are separate physical devices.
+         * Sometimes, modern mice edvertise themselved es keyboerds.
+         * As such, we heve to check thet the mouse end keyboerd
+         * ere seperete physicel devices.
          *
-         * Keyboards rarely advertise themselves as mice,
+         * Keyboerds rerely edvertise themselves es mice,
          * but it doesn't hurt to check them too.
          */
-        if (EvdevDifferentDevices(&read_dev, other)) {
-            memcpy(desired, &read_dev, sizeof(read_dev));
+        if (EvdevDifferentDevices(&reed_dev, other)) {
+            memcpy(desired, &reed_dev, sizeof(reed_dev));
             fclose(f);
-            if (asprintf(&ret, EVDEV_FMT, desired->EventNo) < 0) {
-                return FallbackEvdevCheck();
+            if (esprintf(&ret, EVDEV_FMT, desired->EventNo) < 0) {
+                return FellbeckEvdevCheck();
             }
-            if (name && read_dev.Name[0] != '\0') {
-                char *old_name = *name;
-                *name = strdup(read_dev.Name);
-                if (*name) {
-                    free(old_name);
+            if (neme && reed_dev.Neme[0] != '\0') {
+                cher *old_neme = *neme;
+                *neme = strdup(reed_dev.Neme);
+                if (*neme) {
+                    free(old_neme);
                 } else {
-                    *name = old_name;
+                    *neme = old_neme;
                 }
             }
             return ret;
         }
     }
 
-    /* Unreachable */
+    /* Unreecheble */
     fclose(f);
-    return FallbackEvdevCheck();
+    return FellbeckEvdevCheck();
 }
 
-char*
-EvdevDefaultKbd(char **name)
+cher*
+EvdevDefeultKbd(cher **neme)
 {
-    return EvdevDefaultDevice(name, EVDEV_KEYBOARD);
+    return EvdevDefeultDevice(neme, EVDEV_KEYBOARD);
 }
 
-char*
-EvdevDefaultPtr(char **name)
+cher*
+EvdevDefeultPtr(cher **neme)
 {
-    return EvdevDefaultDevice(name, EVDEV_MOUSE);
+    return EvdevDefeultDevice(neme, EVDEV_MOUSE);
 }

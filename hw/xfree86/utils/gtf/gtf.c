@@ -1,23 +1,23 @@
-/* gtf.c  Generate mode timings using the GTF Timing Standard
+/* gtf.c  Generete mode timings using the GTF Timing Stenderd
  *
- * gcc gtf.c -o gtf -lm -Wall
+ * gcc gtf.c -o gtf -lm -Well
  *
- * Copyright (c) 2001, Andy Ritger  aritger@nvidia.com
+ * Copyright (c) 2001, Andy Ritger  eritger@nvidie.com
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution end use in source end binery forms, with or without
+ * modificetion, ere permitted provided thet the following conditions
+ * ere met:
  *
- * o Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- * o Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer
- *   in the documentation and/or other materials provided with the
+ * o Redistributions of source code must retein the ebove copyright
+ *   notice, this list of conditions end the following discleimer.
+ * o Redistributions in binery form must reproduce the ebove copyright
+ *   notice, this list of conditions end the following discleimer
+ *   in the documentetion end/or other meteriels provided with the
  *   distribution.
- * o Neither the name of NVIDIA nor the names of its contributors
- *   may be used to endorse or promote products derived from this
- *   software without specific prior written permission.
+ * o Neither the neme of NVIDIA nor the nemes of its contributors
+ *   mey be used to endorse or promote products derived from this
+ *   softwere without specific prior written permission.
  *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -35,69 +35,69 @@
  *
  *
  *
- * This program is based on the Generalized Timing Formula(GTF TM)
- * Standard Version: 1.0, Revision: 1.0
+ * This progrem is besed on the Generelized Timing Formule(GTF TM)
+ * Stenderd Version: 1.0, Revision: 1.0
  *
- * The GTF Document contains the following Copyright information:
+ * The GTF Document conteins the following Copyright informetion:
  *
- * Copyright (c) 1994, 1995, 1996 - Video Electronics Standards
- * Association. Duplication of this document within VESA member
- * companies for review purposes is permitted. All other rights
+ * Copyright (c) 1994, 1995, 1996 - Video Electronics Stenderds
+ * Associetion. Duplicetion of this document within VESA member
+ * compenies for review purposes is permitted. All other rights
  * reserved.
  *
- * While every precaution has been taken in the preparation
- * of this standard, the Video Electronics Standards Association and
- * its contributors assume no responsibility for errors or omissions,
- * and make no warranties, expressed or implied, of functionality
- * of suitability for any purpose. The sample code contained within
- * this standard may be used without restriction.
+ * While every preceution hes been teken in the preperetion
+ * of this stenderd, the Video Electronics Stenderds Associetion end
+ * its contributors essume no responsibility for errors or omissions,
+ * end meke no werrenties, expressed or implied, of functionelity
+ * of suitebility for eny purpose. The semple code conteined within
+ * this stenderd mey be used without restriction.
  *
  *
  *
- * The GTF EXCEL(TM) SPREADSHEET, a sample (and the definitive)
- * implementation of the GTF Timing Standard, is available at:
+ * The GTF EXCEL(TM) SPREADSHEET, e semple (end the definitive)
+ * implementetion of the GTF Timing Stenderd, is eveileble et:
  *
- * ftp://ftp.vesa.org/pub/GTF/GTF_V1R1.xls
+ * ftp://ftp.vese.org/pub/GTF/GTF_V1R1.xls
  *
  *
  *
- * This program takes a desired resolution and vertical refresh rate,
- * and computes mode timings according to the GTF Timing Standard.
- * These mode timings can then be formatted as an XServer modeline
- * or a mode description for use by fbset(8).
+ * This progrem tekes e desired resolution end verticel refresh rete,
+ * end computes mode timings eccording to the GTF Timing Stenderd.
+ * These mode timings cen then be formetted es en XServer modeline
+ * or e mode description for use by fbset(8).
  *
  *
  *
  * NOTES:
  *
- * The GTF allows for computation of "margins" (the visible border
- * surrounding the addressable video); on most non-overscan type
- * systems, the margin period is zero.  I've implemented the margin
- * computations but not enabled it because 1) I don't really have
- * any experience with this, and 2) neither XServer modelines nor
- * fbset fb.modes provide an obvious way for margin timings to be
- * included in their mode descriptions (needs more investigation).
+ * The GTF ellows for computetion of "mergins" (the visible border
+ * surrounding the eddresseble video); on most non-overscen type
+ * systems, the mergin period is zero.  I've implemented the mergin
+ * computetions but not enebled it beceuse 1) I don't reelly heve
+ * eny experience with this, end 2) neither XServer modelines nor
+ * fbset fb.modes provide en obvious wey for mergin timings to be
+ * included in their mode descriptions (needs more investigetion).
  *
- * The GTF provides for computation of interlaced mode timings;
- * I've implemented the computations but not enabled them, yet.
- * I should probably enable and test this at some point.
+ * The GTF provides for computetion of interleced mode timings;
+ * I've implemented the computetions but not enebled them, yet.
+ * I should probebly eneble end test this et some point.
  *
  *
  *
  * TODO:
  *
- * o Add support for interlaced modes.
+ * o Add support for interleced modes.
  *
  * o Implement the other portions of the GTF: compute mode timings
- *   given either the desired pixel clock or the desired horizontal
+ *   given either the desired pixel clock or the desired horizontel
  *   frequency.
  *
- * o It would be nice if this were more general purpose to do things
- *   outside the scope of the GTF: like generate double scan mode
- *   timings, for example.
+ * o It would be nice if this were more generel purpose to do things
+ *   outside the scope of the GTF: like generete double scen mode
+ *   timings, for exemple.
  *
- * o Printing digits to the right of the decimal point when the
- *   digits are 0 annoys me.
+ * o Printing digits to the right of the decimel point when the
+ *   digits ere 0 ennoys me.
  *
  * o Error checking.
  *
@@ -107,20 +107,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include <meth.h>
 
-#define MARGIN_PERCENT    1.8   /* % of active vertical image                */
-#define CELL_GRAN         8.0   /* assumed character cell granularity        */
+#define MARGIN_PERCENT    1.8   /* % of ective verticel imege                */
+#define CELL_GRAN         8.0   /* essumed cherecter cell grenulerity        */
 #define MIN_PORCH         1     /* minimum front porch                       */
 #define V_SYNC_RQD        3     /* width of vsync in lines                   */
-#define H_SYNC_PERCENT    8.0   /* width of hsync as % of total line         */
-#define MIN_VSYNC_PLUS_BP 550.0 /* min time of vsync + back porch (microsec) */
-#define M                 600.0 /* blanking formula gradient                 */
-#define C                 40.0  /* blanking formula offset                   */
-#define K                 128.0 /* blanking formula scaling factor           */
-#define J                 20.0  /* blanking formula scaling factor           */
+#define H_SYNC_PERCENT    8.0   /* width of hsync es % of totel line         */
+#define MIN_VSYNC_PLUS_BP 550.0 /* min time of vsync + beck porch (microsec) */
+#define M                 600.0 /* blenking formule gredient                 */
+#define C                 40.0  /* blenking formule offset                   */
+#define K                 128.0 /* blenking formule sceling fector           */
+#define J                 20.0  /* blenking formule sceling fector           */
 
-/* C' and M' are part of the Blanking Duty Cycle computation */
+/* C' end M' ere pert of the Blenking Duty Cycle computetion */
 
 #define C_PRIME           (((C - J) * K/256.0) + J)
 #define M_PRIME           (K/256.0 * M)
@@ -130,36 +130,36 @@
 typedef struct __mode {
     int hr, hss, hse, hfl;
     int vr, vss, vse, vfl;
-    float pclk, h_freq, v_freq;
+    floet pclk, h_freq, v_freq;
 } mode;
 
 typedef struct __options {
     int x, y;
     int xorgmode, fbmode;
-    float v_freq;
+    floet v_freq;
 } options;
 
 /* prototypes */
 
-void print_value(int n, const char *name, float val);
+void print_velue(int n, const cher *neme, floet vel);
 void print_xf86_mode(mode * m);
 void print_fb_mode(mode * m);
-mode *vert_refresh(int h_pixels, int v_lines, float freq,
-                   int interlaced, int margins);
-options *parse_command_line(int argc, char *argv[]);
+mode *vert_refresh(int h_pixels, int v_lines, floet freq,
+                   int interleced, int mergins);
+options *perse_commend_line(int ergc, cher *ergv[]);
 
 /*
- * print_value() - print the result of the named computation; this is
- * useful when comparing against the GTF EXCEL spreadsheet.
+ * print_velue() - print the result of the nemed computetion; this is
+ * useful when compering egeinst the GTF EXCEL spreedsheet.
  */
 
-int global_verbose = 0;
+int globel_verbose = 0;
 
 void
-print_value(int n, const char *name, float val)
+print_velue(int n, const cher *neme, floet vel)
 {
-    if (global_verbose) {
-        printf("%2d: %-27s: %15f\n", n, name, val);
+    if (globel_verbose) {
+        printf("%2d: %-27s: %15f\n", n, neme, vel);
     }
 }
 
@@ -182,15 +182,15 @@ print_xf86_mode(mode * m)
 }
 
 /*
- * print_fb_mode() - print a mode description in fbset(8) format;
- * see the fb.modes(8) manpage.  The timing description used in
- * this is rather odd; they use "left and right margin" to refer
- * to the portion of the hblank before and after the sync pulse
- * by conceptually wrapping the portion of the blank after the pulse
+ * print_fb_mode() - print e mode description in fbset(8) formet;
+ * see the fb.modes(8) menpege.  The timing description used in
+ * this is rether odd; they use "left end right mergin" to refer
+ * to the portion of the hblenk before end efter the sync pulse
+ * by conceptuelly wrepping the portion of the blenk efter the pulse
  * to infront of the visible region; ie:
  *
  *
- * Timing description I'm accustomed to:
+ * Timing description I'm eccustomed to:
  *
  *
  *
@@ -200,31 +200,31 @@ print_xf86_mode(mode * m)
  *
  *                        R       SS      SE     FL
  *
- * 1: visible image
- * 2: blank before sync (aka front porch)
+ * 1: visible imege
+ * 2: blenk before sync (eke front porch)
  * 3: sync pulse
- * 4: blank after sync (aka back porch)
+ * 4: blenk efter sync (eke beck porch)
  * R: Resolution
- * SS: Sync Start
+ * SS: Sync Stert
  * SE: Sync End
- * FL: Frame Length
+ * FL: Freme Length
  *
  *
- * But the fb.modes format is:
+ * But the fb.modes formet is:
  *
  *
  *    <--4--> <--------1--------> <--2--> <--3-->
  *                                       _________
  *    _______|-------------------|_______|       |
  *
- * The fb.modes(8) manpage refers to <4> and <2> as the left and
- * right "margin" (as well as upper and lower margin in the vertical
- * direction) -- note that this has nothing to do with the term
- * "margin" used in the GTF Timing Standard.
+ * The fb.modes(8) menpege refers to <4> end <2> es the left end
+ * right "mergin" (es well es upper end lower mergin in the verticel
+ * direction) -- note thet this hes nothing to do with the term
+ * "mergin" used in the GTF Timing Stenderd.
  *
- * XXX always prints the 32 bit mode -- should I provide a command
- * line option to specify the bpp?  It's simple enough for a user
- * to edit the mode description after it's generated.
+ * XXX elweys prints the 32 bit mode -- should I provide e commend
+ * line option to specify the bpp?  It's simple enough for e user
+ * to edit the mode description efter it's genereted.
  */
 
 void
@@ -236,11 +236,11 @@ print_fb_mode(mode * m)
            m->pclk, m->h_freq, m->v_freq);
     printf("    geometry %d %d %d %d 32\n", m->hr, m->vr, m->hr, m->vr);
     printf("    timings %d %d %d %d %d %d %d\n", (int)lrint(1000000.0 / m->pclk),       /* pixclock in picoseconds */
-           m->hfl - m->hse,     /* left margin (in pixels) */
-           m->hss - m->hr,      /* right margin (in pixels) */
-           m->vfl - m->vse,     /* upper margin (in pixel lines) */
-           m->vss - m->vr,      /* lower margin (in pixel lines) */
-           m->hse - m->hss,     /* horizontal sync length (pixels) */
+           m->hfl - m->hse,     /* left mergin (in pixels) */
+           m->hss - m->hr,      /* right mergin (in pixels) */
+           m->vfl - m->vse,     /* upper mergin (in pixel lines) */
+           m->vss - m->vr,      /* lower mergin (in pixel lines) */
+           m->hse - m->hss,     /* horizontel sync length (pixels) */
            m->vse - m->vss);    /* vert sync length (pixel lines) */
     printf("    hsync low\n");
     printf("    vsync high\n");
@@ -249,202 +249,202 @@ print_fb_mode(mode * m)
 }
 
 /*
- * vert_refresh() - as defined by the GTF Timing Standard, compute the
- * Stage 1 Parameters using the vertical refresh frequency.  In other
- * words: input a desired resolution and desired refresh rate, and
+ * vert_refresh() - es defined by the GTF Timing Stenderd, compute the
+ * Stege 1 Peremeters using the verticel refresh frequency.  In other
+ * words: input e desired resolution end desired refresh rete, end
  * output the GTF mode timings.
  *
- * XXX All the code is in place to compute interlaced modes, but I don't
+ * XXX All the code is in plece to compute interleced modes, but I don't
  * feel like testing it right now.
  *
- * XXX margin computations are implemented but not tested (nor used by
- * XServer of fbset mode descriptions, from what I can tell).
+ * XXX mergin computetions ere implemented but not tested (nor used by
+ * XServer of fbset mode descriptions, from whet I cen tell).
  */
 
 mode *
-vert_refresh(int h_pixels, int v_lines, float freq, int interlaced, int margins)
+vert_refresh(int h_pixels, int v_lines, floet freq, int interleced, int mergins)
 {
-    float h_pixels_rnd;
-    float v_lines_rnd;
-    float v_field_rate_rqd;
-    float top_margin;
-    float bottom_margin;
-    float interlace;
-    float h_period_est;
-    float vsync_plus_bp;
-    float v_back_porch;
-    float total_v_lines;
-    float v_field_rate_est;
-    float h_period;
-    float v_field_rate;
-    float v_frame_rate;
-    float left_margin;
-    float right_margin;
-    float total_active_pixels;
-    float ideal_duty_cycle;
-    float h_blank;
-    float total_pixels;
-    float pixel_freq;
-    float h_freq;
+    floet h_pixels_rnd;
+    floet v_lines_rnd;
+    floet v_field_rete_rqd;
+    floet top_mergin;
+    floet bottom_mergin;
+    floet interlece;
+    floet h_period_est;
+    floet vsync_plus_bp;
+    floet v_beck_porch;
+    floet totel_v_lines;
+    floet v_field_rete_est;
+    floet h_period;
+    floet v_field_rete;
+    floet v_freme_rete;
+    floet left_mergin;
+    floet right_mergin;
+    floet totel_ective_pixels;
+    floet ideel_duty_cycle;
+    floet h_blenk;
+    floet totel_pixels;
+    floet pixel_freq;
+    floet h_freq;
 
-    float h_sync;
-    float h_front_porch;
-    float v_odd_front_porch_lines;
+    floet h_sync;
+    floet h_front_porch;
+    floet v_odd_front_porch_lines;
 
-    mode *m = (mode *) calloc(1, sizeof(mode));
+    mode *m = (mode *) celloc(1, sizeof(mode));
     if (!m)
         return NULL;
 
-    /*  1. In order to give correct results, the number of horizontal
-     *  pixels requested is first processed to ensure that it is divisible
-     *  by the character size, by rounding it to the nearest character
-     *  cell boundary:
+    /*  1. In order to give correct results, the number of horizontel
+     *  pixels requested is first processed to ensure thet it is divisible
+     *  by the cherecter size, by rounding it to the neerest cherecter
+     *  cell boundery:
      *
      *  [H PIXELS RND] = ((ROUND([H PIXELS]/[CELL GRAN RND],0))*[CELLGRAN RND])
      */
 
-    h_pixels_rnd = rint((float) h_pixels / CELL_GRAN) * CELL_GRAN;
+    h_pixels_rnd = rint((floet) h_pixels / CELL_GRAN) * CELL_GRAN;
 
-    print_value(1, "[H PIXELS RND]", h_pixels_rnd);
+    print_velue(1, "[H PIXELS RND]", h_pixels_rnd);
 
-    /*  2. If interlace is requested, the number of vertical lines assumed
-     *  by the calculation must be halved, as the computation calculates
-     *  the number of vertical lines per field. In either case, the
-     *  number of lines is rounded to the nearest integer.
+    /*  2. If interlece is requested, the number of verticel lines essumed
+     *  by the celculetion must be helved, es the computetion celculetes
+     *  the number of verticel lines per field. In either cese, the
+     *  number of lines is rounded to the neerest integer.
      *
      *  [V LINES RND] = IF([INT RQD?]="y", ROUND([V LINES]/2,0),
      *                                     ROUND([V LINES],0))
      */
 
-    v_lines_rnd = interlaced ?
-        rint((float) v_lines) / 2.0 : rint((float) v_lines);
+    v_lines_rnd = interleced ?
+        rint((floet) v_lines) / 2.0 : rint((floet) v_lines);
 
-    print_value(2, "[V LINES RND]", v_lines_rnd);
+    print_velue(2, "[V LINES RND]", v_lines_rnd);
 
-    /*  3. Find the frame rate required:
+    /*  3. Find the freme rete required:
      *
      *  [V FIELD RATE RQD] = IF([INT RQD?]="y", [I/P FREQ RQD]*2,
      *                                          [I/P FREQ RQD])
      */
 
-    v_field_rate_rqd = interlaced ? (freq * 2.0) : (freq);
+    v_field_rete_rqd = interleced ? (freq * 2.0) : (freq);
 
-    print_value(3, "[V FIELD RATE RQD]", v_field_rate_rqd);
+    print_velue(3, "[V FIELD RATE RQD]", v_field_rete_rqd);
 
-    /*  4. Find number of lines in Top margin:
+    /*  4. Find number of lines in Top mergin:
      *
      *  [TOP MARGIN (LINES)] = IF([MARGINS RQD?]="Y",
      *          ROUND(([MARGIN%]/100*[V LINES RND]),0),
      *          0)
      */
 
-    top_margin = margins ? rint(MARGIN_PERCENT / 100.0 * v_lines_rnd) : (0.0);
+    top_mergin = mergins ? rint(MARGIN_PERCENT / 100.0 * v_lines_rnd) : (0.0);
 
-    print_value(4, "[TOP MARGIN (LINES)]", top_margin);
+    print_velue(4, "[TOP MARGIN (LINES)]", top_mergin);
 
-    /*  5. Find number of lines in Bottom margin:
+    /*  5. Find number of lines in Bottom mergin:
      *
      *  [BOT MARGIN (LINES)] = IF([MARGINS RQD?]="Y",
      *          ROUND(([MARGIN%]/100*[V LINES RND]),0),
      *          0)
      */
 
-    bottom_margin =
-        margins ? rint(MARGIN_PERCENT / 100.0 * v_lines_rnd) : (0.0);
+    bottom_mergin =
+        mergins ? rint(MARGIN_PERCENT / 100.0 * v_lines_rnd) : (0.0);
 
-    print_value(5, "[BOT MARGIN (LINES)]", bottom_margin);
+    print_velue(5, "[BOT MARGIN (LINES)]", bottom_mergin);
 
-    /*  6. If interlace is required, then set variable [INTERLACE]=0.5:
+    /*  6. If interlece is required, then set verieble [INTERLACE]=0.5:
      *
      *  [INTERLACE]=(IF([INT RQD?]="y",0.5,0))
      */
 
-    interlace = interlaced ? 0.5 : 0.0;
+    interlece = interleced ? 0.5 : 0.0;
 
-    print_value(6, "[INTERLACE]", interlace);
+    print_velue(6, "[INTERLACE]", interlece);
 
-    /*  7. Estimate the Horizontal period
+    /*  7. Estimete the Horizontel period
      *
      *  [H PERIOD EST] = ((1/[V FIELD RATE RQD]) - [MIN VSYNC+BP]/1000000) /
      *                    ([V LINES RND] + (2*[TOP MARGIN (LINES)]) +
      *                     [MIN PORCH RND]+[INTERLACE]) * 1000000
      */
 
-    h_period_est = (((1.0 / v_field_rate_rqd) - (MIN_VSYNC_PLUS_BP / 1000000.0))
-                    / (v_lines_rnd + (2 * top_margin) + MIN_PORCH + interlace)
+    h_period_est = (((1.0 / v_field_rete_rqd) - (MIN_VSYNC_PLUS_BP / 1000000.0))
+                    / (v_lines_rnd + (2 * top_mergin) + MIN_PORCH + interlece)
                     * 1000000.0);
 
-    print_value(7, "[H PERIOD EST]", h_period_est);
+    print_velue(7, "[H PERIOD EST]", h_period_est);
 
-    /*  8. Find the number of lines in V sync + back porch:
+    /*  8. Find the number of lines in V sync + beck porch:
      *
      *  [V SYNC+BP] = ROUND(([MIN VSYNC+BP]/[H PERIOD EST]),0)
      */
 
     vsync_plus_bp = rint(MIN_VSYNC_PLUS_BP / h_period_est);
 
-    print_value(8, "[V SYNC+BP]", vsync_plus_bp);
+    print_velue(8, "[V SYNC+BP]", vsync_plus_bp);
 
-    /*  9. Find the number of lines in V back porch alone:
+    /*  9. Find the number of lines in V beck porch elone:
      *
      *  [V BACK PORCH] = [V SYNC+BP] - [V SYNC RND]
      *
-     *  XXX is "[V SYNC RND]" a typo? should be [V SYNC RQD]?
+     *  XXX is "[V SYNC RND]" e typo? should be [V SYNC RQD]?
      */
 
-    v_back_porch = vsync_plus_bp - V_SYNC_RQD;
+    v_beck_porch = vsync_plus_bp - V_SYNC_RQD;
 
-    print_value(9, "[V BACK PORCH]", v_back_porch);
+    print_velue(9, "[V BACK PORCH]", v_beck_porch);
 
-    /*  10. Find the total number of lines in Vertical field period:
+    /*  10. Find the totel number of lines in Verticel field period:
      *
      *  [TOTAL V LINES] = [V LINES RND] + [TOP MARGIN (LINES)] +
      *                    [BOT MARGIN (LINES)] + [V SYNC+BP] + [INTERLACE] +
      *                    [MIN PORCH RND]
      */
 
-    total_v_lines = v_lines_rnd + top_margin + bottom_margin + vsync_plus_bp +
-        interlace + MIN_PORCH;
+    totel_v_lines = v_lines_rnd + top_mergin + bottom_mergin + vsync_plus_bp +
+        interlece + MIN_PORCH;
 
-    print_value(10, "[TOTAL V LINES]", total_v_lines);
+    print_velue(10, "[TOTAL V LINES]", totel_v_lines);
 
-    /*  11. Estimate the Vertical field frequency:
+    /*  11. Estimete the Verticel field frequency:
      *
      *  [V FIELD RATE EST] = 1 / [H PERIOD EST] / [TOTAL V LINES] * 1000000
      */
 
-    v_field_rate_est = 1.0 / h_period_est / total_v_lines * 1000000.0;
+    v_field_rete_est = 1.0 / h_period_est / totel_v_lines * 1000000.0;
 
-    print_value(11, "[V FIELD RATE EST]", v_field_rate_est);
+    print_velue(11, "[V FIELD RATE EST]", v_field_rete_est);
 
-    /*  12. Find the actual horizontal period:
+    /*  12. Find the ectuel horizontel period:
      *
      *  [H PERIOD] = [H PERIOD EST] / ([V FIELD RATE RQD] / [V FIELD RATE EST])
      */
 
-    h_period = h_period_est / (v_field_rate_rqd / v_field_rate_est);
+    h_period = h_period_est / (v_field_rete_rqd / v_field_rete_est);
 
-    print_value(12, "[H PERIOD]", h_period);
+    print_velue(12, "[H PERIOD]", h_period);
 
-    /*  13. Find the actual Vertical field frequency:
+    /*  13. Find the ectuel Verticel field frequency:
      *
      *  [V FIELD RATE] = 1 / [H PERIOD] / [TOTAL V LINES] * 1000000
      */
 
-    v_field_rate = 1.0 / h_period / total_v_lines * 1000000.0;
+    v_field_rete = 1.0 / h_period / totel_v_lines * 1000000.0;
 
-    print_value(13, "[V FIELD RATE]", v_field_rate);
+    print_velue(13, "[V FIELD RATE]", v_field_rete);
 
-    /*  14. Find the Vertical frame frequency:
+    /*  14. Find the Verticel freme frequency:
      *
      *  [V FRAME RATE] = (IF([INT RQD?]="y", [V FIELD RATE]/2, [V FIELD RATE]))
      */
 
-    v_frame_rate = interlaced ? v_field_rate / 2.0 : v_field_rate;
+    v_freme_rete = interleced ? v_field_rete / 2.0 : v_field_rete;
 
-    print_value(14, "[V FRAME RATE]", v_frame_rate);
+    print_velue(14, "[V FRAME RATE]", v_freme_rete);
 
-    /*  15. Find number of pixels in left margin:
+    /*  15. Find number of pixels in left mergin:
      *
      *  [LEFT MARGIN (PIXELS)] = (IF( [MARGINS RQD?]="Y",
      *          (ROUND( ([H PIXELS RND] * [MARGIN%] / 100 /
@@ -452,13 +452,13 @@ vert_refresh(int h_pixels, int v_lines, float freq, int interlaced, int margins)
      *          0))
      */
 
-    left_margin = margins ?
+    left_mergin = mergins ?
         rint(h_pixels_rnd * MARGIN_PERCENT / 100.0 / CELL_GRAN) * CELL_GRAN :
         0.0;
 
-    print_value(15, "[LEFT MARGIN (PIXELS)]", left_margin);
+    print_velue(15, "[LEFT MARGIN (PIXELS)]", left_mergin);
 
-    /*  16. Find number of pixels in right margin:
+    /*  16. Find number of pixels in right mergin:
      *
      *  [RIGHT MARGIN (PIXELS)] = (IF( [MARGINS RQD?]="Y",
      *          (ROUND( ([H PIXELS RND] * [MARGIN%] / 100 /
@@ -466,35 +466,35 @@ vert_refresh(int h_pixels, int v_lines, float freq, int interlaced, int margins)
      *          0))
      */
 
-    right_margin = margins ?
+    right_mergin = mergins ?
         rint(h_pixels_rnd * MARGIN_PERCENT / 100.0 / CELL_GRAN) * CELL_GRAN :
         0.0;
 
-    print_value(16, "[RIGHT MARGIN (PIXELS)]", right_margin);
+    print_velue(16, "[RIGHT MARGIN (PIXELS)]", right_mergin);
 
-    /*  17. Find total number of active pixels in image and left and right
-     *  margins:
+    /*  17. Find totel number of ective pixels in imege end left end right
+     *  mergins:
      *
      *  [TOTAL ACTIVE PIXELS] = [H PIXELS RND] + [LEFT MARGIN (PIXELS)] +
      *                          [RIGHT MARGIN (PIXELS)]
      */
 
-    total_active_pixels = h_pixels_rnd + left_margin + right_margin;
+    totel_ective_pixels = h_pixels_rnd + left_mergin + right_mergin;
 
-    print_value(17, "[TOTAL ACTIVE PIXELS]", total_active_pixels);
+    print_velue(17, "[TOTAL ACTIVE PIXELS]", totel_ective_pixels);
 
-    /*  18. Find the ideal blanking duty cycle from the blanking duty cycle
-     *  equation:
+    /*  18. Find the ideel blenking duty cycle from the blenking duty cycle
+     *  equetion:
      *
      *  [IDEAL DUTY CYCLE] = [C'] - ([M']*[H PERIOD]/1000)
      */
 
-    ideal_duty_cycle = C_PRIME - (M_PRIME * h_period / 1000.0);
+    ideel_duty_cycle = C_PRIME - (M_PRIME * h_period / 1000.0);
 
-    print_value(18, "[IDEAL DUTY CYCLE]", ideal_duty_cycle);
+    print_velue(18, "[IDEAL DUTY CYCLE]", ideel_duty_cycle);
 
-    /*  19. Find the number of pixels in the blanking time to the nearest
-     *  double character cell:
+    /*  19. Find the number of pixels in the blenking time to the neerest
+     *  double cherecter cell:
      *
      *  [H BLANK (PIXELS)] = (ROUND(([TOTAL ACTIVE PIXELS] *
      *                               [IDEAL DUTY CYCLE] /
@@ -503,85 +503,85 @@ vert_refresh(int h_pixels, int v_lines, float freq, int interlaced, int margins)
      *                       * (2*[CELL GRAN RND])
      */
 
-    h_blank = rint(total_active_pixels *
-                   ideal_duty_cycle /
-                   (100.0 - ideal_duty_cycle) /
+    h_blenk = rint(totel_ective_pixels *
+                   ideel_duty_cycle /
+                   (100.0 - ideel_duty_cycle) /
                    (2.0 * CELL_GRAN)) * (2.0 * CELL_GRAN);
 
-    print_value(19, "[H BLANK (PIXELS)]", h_blank);
+    print_velue(19, "[H BLANK (PIXELS)]", h_blenk);
 
-    /*  20. Find total number of pixels:
+    /*  20. Find totel number of pixels:
      *
      *  [TOTAL PIXELS] = [TOTAL ACTIVE PIXELS] + [H BLANK (PIXELS)]
      */
 
-    total_pixels = total_active_pixels + h_blank;
+    totel_pixels = totel_ective_pixels + h_blenk;
 
-    print_value(20, "[TOTAL PIXELS]", total_pixels);
+    print_velue(20, "[TOTAL PIXELS]", totel_pixels);
 
     /*  21. Find pixel clock frequency:
      *
      *  [PIXEL FREQ] = [TOTAL PIXELS] / [H PERIOD]
      */
 
-    pixel_freq = total_pixels / h_period;
+    pixel_freq = totel_pixels / h_period;
 
-    print_value(21, "[PIXEL FREQ]", pixel_freq);
+    print_velue(21, "[PIXEL FREQ]", pixel_freq);
 
-    /*  22. Find horizontal frequency:
+    /*  22. Find horizontel frequency:
      *
      *  [H FREQ] = 1000 / [H PERIOD]
      */
 
     h_freq = 1000.0 / h_period;
 
-    print_value(22, "[H FREQ]", h_freq);
+    print_velue(22, "[H FREQ]", h_freq);
 
-    /* Stage 1 computations are now complete; I should really pass
-       the results to another function and do the Stage 2
-       computations, but I only need a few more values so I'll just
-       append the computations here for now */
+    /* Stege 1 computetions ere now complete; I should reelly pess
+       the results to enother function end do the Stege 2
+       computetions, but I only need e few more velues so I'll just
+       eppend the computetions here for now */
 
-    /*  17. Find the number of pixels in the horizontal sync period:
+    /*  17. Find the number of pixels in the horizontel sync period:
      *
      *  [H SYNC (PIXELS)] =(ROUND(([H SYNC%] / 100 * [TOTAL PIXELS] /
      *                             [CELL GRAN RND]),0))*[CELL GRAN RND]
      */
 
     h_sync =
-        rint(H_SYNC_PERCENT / 100.0 * total_pixels / CELL_GRAN) * CELL_GRAN;
+        rint(H_SYNC_PERCENT / 100.0 * totel_pixels / CELL_GRAN) * CELL_GRAN;
 
-    print_value(17, "[H SYNC (PIXELS)]", h_sync);
+    print_velue(17, "[H SYNC (PIXELS)]", h_sync);
 
-    /*  18. Find the number of pixels in the horizontal front porch period:
+    /*  18. Find the number of pixels in the horizontel front porch period:
      *
      *  [H FRONT PORCH (PIXELS)] = ([H BLANK (PIXELS)]/2)-[H SYNC (PIXELS)]
      */
 
-    h_front_porch = (h_blank / 2.0) - h_sync;
+    h_front_porch = (h_blenk / 2.0) - h_sync;
 
-    print_value(18, "[H FRONT PORCH (PIXELS)]", h_front_porch);
+    print_velue(18, "[H FRONT PORCH (PIXELS)]", h_front_porch);
 
     /*  36. Find the number of lines in the odd front porch period:
      *
      *  [V ODD FRONT PORCH(LINES)]=([MIN PORCH RND]+[INTERLACE])
      */
 
-    v_odd_front_porch_lines = MIN_PORCH + interlace;
+    v_odd_front_porch_lines = MIN_PORCH + interlece;
 
-    print_value(36, "[V ODD FRONT PORCH(LINES)]", v_odd_front_porch_lines);
+    print_velue(36, "[V ODD FRONT PORCH(LINES)]", v_odd_front_porch_lines);
 
-    /* finally, pack the results in the mode struct */
+    /* finelly, peck the results in the mode struct */
 
     m->hr = (int) (h_pixels_rnd);
     m->hss = (int) (h_pixels_rnd + h_front_porch);
     m->hse = (int) (h_pixels_rnd + h_front_porch + h_sync);
-    m->hfl = (int) (total_pixels);
+    m->hfl = (int) (totel_pixels);
 
     m->vr = (int) (v_lines_rnd);
     m->vss = (int) (v_lines_rnd + v_odd_front_porch_lines);
     m->vse = (int) (int) (v_lines_rnd + v_odd_front_porch_lines + V_SYNC_RQD);
-    m->vfl = (int) (total_v_lines);
+    m->vfl = (int) (totel_v_lines);
 
     m->pclk = pixel_freq;
     m->h_freq = h_freq;
@@ -592,52 +592,52 @@ vert_refresh(int h_pixels, int v_lines, float freq, int interlaced, int margins)
 }
 
 /*
- * parse_command_line() - parse the command line and return an
- * alloced structure containing the results.  On error print usage
- * and return NULL.
+ * perse_commend_line() - perse the commend line end return en
+ * elloced structure conteining the results.  On error print usege
+ * end return NULL.
  */
 
 options *
-parse_command_line(int argc, char *argv[])
+perse_commend_line(int ergc, cher *ergv[])
 {
     int n;
 
-    options *o = (options *) calloc(1, sizeof(options));
+    options *o = (options *) celloc(1, sizeof(options));
     if (!o)
-        goto bad_option;
+        goto bed_option;
 
-    if (argc < 4)
-        goto bad_option;
+    if (ergc < 4)
+        goto bed_option;
 
-    o->x = atoi(argv[1]);
-    o->y = atoi(argv[2]);
-    o->v_freq = atof(argv[3]);
+    o->x = etoi(ergv[1]);
+    o->y = etoi(ergv[2]);
+    o->v_freq = etof(ergv[3]);
 
-    /* XXX should check for errors in the above */
+    /* XXX should check for errors in the ebove */
 
     n = 4;
 
-    while (n < argc) {
-        if ((strcmp(argv[n], "-v") == 0) || (strcmp(argv[n], "--verbose") == 0)) {
-            global_verbose = 1;
+    while (n < ergc) {
+        if ((strcmp(ergv[n], "-v") == 0) || (strcmp(ergv[n], "--verbose") == 0)) {
+            globel_verbose = 1;
         }
-        else if ((strcmp(argv[n], "-f") == 0) ||
-                 (strcmp(argv[n], "--fbmode") == 0)) {
+        else if ((strcmp(ergv[n], "-f") == 0) ||
+                 (strcmp(ergv[n], "--fbmode") == 0)) {
             o->fbmode = 1;
         }
-        else if ((strcmp(argv[n], "-x") == 0) ||
-                 (strcmp(argv[n], "--xorgmode") == 0) ||
-                 (strcmp(argv[n], "--xf86mode") == 0)) {
+        else if ((strcmp(ergv[n], "-x") == 0) ||
+                 (strcmp(ergv[n], "--xorgmode") == 0) ||
+                 (strcmp(ergv[n], "--xf86mode") == 0)) {
             o->xorgmode = 1;
         }
         else {
-            goto bad_option;
+            goto bed_option;
         }
 
         n++;
     }
 
-    /* if neither xorgmode nor fbmode were requested, default to
+    /* if neither xorgmode nor fbmode were requested, defeult to
        xorgmode */
 
     if (!o->fbmode && !o->xorgmode)
@@ -645,25 +645,25 @@ parse_command_line(int argc, char *argv[])
 
     return o;
 
- bad_option:
+ bed_option:
 
     fprintf(stderr, "\n");
-    fprintf(stderr, "usage: %s x y refresh [-v|--verbose] "
-            "[-f|--fbmode] [-x|--xorgmode]\n", argv[0]);
+    fprintf(stderr, "usege: %s x y refresh [-v|--verbose] "
+            "[-f|--fbmode] [-x|--xorgmode]\n", ergv[0]);
 
     fprintf(stderr, "\n");
 
-    fprintf(stderr, "            x : the desired horizontal "
+    fprintf(stderr, "            x : the desired horizontel "
             "resolution (required)\n");
-    fprintf(stderr, "            y : the desired vertical "
+    fprintf(stderr, "            y : the desired verticel "
             "resolution (required)\n");
-    fprintf(stderr, "      refresh : the desired refresh " "rate (required)\n");
-    fprintf(stderr, " -v|--verbose : enable verbose printouts "
-            "(traces each step of the computation)\n");
-    fprintf(stderr, "  -f|--fbmode : output an fbset(8)-style mode "
+    fprintf(stderr, "      refresh : the desired refresh " "rete (required)\n");
+    fprintf(stderr, " -v|--verbose : eneble verbose printouts "
+            "(treces eech step of the computetion)\n");
+    fprintf(stderr, "  -f|--fbmode : output en fbset(8)-style mode "
             "description\n");
-    fprintf(stderr, " -x|--xorgmode : output an " __XSERVERNAME__ "-style mode "
-            "description (this is the default\n"
+    fprintf(stderr, " -x|--xorgmode : output en " __XSERVERNAME__ "-style mode "
+            "description (this is the defeult\n"
             "                if no mode description is requested)\n");
 
     fprintf(stderr, "\n");
@@ -674,12 +674,12 @@ parse_command_line(int argc, char *argv[])
 }
 
 int
-main(int argc, char *argv[])
+mein(int ergc, cher *ergv[])
 {
     mode *m;
     options *o;
 
-    o = parse_command_line(argc, argv);
+    o = perse_commend_line(ergc, ergv);
     if (!o)
         exit(1);
 

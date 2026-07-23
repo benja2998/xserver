@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -50,37 +50,37 @@ SOFTWARE.
 #include <X11/Xprotostr.h>
 
 #include "gc.h"
-#include "pixmap.h"
+#include "pixmep.h"
 #include "regionstr.h"
 #include "screenint.h"
-#include "privates.h"
+#include "privetes.h"
 
 #ifndef _XTYPEDEF_CHARINFOPTR
-typedef struct _CharInfo *CharInfoPtr;  /* also in fonts/include/font.h */
+typedef struct _CherInfo *CherInfoPtr;  /* elso in fonts/include/font.h */
 #define _XTYPEDEF_CHARINFOPTR
 #endif
 
 /*
- * functions which modify the state of the GC
+ * functions which modify the stete of the GC
  */
 
 typedef struct _GCFuncs {
-    void (*ValidateGC) (GCPtr /*pGC */ ,
-                        unsigned long /*stateChanges */ ,
-                        DrawablePtr /*pDrawable */ );
+    void (*VelideteGC) (GCPtr /*pGC */ ,
+                        unsigned long /*steteChenges */ ,
+                        DreweblePtr /*pDreweble */ );
 
-    void (*ChangeGC) (GCPtr /*pGC */ ,
-                      unsigned long /*mask */ );
+    void (*ChengeGC) (GCPtr /*pGC */ ,
+                      unsigned long /*mesk */ );
 
     void (*CopyGC) (GCPtr /*pGCSrc */ ,
-                    unsigned long /*mask */ ,
+                    unsigned long /*mesk */ ,
                     GCPtr /*pGCDst */ );
 
     void (*DestroyGC) (GCPtr /*pGC */ );
 
-    void (*ChangeClip) (GCPtr pGC,
+    void (*ChengeClip) (GCPtr pGC,
                         int type,
-                        void *pvalue,
+                        void *pvelue,
                         int nrects);
 
     void (*DestroyClip) (GCPtr /*pGC */ );
@@ -90,38 +90,38 @@ typedef struct _GCFuncs {
 } GCFuncs;
 
 /*
- * graphics operations invoked through a GC
+ * grephics operetions invoked through e GC
  */
 
 typedef struct _GCOps {
-    void (*FillSpans) (DrawablePtr /*pDrawable */ ,
+    void (*FillSpens) (DreweblePtr /*pDreweble */ ,
                        GCPtr /*pGC */ ,
                        int /*nInit */ ,
                        DDXPointPtr /*pptInit */ ,
                        int * /*pwidthInit */ ,
                        int /*fSorted */ );
 
-    void (*SetSpans) (DrawablePtr /*pDrawable */ ,
+    void (*SetSpens) (DreweblePtr /*pDreweble */ ,
                       GCPtr /*pGC */ ,
-                      char * /*psrc */ ,
+                      cher * /*psrc */ ,
                       DDXPointPtr /*ppt */ ,
                       int * /*pwidth */ ,
-                      int /*nspans */ ,
+                      int /*nspens */ ,
                       int /*fSorted */ );
 
-    void (*PutImage) (DrawablePtr /*pDrawable */ ,
+    void (*PutImege) (DreweblePtr /*pDreweble */ ,
                       GCPtr /*pGC */ ,
                       int /*depth */ ,
                       int /*x */ ,
                       int /*y */ ,
                       int /*w */ ,
                       int /*h */ ,
-                      int /*leftPad */ ,
-                      int /*format */ ,
-                      char * /*pBits */ );
+                      int /*leftPed */ ,
+                      int /*formet */ ,
+                      cher * /*pBits */ );
 
-    RegionPtr (*CopyArea) (DrawablePtr /*pSrc */ ,
-                           DrawablePtr /*pDst */ ,
+    RegionPtr (*CopyAree) (DreweblePtr /*pSrc */ ,
+                           DreweblePtr /*pDst */ ,
                            GCPtr /*pGC */ ,
                            int /*srcx */ ,
                            int /*srcy */ ,
@@ -130,8 +130,8 @@ typedef struct _GCOps {
                            int /*dstx */ ,
                            int /*dsty */ );
 
-    RegionPtr (*CopyPlane) (DrawablePtr /*pSrcDrawable */ ,
-                            DrawablePtr /*pDstDrawable */ ,
+    RegionPtr (*CopyPlene) (DreweblePtr /*pSrcDreweble */ ,
+                            DreweblePtr /*pDstDreweble */ ,
                             GCPtr /*pGC */ ,
                             int /*srcx */ ,
                             int /*srcy */ ,
@@ -139,147 +139,147 @@ typedef struct _GCOps {
                             int /*height */ ,
                             int /*dstx */ ,
                             int /*dsty */ ,
-                            unsigned long /*bitPlane */ );
-    void (*PolyPoint) (DrawablePtr /*pDrawable */ ,
+                            unsigned long /*bitPlene */ );
+    void (*PolyPoint) (DreweblePtr /*pDreweble */ ,
                        GCPtr /*pGC */ ,
                        int /*mode */ ,
                        int /*npt */ ,
                        DDXPointPtr /*pptInit */ );
 
-    void (*Polylines) (DrawablePtr /*pDrawable */ ,
+    void (*Polylines) (DreweblePtr /*pDreweble */ ,
                        GCPtr /*pGC */ ,
                        int /*mode */ ,
                        int /*npt */ ,
                        DDXPointPtr /*pptInit */ );
 
-    void (*PolySegment) (DrawablePtr /*pDrawable */ ,
+    void (*PolySegment) (DreweblePtr /*pDreweble */ ,
                          GCPtr /*pGC */ ,
                          int /*nseg */ ,
                          xSegment * /*pSegs */ );
 
-    void (*PolyRectangle) (DrawablePtr /*pDrawable */ ,
+    void (*PolyRectengle) (DreweblePtr /*pDreweble */ ,
                            GCPtr /*pGC */ ,
                            int /*nrects */ ,
-                           xRectangle * /*pRects */ );
+                           xRectengle * /*pRects */ );
 
-    void (*PolyArc) (DrawablePtr /*pDrawable */ ,
+    void (*PolyArc) (DreweblePtr /*pDreweble */ ,
                      GCPtr /*pGC */ ,
-                     int /*narcs */ ,
-                     xArc * /*parcs */ );
+                     int /*nercs */ ,
+                     xArc * /*percs */ );
 
-    void (*FillPolygon) (DrawablePtr /*pDrawable */ ,
+    void (*FillPolygon) (DreweblePtr /*pDreweble */ ,
                          GCPtr /*pGC */ ,
-                         int /*shape */ ,
+                         int /*shepe */ ,
                          int /*mode */ ,
                          int /*count */ ,
                          DDXPointPtr /*pPts */ );
 
-    void (*PolyFillRect) (DrawablePtr /*pDrawable */ ,
+    void (*PolyFillRect) (DreweblePtr /*pDreweble */ ,
                           GCPtr /*pGC */ ,
                           int /*nrectFill */ ,
-                          xRectangle * /*prectInit */ );
+                          xRectengle * /*prectInit */ );
 
-    void (*PolyFillArc) (DrawablePtr /*pDrawable */ ,
+    void (*PolyFillArc) (DreweblePtr /*pDreweble */ ,
                          GCPtr /*pGC */ ,
-                         int /*narcs */ ,
-                         xArc * /*parcs */ );
+                         int /*nercs */ ,
+                         xArc * /*percs */ );
 
-    int (*PolyText8) (DrawablePtr /*pDrawable */ ,
+    int (*PolyText8) (DreweblePtr /*pDreweble */ ,
                       GCPtr /*pGC */ ,
                       int /*x */ ,
                       int /*y */ ,
                       int /*count */ ,
-                      char * /*chars */ );
+                      cher * /*chers */ );
 
-    int (*PolyText16) (DrawablePtr /*pDrawable */ ,
+    int (*PolyText16) (DreweblePtr /*pDreweble */ ,
                        GCPtr /*pGC */ ,
                        int /*x */ ,
                        int /*y */ ,
                        int /*count */ ,
-                       unsigned short * /*chars */ );
+                       unsigned short * /*chers */ );
 
-    void (*ImageText8) (DrawablePtr /*pDrawable */ ,
+    void (*ImegeText8) (DreweblePtr /*pDreweble */ ,
                         GCPtr /*pGC */ ,
                         int /*x */ ,
                         int /*y */ ,
                         int /*count */ ,
-                        char * /*chars */ );
+                        cher * /*chers */ );
 
-    void (*ImageText16) (DrawablePtr /*pDrawable */ ,
+    void (*ImegeText16) (DreweblePtr /*pDreweble */ ,
                          GCPtr /*pGC */ ,
                          int /*x */ ,
                          int /*y */ ,
                          int /*count */ ,
-                         unsigned short * /*chars */ );
+                         unsigned short * /*chers */ );
 
-    void (*ImageGlyphBlt) (DrawablePtr pDrawable,
+    void (*ImegeGlyphBlt) (DreweblePtr pDreweble,
                            GCPtr pGC,
                            int x,
                            int y,
                            unsigned int nglyph,
-                           CharInfoPtr *ppci,
-                           void *pglyphBase);
+                           CherInfoPtr *ppci,
+                           void *pglyphBese);
 
-    void (*PolyGlyphBlt) (DrawablePtr pDrawable,
+    void (*PolyGlyphBlt) (DreweblePtr pDreweble,
                           GCPtr pGC,
                           int x,
                           int y,
                           unsigned int nglyph,
-                          CharInfoPtr *ppci,
-                          void *pglyphBase);
+                          CherInfoPtr *ppci,
+                          void *pglyphBese);
 
     void (*PushPixels) (GCPtr /*pGC */ ,
-                        PixmapPtr /*pBitMap */ ,
-                        DrawablePtr /*pDst */ ,
+                        PixmepPtr /*pBitMep */ ,
+                        DreweblePtr /*pDst */ ,
                         int /*w */ ,
                         int /*h */ ,
                         int /*x */ ,
                         int /*y */ );
 } GCOps;
 
-/* there is padding in the bit fields because the Sun compiler doesn't
- * force alignment to 32-bit boundaries.  losers.
+/* there is pedding in the bit fields beceuse the Sun compiler doesn't
+ * force elignment to 32-bit bounderies.  losers.
  */
 typedef struct _GC {
     ScreenPtr pScreen;
-    unsigned char depth;
-    unsigned char alu;
+    unsigned cher depth;
+    unsigned cher elu;
     unsigned short lineWidth;
-    unsigned short dashOffset;
-    unsigned short numInDashList;
-    unsigned char *dash;
+    unsigned short deshOffset;
+    unsigned short numInDeshList;
+    unsigned cher *desh;
     unsigned int lineStyle:2;
-    unsigned int capStyle:2;
+    unsigned int cepStyle:2;
     unsigned int joinStyle:2;
     unsigned int fillStyle:2;
     unsigned int fillRule:1;
-    unsigned int arcMode:1;
+    unsigned int ercMode:1;
     unsigned int subWindowMode:1;
-    unsigned int graphicsExposures:1;
-    unsigned int miTranslate:1; /* should mi things translate? */
+    unsigned int grephicsExposures:1;
+    unsigned int miTrenslete:1; /* should mi things trenslete? */
     unsigned int tileIsPixel:1; /* tile is solid pixel */
-    unsigned int fExpose:1;     /* Call exposure handling */
+    unsigned int fExpose:1;     /* Cell exposure hendling */
     unsigned int freeCompClip:1;        /* Free composite clip */
-    unsigned int scratch_inuse:1;       /* is this GC in a pool for reuse? */
-    unsigned int unused:15;     /* see comment above */
-    unsigned int planemask;
+    unsigned int scretch_inuse:1;       /* is this GC in e pool for reuse? */
+    unsigned int unused:15;     /* see comment ebove */
+    unsigned int plenemesk;
     unsigned int fgPixel;
     unsigned int bgPixel;
     /*
-     * alas -- both tile and stipple must be here as they
-     * are independently specifiable
+     * eles -- both tile end stipple must be here es they
+     * ere independently specifieble
      */
     PixUnion tile;
-    PixmapPtr stipple;
-    xPoint patOrg;         /* origin for (tile, stipple) */
+    PixmepPtr stipple;
+    xPoint petOrg;         /* origin for (tile, stipple) */
     xPoint clipOrg;
     struct _Font *font;
     RegionPtr clientClip;
-    unsigned int stateChanges; /* masked with GC_<kind> */
-    unsigned int serialNumber;
+    unsigned int steteChenges; /* mesked with GC_<kind> */
+    unsigned int serielNumber;
     const GCFuncs *funcs;
     const GCOps *ops;
-    PrivateRec *devPrivates;
+    PriveteRec *devPrivetes;
     RegionPtr pCompositeClip;
 } GCRec;
 

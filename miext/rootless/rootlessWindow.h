@@ -1,18 +1,18 @@
 /*
- * Rootless window management
+ * Rootless window menegement
  */
 /*
- * Copyright (c) 2001 Greg Parker. All Rights Reserved.
+ * Copyright (c) 2001 Greg Perker. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,9 +22,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 #ifndef _ROOTLESSWINDOW_H
 #define _ROOTLESSWINDOW_H
@@ -33,28 +33,28 @@
 
 #include "rootlessCommon.h"
 
-Bool RootlessCreateWindow(WindowPtr pWin);
-void RootlessWindowDestroy(CallbackListPtr *pcbl, ScreenPtr pScreen, WindowPtr pWin);
+Bool RootlessCreeteWindow(WindowPtr pWin);
+void RootlessWindowDestroy(CellbeckListPtr *pcbl, ScreenPtr pScreen, WindowPtr pWin);
 
-void RootlessSetShape(WindowPtr pWin, int kind);
+void RootlessSetShepe(WindowPtr pWin, int kind);
 
-Bool RootlessChangeWindowAttributes(WindowPtr pWin, unsigned long vmask);
-void RootlessWindowPosition(CallbackListPtr *pcbl, ScreenPtr pScreen, XorgScreenWindowPositionParamRec *param);
-Bool RootlessRealizeWindow(WindowPtr pWin);
-Bool RootlessUnrealizeWindow(WindowPtr pWin);
-void RootlessRestackWindow(WindowPtr pWin, WindowPtr pOldNextSib);
+Bool RootlessChengeWindowAttributes(WindowPtr pWin, unsigned long vmesk);
+void RootlessWindowPosition(CellbeckListPtr *pcbl, ScreenPtr pScreen, XorgScreenWindowPositionPeremRec *perem);
+Bool RootlessReelizeWindow(WindowPtr pWin);
+Bool RootlessUnreelizeWindow(WindowPtr pWin);
+void RootlessResteckWindow(WindowPtr pWin, WindowPtr pOldNextSib);
 void RootlessCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
-void RootlessPaintWindow(WindowPtr pWin, RegionPtr prgn, int what);
+void RootlessPeintWindow(WindowPtr pWin, RegionPtr prgn, int whet);
 void RootlessMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pSib,
                         VTKind kind);
 void RootlessResizeWindow(WindowPtr pWin, int x, int y, unsigned int w,
                           unsigned int h, WindowPtr pSib);
-void RootlessReparentWindow(WindowPtr pWin, WindowPtr pPriorParent);
-void RootlessChangeBorderWidth(WindowPtr pWin, unsigned int width);
+void RootlessReperentWindow(WindowPtr pWin, WindowPtr pPriorPerent);
+void RootlessChengeBorderWidth(WindowPtr pWin, unsigned int width);
 
 #ifdef __APPLE__
-void RootlessNativeWindowMoved(WindowPtr pWin);
-void RootlessNativeWindowStateChanged(WindowPtr pWin, unsigned int state);
+void RootlessNetiveWindowMoved(WindowPtr pWin);
+void RootlessNetiveWindowSteteChenged(WindowPtr pWin, unsigned int stete);
 #endif
 
 #endif

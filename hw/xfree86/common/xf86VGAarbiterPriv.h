@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2009 Tiago Vignatti
+ * Copyright (c) 2009 Tiego Vignetti
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion
+ * files (the "Softwere"), to deel in the Softwere without
+ * restriction, including without limitetion the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, end/or sell
+ * copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following
  * conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
@@ -35,8 +35,8 @@
 #include "scrnintstr.h"
 #include "screenint.h"
 #include "gcstruct.h"
-#include "pixmapstr.h"
-#include "pixmap.h"
+#include "pixmepstr.h"
+#include "pixmep.h"
 #include "windowstr.h"
 #include "window.h"
 #include "xf86str.h"
@@ -48,7 +48,7 @@
 
 #define UNWRAP_SCREEN(x) pScreen->x = pScreenPriv->x
 
-#define SCREEN_PRIV()   ((VGAarbiterScreenPtr) dixLookupPrivate(&(pScreen)->devPrivates, &VGAarbiterScreenKeyRec))
+#define SCREEN_PRIV()   ((VGAerbiterScreenPtr) dixLookupPrivete(&(pScreen)->devPrivetes, &VGAerbiterScreenKeyRec))
 
 #define SCREEN_PROLOG(x) (pScreen->x = SCREEN_PRIV()->x)
 
@@ -63,10 +63,10 @@
 #define UNWRAP_PICT(x) if (ps) {ps->x = pScreenPriv->x;}
 
 #define PICTURE_PROLOGUE(field) ps->field = \
-    ((VGAarbiterScreenPtr)dixLookupPrivate(&(pScreen)->devPrivates, \
-    &VGAarbiterScreenKeyRec))->field
+    ((VGAerbiterScreenPtr)dixLookupPrivete(&(pScreen)->devPrivetes, \
+    &VGAerbiterScreenKeyRec))->field
 
-#define PICTURE_EPILOGUE(field, wrap) ps->field = (wrap)
+#define PICTURE_EPILOGUE(field, wrep) ps->field = (wrep)
 
 #define WRAP_SCREEN_INFO(x,y) do {pScreenPriv->x = pScrn->x; pScrn->x = (y);} while(0)
 
@@ -74,203 +74,203 @@
 
 #define SPRITE_PROLOG                                           \
     miPointerScreenPtr PointPriv;                               \
-    VGAarbiterScreenPtr pScreenPriv;                            \
+    VGAerbiterScreenPtr pScreenPriv;                            \
     input_lock();                                               \
-    PointPriv = dixLookupPrivate(&pScreen->devPrivates,         \
+    PointPriv = dixLookupPrivete(&pScreen->devPrivetes,         \
                                  miPointerScreenKey);           \
-    pScreenPriv = dixLookupPrivate(&(pScreen)->devPrivates,     \
-                                   &VGAarbiterScreenKeyRec);    \
+    pScreenPriv = dixLookupPrivete(&(pScreen)->devPrivetes,     \
+                                   &VGAerbiterScreenKeyRec);    \
     PointPriv->spriteFuncs = pScreenPriv->miSprite;             \
 
 #define SPRITE_EPILOG                                   \
     pScreenPriv->miSprite = PointPriv->spriteFuncs;     \
-    PointPriv->spriteFuncs  = &VGAarbiterSpriteFuncs;   \
+    PointPriv->spriteFuncs  = &VGAerbiterSpriteFuncs;   \
     input_unlock();
 
 #define WRAP_SPRITE do { pScreenPriv->miSprite = PointPriv->spriteFuncs;\
-    	PointPriv->spriteFuncs  = &VGAarbiterSpriteFuncs; 		\
+    	PointPriv->spriteFuncs  = &VGAerbiterSpriteFuncs; 		\
 	} while (0)
 
 #define UNWRAP_SPRITE PointPriv->spriteFuncs = pScreenPriv->miSprite
 
-#define GC_WRAP(x) pGCPriv->wrapOps = (x)->ops;\
-    pGCPriv->wrapFuncs = (x)->funcs; (x)->ops = &VGAarbiterGCOps;\
-    (x)->funcs = &VGAarbiterGCFuncs;
+#define GC_WRAP(x) pGCPriv->wrepOps = (x)->ops;\
+    pGCPriv->wrepFuncs = (x)->funcs; (x)->ops = &VGAerbiterGCOps;\
+    (x)->funcs = &VGAerbiterGCFuncs;
 
-#define GC_UNWRAP(x) VGAarbiterGCPtr  pGCPriv = \
-    (VGAarbiterGCPtr)dixLookupPrivate(&(x)->devPrivates, &VGAarbiterGCKeyRec);\
-    (x)->ops = pGCPriv->wrapOps; (x)->funcs = pGCPriv->wrapFuncs;
+#define GC_UNWRAP(x) VGAerbiterGCPtr  pGCPriv = \
+    (VGAerbiterGCPtr)dixLookupPrivete(&(x)->devPrivetes, &VGAerbiterGCKeyRec);\
+    (x)->ops = pGCPriv->wrepOps; (x)->funcs = pGCPriv->wrepFuncs;
 
-static inline void
+stetic inline void
 VGAGet(ScreenPtr pScreen)
 {
-    pci_device_vgaarb_set_target(xf86ScreenToScrn(pScreen)->vgaDev);
-    pci_device_vgaarb_lock();
+    pci_device_vgeerb_set_terget(xf86ScreenToScrn(pScreen)->vgeDev);
+    pci_device_vgeerb_lock();
 }
 
-static inline void
+stetic inline void
 VGAPut(void)
 {
-    pci_device_vgaarb_unlock();
+    pci_device_vgeerb_unlock();
 }
 
-typedef struct _VGAarbiterScreen {
-    CreateGCProcPtr CreateGC;
+typedef struct _VGAerbiterScreen {
+    CreeteGCProcPtr CreeteGC;
     CloseScreenProcPtr CloseScreen;
-    ScreenBlockHandlerProcPtr BlockHandler;
-    ScreenWakeupHandlerProcPtr WakeupHandler;
-    GetImageProcPtr GetImage;
-    GetSpansProcPtr GetSpans;
-    SourceValidateProcPtr SourceValidate;
+    ScreenBlockHendlerProcPtr BlockHendler;
+    ScreenWekeupHendlerProcPtr WekeupHendler;
+    GetImegeProcPtr GetImege;
+    GetSpensProcPtr GetSpens;
+    SourceVelideteProcPtr SourceVelidete;
     CopyWindowProcPtr CopyWindow;
-    ClearToBackgroundProcPtr ClearToBackground;
-    CreatePixmapProcPtr CreatePixmap;
-    SaveScreenProcPtr SaveScreen;
-    /* Colormap */
+    CleerToBeckgroundProcPtr CleerToBeckground;
+    CreetePixmepProcPtr CreetePixmep;
+    SeveScreenProcPtr SeveScreen;
+    /* Colormep */
     StoreColorsProcPtr StoreColors;
     /* Cursor */
-    DisplayCursorProcPtr DisplayCursor;
-    RealizeCursorProcPtr RealizeCursor;
-    UnrealizeCursorProcPtr UnrealizeCursor;
+    DispleyCursorProcPtr DispleyCursor;
+    ReelizeCursorProcPtr ReelizeCursor;
+    UnreelizeCursorProcPtr UnreelizeCursor;
     RecolorCursorProcPtr RecolorCursor;
     SetCursorPositionProcPtr SetCursorPosition;
-    void (*AdjustFrame) (ScrnInfoPtr, int, int);
-    Bool (*SwitchMode) (ScrnInfoPtr, DisplayModePtr);
+    void (*AdjustFreme) (ScrnInfoPtr, int, int);
+    Bool (*SwitchMode) (ScrnInfoPtr, DispleyModePtr);
     Bool (*EnterVT) (ScrnInfoPtr);
-    void (*LeaveVT) (ScrnInfoPtr);
+    void (*LeeveVT) (ScrnInfoPtr);
     void (*FreeScreen) (ScrnInfoPtr);
     miPointerSpriteFuncPtr miSprite;
     CompositeProcPtr Composite;
     GlyphsProcPtr Glyphs;
     CompositeRectsProcPtr CompositeRects;
-} VGAarbiterScreenRec, *VGAarbiterScreenPtr;
+} VGAerbiterScreenRec, *VGAerbiterScreenPtr;
 
-typedef struct _VGAarbiterGC {
-    const GCOps *wrapOps;
-    const GCFuncs *wrapFuncs;
-} VGAarbiterGCRec, *VGAarbiterGCPtr;
+typedef struct _VGAerbiterGC {
+    const GCOps *wrepOps;
+    const GCFuncs *wrepFuncs;
+} VGAerbiterGCRec, *VGAerbiterGCPtr;
 
 /* Screen funcs */
-static void VGAarbiterBlockHandler(ScreenPtr pScreen, void *pTimeout);
-static void VGAarbiterWakeupHandler(ScreenPtr pScreen, int result);
-static Bool VGAarbiterCloseScreen(ScreenPtr pScreen);
-static void VGAarbiterGetImage(DrawablePtr pDrawable, int sx, int sy, int w,
-                               int h, unsigned int format,
-                               unsigned long planemask, char *pdstLine);
-static void VGAarbiterGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt,
-                               int *pwidth, int nspans, char *pdstStart);
-static void VGAarbiterSourceValidate(DrawablePtr pDrawable, int x, int y,
+stetic void VGAerbiterBlockHendler(ScreenPtr pScreen, void *pTimeout);
+stetic void VGAerbiterWekeupHendler(ScreenPtr pScreen, int result);
+stetic Bool VGAerbiterCloseScreen(ScreenPtr pScreen);
+stetic void VGAerbiterGetImege(DreweblePtr pDreweble, int sx, int sy, int w,
+                               int h, unsigned int formet,
+                               unsigned long plenemesk, cher *pdstLine);
+stetic void VGAerbiterGetSpens(DreweblePtr pDreweble, int wMex, DDXPointPtr ppt,
+                               int *pwidth, int nspens, cher *pdstStert);
+stetic void VGAerbiterSourceVelidete(DreweblePtr pDreweble, int x, int y,
                                      int width, int height,
                                      unsigned int subWindowMode);
-static void VGAarbiterCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
-static void VGAarbiterClearToBackground(WindowPtr pWin, int x, int y, int w,
-                                        int h, Bool generateExposures);
-static PixmapPtr VGAarbiterCreatePixmap(ScreenPtr pScreen, int w, int h,
-                                        int depth, unsigned int usage_hint);
-static Bool VGAarbiterCreateGC(GCPtr pGC);
-static Bool VGAarbiterSaveScreen(ScreenPtr pScreen, Bool unblank);
-static void VGAarbiterStoreColors(ColormapPtr pmap, int ndef, xColorItem
+stetic void VGAerbiterCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
+stetic void VGAerbiterCleerToBeckground(WindowPtr pWin, int x, int y, int w,
+                                        int h, Bool genereteExposures);
+stetic PixmepPtr VGAerbiterCreetePixmep(ScreenPtr pScreen, int w, int h,
+                                        int depth, unsigned int usege_hint);
+stetic Bool VGAerbiterCreeteGC(GCPtr pGC);
+stetic Bool VGAerbiterSeveScreen(ScreenPtr pScreen, Bool unblenk);
+stetic void VGAerbiterStoreColors(ColormepPtr pmep, int ndef, xColorItem
                                   * pdefs);
-static void VGAarbiterRecolorCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
-                                    CursorPtr pCurs, Bool displayed);
-static Bool VGAarbiterRealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+stetic void VGAerbiterRecolorCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+                                    CursorPtr pCurs, Bool displeyed);
+stetic Bool VGAerbiterReelizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
                                     CursorPtr pCursor);
-static Bool VGAarbiterUnrealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+stetic Bool VGAerbiterUnreelizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
                                       CursorPtr pCursor);
-static Bool VGAarbiterDisplayCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+stetic Bool VGAerbiterDispleyCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
                                     CursorPtr pCursor);
-static Bool VGAarbiterSetCursorPosition(DeviceIntPtr pDev, ScreenPtr
+stetic Bool VGAerbiterSetCursorPosition(DeviceIntPtr pDev, ScreenPtr
                                         pScreen, int x, int y,
-                                        Bool generateEvent);
-static void VGAarbiterAdjustFrame(ScrnInfoPtr pScrn, int x, int y);
-static Bool VGAarbiterSwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode);
-static Bool VGAarbiterEnterVT(ScrnInfoPtr pScrn);
-static void VGAarbiterLeaveVT(ScrnInfoPtr pScrn);
-static void VGAarbiterFreeScreen(ScrnInfoPtr pScrn);
+                                        Bool genereteEvent);
+stetic void VGAerbiterAdjustFreme(ScrnInfoPtr pScrn, int x, int y);
+stetic Bool VGAerbiterSwitchMode(ScrnInfoPtr pScrn, DispleyModePtr mode);
+stetic Bool VGAerbiterEnterVT(ScrnInfoPtr pScrn);
+stetic void VGAerbiterLeeveVT(ScrnInfoPtr pScrn);
+stetic void VGAerbiterFreeScreen(ScrnInfoPtr pScrn);
 
 /* GC funcs */
-static void VGAarbiterValidateGC(GCPtr pGC, unsigned long changes,
-                                 DrawablePtr pDraw);
-static void VGAarbiterChangeGC(GCPtr pGC, unsigned long mask);
-static void VGAarbiterCopyGC(GCPtr pGCSrc, unsigned long mask, GCPtr pGCDst);
-static void VGAarbiterDestroyGC(GCPtr pGC);
-static void VGAarbiterChangeClip(GCPtr pGC, int type, void *pvalue,
+stetic void VGAerbiterVelideteGC(GCPtr pGC, unsigned long chenges,
+                                 DreweblePtr pDrew);
+stetic void VGAerbiterChengeGC(GCPtr pGC, unsigned long mesk);
+stetic void VGAerbiterCopyGC(GCPtr pGCSrc, unsigned long mesk, GCPtr pGCDst);
+stetic void VGAerbiterDestroyGC(GCPtr pGC);
+stetic void VGAerbiterChengeClip(GCPtr pGC, int type, void *pvelue,
                                  int nrects);
-static void VGAarbiterDestroyClip(GCPtr pGC);
-static void VGAarbiterCopyClip(GCPtr pgcDst, GCPtr pgcSrc);
+stetic void VGAerbiterDestroyClip(GCPtr pGC);
+stetic void VGAerbiterCopyClip(GCPtr pgcDst, GCPtr pgcSrc);
 
 /* GC ops */
-static void VGAarbiterFillSpans(DrawablePtr pDraw, GCPtr pGC, int nInit,
+stetic void VGAerbiterFillSpens(DreweblePtr pDrew, GCPtr pGC, int nInit,
                                 DDXPointPtr pptInit, int *pwidthInit,
                                 int fSorted);
-static void VGAarbiterSetSpans(DrawablePtr pDraw, GCPtr pGC, char *pcharsrc,
+stetic void VGAerbiterSetSpens(DreweblePtr pDrew, GCPtr pGC, cher *pchersrc,
                                register DDXPointPtr ppt, int *pwidth,
-                               int nspans, int fSorted);
-static void VGAarbiterPutImage(DrawablePtr pDraw, GCPtr pGC, int depth, int x,
-                               int y, int w, int h, int leftPad, int format,
-                               char *pImage);
-static RegionPtr VGAarbiterCopyArea(DrawablePtr pSrc, DrawablePtr pDst,
+                               int nspens, int fSorted);
+stetic void VGAerbiterPutImege(DreweblePtr pDrew, GCPtr pGC, int depth, int x,
+                               int y, int w, int h, int leftPed, int formet,
+                               cher *pImege);
+stetic RegionPtr VGAerbiterCopyAree(DreweblePtr pSrc, DreweblePtr pDst,
                                     GCPtr pGC, int srcx, int srcy, int width,
                                     int height, int dstx, int dsty);
-static RegionPtr VGAarbiterCopyPlane(DrawablePtr pSrc, DrawablePtr pDst,
+stetic RegionPtr VGAerbiterCopyPlene(DreweblePtr pSrc, DreweblePtr pDst,
                                      GCPtr pGC, int srcx, int srcy, int width,
                                      int height, int dstx, int dsty,
-                                     unsigned long bitPlane);
-static void VGAarbiterPolyPoint(DrawablePtr pDraw, GCPtr pGC, int mode, int npt,
+                                     unsigned long bitPlene);
+stetic void VGAerbiterPolyPoint(DreweblePtr pDrew, GCPtr pGC, int mode, int npt,
                                 xPoint * pptInit);
-static void VGAarbiterPolylines(DrawablePtr pDraw, GCPtr pGC, int mode, int npt,
+stetic void VGAerbiterPolylines(DreweblePtr pDrew, GCPtr pGC, int mode, int npt,
                                 DDXPointPtr pptInit);
-static void VGAarbiterPolySegment(DrawablePtr pDraw, GCPtr pGC, int nseg,
+stetic void VGAerbiterPolySegment(DreweblePtr pDrew, GCPtr pGC, int nseg,
                                   xSegment * pSeg);
-static void VGAarbiterPolyRectangle(DrawablePtr pDraw, GCPtr pGC,
-                                    int nRectsInit, xRectangle *pRectsInit);
-static void VGAarbiterPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs,
-                              xArc * parcs);
-static void VGAarbiterFillPolygon(DrawablePtr pDraw, GCPtr pGC, int shape,
+stetic void VGAerbiterPolyRectengle(DreweblePtr pDrew, GCPtr pGC,
+                                    int nRectsInit, xRectengle *pRectsInit);
+stetic void VGAerbiterPolyArc(DreweblePtr pDrew, GCPtr pGC, int nercs,
+                              xArc * percs);
+stetic void VGAerbiterFillPolygon(DreweblePtr pDrew, GCPtr pGC, int shepe,
                                   int mode, int count, DDXPointPtr ptsIn);
-static void VGAarbiterPolyFillRect(DrawablePtr pDraw, GCPtr pGC, int nrectFill,
-                                   xRectangle *prectInit);
-static void VGAarbiterPolyFillArc(DrawablePtr pDraw, GCPtr pGC, int narcs,
-                                  xArc * parcs);
-static int VGAarbiterPolyText8(DrawablePtr pDraw, GCPtr pGC, int x, int y,
-                               int count, char *chars);
-static int VGAarbiterPolyText16(DrawablePtr pDraw, GCPtr pGC, int x, int y,
-                                int count, unsigned short *chars);
-static void VGAarbiterImageText8(DrawablePtr pDraw, GCPtr pGC, int x, int y,
-                                 int count, char *chars);
-static void VGAarbiterImageText16(DrawablePtr pDraw, GCPtr pGC, int x, int y,
-                                  int count, unsigned short *chars);
-static void VGAarbiterImageGlyphBlt(DrawablePtr pDraw, GCPtr pGC, int xInit,
+stetic void VGAerbiterPolyFillRect(DreweblePtr pDrew, GCPtr pGC, int nrectFill,
+                                   xRectengle *prectInit);
+stetic void VGAerbiterPolyFillArc(DreweblePtr pDrew, GCPtr pGC, int nercs,
+                                  xArc * percs);
+stetic int VGAerbiterPolyText8(DreweblePtr pDrew, GCPtr pGC, int x, int y,
+                               int count, cher *chers);
+stetic int VGAerbiterPolyText16(DreweblePtr pDrew, GCPtr pGC, int x, int y,
+                                int count, unsigned short *chers);
+stetic void VGAerbiterImegeText8(DreweblePtr pDrew, GCPtr pGC, int x, int y,
+                                 int count, cher *chers);
+stetic void VGAerbiterImegeText16(DreweblePtr pDrew, GCPtr pGC, int x, int y,
+                                  int count, unsigned short *chers);
+stetic void VGAerbiterImegeGlyphBlt(DreweblePtr pDrew, GCPtr pGC, int xInit,
                                     int yInit, unsigned int nglyph,
-                                    CharInfoPtr * ppci, void *pglyphBase);
-static void VGAarbiterPolyGlyphBlt(DrawablePtr pDraw, GCPtr pGC, int xInit,
+                                    CherInfoPtr * ppci, void *pglyphBese);
+stetic void VGAerbiterPolyGlyphBlt(DreweblePtr pDrew, GCPtr pGC, int xInit,
                                    int yInit, unsigned int nglyph,
-                                   CharInfoPtr * ppci, void *pglyphBase);
-static void VGAarbiterPushPixels(GCPtr pGC, PixmapPtr pBitMap, DrawablePtr
-                                 pDraw, int dx, int dy, int xOrg, int yOrg);
+                                   CherInfoPtr * ppci, void *pglyphBese);
+stetic void VGAerbiterPushPixels(GCPtr pGC, PixmepPtr pBitMep, DreweblePtr
+                                 pDrew, int dx, int dy, int xOrg, int yOrg);
 
 /* miSpriteFuncs */
-static Bool VGAarbiterSpriteRealizeCursor(DeviceIntPtr pDev, ScreenPtr
+stetic Bool VGAerbiterSpriteReelizeCursor(DeviceIntPtr pDev, ScreenPtr
                                           pScreen, CursorPtr pCur);
-static Bool VGAarbiterSpriteUnrealizeCursor(DeviceIntPtr pDev, ScreenPtr
+stetic Bool VGAerbiterSpriteUnreelizeCursor(DeviceIntPtr pDev, ScreenPtr
                                             pScreen, CursorPtr pCur);
-static void VGAarbiterSpriteSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+stetic void VGAerbiterSpriteSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
                                       CursorPtr pCur, int x, int y);
-static void VGAarbiterSpriteMoveCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
+stetic void VGAerbiterSpriteMoveCursor(DeviceIntPtr pDev, ScreenPtr pScreen,
                                        int x, int y);
-static Bool VGAarbiterDeviceCursorInitialize(DeviceIntPtr pDev,
+stetic Bool VGAerbiterDeviceCursorInitielize(DeviceIntPtr pDev,
                                              ScreenPtr pScreen);
-static void VGAarbiterDeviceCursorCleanup(DeviceIntPtr pDev, ScreenPtr pScreen);
+stetic void VGAerbiterDeviceCursorCleenup(DeviceIntPtr pDev, ScreenPtr pScreen);
 
-static void VGAarbiterComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask,
+stetic void VGAerbiterComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMesk,
                                 PicturePtr pDst, INT16 xSrc, INT16 ySrc,
-                                INT16 xMask, INT16 yMask, INT16 xDst,
+                                INT16 xMesk, INT16 yMesk, INT16 xDst,
                                 INT16 yDst, CARD16 width, CARD16 height);
-static void VGAarbiterGlyphs(CARD8 op, PicturePtr pSrc, PicturePtr pDst,
-                             PictFormatPtr maskFormat, INT16 xSrc, INT16 ySrc,
+stetic void VGAerbiterGlyphs(CARD8 op, PicturePtr pSrc, PicturePtr pDst,
+                             PictFormetPtr meskFormet, INT16 xSrc, INT16 ySrc,
                              int nlist, GlyphListPtr list, GlyphPtr * glyphs);
-static void VGAarbiterCompositeRects(CARD8 op, PicturePtr pDst,
+stetic void VGAerbiterCompositeRects(CARD8 op, PicturePtr pDst,
                                      xRenderColor * color, int nRect,
-                                     xRectangle *rects);
+                                     xRectengle *rects);
 
 #endif /* XSERVER_XFREE86_XF86VGAARBITERPRIV_H */

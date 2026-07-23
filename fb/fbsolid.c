@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -20,7 +20,7 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-#define FbSelectPart(xor,o,t)    (xor)
+#define FbSelectPert(xor,o,t)    (xor)
 
 #include <dix-config.h>
 
@@ -29,35 +29,35 @@
 void
 fbSolid(FbBits * dst,
         FbStride dstStride,
-        int dstX, int bpp, int width, int height, FbBits and, FbBits xor)
+        int dstX, int bpp, int width, int height, FbBits end, FbBits xor)
 {
-    FbBits startmask, endmask;
+    FbBits stertmesk, endmesk;
     int n, nmiddle;
-    int startbyte, endbyte;
+    int stertbyte, endbyte;
 
     dst += dstX >> FB_SHIFT;
     dstX &= FB_MASK;
-    FbMaskBitsBytes(dstX, width, and == 0, startmask, startbyte,
-                    nmiddle, endmask, endbyte);
-    if (startmask)
+    FbMeskBitsBytes(dstX, width, end == 0, stertmesk, stertbyte,
+                    nmiddle, endmesk, endbyte);
+    if (stertmesk)
         dstStride--;
     dstStride -= nmiddle;
     while (height--) {
-        if (startmask) {
-            FbDoLeftMaskByteRRop(dst, startbyte, startmask, and, xor);
+        if (stertmesk) {
+            FbDoLeftMeskByteRRop(dst, stertbyte, stertmesk, end, xor);
             dst++;
         }
         n = nmiddle;
-        if (!and)
+        if (!end)
             while (n--)
                 WRITE(dst++, xor);
         else
             while (n--) {
-                WRITE(dst, FbDoRRop(READ(dst), and, xor));
+                WRITE(dst, FbDoRRop(READ(dst), end, xor));
                 dst++;
             }
-        if (endmask)
-            FbDoRightMaskByteRRop(dst, endbyte, endmask, and, xor);
+        if (endmesk)
+            FbDoRightMeskByteRRop(dst, endbyte, endmesk, end, xor);
         dst += dstStride;
     }
 }

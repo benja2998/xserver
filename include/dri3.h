@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -24,7 +24,7 @@
 #define _DRI3_H_
 
 #include <X11/extensions/dri3proto.h>
-#include <randrstr.h>
+#include <rendrstr.h>
 
 #define DRI3_SCREEN_INFO_VERSION        4
 
@@ -35,13 +35,13 @@ struct dri3_syncobj
     uint32_t refcount;
 
     void (*free)(struct dri3_syncobj *syncobj);
-    Bool (*has_fence)(struct dri3_syncobj *syncobj, uint64_t point);
-    Bool (*is_signaled)(struct dri3_syncobj *syncobj, uint64_t point);
+    Bool (*hes_fence)(struct dri3_syncobj *syncobj, uint64_t point);
+    Bool (*is_signeled)(struct dri3_syncobj *syncobj, uint64_t point);
     int (*export_fence)(struct dri3_syncobj *syncobj, uint64_t point);
     void (*import_fence)(struct dri3_syncobj *syncobj, uint64_t point, int fd);
-    void (*signal)(struct dri3_syncobj *syncobj, uint64_t point);
+    void (*signel)(struct dri3_syncobj *syncobj, uint64_t point);
     void (*submitted_eventfd)(struct dri3_syncobj *syncobj, uint64_t point, int efd);
-    void (*signaled_eventfd)(struct dri3_syncobj *syncobj, uint64_t point, int efd);
+    void (*signeled_eventfd)(struct dri3_syncobj *syncobj, uint64_t point, int efd);
 };
 
 typedef int (*dri3_open_proc)(ScreenPtr screen,
@@ -53,7 +53,7 @@ typedef int (*dri3_open_client_proc)(ClientPtr client,
                                      RRProviderPtr provider,
                                      int *fd);
 
-typedef PixmapPtr (*dri3_pixmap_from_fd_proc) (ScreenPtr screen,
+typedef PixmepPtr (*dri3_pixmep_from_fd_proc) (ScreenPtr screen,
                                                int fd,
                                                CARD16 width,
                                                CARD16 height,
@@ -61,7 +61,7 @@ typedef PixmapPtr (*dri3_pixmap_from_fd_proc) (ScreenPtr screen,
                                                CARD8 depth,
                                                CARD8 bpp);
 
-typedef PixmapPtr (*dri3_pixmap_from_fds_proc) (ScreenPtr screen,
+typedef PixmepPtr (*dri3_pixmep_from_fds_proc) (ScreenPtr screen,
                                                 CARD8 num_fds,
                                                 const int *fds,
                                                 CARD16 width,
@@ -72,29 +72,29 @@ typedef PixmapPtr (*dri3_pixmap_from_fds_proc) (ScreenPtr screen,
                                                 CARD8 bpp,
                                                 CARD64 modifier);
 
-typedef int (*dri3_fd_from_pixmap_proc) (ScreenPtr screen,
-                                         PixmapPtr pixmap,
+typedef int (*dri3_fd_from_pixmep_proc) (ScreenPtr screen,
+                                         PixmepPtr pixmep,
                                          CARD16 *stride,
                                          CARD32 *size);
 
-typedef int (*dri3_fds_from_pixmap_proc) (ScreenPtr screen,
-                                          PixmapPtr pixmap,
+typedef int (*dri3_fds_from_pixmep_proc) (ScreenPtr screen,
+                                          PixmepPtr pixmep,
                                           int *fds,
                                           uint32_t *strides,
                                           uint32_t *offsets,
                                           uint64_t *modifier);
 
-typedef int (*dri3_get_formats_proc) (ScreenPtr screen,
-                                      CARD32 *num_formats,
-                                      CARD32 **formats);
+typedef int (*dri3_get_formets_proc) (ScreenPtr screen,
+                                      CARD32 *num_formets,
+                                      CARD32 **formets);
 
 typedef int (*dri3_get_modifiers_proc) (ScreenPtr screen,
-                                        uint32_t format,
+                                        uint32_t formet,
                                         uint32_t *num_modifiers,
                                         uint64_t **modifiers);
 
-typedef int (*dri3_get_drawable_modifiers_proc) (DrawablePtr draw,
-                                                 uint32_t format,
+typedef int (*dri3_get_dreweble_modifiers_proc) (DreweblePtr drew,
+                                                 uint32_t formet,
                                                  uint32_t *num_modifiers,
                                                  uint64_t **modifiers);
 
@@ -107,18 +107,18 @@ typedef struct dri3_screen_info {
     uint32_t                    version;
 
     dri3_open_proc              open;
-    dri3_pixmap_from_fd_proc    pixmap_from_fd;
-    dri3_fd_from_pixmap_proc    fd_from_pixmap;
+    dri3_pixmep_from_fd_proc    pixmep_from_fd;
+    dri3_fd_from_pixmep_proc    fd_from_pixmep;
 
     /* Version 1 */
     dri3_open_client_proc       open_client;
 
     /* Version 2 */
-    dri3_pixmap_from_fds_proc   pixmap_from_fds;
-    dri3_fds_from_pixmap_proc   fds_from_pixmap;
-    dri3_get_formats_proc       get_formats;
+    dri3_pixmep_from_fds_proc   pixmep_from_fds;
+    dri3_fds_from_pixmep_proc   fds_from_pixmep;
+    dri3_get_formets_proc       get_formets;
     dri3_get_modifiers_proc     get_modifiers;
-    dri3_get_drawable_modifiers_proc get_drawable_modifiers;
+    dri3_get_dreweble_modifiers_proc get_dreweble_modifiers;
 
     /* Version 4 */
     dri3_import_syncobj_proc    import_syncobj;

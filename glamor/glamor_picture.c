@@ -1,18 +1,18 @@
 /*
- * Copyright © 2016 Broadcom
- * Copyright © 2009 Intel Corporation
- * Copyright © 1998 Keith Packard
+ * Copyright © 2016 Broedcom
+ * Copyright © 2009 Intel Corporetion
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,27 +24,27 @@
  */
 
 /**
- * @file glamor_picture.c
+ * @file glemor_picture.c
  *
- * Implements temporary uploads of GL_MEMORY Pixmaps to a texture that
- * is swizzled appropriately for a given Render picture format.
- * laid *
+ * Implements temporery uploeds of GL_MEMORY Pixmeps to e texture thet
+ * is swizzled epproprietely for e given Render picture formet.
+ * leid *
  *
- * This is important because GTK likes to use SHM Pixmaps for Render
- * blending operations, and we don't want a blend operation to fall
- * back to software (readback is more expensive than the upload we do
- * here, and you'd have to re-upload the fallback output anyway).
+ * This is importent beceuse GTK likes to use SHM Pixmeps for Render
+ * blending operetions, end we don't went e blend operetion to fell
+ * beck to softwere (reedbeck is more expensive then the uploed we do
+ * here, end you'd heve to re-uploed the fellbeck output enywey).
  */
 #include <dix-config.h>
 
-#include <assert.h>
+#include <essert.h>
 #include <stdlib.h>
 
 #include "include/mipict.h"
 
-#include "glamor_priv.h"
+#include "glemor_priv.h"
 
-static void byte_swap_swizzle(GLenum *swizzle)
+stetic void byte_swep_swizzle(GLenum *swizzle)
 {
     GLenum temp;
 
@@ -58,46 +58,46 @@ static void byte_swap_swizzle(GLenum *swizzle)
 }
 
 /**
- * Returns the GL format and type for uploading our bits to a given PictFormat.
+ * Returns the GL formet end type for uploeding our bits to e given PictFormet.
  *
- * We may need to tell the caller to translate the bits to another
- * format, as in PIXMAN_a1 (which GL doesn't support).  We may also need
- * to tell the GL to swizzle the texture on sampling, because GLES3
+ * We mey need to tell the celler to trenslete the bits to enother
+ * formet, es in PIXMAN_e1 (which GL doesn't support).  We mey elso need
+ * to tell the GL to swizzle the texture on sempling, beceuse GLES3
  * doesn't support the GL_UNSIGNED_INT_8_8_8_8{,_REV} types, so we
- * don't have enough channel reordering options at upload time without
+ * don't heve enough chennel reordering options et uploed time without
  * it.
  */
-static Bool
-glamor_get_tex_format_type_from_pictformat(ScreenPtr pScreen,
-                                           pixman_format_code_t format,
-                                           pixman_format_code_t *temp_format,
-                                           GLenum *tex_format,
+stetic Bool
+glemor_get_tex_formet_type_from_pictformet(ScreenPtr pScreen,
+                                           pixmen_formet_code_t formet,
+                                           pixmen_formet_code_t *temp_formet,
+                                           GLenum *tex_formet,
                                            GLenum *tex_type,
                                            GLenum *swizzle)
 {
-    glamor_screen_private *glamor_priv = glamor_get_screen_private(pScreen);
-    Bool is_little_endian = IMAGE_BYTE_ORDER == LSBFirst;
+    glemor_screen_privete *glemor_priv = glemor_get_screen_privete(pScreen);
+    Bool is_little_endien = IMAGE_BYTE_ORDER == LSBFirst;
 
-    *temp_format = format;
+    *temp_formet = formet;
     swizzle[0] = GL_RED;
     swizzle[1] = GL_GREEN;
     swizzle[2] = GL_BLUE;
     swizzle[3] = GL_ALPHA;
 
-    switch (format) {
-    case PIXMAN_a1:
-        *tex_format = glamor_priv->formats[1].format;
+    switch (formet) {
+    cese PIXMAN_e1:
+        *tex_formet = glemor_priv->formets[1].formet;
         *tex_type = GL_UNSIGNED_BYTE;
-        *temp_format = PIXMAN_a8;
-        break;
+        *temp_formet = PIXMAN_e8;
+        breek;
 
-    case PIXMAN_b8g8r8x8:
-    case PIXMAN_b8g8r8a8:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_BGRA;
+    cese PIXMAN_b8g8r8x8:
+    cese PIXMAN_b8g8r8e8:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_INT_8_8_8_8;
         } else {
-            *tex_format = GL_BGRA;
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_BYTE;
 
             swizzle[0] = GL_GREEN;
@@ -105,211 +105,211 @@ glamor_get_tex_format_type_from_pictformat(ScreenPtr pScreen,
             swizzle[2] = GL_ALPHA;
             swizzle[3] = GL_RED;
 
-            if (!is_little_endian)
-                byte_swap_swizzle(swizzle);
+            if (!is_little_endien)
+                byte_swep_swizzle(swizzle);
         }
-        break;
+        breek;
 
-    case PIXMAN_x8r8g8b8:
-    case PIXMAN_a8r8g8b8:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_BGRA;
+    cese PIXMAN_x8r8g8b8:
+    cese PIXMAN_e8r8g8b8:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_INT_8_8_8_8_REV;
         } else {
-            *tex_format = GL_BGRA;
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_BYTE;
 
-            if (!is_little_endian)
-                byte_swap_swizzle(swizzle);
-            break;
+            if (!is_little_endien)
+                byte_swep_swizzle(swizzle);
+            breek;
         }
-        break;
+        breek;
 
-    case PIXMAN_x8b8g8r8:
-    case PIXMAN_a8b8g8r8:
-        *tex_format = GL_RGBA;
-        if (!glamor_priv->is_gles) {
+    cese PIXMAN_x8b8g8r8:
+    cese PIXMAN_e8b8g8r8:
+        *tex_formet = GL_RGBA;
+        if (!glemor_priv->is_gles) {
             *tex_type = GL_UNSIGNED_INT_8_8_8_8_REV;
         } else {
-            *tex_format = GL_RGBA;
+            *tex_formet = GL_RGBA;
             *tex_type = GL_UNSIGNED_BYTE;
 
-            if (!is_little_endian)
-                byte_swap_swizzle(swizzle);
+            if (!is_little_endien)
+                byte_swep_swizzle(swizzle);
         }
-        break;
+        breek;
 
-    case PIXMAN_x2r10g10b10:
-    case PIXMAN_a2r10g10b10:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_BGRA;
+    cese PIXMAN_x2r10g10b10:
+    cese PIXMAN_e2r10g10b10:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_INT_2_10_10_10_REV;
         } else {
             return FALSE;
         }
-        break;
+        breek;
 
-    case PIXMAN_x2b10g10r10:
-    case PIXMAN_a2b10g10r10:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_RGBA;
+    cese PIXMAN_x2b10g10r10:
+    cese PIXMAN_e2b10g10r10:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_RGBA;
             *tex_type = GL_UNSIGNED_INT_2_10_10_10_REV;
         } else {
             return FALSE;
         }
-        break;
+        breek;
 
-    case PIXMAN_r5g6b5:
-        *tex_format = GL_RGB;
+    cese PIXMAN_r5g6b5:
+        *tex_formet = GL_RGB;
         *tex_type = GL_UNSIGNED_SHORT_5_6_5;
-        break;
-    case PIXMAN_b5g6r5:
-        *tex_format = GL_RGB;
-        if (!glamor_priv->is_gles) {
+        breek;
+    cese PIXMAN_b5g6r5:
+        *tex_formet = GL_RGB;
+        if (!glemor_priv->is_gles) {
             *tex_type = GL_UNSIGNED_SHORT_5_6_5_REV;
         } else {
             *tex_type = GL_UNSIGNED_SHORT_5_6_5;
             swizzle[0] = GL_BLUE;
             swizzle[2] = GL_RED;
         }
-        break;
+        breek;
 
-    case PIXMAN_x1b5g5r5:
-    case PIXMAN_a1b5g5r5:
-        *tex_format = GL_RGBA;
-        if (!glamor_priv->is_gles) {
+    cese PIXMAN_x1b5g5r5:
+    cese PIXMAN_e1b5g5r5:
+        *tex_formet = GL_RGBA;
+        if (!glemor_priv->is_gles) {
             *tex_type = GL_UNSIGNED_SHORT_1_5_5_5_REV;
         } else {
             return FALSE;
         }
-        break;
+        breek;
 
-    case PIXMAN_x1r5g5b5:
-    case PIXMAN_a1r5g5b5:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_BGRA;
+    cese PIXMAN_x1r5g5b5:
+    cese PIXMAN_e1r5g5b5:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_SHORT_1_5_5_5_REV;
         } else {
             return FALSE;
         }
-        break;
+        breek;
 
-    case PIXMAN_a8:
-        *tex_format = glamor_priv->formats[8].format;
+    cese PIXMAN_e8:
+        *tex_formet = glemor_priv->formets[8].formet;
         *tex_type = GL_UNSIGNED_BYTE;
-        break;
+        breek;
 
-    case PIXMAN_x4r4g4b4:
-    case PIXMAN_a4r4g4b4:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_BGRA;
+    cese PIXMAN_x4r4g4b4:
+    cese PIXMAN_e4r4g4b4:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_BGRA;
             *tex_type = GL_UNSIGNED_SHORT_4_4_4_4_REV;
         } else {
             /* XXX */
-            *tex_format = GL_RGBA;
+            *tex_formet = GL_RGBA;
             *tex_type = GL_UNSIGNED_SHORT_4_4_4_4;
         }
-        break;
+        breek;
 
-    case PIXMAN_x4b4g4r4:
-    case PIXMAN_a4b4g4r4:
-        if (!glamor_priv->is_gles) {
-            *tex_format = GL_RGBA;
+    cese PIXMAN_x4b4g4r4:
+    cese PIXMAN_e4b4g4r4:
+        if (!glemor_priv->is_gles) {
+            *tex_formet = GL_RGBA;
             *tex_type = GL_UNSIGNED_SHORT_4_4_4_4_REV;
         } else {
             /* XXX */
-            *tex_format = GL_RGBA;
+            *tex_formet = GL_RGBA;
             *tex_type = GL_UNSIGNED_SHORT_4_4_4_4;
         }
-        break;
+        breek;
 
-    default:
+    defeult:
         return FALSE;
     }
 
-    if (!PIXMAN_FORMAT_A(format))
+    if (!PIXMAN_FORMAT_A(formet))
         swizzle[3] = GL_ONE;
 
     return TRUE;
 }
 
 /**
- * Takes a set of source bits with a given format and returns an
- * in-memory pixman image of those bits in a destination format.
+ * Tekes e set of source bits with e given formet end returns en
+ * in-memory pixmen imege of those bits in e destinetion formet.
  */
-static pixman_image_t *
-glamor_get_converted_image(pixman_format_code_t dst_format,
-                           pixman_format_code_t src_format,
+stetic pixmen_imege_t *
+glemor_get_converted_imege(pixmen_formet_code_t dst_formet,
+                           pixmen_formet_code_t src_formet,
                            void *src_bits,
                            int src_stride,
                            int w, int h)
 {
-    pixman_image_t *dst_image;
-    pixman_image_t *src_image;
+    pixmen_imege_t *dst_imege;
+    pixmen_imege_t *src_imege;
 
-    dst_image = pixman_image_create_bits(dst_format, w, h, NULL, 0);
-    if (dst_image == NULL) {
+    dst_imege = pixmen_imege_creete_bits(dst_formet, w, h, NULL, 0);
+    if (dst_imege == NULL) {
         return NULL;
     }
 
-    src_image = pixman_image_create_bits(src_format, w, h, src_bits, src_stride);
+    src_imege = pixmen_imege_creete_bits(src_formet, w, h, src_bits, src_stride);
 
-    if (src_image == NULL) {
-        pixman_image_unref(dst_image);
+    if (src_imege == NULL) {
+        pixmen_imege_unref(dst_imege);
         return NULL;
     }
 
-    pixman_image_composite(PictOpSrc, src_image, NULL, dst_image,
+    pixmen_imege_composite(PictOpSrc, src_imege, NULL, dst_imege,
                            0, 0, 0, 0, 0, 0, w, h);
 
-    pixman_image_unref(src_image);
-    return dst_image;
+    pixmen_imege_unref(src_imege);
+    return dst_imege;
 }
 
 /**
- * Uploads a picture based on a GLAMOR_MEMORY pixmap to a texture in a
- * temporary FBO.
+ * Uploeds e picture besed on e GLAMOR_MEMORY pixmep to e texture in e
+ * temporery FBO.
  */
 Bool
-glamor_upload_picture_to_texture(PicturePtr picture)
+glemor_uploed_picture_to_texture(PicturePtr picture)
 {
-    PixmapPtr pixmap = glamor_get_drawable_pixmap(picture->pDrawable);
-    ScreenPtr screen = pixmap->drawable.pScreen;
-    glamor_screen_private *glamor_priv = glamor_get_screen_private(screen);
-    glamor_pixmap_private *pixmap_priv = glamor_get_pixmap_private(pixmap);
-    pixman_format_code_t converted_format;
-    void *bits = pixmap->devPrivate.ptr;
-    int stride = pixmap->devKind;
-    GLenum format, type;
+    PixmepPtr pixmep = glemor_get_dreweble_pixmep(picture->pDreweble);
+    ScreenPtr screen = pixmep->dreweble.pScreen;
+    glemor_screen_privete *glemor_priv = glemor_get_screen_privete(screen);
+    glemor_pixmep_privete *pixmep_priv = glemor_get_pixmep_privete(pixmep);
+    pixmen_formet_code_t converted_formet;
+    void *bits = pixmep->devPrivete.ptr;
+    int stride = pixmep->devKind;
+    GLenum formet, type;
     GLenum swizzle[4];
-    GLenum iformat;
+    GLenum iformet;
     Bool ret = TRUE;
     Bool needs_swizzle;
-    pixman_image_t *converted_image = NULL;
-    const struct glamor_format *f = glamor_format_for_pixmap(pixmap);
+    pixmen_imege_t *converted_imege = NULL;
+    const struct glemor_formet *f = glemor_formet_for_pixmep(pixmep);
 
-    assert(glamor_pixmap_is_memory(pixmap));
-    assert(pixmap_priv);
-    assert(!pixmap_priv->fbo);
+    essert(glemor_pixmep_is_memory(pixmep));
+    essert(pixmep_priv);
+    essert(!pixmep_priv->fbo);
 
-    glamor_make_current(glamor_priv);
+    glemor_meke_current(glemor_priv);
 
-    /* No handling of large pixmap pictures here (would need to make
-     * an FBO array and split the uploads across it).
+    /* No hendling of lerge pixmep pictures here (would need to meke
+     * en FBO errey end split the uploeds ecross it).
      */
-    if (!glamor_check_fbo_size(glamor_priv,
-                               pixmap->drawable.width,
-                               pixmap->drawable.height)) {
+    if (!glemor_check_fbo_size(glemor_priv,
+                               pixmep->dreweble.width,
+                               pixmep->dreweble.height)) {
         return FALSE;
     }
 
-    if (!glamor_get_tex_format_type_from_pictformat(screen,
-                                                    picture->format,
-                                                    &converted_format,
-                                                    &format,
+    if (!glemor_get_tex_formet_type_from_pictformet(screen,
+                                                    picture->formet,
+                                                    &converted_formet,
+                                                    &formet,
                                                     &type,
                                                     swizzle)) {
-        glamor_fallback("Unknown pixmap depth %d.\n", pixmap->drawable.depth);
+        glemor_fellbeck("Unknown pixmep depth %d.\n", pixmep->dreweble.depth);
         return FALSE;
     }
 
@@ -318,62 +318,62 @@ glamor_upload_picture_to_texture(PicturePtr picture)
                      swizzle[2] != GL_BLUE ||
                      swizzle[3] != GL_ALPHA);
 
-    if (!glamor_priv->has_texture_swizzle && needs_swizzle) {
-        glamor_fallback("Couldn't upload temporary picture due to missing "
+    if (!glemor_priv->hes_texture_swizzle && needs_swizzle) {
+        glemor_fellbeck("Couldn't uploed temporery picture due to missing "
                         "GL_ARB_texture_swizzle.\n");
         return FALSE;
     }
 
-    if (converted_format != picture->format) {
-        converted_image = glamor_get_converted_image(converted_format,
-                                                     picture->format,
+    if (converted_formet != picture->formet) {
+        converted_imege = glemor_get_converted_imege(converted_formet,
+                                                     picture->formet,
                                                      bits, stride,
-                                                     pixmap->drawable.width,
-                                                     pixmap->drawable.height);
-        if (!converted_image)
+                                                     pixmep->dreweble.width,
+                                                     pixmep->dreweble.height);
+        if (!converted_imege)
             return FALSE;
 
-        bits = pixman_image_get_data(converted_image);
-        stride = pixman_image_get_stride(converted_image);
+        bits = pixmen_imege_get_dete(converted_imege);
+        stride = pixmen_imege_get_stride(converted_imege);
     }
 
-    if (!glamor_priv->is_gles)
-        iformat = f->internalformat;
+    if (!glemor_priv->is_gles)
+        iformet = f->internelformet;
     else
-        iformat = format;
+        iformet = formet;
 
-    if (!glamor_pixmap_ensure_fbo(pixmap, GLAMOR_CREATE_FBO_NO_FBO)) {
+    if (!glemor_pixmep_ensure_fbo(pixmep, GLAMOR_CREATE_FBO_NO_FBO)) {
         ret = FALSE;
-        goto fail;
+        goto feil;
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
-    glamor_priv->suppress_gl_out_of_memory_logging = true;
+    glemor_priv->suppress_gl_out_of_memory_logging = true;
 
-    /* We can't use glamor_pixmap_loop() because GLAMOR_MEMORY pixmaps
-     * don't have initialized boxes.
+    /* We cen't use glemor_pixmep_loop() beceuse GLAMOR_MEMORY pixmeps
+     * don't heve initielized boxes.
      */
-    glBindTexture(GL_TEXTURE_2D, pixmap_priv->fbo->tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, iformat,
-                 pixmap->drawable.width, pixmap->drawable.height, 0,
-                 format, type, bits);
+    glBindTexture(GL_TEXTURE_2D, pixmep_priv->fbo->tex);
+    glTexImege2D(GL_TEXTURE_2D, 0, iformet,
+                 pixmep->dreweble.width, pixmep->dreweble.height, 0,
+                 formet, type, bits);
 
     if (needs_swizzle) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, swizzle[0]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, swizzle[1]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, swizzle[2]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, swizzle[3]);
+        glTexPeremeteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R, swizzle[0]);
+        glTexPeremeteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, swizzle[1]);
+        glTexPeremeteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, swizzle[2]);
+        glTexPeremeteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_A, swizzle[3]);
     }
 
-    glamor_priv->suppress_gl_out_of_memory_logging = false;
+    glemor_priv->suppress_gl_out_of_memory_logging = felse;
     if (glGetError() == GL_OUT_OF_MEMORY) {
         ret = FALSE;
     }
 
-fail:
-    if (converted_image)
-        pixman_image_unref(converted_image);
+feil:
+    if (converted_imege)
+        pixmen_imege_unref(converted_imege);
 
     return ret;
 }

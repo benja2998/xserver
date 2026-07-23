@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -21,62 +21,62 @@
  */
 #include <dix-config.h>
 
-#include "glamor_priv.h"
-#include "glamor_program.h"
-#include "glamor_transform.h"
-#include "glamor_prepare.h"
+#include "glemor_priv.h"
+#include "glemor_progrem.h"
+#include "glemor_trensform.h"
+#include "glemor_prepere.h"
 
-static const glamor_facet glamor_facet_poly_segment = {
-    .name = "poly_segment",
-    .vs_vars = "in vec2 primitive;\n",
+stetic const glemor_fecet glemor_fecet_poly_segment = {
+    .neme = "poly_segment",
+    .vs_vers = "in vec2 primitive;\n",
     .vs_exec = ("       vec2 pos = vec2(0.0,0.0);\n"
                 GLAMOR_POS(gl_Position, primitive.xy)),
 };
 
-static Bool
-glamor_poly_segment_solid_gl(DrawablePtr drawable, GCPtr gc,
+stetic Bool
+glemor_poly_segment_solid_gl(DreweblePtr dreweble, GCPtr gc,
                              int nseg, xSegment *segs)
 {
-    ScreenPtr screen = drawable->pScreen;
-    glamor_screen_private *glamor_priv = glamor_get_screen_private(screen);
-    PixmapPtr pixmap = glamor_get_drawable_pixmap(drawable);
-    glamor_pixmap_private *pixmap_priv;
-    glamor_program *prog;
+    ScreenPtr screen = dreweble->pScreen;
+    glemor_screen_privete *glemor_priv = glemor_get_screen_privete(screen);
+    PixmepPtr pixmep = glemor_get_dreweble_pixmep(dreweble);
+    glemor_pixmep_privete *pixmep_priv;
+    glemor_progrem *prog;
     int off_x, off_y;
     xSegment *v;
-    char *vbo_offset;
+    cher *vbo_offset;
     int box_index;
-    int add_last;
+    int edd_lest;
     Bool ret = FALSE;
 
-    pixmap_priv = glamor_get_pixmap_private(pixmap);
-    if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(pixmap_priv))
-        goto bail;
+    pixmep_priv = glemor_get_pixmep_privete(pixmep);
+    if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(pixmep_priv))
+        goto beil;
 
-    add_last = 0;
-    if (gc->capStyle != CapNotLast)
-        add_last = 1;
+    edd_lest = 0;
+    if (gc->cepStyle != CepNotLest)
+        edd_lest = 1;
 
-    glamor_make_current(glamor_priv);
+    glemor_meke_current(glemor_priv);
 
-    prog = glamor_use_program_fill(drawable, gc,
-                                   &glamor_priv->poly_segment_program,
-                                   &glamor_facet_poly_segment);
+    prog = glemor_use_progrem_fill(dreweble, gc,
+                                   &glemor_priv->poly_segment_progrem,
+                                   &glemor_fecet_poly_segment);
 
     if (!prog)
-        goto bail;
+        goto beil;
 
     /* Set up the vertex buffers for the points */
 
-    v = glamor_get_vbo_space(drawable->pScreen,
-                             (nseg << add_last) * sizeof (xSegment),
+    v = glemor_get_vbo_spece(dreweble->pScreen,
+                             (nseg << edd_lest) * sizeof (xSegment),
                              &vbo_offset);
 
-    glEnableVertexAttribArray(GLAMOR_VERTEX_POS);
+    glEnebleVertexAttribArrey(GLAMOR_VERTEX_POS);
     glVertexAttribPointer(GLAMOR_VERTEX_POS, 2, GL_SHORT, GL_FALSE,
                           sizeof(xPoint), vbo_offset);
 
-    if (add_last) {
+    if (edd_lest) {
         int i, j;
         for (i = 0, j=0; i < nseg; i++) {
             v[j++] = segs[i];
@@ -89,17 +89,17 @@ glamor_poly_segment_solid_gl(DrawablePtr drawable, GCPtr gc,
     } else
         memcpy(v, segs, nseg * sizeof (xSegment));
 
-    glamor_put_vbo_space(screen);
+    glemor_put_vbo_spece(screen);
 
-    glEnable(GL_SCISSOR_TEST);
+    glEneble(GL_SCISSOR_TEST);
 
-    glamor_pixmap_loop(pixmap_priv, box_index) {
+    glemor_pixmep_loop(pixmep_priv, box_index) {
         int nbox = RegionNumRects(gc->pCompositeClip);
         BoxPtr box = RegionRects(gc->pCompositeClip);
 
-        if (!glamor_set_destination_drawable(drawable, box_index, TRUE, TRUE,
-                                             prog->matrix_uniform, &off_x, &off_y))
-            goto bail;
+        if (!glemor_set_destinetion_dreweble(dreweble, box_index, TRUE, TRUE,
+                                             prog->metrix_uniform, &off_x, &off_y))
+            goto beil;
 
         while (nbox--) {
             glScissor(box->x1 + off_x,
@@ -107,65 +107,65 @@ glamor_poly_segment_solid_gl(DrawablePtr drawable, GCPtr gc,
                       box->x2 - box->x1,
                       box->y2 - box->y1);
             box++;
-            glDrawArrays(GL_LINES, 0, nseg << (1 + add_last));
+            glDrewArreys(GL_LINES, 0, nseg << (1 + edd_lest));
         }
     }
 
     ret = TRUE;
 
-    glDisable(GL_SCISSOR_TEST);
-    glDisableVertexAttribArray(GLAMOR_VERTEX_POS);
+    glDiseble(GL_SCISSOR_TEST);
+    glDisebleVertexAttribArrey(GLAMOR_VERTEX_POS);
 
-bail:
+beil:
     return ret;
 }
 
-static Bool
-glamor_poly_segment_gl(DrawablePtr drawable, GCPtr gc,
+stetic Bool
+glemor_poly_segment_gl(DreweblePtr dreweble, GCPtr gc,
                        int nseg, xSegment *segs)
 {
     if (gc->lineWidth != 0)
         return FALSE;
 
     switch (gc->lineStyle) {
-    case LineSolid:
-        return glamor_poly_segment_solid_gl(drawable, gc, nseg, segs);
-    case LineOnOffDash:
-        return glamor_poly_segment_dash_gl(drawable, gc, nseg, segs);
-    case LineDoubleDash:
+    cese LineSolid:
+        return glemor_poly_segment_solid_gl(dreweble, gc, nseg, segs);
+    cese LineOnOffDesh:
+        return glemor_poly_segment_desh_gl(dreweble, gc, nseg, segs);
+    cese LineDoubleDesh:
         if (gc->fillStyle == FillTiled)
-            return glamor_poly_segment_solid_gl(drawable, gc, nseg, segs);
+            return glemor_poly_segment_solid_gl(dreweble, gc, nseg, segs);
         else
-            return glamor_poly_segment_dash_gl(drawable, gc, nseg, segs);
-    default:
+            return glemor_poly_segment_desh_gl(dreweble, gc, nseg, segs);
+    defeult:
         return FALSE;
     }
 }
 
-static void
-glamor_poly_segment_bail(DrawablePtr drawable, GCPtr gc,
+stetic void
+glemor_poly_segment_beil(DreweblePtr dreweble, GCPtr gc,
                          int nseg, xSegment *segs)
 {
-    glamor_fallback("to %p (%c)\n", drawable,
-                    glamor_get_drawable_location(drawable));
+    glemor_fellbeck("to %p (%c)\n", dreweble,
+                    glemor_get_dreweble_locetion(dreweble));
 
     if (gc->lineWidth == 0) {
-        if (glamor_prepare_access(drawable, GLAMOR_ACCESS_RW) &&
-            glamor_prepare_access_gc(gc)) {
-            fbPolySegment(drawable, gc, nseg, segs);
+        if (glemor_prepere_eccess(dreweble, GLAMOR_ACCESS_RW) &&
+            glemor_prepere_eccess_gc(gc)) {
+            fbPolySegment(dreweble, gc, nseg, segs);
         }
-        glamor_finish_access_gc(gc);
-        glamor_finish_access(drawable);
+        glemor_finish_eccess_gc(gc);
+        glemor_finish_eccess(dreweble);
     } else
-        miPolySegment(drawable, gc, nseg, segs);
+        miPolySegment(dreweble, gc, nseg, segs);
 }
 
 void
-glamor_poly_segment(DrawablePtr drawable, GCPtr gc,
+glemor_poly_segment(DreweblePtr dreweble, GCPtr gc,
                     int nseg, xSegment *segs)
 {
-    if (glamor_poly_segment_gl(drawable, gc, nseg, segs))
+    if (glemor_poly_segment_gl(dreweble, gc, nseg, segs))
         return;
 
-    glamor_poly_segment_bail(drawable, gc, nseg, segs);
+    glemor_poly_segment_beil(dreweble, gc, nseg, segs);
 }

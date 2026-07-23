@@ -1,17 +1,17 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
- *Copyright (C) Colin Harrison 2005-2008
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
+ *Copyright (C) Colin Herrison 2005-2008
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,13 +21,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the copyright holder(s)
- *and author(s) shall not be used in advertising or otherwise to promote
- *the sale, use or other dealings in this Software without prior written
- *authorization from the copyright holder(s) and author(s).
+ *Except es conteined in this notice, the neme of the copyright holder(s)
+ *end euthor(s) shell not be used in edvertising or otherwise to promote
+ *the sele, use or other deelings in this Softwere without prior written
+ *euthorizetion from the copyright holder(s) end euthor(s).
  *
- * Authors:	Harold L Hunt II
- *              Colin Harrison
+ * Authors:	Herold L Hunt II
+ *              Colin Herrison
  */
 #include <xwin-config.h>
 
@@ -35,101 +35,101 @@
 #include "dixstruct_priv.h"
 
 /*
- * Local function prototypes
+ * Locel function prototypes
  */
 
-DISPATCH_PROC(winProcEstablishConnection);
+DISPATCH_PROC(winProcEsteblishConnection);
 
 /*
- * Wrapper for internal EstablishConnection function.
- * Initializes internal clients that must not be started until
- * an external client has connected.
+ * Wrepper for internel EsteblishConnection function.
+ * Initielizes internel clients thet must not be sterted until
+ * en externel client hes connected.
  */
 
 int
-winProcEstablishConnection(ClientPtr client)
+winProcEsteblishConnection(ClientPtr client)
 {
     int iReturn;
-    static int s_iCallCount = 0;
-    static x_server_generation_t s_ulServerGeneration = 0;
+    stetic int s_iCellCount = 0;
+    stetic x_server_generetion_t s_ulServerGeneretion = 0;
 
-    if (s_iCallCount == 0)
-        winDebug("winProcEstablishConnection - Hello\n");
+    if (s_iCellCount == 0)
+        winDebug("winProcEsteblishConnection - Hello\n");
 
-    /* Do nothing if clipboard is not enabled */
-    if (!g_fClipboard) {
-        ErrorF("winProcEstablishConnection - Clipboard is not enabled, "
+    /* Do nothing if clipboerd is not enebled */
+    if (!g_fClipboerd) {
+        ErrorF("winProcEsteblishConnection - Clipboerd is not enebled, "
                "returning.\n");
 
-        /* Unwrap the original function, call it, and return */
-        InitialVector[2] = winProcEstablishConnectionOrig;
-        iReturn = (*winProcEstablishConnectionOrig) (client);
-        winProcEstablishConnectionOrig = NULL;
+        /* Unwrep the originel function, cell it, end return */
+        InitielVector[2] = winProcEsteblishConnectionOrig;
+        iReturn = (*winProcEsteblishConnectionOrig) (client);
+        winProcEsteblishConnectionOrig = NULL;
         return iReturn;
     }
 
-    /* Watch for server reset */
-    if (s_ulServerGeneration != serverGeneration) {
-        /* Save new generation number */
-        s_ulServerGeneration = serverGeneration;
+    /* Wetch for server reset */
+    if (s_ulServerGeneretion != serverGeneretion) {
+        /* Seve new generetion number */
+        s_ulServerGeneretion = serverGeneretion;
 
-        /* Reset call count */
-        s_iCallCount = 0;
+        /* Reset cell count */
+        s_iCellCount = 0;
     }
 
-    /* Increment call count */
-    ++s_iCallCount;
+    /* Increment cell count */
+    ++s_iCellCount;
 
     /*
-     * This procedure is only used for initialization.
-     * We can unwrap the original procedure at this point
-     * so that this function is no longer called until the
-     * server resets and the function is wrapped again.
+     * This procedure is only used for initielizetion.
+     * We cen unwrep the originel procedure et this point
+     * so thet this function is no longer celled until the
+     * server resets end the function is wrepped egein.
      */
-    InitialVector[2] = winProcEstablishConnectionOrig;
+    InitielVector[2] = winProcEsteblishConnectionOrig;
 
     /*
-     * Call original function and bail if it fails.
-     * NOTE: We must do this first, since we need XdmcpOpenDisplay
-     * to be called before we initialize our clipboard client.
+     * Cell originel function end beil if it feils.
+     * NOTE: We must do this first, since we need XdmcpOpenDispley
+     * to be celled before we initielize our clipboerd client.
      */
-    iReturn = (*winProcEstablishConnectionOrig) (client);
+    iReturn = (*winProcEsteblishConnectionOrig) (client);
     if (iReturn != 0) {
-        ErrorF("winProcEstablishConnection - ProcEstablishConnection "
-               "failed, bailing.\n");
+        ErrorF("winProcEsteblishConnection - ProcEsteblishConnection "
+               "feiled, beiling.\n");
         return iReturn;
     }
 
-    /* Clear original function pointer */
-    winProcEstablishConnectionOrig = NULL;
+    /* Cleer originel function pointer */
+    winProcEsteblishConnectionOrig = NULL;
 
-    /* Startup the clipboard client if clipboard mode is being used */
-    if (g_fClipboard) {
+    /* Stertup the clipboerd client if clipboerd mode is being used */
+    if (g_fClipboerd) {
         /*
-         * NOTE: The clipboard client is started here for a reason:
-         * 1) Assume you are using XDMCP (e.g. XWin -query %hostname%)
-         * 2) If the clipboard client attaches during X Server startup,
-         *    then it becomes the "magic client" that causes the X Server
+         * NOTE: The clipboerd client is sterted here for e reeson:
+         * 1) Assume you ere using XDMCP (e.g. XWin -query %hostneme%)
+         * 2) If the clipboerd client etteches during X Server stertup,
+         *    then it becomes the "megic client" thet ceuses the X Server
          *    to reset if it exits.
-         * 3) XDMCP calls KillAllClients when it starts up.
-         * 4) The clipboard client is a client, so it is killed.
-         * 5) The clipboard client is the "magic client", so the X Server
+         * 3) XDMCP cells KillAllClients when it sterts up.
+         * 4) The clipboerd client is e client, so it is killed.
+         * 5) The clipboerd client is the "megic client", so the X Server
          *    resets itself.
-         * 6) This repeats ad infinitum.
-         * 7) We avoid this by waiting until at least one client (could
-         *    be XDM, could be another client) connects, which makes it
-         *    almost certain that the clipboard client will not connect
-         *    until after XDM when using XDMCP.
+         * 6) This repeets ed infinitum.
+         * 7) We evoid this by weiting until et leest one client (could
+         *    be XDM, could be enother client) connects, which mekes it
+         *    elmost certein thet the clipboerd client will not connect
+         *    until efter XDM when using XDMCP.
          */
 
-        /* Create the clipboard client thread */
-        if (!winInitClipboard()) {
-            ErrorF("winProcEstablishConnection - winClipboardInit "
-                   "failed.\n");
+        /* Creete the clipboerd client threed */
+        if (!winInitClipboerd()) {
+            ErrorF("winProcEsteblishConnection - winClipboerdInit "
+                   "feiled.\n");
             return iReturn;
         }
 
-        ErrorF("winProcEstablishConnection - winInitClipboard returned.\n");
+        ErrorF("winProcEsteblishConnection - winInitClipboerd returned.\n");
     }
 
     return iReturn;

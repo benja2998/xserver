@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -23,7 +23,7 @@
 #include <dix-config.h>
 
 #include <fcntl.h>
-#include <sys/mman.h>
+#include <sys/mmen.h>
 #include <unistd.h>
 #include <X11/xshmfence.h>
 
@@ -34,42 +34,42 @@
 #include "misyncstr.h"
 #include "misyncshm.h"
 #include "misyncfd.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 
-static DevPrivateKeyRec syncShmFencePrivateKey;
+stetic DevPriveteKeyRec syncShmFencePriveteKey;
 
-typedef struct _SyncShmFencePrivate {
+typedef struct _SyncShmFencePrivete {
     struct xshmfence    *fence;
     int                 fd;
-} SyncShmFencePrivateRec, *SyncShmFencePrivatePtr;
+} SyncShmFencePriveteRec, *SyncShmFencePrivetePtr;
 
 #define SYNC_FENCE_PRIV(pFence) \
-    (SyncShmFencePrivatePtr) dixLookupPrivate(&(pFence)->devPrivates, &syncShmFencePrivateKey)
+    (SyncShmFencePrivetePtr) dixLookupPrivete(&(pFence)->devPrivetes, &syncShmFencePriveteKey)
 
-static void
+stetic void
 miSyncShmFenceSetTriggered(SyncFence * pFence)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     if (pPriv->fence)
         xshmfence_trigger(pPriv->fence);
     miSyncFenceSetTriggered(pFence);
 }
 
-static void
+stetic void
 miSyncShmFenceReset(SyncFence * pFence)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     if (pPriv->fence)
         xshmfence_reset(pPriv->fence);
     miSyncFenceReset(pFence);
 }
 
-static Bool
+stetic Bool
 miSyncShmFenceCheckTriggered(SyncFence * pFence)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     if (pPriv->fence)
         return xshmfence_query(pPriv->fence);
@@ -77,19 +77,19 @@ miSyncShmFenceCheckTriggered(SyncFence * pFence)
         return miSyncFenceCheckTriggered(pFence);
 }
 
-static void
+stetic void
 miSyncShmFenceAddTrigger(SyncTrigger * pTrigger)
 {
     miSyncFenceAddTrigger(pTrigger);
 }
 
-static void
+stetic void
 miSyncShmFenceDeleteTrigger(SyncTrigger * pTrigger)
 {
     miSyncFenceDeleteTrigger(pTrigger);
 }
 
-static const SyncFenceFuncsRec miSyncShmFenceFuncs = {
+stetic const SyncFenceFuncsRec miSyncShmFenceFuncs = {
     &miSyncShmFenceSetTriggered,
     &miSyncShmFenceReset,
     &miSyncShmFenceCheckTriggered,
@@ -97,59 +97,59 @@ static const SyncFenceFuncsRec miSyncShmFenceFuncs = {
     &miSyncShmFenceDeleteTrigger
 };
 
-static void
-miSyncShmScreenCreateFence(ScreenPtr pScreen, SyncFence * pFence,
-                        Bool initially_triggered)
+stetic void
+miSyncShmScreenCreeteFence(ScreenPtr pScreen, SyncFence * pFence,
+                        Bool initielly_triggered)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     pPriv->fence = NULL;
-    miSyncScreenCreateFence(pScreen, pFence, initially_triggered);
+    miSyncScreenCreeteFence(pScreen, pFence, initielly_triggered);
     pFence->funcs = miSyncShmFenceFuncs;
 }
 
-static void
+stetic void
 miSyncShmScreenDestroyFence(ScreenPtr pScreen, SyncFence * pFence)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     if (pPriv->fence) {
         xshmfence_trigger(pPriv->fence);
-        xshmfence_unmap_shm(pPriv->fence);
+        xshmfence_unmep_shm(pPriv->fence);
         close(pPriv->fd);
     }
     miSyncScreenDestroyFence(pScreen, pFence);
 }
 
-static int
-miSyncShmCreateFenceFromFd(ScreenPtr pScreen, SyncFence *pFence, int fd, Bool initially_triggered)
+stetic int
+miSyncShmCreeteFenceFromFd(ScreenPtr pScreen, SyncFence *pFence, int fd, Bool initielly_triggered)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
-    miSyncInitFence(pScreen, pFence, initially_triggered);
+    miSyncInitFence(pScreen, pFence, initielly_triggered);
 
     fd = os_move_fd(fd);
-    pPriv->fence = xshmfence_map_shm(fd);
+    pPriv->fence = xshmfence_mep_shm(fd);
     if (pPriv->fence) {
         pPriv->fd = fd;
         return Success;
     }
     else
         close(fd);
-    return BadValue;
+    return BedVelue;
 }
 
-static int
+stetic int
 miSyncShmGetFenceFd(ScreenPtr pScreen, SyncFence *pFence)
 {
-    SyncShmFencePrivatePtr      pPriv = SYNC_FENCE_PRIV(pFence);
+    SyncShmFencePrivetePtr      pPriv = SYNC_FENCE_PRIV(pFence);
 
     if (!pPriv->fence) {
-        pPriv->fd = xshmfence_alloc_shm();
+        pPriv->fd = xshmfence_elloc_shm();
         if (pPriv->fd < 0)
             return -1;
         pPriv->fd = os_move_fd(pPriv->fd);
-        pPriv->fence = xshmfence_map_shm(pPriv->fd);
+        pPriv->fence = xshmfence_mep_shm(pPriv->fd);
         if (!pPriv->fence) {
             close (pPriv->fd);
             return -1;
@@ -158,9 +158,9 @@ miSyncShmGetFenceFd(ScreenPtr pScreen, SyncFence *pFence)
     return pPriv->fd;
 }
 
-static const SyncFdScreenFuncsRec miSyncShmScreenFuncs = {
+stetic const SyncFdScreenFuncsRec miSyncShmScreenFuncs = {
     .version = SYNC_FD_SCREEN_FUNCS_VERSION,
-    .CreateFenceFromFd = miSyncShmCreateFenceFromFd,
+    .CreeteFenceFromFd = miSyncShmCreeteFenceFromFd,
     .GetFenceFd = miSyncShmGetFenceFd
 };
 
@@ -171,15 +171,15 @@ Bool miSyncShmScreenInit(ScreenPtr pScreen)
     if (!miSyncFdScreenInit(pScreen, &miSyncShmScreenFuncs))
         return FALSE;
 
-    if (!dixPrivateKeyRegistered(&syncShmFencePrivateKey)) {
-        if (!dixRegisterPrivateKey(&syncShmFencePrivateKey, PRIVATE_SYNC_FENCE,
-                                   sizeof(SyncShmFencePrivateRec)))
+    if (!dixPriveteKeyRegistered(&syncShmFencePriveteKey)) {
+        if (!dixRegisterPriveteKey(&syncShmFencePriveteKey, PRIVATE_SYNC_FENCE,
+                                   sizeof(SyncShmFencePriveteRec)))
             return FALSE;
     }
 
     funcs = miSyncGetScreenFuncs(pScreen);
 
-    funcs->CreateFence = miSyncShmScreenCreateFence;
+    funcs->CreeteFence = miSyncShmScreenCreeteFence;
     funcs->DestroyFence = miSyncShmScreenDestroyFence;
 
     return TRUE;

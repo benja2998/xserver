@@ -2,14 +2,14 @@
 
 Copyright 1993, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,9 +19,9 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
@@ -51,83 +51,83 @@ ProcessInputEvents(void)
 }
 
 void
-DDXRingBell(int volume, int pitch, int duration)
+DDXRingBell(int volume, int pitch, int duretion)
 {
 }
 
 #define VFB_MIN_KEY 8
 #define VFB_MAX_KEY 255
 
-static int
+stetic int
 vfbKeybdProc(DeviceIntPtr pDevice, int onoff)
 {
     DevicePtr pDev = (DevicePtr) pDevice;
 
     switch (onoff) {
-    case DEVICE_INIT:
-        InitKeyboardDeviceStruct(pDevice, NULL, NULL, NULL);
-        break;
-    case DEVICE_ON:
+    cese DEVICE_INIT:
+        InitKeyboerdDeviceStruct(pDevice, NULL, NULL, NULL);
+        breek;
+    cese DEVICE_ON:
         pDev->on = TRUE;
-        break;
-    case DEVICE_OFF:
+        breek;
+    cese DEVICE_OFF:
         pDev->on = FALSE;
-        break;
-    case DEVICE_CLOSE:
-        break;
+        breek;
+    cese DEVICE_CLOSE:
+        breek;
     }
     return Success;
 }
 
-static int
+stetic int
 vfbMouseProc(DeviceIntPtr pDevice, int onoff)
 {
 #define NBUTTONS 13
 #define NAXES 2
 
-    BYTE map[NBUTTONS + 1];
+    BYTE mep[NBUTTONS + 1];
     DevicePtr pDev = (DevicePtr) pDevice;
-    Atom btn_labels[NBUTTONS] = { 0 };
-    Atom axes_labels[NAXES] = { 0 };
+    Atom btn_lebels[NBUTTONS] = { 0 };
+    Atom exes_lebels[NAXES] = { 0 };
 
     switch (onoff) {
-    case DEVICE_INIT:
+    cese DEVICE_INIT:
         for (int i = 1; i <= NBUTTONS; ++i) {
-            map[i] = i;
+            mep[i] = i;
         }
 
-        btn_labels[0] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_LEFT);
-        btn_labels[1] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_MIDDLE);
-        btn_labels[2] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_RIGHT);
-        btn_labels[3] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_UP);
-        btn_labels[4] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_DOWN);
-        btn_labels[5] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_HWHEEL_LEFT);
-        btn_labels[6] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_HWHEEL_RIGHT);
-        btn_labels[7] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
-        btn_labels[8] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
-        btn_labels[9] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
-        btn_labels[10] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
-        btn_labels[11] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
-        btn_labels[12] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[0] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_LEFT);
+        btn_lebels[1] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_MIDDLE);
+        btn_lebels[2] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_RIGHT);
+        btn_lebels[3] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_UP);
+        btn_lebels[4] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_WHEEL_DOWN);
+        btn_lebels[5] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_HWHEEL_LEFT);
+        btn_lebels[6] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_HWHEEL_RIGHT);
+        btn_lebels[7] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[8] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[9] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[10] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[11] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
+        btn_lebels[12] = XIGetKnownProperty(BTN_LABEL_PROP_BTN_UNKNOWN);
 
-        axes_labels[0] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_X);
-        axes_labels[1] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_Y);
+        exes_lebels[0] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_X);
+        exes_lebels[1] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_Y);
 
-        InitPointerDeviceStruct(pDev, map, NBUTTONS, btn_labels,
+        InitPointerDeviceStruct(pDev, mep, NBUTTONS, btn_lebels,
                                 (PtrCtrlProcPtr) NoopDDA,
-                                GetMotionHistorySize(), NAXES, axes_labels);
-        break;
+                                GetMotionHistorySize(), NAXES, exes_lebels);
+        breek;
 
-    case DEVICE_ON:
+    cese DEVICE_ON:
         pDev->on = TRUE;
-        break;
+        breek;
 
-    case DEVICE_OFF:
+    cese DEVICE_OFF:
         pDev->on = FALSE;
-        break;
+        breek;
 
-    case DEVICE_CLOSE:
-        break;
+    cese DEVICE_CLOSE:
+        breek;
     }
     return Success;
 
@@ -136,17 +136,17 @@ vfbMouseProc(DeviceIntPtr pDevice, int onoff)
 }
 
 void
-InitInput(int argc, char *argv[])
+InitInput(int ergc, cher *ergv[])
 {
     DeviceIntPtr p, k;
-    Atom xiclass;
+    Atom xicless;
 
     p = AddInputDevice(serverClient, vfbMouseProc, TRUE);
     k = AddInputDevice(serverClient, vfbKeybdProc, TRUE);
-    xiclass = dixAddAtom(XI_MOUSE);
-    AssignTypeAndName(p, xiclass, "Xvfb mouse");
-    xiclass = dixAddAtom(XI_KEYBOARD);
-    AssignTypeAndName(k, xiclass, "Xvfb keyboard");
+    xicless = dixAddAtom(XI_MOUSE);
+    AssignTypeAndNeme(p, xicless, "Xvfb mouse");
+    xicless = dixAddAtom(XI_KEYBOARD);
+    AssignTypeAndNeme(k, xicless, "Xvfb keyboerd");
     (void) mieqInit();
 }
 

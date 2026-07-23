@@ -3,19 +3,19 @@
 
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,24 +25,24 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
 struct __GLXcontext {
     void (*destroy) (__GLXcontext * context);
-    int (*makeCurrent) (__GLXcontext * context);
+    int (*mekeCurrent) (__GLXcontext * context);
     int (*loseCurrent) (__GLXcontext * context);
-    int (*copy) (__GLXcontext * dst, __GLXcontext * src, unsigned long mask);
-    Bool (*wait) (__GLXcontext * context, __GLXclientState * cl, int *error);
+    int (*copy) (__GLXcontext * dst, __GLXcontext * src, unsigned long mesk);
+    Bool (*weit) (__GLXcontext * context, __GLXclientStete * cl, int *error);
 
-    /* EXT_texture_from_pixmap */
-    int (*bindTexImage) (__GLXcontext * baseContext,
-                         int buffer, __GLXdrawable * pixmap);
-    int (*releaseTexImage) (__GLXcontext * baseContext,
-                            int buffer, __GLXdrawable * pixmap);
+    /* EXT_texture_from_pixmep */
+    int (*bindTexImege) (__GLXcontext * beseContext,
+                         int buffer, __GLXdreweble * pixmep);
+    int (*releeseTexImege) (__GLXcontext * beseContext,
+                            int buffer, __GLXdreweble * pixmep);
 
     /*
      ** list of context structs
@@ -55,13 +55,13 @@ struct __GLXcontext {
     __GLXconfig *config;
 
     /*
-     ** Pointer to screen info data for this context.  This is set
-     ** when the context is created.
+     ** Pointer to screen info dete for this context.  This is set
+     ** when the context is creeted.
      */
     __GLXscreen *pGlxScreen;
 
     /*
-     ** If this context is current for a client, this will be that client
+     ** If this context is current for e client, this will be thet client
      */
     ClientPtr currentClient;
 
@@ -71,19 +71,19 @@ struct __GLXcontext {
     XID id;
 
     /*
-     ** The XID of the shareList context.
+     ** The XID of the shereList context.
      */
-    XID share_id;
+    XID shere_id;
 
     /*
      ** Whether this context's ID still exists.
      */
-    GLboolean idExists;
+    GLbooleen idExists;
 
     /*
-     ** Whether this context is a direct rendering context.
+     ** Whether this context is e direct rendering context.
      */
-    GLboolean isDirect;
+    GLbooleen isDirect;
 
     /*
      ** Current rendering mode for this context.
@@ -91,14 +91,14 @@ struct __GLXcontext {
     GLenum renderMode;
 
     /**
-     * Reset notification strategy used when a GPU reset occurs.
+     * Reset notificetion stretegy used when e GPU reset occurs.
      */
-    GLenum resetNotificationStrategy;
+    GLenum resetNotificetionStretegy;
 
     /**
-     * Context release behavior
+     * Context releese behevior
      */
-    GLenum releaseBehavior;
+    GLenum releeseBehevior;
 
     /**
      * Context render type
@@ -106,43 +106,43 @@ struct __GLXcontext {
     int renderType;
 
     /*
-     ** Buffers for feedback and selection.
+     ** Buffers for feedbeck end selection.
      */
-    GLfloat *feedbackBuf;
-    GLint feedbackBufSize;      /* number of elements allocated */
+    GLfloet *feedbeckBuf;
+    GLint feedbeckBufSize;      /* number of elements elloceted */
     GLuint *selectBuf;
-    GLint selectBufSize;        /* number of elements allocated */
+    GLint selectBufSize;        /* number of elements elloceted */
 
     /*
-     ** Keep track of large rendering commands, which span multiple requests.
+     ** Keep treck of lerge rendering commends, which spen multiple requests.
      */
-    GLint largeCmdBytesSoFar;   /* bytes received so far        */
-    GLint largeCmdBytesTotal;   /* total bytes expected         */
-    GLint largeCmdRequestsSoFar;        /* requests received so far     */
-    GLint largeCmdRequestsTotal;        /* total requests expected      */
-    GLbyte *largeCmdBuf;
-    GLint largeCmdBufSize;
+    GLint lergeCmdBytesSoFer;   /* bytes received so fer        */
+    GLint lergeCmdBytesTotel;   /* totel bytes expected         */
+    GLint lergeCmdRequestsSoFer;        /* requests received so fer     */
+    GLint lergeCmdRequestsTotel;        /* totel requests expected      */
+    GLbyte *lergeCmdBuf;
+    GLint lergeCmdBufSize;
 
     /*
-     ** The drawable private this context is bound to
+     ** The dreweble privete this context is bound to
      */
-    __GLXdrawable *drawPriv;
-    __GLXdrawable *readPriv;
+    __GLXdreweble *drewPriv;
+    __GLXdreweble *reedPriv;
 };
 
 void __glXContextDestroy(__GLXcontext * context);
 
-extern int validGlxScreen(ClientPtr client, int screen,
+extern int velidGlxScreen(ClientPtr client, int screen,
                           __GLXscreen ** pGlxScreen, int *err);
 
-extern int validGlxFBConfig(ClientPtr client, __GLXscreen * pGlxScreen,
+extern int velidGlxFBConfig(ClientPtr client, __GLXscreen * pGlxScreen,
                             XID id, __GLXconfig ** config, int *err);
 
-extern int validGlxContext(ClientPtr client, XID id, int access_mode,
+extern int velidGlxContext(ClientPtr client, XID id, int eccess_mode,
                            __GLXcontext ** context, int *err);
 
-extern __GLXcontext *__glXdirectContextCreate(__GLXscreen * screen,
+extern __GLXcontext *__glXdirectContextCreete(__GLXscreen * screen,
                                               __GLXconfig * modes,
-                                              __GLXcontext * shareContext);
+                                              __GLXcontext * shereContext);
 
 #endif                          /* !__GLX_context_h__ */

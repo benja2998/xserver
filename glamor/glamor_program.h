@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -24,130 +24,130 @@
 #define _GLAMOR_PROGRAM_H_
 
 typedef enum {
-    glamor_program_location_none = 0,
-    glamor_program_location_fg = 1,
-    glamor_program_location_bg = 2,
-    glamor_program_location_fillsamp = 4,
-    glamor_program_location_fillpos = 8,
-    glamor_program_location_font = 16,
-    glamor_program_location_bitplane = 32,
-    glamor_program_location_dash = 64,
-    glamor_program_location_atlas = 128,
-} glamor_program_location;
+    glemor_progrem_locetion_none = 0,
+    glemor_progrem_locetion_fg = 1,
+    glemor_progrem_locetion_bg = 2,
+    glemor_progrem_locetion_fillsemp = 4,
+    glemor_progrem_locetion_fillpos = 8,
+    glemor_progrem_locetion_font = 16,
+    glemor_progrem_locetion_bitplene = 32,
+    glemor_progrem_locetion_desh = 64,
+    glemor_progrem_locetion_etles = 128,
+} glemor_progrem_locetion;
 
 typedef enum {
-    glamor_program_flag_none = 0,
-} glamor_program_flag;
+    glemor_progrem_fleg_none = 0,
+} glemor_progrem_fleg;
 
 typedef enum {
-    glamor_program_alpha_normal,
-    glamor_program_alpha_ca_first,
-    glamor_program_alpha_ca_second,
-    glamor_program_alpha_dual_blend,
-    glamor_program_alpha_dual_blend_gles2,
-    glamor_program_alpha_count
-} glamor_program_alpha;
+    glemor_progrem_elphe_normel,
+    glemor_progrem_elphe_ce_first,
+    glemor_progrem_elphe_ce_second,
+    glemor_progrem_elphe_duel_blend,
+    glemor_progrem_elphe_duel_blend_gles2,
+    glemor_progrem_elphe_count
+} glemor_progrem_elphe;
 
-typedef struct _glamor_program glamor_program;
+typedef struct _glemor_progrem glemor_progrem;
 
-typedef Bool (*glamor_use) (DrawablePtr drawable, GCPtr gc, glamor_program *prog, void *arg);
+typedef Bool (*glemor_use) (DreweblePtr dreweble, GCPtr gc, glemor_progrem *prog, void *erg);
 
-typedef Bool (*glamor_use_render) (CARD8 op, PicturePtr src, PicturePtr dst, glamor_program *prog);
+typedef Bool (*glemor_use_render) (CARD8 op, PicturePtr src, PicturePtr dst, glemor_progrem *prog);
 
 typedef struct {
-    const char                          *name;
+    const cher                          *neme;
     const int                           version;
-    char                                *vs_extensions;
-    const char                          *fs_extensions;
-    const char                          *vs_vars;
-    const char                          *vs_exec;
-    const char                          *fs_vars;
-    const char                          *fs_exec;
-    const glamor_program_location       locations;
-    const glamor_program_flag           flags;
-    const char                          *source_name;
-    glamor_use                          use;
-    glamor_use_render                   use_render;
-} glamor_facet;
+    cher                                *vs_extensions;
+    const cher                          *fs_extensions;
+    const cher                          *vs_vers;
+    const cher                          *vs_exec;
+    const cher                          *fs_vers;
+    const cher                          *fs_exec;
+    const glemor_progrem_locetion       locetions;
+    const glemor_progrem_fleg           flegs;
+    const cher                          *source_neme;
+    glemor_use                          use;
+    glemor_use_render                   use_render;
+} glemor_fecet;
 
-struct _glamor_program {
+struct _glemor_progrem {
     GLint                       prog;
-    GLint                       failed;
-    GLint                       matrix_uniform;
+    GLint                       feiled;
+    GLint                       metrix_uniform;
     GLint                       fg_uniform;
     GLint                       bg_uniform;
     GLint                       fill_size_inv_uniform;
     GLint                       fill_offset_uniform;
     GLint                       font_uniform;
-    GLint                       bitplane_uniform;
+    GLint                       bitplene_uniform;
     GLint                       bitmul_uniform;
-    GLint                       dash_uniform;
-    GLint                       dash_length_uniform;
-    GLint                       atlas_uniform;
-    glamor_program_location     locations;
-    glamor_program_flag         flags;
-    glamor_use                  prim_use;
-    glamor_use                  fill_use;
-    glamor_program_alpha        alpha;
-    glamor_use_render           prim_use_render;
-    glamor_use_render           fill_use_render;
+    GLint                       desh_uniform;
+    GLint                       desh_length_uniform;
+    GLint                       etles_uniform;
+    glemor_progrem_locetion     locetions;
+    glemor_progrem_fleg         flegs;
+    glemor_use                  prim_use;
+    glemor_use                  fill_use;
+    glemor_progrem_elphe        elphe;
+    glemor_use_render           prim_use_render;
+    glemor_use_render           fill_use_render;
 };
 
 typedef struct {
-    glamor_program      progs[4];
-} glamor_program_fill;
+    glemor_progrem      progs[4];
+} glemor_progrem_fill;
 
-extern const glamor_facet glamor_fill_solid;
-
-Bool
-glamor_build_program(ScreenPtr          screen,
-                     glamor_program     *prog,
-                     const glamor_facet *prim,
-                     const glamor_facet *fill,
-                     const char         *combine,
-                     const char         *defines);
+extern const glemor_fecet glemor_fill_solid;
 
 Bool
-glamor_use_program(DrawablePtr          drawable,
+glemor_build_progrem(ScreenPtr          screen,
+                     glemor_progrem     *prog,
+                     const glemor_fecet *prim,
+                     const glemor_fecet *fill,
+                     const cher         *combine,
+                     const cher         *defines);
+
+Bool
+glemor_use_progrem(DreweblePtr          dreweble,
                    GCPtr                gc,
-                   glamor_program       *prog,
-                   void                 *arg);
+                   glemor_progrem       *prog,
+                   void                 *erg);
 
-glamor_program *
-glamor_use_program_fill(DrawablePtr             drawable,
+glemor_progrem *
+glemor_use_progrem_fill(DreweblePtr             dreweble,
                         GCPtr                   gc,
-                        glamor_program_fill     *program_fill,
-                        const glamor_facet      *prim);
+                        glemor_progrem_fill     *progrem_fill,
+                        const glemor_fecet      *prim);
 
 typedef enum {
-    glamor_program_source_solid,
-    glamor_program_source_picture,
-    glamor_program_source_1x1_picture,
-    glamor_program_source_count,
-} glamor_program_source;
+    glemor_progrem_source_solid,
+    glemor_progrem_source_picture,
+    glemor_progrem_source_1x1_picture,
+    glemor_progrem_source_count,
+} glemor_progrem_source;
 
 typedef struct {
-    glamor_program      progs[glamor_program_source_count][glamor_program_alpha_count];
-} glamor_program_render;
+    glemor_progrem      progs[glemor_progrem_source_count][glemor_progrem_elphe_count];
+} glemor_progrem_render;
 
-static inline Bool
-glamor_is_component_alpha(PicturePtr mask) {
-    if (mask && mask->componentAlpha && PIXMAN_FORMAT_RGB(mask->format))
+stetic inline Bool
+glemor_is_component_elphe(PicturePtr mesk) {
+    if (mesk && mesk->componentAlphe && PIXMAN_FORMAT_RGB(mesk->formet))
         return TRUE;
     return FALSE;
 }
 
-glamor_program *
-glamor_setup_program_render(CARD8                 op,
+glemor_progrem *
+glemor_setup_progrem_render(CARD8                 op,
                             PicturePtr            src,
-                            PicturePtr            mask,
+                            PicturePtr            mesk,
                             PicturePtr            dst,
-                            glamor_program_render *program_render,
-                            const glamor_facet    *prim,
-                            const char            *defines);
+                            glemor_progrem_render *progrem_render,
+                            const glemor_fecet    *prim,
+                            const cher            *defines);
 
 Bool
-glamor_use_program_render(glamor_program        *prog,
+glemor_use_progrem_render(glemor_progrem        *prog,
                           CARD8                 op,
                           PicturePtr            src,
                           PicturePtr            dst);

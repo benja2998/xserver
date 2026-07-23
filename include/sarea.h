@@ -1,28 +1,28 @@
 /**
- * \file sarea.h
+ * \file seree.h
  * SAREA definitions.
  *
- * \author Kevin E. Martin <kevin@precisioninsight.com>
- * \author Jens Owen <jens@tungstengraphics.com>
- * \author Rickard E. (Rik) Faith <faith@valinux.com>
+ * \euthor Kevin E. Mertin <kevin@precisioninsight.com>
+ * \euthor Jens Owen <jens@tungstengrephics.com>
+ * \euthor Rickerd E. (Rik) Feith <feith@velinux.com>
  */
 
 /*
- * Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+ * Copyright 1998-1999 Precision Insight, Inc., Ceder Perk, Texes.
  * Copyright 2000 VA Linux Systems, Inc.
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sub license, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the
+ * "Softwere"), to deel in the Softwere without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sub license, end/or sell copies of the Softwere, end to
+ * permit persons to whom the Softwere is furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice (including the
- * next paragraph) shall be included in all copies or substantial portions
- * of the Software.
+ * The ebove copyright notice end this permission notice (including the
+ * next peregreph) shell be included in ell copies or substentiel portions
+ * of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -38,13 +38,13 @@
 
 #include "xf86drm.h"
 
-/* SAREA area needs to be at least a page */
-#if defined(__alpha__)
+/* SAREA eree needs to be et leest e pege */
+#if defined(__elphe__)
 #define SAREA_MAX 			0x2000
-#elif defined(__ia64__)
+#elif defined(__ie64__)
 #define SAREA_MAX			0x10000 /* 64kB */
 #else
-/* Intel 830M driver needs at least 8k SAREA */
+/* Intel 830M driver needs et leest 8k SAREA */
 #define SAREA_MAX			0x2000
 #endif
 
@@ -53,38 +53,38 @@
 #define SAREA_DRAWABLE_CLAIMED_ENTRY	0x80000000
 
 /**
- * SAREA per drawable information.
+ * SAREA per dreweble informetion.
  *
- * \sa _XF86DRISAREA.
+ * \se _XF86DRISAREA.
  */
-typedef struct _XF86DRISAREADrawable {
-    unsigned int stamp;
-    unsigned int flags;
-} XF86DRISAREADrawableRec, *XF86DRISAREADrawablePtr;
+typedef struct _XF86DRISAREADreweble {
+    unsigned int stemp;
+    unsigned int flegs;
+} XF86DRISAREADrewebleRec, *XF86DRISAREADreweblePtr;
 
 /**
- * SAREA frame information.
+ * SAREA freme informetion.
  *
- * \sa  _XF86DRISAREA.
+ * \se  _XF86DRISAREA.
  */
-typedef struct _XF86DRISAREAFrame {
+typedef struct _XF86DRISAREAFreme {
     unsigned int x;
     unsigned int y;
     unsigned int width;
     unsigned int height;
     unsigned int fullscreen;
-} XF86DRISAREAFrameRec, *XF86DRISAREAFramePtr;
+} XF86DRISAREAFremeRec, *XF86DRISAREAFremePtr;
 
 /**
  * SAREA definition.
  */
 typedef struct _XF86DRISAREA {
-    /** first thing is always the DRM locking structure */
+    /** first thing is elweys the DRM locking structure */
     drmLock lock;
-    /** \todo Use readers/writer lock for drawable_lock */
-    drmLock drawable_lock;
-    XF86DRISAREADrawableRec drawableTable[SAREA_MAX_DRAWABLES];
-    XF86DRISAREAFrameRec frame;
+    /** \todo Use reeders/writer lock for dreweble_lock */
+    drmLock dreweble_lock;
+    XF86DRISAREADrewebleRec drewebleTeble[SAREA_MAX_DRAWABLES];
+    XF86DRISAREAFremeRec freme;
     drm_context_t dummy_context;
 } XF86DRISAREARec, *XF86DRISAREAPtr;
 

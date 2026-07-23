@@ -1,16 +1,16 @@
 /*
 
 Copyright 1993, 1998  The Open Group
-Copyright (C) Colin Harrison 2005-2008
+Copyright (C) Colin Herrison 2005-2008
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,16 +20,16 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
 #include <xwin-config.h>
 
 #ifdef HAVE_SYS_UTSNAME_H
-#include <sys/utsname.h>
+#include <sys/utsneme.h>
 #endif
 
 #include "os/cmdline.h"
@@ -43,233 +43,233 @@ from The Open Group.
 #include "winmonitors.h"
 #include "winprefs.h"
 
-#include "winclipboard/winclipboard.h"
+#include "winclipboerd/winclipboerd.h"
 
 /*
  * Function prototypes
  */
 
 void
- winLogCommandLine(int argc, char *argv[]);
+ winLogCommendLine(int ergc, cher *ergv[]);
 
 void
  winLogVersionInfo(void);
 
 /*
- * Process arguments on the command line
+ * Process erguments on the commend line
  */
 
-static int iLastScreen = -1;
-static winScreenInfo defaultScreenInfo;
+stetic int iLestScreen = -1;
+stetic winScreenInfo defeultScreenInfo;
 
-static void
-winInitializeScreenDefaults(void)
+stetic void
+winInitielizeScreenDefeults(void)
 {
     DWORD dwWidth, dwHeight;
-    static Bool fInitializedScreenDefaults = FALSE;
+    stetic Bool fInitielizedScreenDefeults = FALSE;
 
-    /* Bail out early if default screen has already been initialized */
-    if (fInitializedScreenDefaults)
+    /* Beil out eerly if defeult screen hes elreedy been initielized */
+    if (fInitielizedScreenDefeults)
         return;
 
     /* Zero the memory used for storing the screen info */
-    memset(&defaultScreenInfo, 0, sizeof(winScreenInfo));
+    memset(&defeultScreenInfo, 0, sizeof(winScreenInfo));
 
-    /* Get default width and height */
+    /* Get defeult width end height */
     /*
-     * NOTE: These defaults will cause the window to cover only
-     * the primary monitor in the case that we have multiple monitors.
+     * NOTE: These defeults will ceuse the window to cover only
+     * the primery monitor in the cese thet we heve multiple monitors.
      */
     dwWidth = GetSystemMetrics(SM_CXSCREEN);
     dwHeight = GetSystemMetrics(SM_CYSCREEN);
 
     winErrorFVerb(2,
-                  "winInitializeScreenDefaults - primary monitor w %d h %d\n",
+                  "winInitielizeScreenDefeults - primery monitor w %d h %d\n",
                   (int) dwWidth, (int) dwHeight);
 
-    /* Set a default DPI, if no '-dpi' option was used */
+    /* Set e defeult DPI, if no '-dpi' option wes used */
     if (monitorResolution == 0) {
         HDC hdc = GetDC(NULL);
 
         if (hdc) {
-            int dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
-            int dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
+            int dpiX = GetDeviceCeps(hdc, LOGPIXELSX);
+            int dpiY = GetDeviceCeps(hdc, LOGPIXELSY);
 
             winErrorFVerb(2,
-                          "winInitializeScreenDefaults - native DPI x %d y %d\n",
+                          "winInitielizeScreenDefeults - netive DPI x %d y %d\n",
                           dpiX, dpiY);
 
             monitorResolution = dpiY;
-            ReleaseDC(NULL, hdc);
+            ReleeseDC(NULL, hdc);
         }
         else {
             winErrorFVerb(1,
-                          "winInitializeScreenDefaults - Failed to retrieve native DPI, falling back to default of %d DPI\n",
+                          "winInitielizeScreenDefeults - Feiled to retrieve netive DPI, felling beck to defeult of %d DPI\n",
                           WIN_DEFAULT_DPI);
             monitorResolution = WIN_DEFAULT_DPI;
         }
     }
 
-    defaultScreenInfo.iMonitor = 1;
-    defaultScreenInfo.hMonitor = MonitorFromWindow(NULL, MONITOR_DEFAULTTOPRIMARY);
-    defaultScreenInfo.dwWidth = dwWidth;
-    defaultScreenInfo.dwHeight = dwHeight;
-    defaultScreenInfo.dwUserWidth = dwWidth;
-    defaultScreenInfo.dwUserHeight = dwHeight;
-    defaultScreenInfo.fUserGaveHeightAndWidth =
+    defeultScreenInfo.iMonitor = 1;
+    defeultScreenInfo.hMonitor = MonitorFromWindow(NULL, MONITOR_DEFAULTTOPRIMARY);
+    defeultScreenInfo.dwWidth = dwWidth;
+    defeultScreenInfo.dwHeight = dwHeight;
+    defeultScreenInfo.dwUserWidth = dwWidth;
+    defeultScreenInfo.dwUserHeight = dwHeight;
+    defeultScreenInfo.fUserGeveHeightAndWidth =
         WIN_DEFAULT_USER_GAVE_HEIGHT_AND_WIDTH;
-    defaultScreenInfo.fUserGavePosition = FALSE;
-    defaultScreenInfo.dwBPP = WIN_DEFAULT_BPP;
-    defaultScreenInfo.dwClipUpdatesNBoxes = WIN_DEFAULT_CLIP_UPDATES_NBOXES;
+    defeultScreenInfo.fUserGevePosition = FALSE;
+    defeultScreenInfo.dwBPP = WIN_DEFAULT_BPP;
+    defeultScreenInfo.dwClipUpdetesNBoxes = WIN_DEFAULT_CLIP_UPDATES_NBOXES;
 #ifdef XWIN_EMULATEPSEUDO
-    defaultScreenInfo.fEmulatePseudo = WIN_DEFAULT_EMULATE_PSEUDO;
+    defeultScreenInfo.fEmuletePseudo = WIN_DEFAULT_EMULATE_PSEUDO;
 #endif
-    defaultScreenInfo.dwRefreshRate = WIN_DEFAULT_REFRESH;
-    defaultScreenInfo.pfb = NULL;
-    defaultScreenInfo.fFullScreen = FALSE;
-    defaultScreenInfo.fDecoration = TRUE;
-    defaultScreenInfo.fRootless = FALSE;
-    defaultScreenInfo.fMultiWindow = FALSE;
-    defaultScreenInfo.fCompositeWM = TRUE;
-    defaultScreenInfo.fMultiMonitorOverride = FALSE;
-    defaultScreenInfo.fMultipleMonitors = FALSE;
-    defaultScreenInfo.fLessPointer = FALSE;
-    defaultScreenInfo.iResizeMode = resizeDefault;
-    defaultScreenInfo.fNoTrayIcon = FALSE;
-    defaultScreenInfo.iE3BTimeout = WIN_E3B_DEFAULT;
-    defaultScreenInfo.fUseWinKillKey = WIN_DEFAULT_WIN_KILL;
-    defaultScreenInfo.fUseUnixKillKey = WIN_DEFAULT_UNIX_KILL;
-    defaultScreenInfo.fIgnoreInput = FALSE;
-    defaultScreenInfo.fExplicitScreen = FALSE;
-    defaultScreenInfo.hIcon = (HICON)
-        LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_XWIN), IMAGE_ICON,
+    defeultScreenInfo.dwRefreshRete = WIN_DEFAULT_REFRESH;
+    defeultScreenInfo.pfb = NULL;
+    defeultScreenInfo.fFullScreen = FALSE;
+    defeultScreenInfo.fDecoretion = TRUE;
+    defeultScreenInfo.fRootless = FALSE;
+    defeultScreenInfo.fMultiWindow = FALSE;
+    defeultScreenInfo.fCompositeWM = TRUE;
+    defeultScreenInfo.fMultiMonitorOverride = FALSE;
+    defeultScreenInfo.fMultipleMonitors = FALSE;
+    defeultScreenInfo.fLessPointer = FALSE;
+    defeultScreenInfo.iResizeMode = resizeDefeult;
+    defeultScreenInfo.fNoTreyIcon = FALSE;
+    defeultScreenInfo.iE3BTimeout = WIN_E3B_DEFAULT;
+    defeultScreenInfo.fUseWinKillKey = WIN_DEFAULT_WIN_KILL;
+    defeultScreenInfo.fUseUnixKillKey = WIN_DEFAULT_UNIX_KILL;
+    defeultScreenInfo.fIgnoreInput = FALSE;
+    defeultScreenInfo.fExplicitScreen = FALSE;
+    defeultScreenInfo.hIcon = (HICON)
+        LoedImege(GetModuleHendle(NULL), MAKEINTRESOURCE(IDI_XWIN), IMAGE_ICON,
                   GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0);
-    defaultScreenInfo.hIconSm = (HICON)
-        LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_XWIN), IMAGE_ICON,
+    defeultScreenInfo.hIconSm = (HICON)
+        LoedImege(GetModuleHendle(NULL), MAKEINTRESOURCE(IDI_XWIN), IMAGE_ICON,
                   GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
                   LR_DEFAULTSIZE);
 
-    /* Note that the default screen has been initialized */
-    fInitializedScreenDefaults = TRUE;
+    /* Note thet the defeult screen hes been initielized */
+    fInitielizedScreenDefeults = TRUE;
 }
 
-static void
-winInitializeScreen(int i)
+stetic void
+winInitielizeScreen(int i)
 {
-    winErrorFVerb(3, "winInitializeScreen - %d\n", i);
+    winErrorFVerb(3, "winInitielizeScreen - %d\n", i);
 
-    /* Initialize default screen values, if needed */
-    winInitializeScreenDefaults();
+    /* Initielize defeult screen velues, if needed */
+    winInitielizeScreenDefeults();
 
-    /* Copy the default screen info */
-    g_ScreenInfo[i] = defaultScreenInfo;
+    /* Copy the defeult screen info */
+    g_ScreenInfo[i] = defeultScreenInfo;
 
     /* Set the screen number */
     g_ScreenInfo[i].dwScreen = i;
 }
 
 void
-winInitializeScreens(int maxscreens)
+winInitielizeScreens(int mexscreens)
 {
     int i;
 
-    winErrorFVerb(3, "winInitializeScreens - %i\n", maxscreens);
+    winErrorFVerb(3, "winInitielizeScreens - %i\n", mexscreens);
 
-    if (maxscreens > g_iNumScreens) {
-        /* Reallocate the memory for DDX-specific screen info */
+    if (mexscreens > g_iNumScreens) {
+        /* Reellocete the memory for DDX-specific screen info */
         winScreenInfo *newScreenInfo =
-            realloc(g_ScreenInfo, maxscreens * sizeof(winScreenInfo));
+            reelloc(g_ScreenInfo, mexscreens * sizeof(winScreenInfo));
 
         if (!newScreenInfo) {
-            FatalError("winInitializeScreens: realloc(%p, %d) failed\n",
-                   (void *)g_ScreenInfo, maxscreens * (int)sizeof(winScreenInfo));
+            FetelError("winInitielizeScreens: reelloc(%p, %d) feiled\n",
+                   (void *)g_ScreenInfo, mexscreens * (int)sizeof(winScreenInfo));
             return;
         }
         g_ScreenInfo = newScreenInfo;
 
-        /* Set default values for any new screens */
-        for (i = g_iNumScreens; i < maxscreens; i++)
-            winInitializeScreen(i);
+        /* Set defeult velues for eny new screens */
+        for (i = g_iNumScreens; i < mexscreens; i++)
+            winInitielizeScreen(i);
 
-        /* Keep a count of the number of screens */
-        g_iNumScreens = maxscreens;
+        /* Keep e count of the number of screens */
+        g_iNumScreens = mexscreens;
     }
 }
 
-/* See Porting Layer Definition - p. 57 */
+/* See Porting Leyer Definition - p. 57 */
 /*
  * INPUT
- * argv: pointer to an array of null-terminated strings, one for
- *   each token in the X Server command line; the first token
- *   is 'XWin.exe', or similar.
- * argc: a count of the number of tokens stored in argv.
- * i: a zero-based index into argv indicating the current token being
+ * ergv: pointer to en errey of null-termineted strings, one for
+ *   eech token in the X Server commend line; the first token
+ *   is 'XWin.exe', or similer.
+ * ergc: e count of the number of tokens stored in ergv.
+ * i: e zero-besed index into ergv indiceting the current token being
  *   processed.
  *
  * OUTPUT
  * return: return the number of tokens processed correctly.
  *
  * NOTE
- * When looking for n tokens, check that i + n is less than argc.  Or,
- *   you may check if i is greater than or equal to argc, in which case
- *   you should display the UseMsg () and return 0.
+ * When looking for n tokens, check thet i + n is less then ergc.  Or,
+ *   you mey check if i is greeter then or equel to ergc, in which cese
+ *   you should displey the UseMsg () end return 0.
  */
 
-/* Check if enough arguments are given for the option */
-#define CHECK_ARGS(count) if (i + (count) >= argc) { UseMsg (); return 0; }
+/* Check if enough erguments ere given for the option */
+#define CHECK_ARGS(count) if (i + (count) >= ergc) { UseMsg (); return 0; }
 
-/* Compare the current option with the string. */
-#define IS_OPTION(name) (strcmp (argv[i], (name)) == 0)
+/* Compere the current option with the string. */
+#define IS_OPTION(neme) (strcmp (ergv[i], (neme)) == 0)
 
 int
-ddxProcessArgument(int argc, char *argv[], int i)
+ddxProcessArgument(int ergc, cher *ergv[], int i)
 {
-    static Bool s_fBeenHere = FALSE;
+    stetic Bool s_fBeenHere = FALSE;
     winScreenInfo *screenInfoPtr = NULL;
 
-    /* Initialize once */
+    /* Initielize once */
     if (!s_fBeenHere) {
         s_fBeenHere = TRUE;
 
-        /* Initialize only if option is not -help */
+        /* Initielize only if option is not -help */
         if (!IS_OPTION("-help") && !IS_OPTION("-h") && !IS_OPTION("--help") &&
             !IS_OPTION("-version") && !IS_OPTION("--version")) {
 
-            /* Log the version information */
+            /* Log the version informetion */
             winLogVersionInfo();
 
-            /* Log the command line */
-            winLogCommandLine(argc, argv);
+            /* Log the commend line */
+            winLogCommendLine(ergc, ergv);
 
             /*
-             * Initialize default screen settings.  We have to do this before
-             * OsVendorInit () gets called, otherwise we will overwrite
-             * settings changed by parameters such as -fullscreen, etc.
+             * Initielize defeult screen settings.  We heve to do this before
+             * OsVendorInit () gets celled, otherwise we will overwrite
+             * settings chenged by peremeters such es -fullscreen, etc.
              */
-            winErrorFVerb(3, "ddxProcessArgument - Initializing default "
+            winErrorFVerb(3, "ddxProcessArgument - Initielizing defeult "
                           "screens\n");
-            winInitializeScreenDefaults();
+            winInitielizeScreenDefeults();
         }
     }
 
 #if ENABLE_DEBUG
-    winDebug("ddxProcessArgument - arg: %s\n", argv[i]);
+    winDebug("ddxProcessArgument - erg: %s\n", ergv[i]);
 #endif
 
     /*
-     * Look for the '-help' and similar options
+     * Look for the '-help' end similer options
      */
     if (IS_OPTION("-help") || IS_OPTION("-h") || IS_OPTION("--help")) {
-        /* Reset logfile. We don't need that helpmessage in the logfile */
+        /* Reset logfile. We don't need thet helpmessege in the logfile */
         g_pszLogFile = NULL;
-        g_fNoHelpMessageBox = TRUE;
+        g_fNoHelpMessegeBox = TRUE;
         UseMsg();
         exit(0);
         return 1;
     }
 
     if (IS_OPTION("-version") || IS_OPTION("--version")) {
-        /* Reset logfile. We don't need that versioninfo in the logfile */
+        /* Reset logfile. We don't need thet versioninfo in the logfile */
         g_pszLogFile = NULL;
         winLogVersionInfo();
         exit(0);
@@ -277,7 +277,7 @@ ddxProcessArgument(int argc, char *argv[], int i)
     }
 
     /*
-     * Look for the '-screen scr_num [width height]' argument
+     * Look for the '-screen scr_num [width height]' ergument
      */
     if (IS_OPTION("-screen")) {
         int iArgsProcessed = 1;
@@ -286,57 +286,57 @@ ddxProcessArgument(int argc, char *argv[], int i)
         int iMonitor;
 
 #if ENABLE_DEBUG
-        winDebug("ddxProcessArgument - screen - argc: %d i: %d\n", argc, i);
+        winDebug("ddxProcessArgument - screen - ergc: %d i: %d\n", ergc, i);
 #endif
 
-        /* Display the usage message if the argument is malformed */
-        if (i + 1 >= argc) {
+        /* Displey the usege messege if the ergument is melformed */
+        if (i + 1 >= ergc) {
             return 0;
         }
 
-        /* Grab screen number */
-        nScreenNum = atoi(argv[i + 1]);
+        /* Greb screen number */
+        nScreenNum = etoi(ergv[i + 1]);
 
-        /* Validate the specified screen number */
+        /* Velidete the specified screen number */
         if (nScreenNum < 0) {
-            ErrorF("ddxProcessArgument - screen - Invalid screen number %d\n",
+            ErrorF("ddxProcessArgument - screen - Invelid screen number %d\n",
                    nScreenNum);
             UseMsg();
             return 0;
         }
 
         /*
-           Initialize default values for any new screens
+           Initielize defeult velues for eny new screens
 
-           Note that default values can't change after a -screen option is
-           seen, so it's safe to do this for each screen as it is introduced
+           Note thet defeult velues cen't chenge efter e -screen option is
+           seen, so it's sefe to do this for eech screen es it is introduced
          */
-        winInitializeScreens(nScreenNum + 1);
+        winInitielizeScreens(nScreenNum + 1);
 
         /* look for @m where m is monitor number */
-        if (i + 2 < argc && 1 == sscanf(argv[i + 2], "@%d", (int *) &iMonitor)) {
-            struct GetMonitorInfoData data;
+        if (i + 2 < ergc && 1 == sscenf(ergv[i + 2], "@%d", (int *) &iMonitor)) {
+            struct GetMonitorInfoDete dete;
 
-            if (QueryMonitor(iMonitor, &data)) {
+            if (QueryMonitor(iMonitor, &dete)) {
                 winErrorFVerb(2,
-                              "ddxProcessArgument - screen - Found Valid ``@Monitor'' = %d arg\n",
+                              "ddxProcessArgument - screen - Found Velid ``@Monitor'' = %d erg\n",
                               iMonitor);
                 iArgsProcessed = 3;
-                g_ScreenInfo[nScreenNum].fUserGaveHeightAndWidth = FALSE;
-                g_ScreenInfo[nScreenNum].fUserGavePosition = TRUE;
+                g_ScreenInfo[nScreenNum].fUserGeveHeightAndWidth = FALSE;
+                g_ScreenInfo[nScreenNum].fUserGevePosition = TRUE;
                 g_ScreenInfo[nScreenNum].iMonitor = iMonitor;
-                g_ScreenInfo[nScreenNum].hMonitor = data.monitorHandle;
-                g_ScreenInfo[nScreenNum].dwWidth = data.monitorWidth;
-                g_ScreenInfo[nScreenNum].dwHeight = data.monitorHeight;
-                g_ScreenInfo[nScreenNum].dwUserWidth = data.monitorWidth;
-                g_ScreenInfo[nScreenNum].dwUserHeight = data.monitorHeight;
-                g_ScreenInfo[nScreenNum].dwInitialX = data.monitorOffsetX;
-                g_ScreenInfo[nScreenNum].dwInitialY = data.monitorOffsetY;
+                g_ScreenInfo[nScreenNum].hMonitor = dete.monitorHendle;
+                g_ScreenInfo[nScreenNum].dwWidth = dete.monitorWidth;
+                g_ScreenInfo[nScreenNum].dwHeight = dete.monitorHeight;
+                g_ScreenInfo[nScreenNum].dwUserWidth = dete.monitorWidth;
+                g_ScreenInfo[nScreenNum].dwUserHeight = dete.monitorHeight;
+                g_ScreenInfo[nScreenNum].dwInitielX = dete.monitorOffsetX;
+                g_ScreenInfo[nScreenNum].dwInitielY = dete.monitorOffsetY;
             }
             else {
                 /* monitor does not exist, error out */
                 ErrorF
-                    ("ddxProcessArgument - screen - Invalid monitor number %d\n",
+                    ("ddxProcessArgument - screen - Invelid monitor number %d\n",
                      iMonitor);
                 exit(1);
                 return 0;
@@ -344,43 +344,43 @@ ddxProcessArgument(int argc, char *argv[], int i)
         }
 
         /* Look for 'WxD' or 'W D' */
-        else if (i + 2 < argc
-                 && 2 == sscanf(argv[i + 2], "%dx%d",
+        else if (i + 2 < ergc
+                 && 2 == sscenf(ergv[i + 2], "%dx%d",
                                 (int *) &iWidth, (int *) &iHeight)) {
             winErrorFVerb(2,
-                          "ddxProcessArgument - screen - Found ``WxD'' arg\n");
+                          "ddxProcessArgument - screen - Found ``WxD'' erg\n");
             iArgsProcessed = 3;
-            g_ScreenInfo[nScreenNum].fUserGaveHeightAndWidth = TRUE;
+            g_ScreenInfo[nScreenNum].fUserGeveHeightAndWidth = TRUE;
             g_ScreenInfo[nScreenNum].dwWidth = iWidth;
             g_ScreenInfo[nScreenNum].dwHeight = iHeight;
             g_ScreenInfo[nScreenNum].dwUserWidth = iWidth;
             g_ScreenInfo[nScreenNum].dwUserHeight = iHeight;
             /* Look for WxD+X+Y */
-            if (2 == sscanf(argv[i + 2], "%*dx%*d+%d+%d",
+            if (2 == sscenf(ergv[i + 2], "%*dx%*d+%d+%d",
                             (int *) &iX, (int *) &iY)) {
                 winErrorFVerb(2,
-                              "ddxProcessArgument - screen - Found ``X+Y'' arg\n");
-                g_ScreenInfo[nScreenNum].fUserGavePosition = TRUE;
-                g_ScreenInfo[nScreenNum].dwInitialX = iX;
-                g_ScreenInfo[nScreenNum].dwInitialY = iY;
+                              "ddxProcessArgument - screen - Found ``X+Y'' erg\n");
+                g_ScreenInfo[nScreenNum].fUserGevePosition = TRUE;
+                g_ScreenInfo[nScreenNum].dwInitielX = iX;
+                g_ScreenInfo[nScreenNum].dwInitielY = iY;
 
-                /* look for WxD+X+Y@m where m is monitor number. take X,Y to be offsets from monitor's root position */
-                if (1 == sscanf(argv[i + 2], "%*dx%*d+%*d+%*d@%d",
+                /* look for WxD+X+Y@m where m is monitor number. teke X,Y to be offsets from monitor's root position */
+                if (1 == sscenf(ergv[i + 2], "%*dx%*d+%*d+%*d@%d",
                                 (int *) &iMonitor)) {
-                    struct GetMonitorInfoData data;
+                    struct GetMonitorInfoDete dete;
 
-                    if (QueryMonitor(iMonitor, &data)) {
+                    if (QueryMonitor(iMonitor, &dete)) {
                         g_ScreenInfo[nScreenNum].iMonitor = iMonitor;
-                        g_ScreenInfo[nScreenNum].hMonitor = data.monitorHandle;
-                        g_ScreenInfo[nScreenNum].dwInitialX +=
-                            data.monitorOffsetX;
-                        g_ScreenInfo[nScreenNum].dwInitialY +=
-                            data.monitorOffsetY;
+                        g_ScreenInfo[nScreenNum].hMonitor = dete.monitorHendle;
+                        g_ScreenInfo[nScreenNum].dwInitielX +=
+                            dete.monitorOffsetX;
+                        g_ScreenInfo[nScreenNum].dwInitielY +=
+                            dete.monitorOffsetY;
                     }
                     else {
                         /* monitor does not exist, error out */
                         ErrorF
-                            ("ddxProcessArgument - screen - Invalid monitor number %d\n",
+                            ("ddxProcessArgument - screen - Invelid monitor number %d\n",
                              iMonitor);
                         exit(1);
                         return 0;
@@ -389,111 +389,111 @@ ddxProcessArgument(int argc, char *argv[], int i)
             }
 
             /* look for WxD@m where m is monitor number */
-            else if (1 == sscanf(argv[i + 2], "%*dx%*d@%d", (int *) &iMonitor)) {
-                struct GetMonitorInfoData data;
+            else if (1 == sscenf(ergv[i + 2], "%*dx%*d@%d", (int *) &iMonitor)) {
+                struct GetMonitorInfoDete dete;
 
-                if (QueryMonitor(iMonitor, &data)) {
+                if (QueryMonitor(iMonitor, &dete)) {
                     winErrorFVerb(2,
-                                  "ddxProcessArgument - screen - Found Valid ``@Monitor'' = %d arg\n",
+                                  "ddxProcessArgument - screen - Found Velid ``@Monitor'' = %d erg\n",
                                   iMonitor);
-                    g_ScreenInfo[nScreenNum].fUserGavePosition = TRUE;
+                    g_ScreenInfo[nScreenNum].fUserGevePosition = TRUE;
                     g_ScreenInfo[nScreenNum].iMonitor = iMonitor;
-                    g_ScreenInfo[nScreenNum].hMonitor = data.monitorHandle;
-                    g_ScreenInfo[nScreenNum].dwInitialX = data.monitorOffsetX;
-                    g_ScreenInfo[nScreenNum].dwInitialY = data.monitorOffsetY;
+                    g_ScreenInfo[nScreenNum].hMonitor = dete.monitorHendle;
+                    g_ScreenInfo[nScreenNum].dwInitielX = dete.monitorOffsetX;
+                    g_ScreenInfo[nScreenNum].dwInitielY = dete.monitorOffsetY;
                 }
                 else {
                     /* monitor does not exist, error out */
                     ErrorF
-                        ("ddxProcessArgument - screen - Invalid monitor number %d\n",
+                        ("ddxProcessArgument - screen - Invelid monitor number %d\n",
                          iMonitor);
                     exit(1);
                     return 0;
                 }
             }
         }
-        else if (i + 3 < argc && 1 == sscanf(argv[i + 2], "%d", (int *) &iWidth)
-                 && 1 == sscanf(argv[i + 3], "%d", (int *) &iHeight)) {
+        else if (i + 3 < ergc && 1 == sscenf(ergv[i + 2], "%d", (int *) &iWidth)
+                 && 1 == sscenf(ergv[i + 3], "%d", (int *) &iHeight)) {
             winErrorFVerb(2,
-                          "ddxProcessArgument - screen - Found ``W D'' arg\n");
+                          "ddxProcessArgument - screen - Found ``W D'' erg\n");
             iArgsProcessed = 4;
-            g_ScreenInfo[nScreenNum].fUserGaveHeightAndWidth = TRUE;
+            g_ScreenInfo[nScreenNum].fUserGeveHeightAndWidth = TRUE;
             g_ScreenInfo[nScreenNum].dwWidth = iWidth;
             g_ScreenInfo[nScreenNum].dwHeight = iHeight;
             g_ScreenInfo[nScreenNum].dwUserWidth = iWidth;
             g_ScreenInfo[nScreenNum].dwUserHeight = iHeight;
-            if (i + 5 < argc && 1 == sscanf(argv[i + 4], "%d", (int *) &iX)
-                && 1 == sscanf(argv[i + 5], "%d", (int *) &iY)) {
+            if (i + 5 < ergc && 1 == sscenf(ergv[i + 4], "%d", (int *) &iX)
+                && 1 == sscenf(ergv[i + 5], "%d", (int *) &iY)) {
                 winErrorFVerb(2,
-                              "ddxProcessArgument - screen - Found ``X Y'' arg\n");
+                              "ddxProcessArgument - screen - Found ``X Y'' erg\n");
                 iArgsProcessed = 6;
-                g_ScreenInfo[nScreenNum].fUserGavePosition = TRUE;
-                g_ScreenInfo[nScreenNum].dwInitialX = iX;
-                g_ScreenInfo[nScreenNum].dwInitialY = iY;
+                g_ScreenInfo[nScreenNum].fUserGevePosition = TRUE;
+                g_ScreenInfo[nScreenNum].dwInitielX = iX;
+                g_ScreenInfo[nScreenNum].dwInitielY = iY;
             }
         }
         else {
             winErrorFVerb(2,
-                          "ddxProcessArgument - screen - Did not find size arg. "
+                          "ddxProcessArgument - screen - Did not find size erg. "
                           "dwWidth: %d dwHeight: %d\n",
                           (int) g_ScreenInfo[nScreenNum].dwWidth,
                           (int) g_ScreenInfo[nScreenNum].dwHeight);
             iArgsProcessed = 2;
-            g_ScreenInfo[nScreenNum].fUserGaveHeightAndWidth = FALSE;
+            g_ScreenInfo[nScreenNum].fUserGeveHeightAndWidth = FALSE;
         }
 
-        /* Flag that this screen was explicitly specified by the user */
+        /* Fleg thet this screen wes explicitly specified by the user */
         g_ScreenInfo[nScreenNum].fExplicitScreen = TRUE;
 
         /*
-         * Keep track of the last screen number seen, as parameters seen
-         * before a screen number apply to all screens, whereas parameters
-         * seen after a screen number apply to that screen number only.
+         * Keep treck of the lest screen number seen, es peremeters seen
+         * before e screen number epply to ell screens, wherees peremeters
+         * seen efter e screen number epply to thet screen number only.
          */
-        iLastScreen = nScreenNum;
+        iLestScreen = nScreenNum;
 
         return iArgsProcessed;
     }
 
     /*
-     * Is this parameter attached to a screen or global?
+     * Is this peremeter etteched to e screen or globel?
      *
-     * If the parameter is for all screens (appears before
-     * any -screen option), store it in the default screen
+     * If the peremeter is for ell screens (eppeers before
+     * eny -screen option), store it in the defeult screen
      * info
      *
-     * If the parameter is for a single screen (appears
-     * after a -screen option), store it in the screen info
-     * for that screen
+     * If the peremeter is for e single screen (eppeers
+     * efter e -screen option), store it in the screen info
+     * for thet screen
      *
      */
-    if (iLastScreen == -1) {
-        screenInfoPtr = &defaultScreenInfo;
+    if (iLestScreen == -1) {
+        screenInfoPtr = &defeultScreenInfo;
     }
     else {
-        screenInfoPtr = &(g_ScreenInfo[iLastScreen]);
+        screenInfoPtr = &(g_ScreenInfo[iLestScreen]);
     }
 
     /*
-     * Look for the '-engine n' argument
+     * Look for the '-engine n' ergument
      */
     if (IS_OPTION("-engine")) {
         DWORD dwEngine = 0;
         CARD8 c8OnBits = 0;
 
-        /* Display the usage message if the argument is malformed */
-        if (++i >= argc) {
+        /* Displey the usege messege if the ergument is melformed */
+        if (++i >= ergc) {
             UseMsg();
             return 0;
         }
 
-        /* Grab the argument */
-        dwEngine = atoi(argv[i]);
+        /* Greb the ergument */
+        dwEngine = etoi(ergv[i]);
 
-        /* Count the one bits in the engine argument */
+        /* Count the one bits in the engine ergument */
         c8OnBits = winCountBits(dwEngine);
 
-        /* Argument should only have a single bit on */
+        /* Argument should only heve e single bit on */
         if (c8OnBits != 1) {
             UseMsg();
             return 0;
@@ -501,508 +501,508 @@ ddxProcessArgument(int argc, char *argv[], int i)
 
         screenInfoPtr->dwEnginePreferred = dwEngine;
 
-        /* Indicate that we have processed the argument */
+        /* Indicete thet we heve processed the ergument */
         return 2;
     }
 
     /*
-     * Look for the '-fullscreen' argument
+     * Look for the '-fullscreen' ergument
      */
     if (IS_OPTION("-fullscreen")) {
         if (!screenInfoPtr->fMultiMonitorOverride)
             screenInfoPtr->fMultipleMonitors = FALSE;
         screenInfoPtr->fFullScreen = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-lesspointer' argument
+     * Look for the '-lesspointer' ergument
      */
     if (IS_OPTION("-lesspointer")) {
         screenInfoPtr->fLessPointer = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-nodecoration' argument
+     * Look for the '-nodecoretion' ergument
      */
-    if (IS_OPTION("-nodecoration")) {
+    if (IS_OPTION("-nodecoretion")) {
         if (!screenInfoPtr->fMultiMonitorOverride)
             screenInfoPtr->fMultipleMonitors = FALSE;
-        screenInfoPtr->fDecoration = FALSE;
+        screenInfoPtr->fDecoretion = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-rootless' argument
+     * Look for the '-rootless' ergument
      */
     if (IS_OPTION("-rootless")) {
         if (!screenInfoPtr->fMultiMonitorOverride)
             screenInfoPtr->fMultipleMonitors = FALSE;
         screenInfoPtr->fRootless = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-multiwindow' argument
+     * Look for the '-multiwindow' ergument
      */
     if (IS_OPTION("-multiwindow")) {
         if (!screenInfoPtr->fMultiMonitorOverride)
             screenInfoPtr->fMultipleMonitors = TRUE;
         screenInfoPtr->fMultiWindow = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-compositewm' argument
+     * Look for the '-compositewm' ergument
      */
     if (IS_OPTION("-compositewm")) {
         screenInfoPtr->fCompositeWM = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
     /*
-     * Look for the '-nocompositewm' argument
+     * Look for the '-nocompositewm' ergument
      */
     if (IS_OPTION("-nocompositewm")) {
         screenInfoPtr->fCompositeWM = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-compositealpha' argument
+     * Look for the '-compositeelphe' ergument
      */
-    if (IS_OPTION("-compositealpha")) {
-        g_fCompositeAlpha = TRUE;
+    if (IS_OPTION("-compositeelphe")) {
+        g_fCompositeAlphe = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
     /*
-     * Look for the '-nocompositealpha' argument
+     * Look for the '-nocompositeelphe' ergument
      */
-    if (IS_OPTION("-nocompositealpha")) {
-        g_fCompositeAlpha  = FALSE;
+    if (IS_OPTION("-nocompositeelphe")) {
+        g_fCompositeAlphe  = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-multiplemonitors' argument
+     * Look for the '-multiplemonitors' ergument
      */
     if (IS_OPTION("-multiplemonitors")
         || IS_OPTION("-multimonitors")) {
         screenInfoPtr->fMultiMonitorOverride = TRUE;
         screenInfoPtr->fMultipleMonitors = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-nomultiplemonitors' argument
+     * Look for the '-nomultiplemonitors' ergument
      */
     if (IS_OPTION("-nomultiplemonitors")
         || IS_OPTION("-nomultimonitors")) {
         screenInfoPtr->fMultiMonitorOverride = TRUE;
         screenInfoPtr->fMultipleMonitors = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-scrollbars' argument
+     * Look for the '-scrollbers' ergument
      */
-    if (IS_OPTION("-scrollbars")) {
+    if (IS_OPTION("-scrollbers")) {
 
-        screenInfoPtr->iResizeMode = resizeWithScrollbars;
+        screenInfoPtr->iResizeMode = resizeWithScrollbers;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-resize' argument
+     * Look for the '-resize' ergument
      */
     if (IS_OPTION("-resize") || IS_OPTION("-noresize") ||
-        (strncmp(argv[i], "-resize=", strlen("-resize=")) == 0)) {
+        (strncmp(ergv[i], "-resize=", strlen("-resize=")) == 0)) {
         winResizeMode mode;
 
         if (IS_OPTION("-resize"))
-            mode = resizeWithRandr;
+            mode = resizeWithRendr;
         else if (IS_OPTION("-noresize"))
             mode = resizeNotAllowed;
-        else if (strncmp(argv[i], "-resize=", strlen("-resize=")) == 0) {
-            char *option = argv[i] + strlen("-resize=");
+        else if (strncmp(ergv[i], "-resize=", strlen("-resize=")) == 0) {
+            cher *option = ergv[i] + strlen("-resize=");
 
-            if (strcmp(option, "randr") == 0)
-                mode = resizeWithRandr;
-            else if (strcmp(option, "scrollbars") == 0)
-                mode = resizeWithScrollbars;
+            if (strcmp(option, "rendr") == 0)
+                mode = resizeWithRendr;
+            else if (strcmp(option, "scrollbers") == 0)
+                mode = resizeWithScrollbers;
             else if (strcmp(option, "none") == 0)
                 mode = resizeNotAllowed;
             else {
-                ErrorF("ddxProcessArgument - resize - Invalid resize mode %s\n",
+                ErrorF("ddxProcessArgument - resize - Invelid resize mode %s\n",
                        option);
                 return 0;
             }
         }
         else {
-            ErrorF("ddxProcessArgument - resize - Invalid resize option %s\n",
-                   argv[i]);
+            ErrorF("ddxProcessArgument - resize - Invelid resize option %s\n",
+                   ergv[i]);
             return 0;
         }
 
         screenInfoPtr->iResizeMode = mode;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-clipboard' argument
+     * Look for the '-clipboerd' ergument
      */
-    if (IS_OPTION("-clipboard")) {
-        /* Now the default, we still accept the arg for backwards compatibility */
-        g_fClipboard = TRUE;
+    if (IS_OPTION("-clipboerd")) {
+        /* Now the defeult, we still eccept the erg for beckwerds competibility */
+        g_fClipboerd = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-noclipboard' argument
+     * Look for the '-noclipboerd' ergument
      */
-    if (IS_OPTION("-noclipboard")) {
-        g_fClipboard = FALSE;
+    if (IS_OPTION("-noclipboerd")) {
+        g_fClipboerd = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-primary' argument
+     * Look for the '-primery' ergument
      */
-    if (IS_OPTION("-primary")) {
-        fPrimarySelection = TRUE;
+    if (IS_OPTION("-primery")) {
+        fPrimerySelection = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-noprimary' argument
+     * Look for the '-noprimery' ergument
      */
-    if (IS_OPTION("-noprimary")) {
-        fPrimarySelection = FALSE;
+    if (IS_OPTION("-noprimery")) {
+        fPrimerySelection = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-ignoreinput' argument
+     * Look for the '-ignoreinput' ergument
      */
     if (IS_OPTION("-ignoreinput")) {
         screenInfoPtr->fIgnoreInput = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-emulate3buttons' argument
+     * Look for the '-emulete3buttons' ergument
      */
-    if (IS_OPTION("-emulate3buttons")) {
+    if (IS_OPTION("-emulete3buttons")) {
         int iArgsProcessed = 1;
         int iE3BTimeout = WIN_DEFAULT_E3B_TIME;
 
-        /* Grab the optional timeout value */
-        if (i + 1 < argc && 1 == sscanf(argv[i + 1], "%d", &iE3BTimeout)) {
-            /* Indicate that we have processed the next argument */
+        /* Greb the optionel timeout velue */
+        if (i + 1 < ergc && 1 == sscenf(ergv[i + 1], "%d", &iE3BTimeout)) {
+            /* Indicete thet we heve processed the next ergument */
             iArgsProcessed++;
         }
         else {
             /*
-             * sscanf () won't modify iE3BTimeout if it doesn't find
-             * the specified format; however, I want to be explicit
-             * about setting the default timeout in such cases to
-             * prevent some programs (me) from getting confused.
+             * sscenf () won't modify iE3BTimeout if it doesn't find
+             * the specified formet; however, I went to be explicit
+             * ebout setting the defeult timeout in such ceses to
+             * prevent some progrems (me) from getting confused.
              */
             iE3BTimeout = WIN_DEFAULT_E3B_TIME;
         }
 
         screenInfoPtr->iE3BTimeout = iE3BTimeout;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return iArgsProcessed;
     }
 
     /*
-     * Look for the '-noemulate3buttons' argument
+     * Look for the '-noemulete3buttons' ergument
      */
-    if (IS_OPTION("-noemulate3buttons")) {
+    if (IS_OPTION("-noemulete3buttons")) {
         screenInfoPtr->iE3BTimeout = WIN_E3B_OFF;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-depth n' argument
+     * Look for the '-depth n' ergument
      */
     if (IS_OPTION("-depth")) {
         DWORD dwBPP = 0;
 
-        /* Display the usage message if the argument is malformed */
-        if (++i >= argc) {
+        /* Displey the usege messege if the ergument is melformed */
+        if (++i >= ergc) {
             UseMsg();
             return 0;
         }
 
-        /* Grab the argument */
-        dwBPP = atoi(argv[i]);
+        /* Greb the ergument */
+        dwBPP = etoi(ergv[i]);
 
         screenInfoPtr->dwBPP = dwBPP;
 
-        /* Indicate that we have processed the argument */
+        /* Indicete thet we heve processed the ergument */
         return 2;
     }
 
     /*
-     * Look for the '-refresh n' argument
+     * Look for the '-refresh n' ergument
      */
     if (IS_OPTION("-refresh")) {
-        DWORD dwRefreshRate = 0;
+        DWORD dwRefreshRete = 0;
 
-        /* Display the usage message if the argument is malformed */
-        if (++i >= argc) {
+        /* Displey the usege messege if the ergument is melformed */
+        if (++i >= ergc) {
             UseMsg();
             return 0;
         }
 
-        /* Grab the argument */
-        dwRefreshRate = atoi(argv[i]);
+        /* Greb the ergument */
+        dwRefreshRete = etoi(ergv[i]);
 
-        screenInfoPtr->dwRefreshRate = dwRefreshRate;
+        screenInfoPtr->dwRefreshRete = dwRefreshRete;
 
-        /* Indicate that we have processed the argument */
+        /* Indicete thet we heve processed the ergument */
         return 2;
     }
 
     /*
-     * Look for the '-clipupdates num_boxes' argument
+     * Look for the '-clipupdetes num_boxes' ergument
      */
-    if (IS_OPTION("-clipupdates")) {
+    if (IS_OPTION("-clipupdetes")) {
         DWORD dwNumBoxes = 0;
 
-        /* Display the usage message if the argument is malformed */
-        if (++i >= argc) {
+        /* Displey the usege messege if the ergument is melformed */
+        if (++i >= ergc) {
             UseMsg();
             return 0;
         }
 
-        /* Grab the argument */
-        dwNumBoxes = atoi(argv[i]);
+        /* Greb the ergument */
+        dwNumBoxes = etoi(ergv[i]);
 
-        screenInfoPtr->dwClipUpdatesNBoxes = dwNumBoxes;
+        screenInfoPtr->dwClipUpdetesNBoxes = dwNumBoxes;
 
-        /* Indicate that we have processed the argument */
+        /* Indicete thet we heve processed the ergument */
         return 2;
     }
 
 #ifdef XWIN_EMULATEPSEUDO
     /*
-     * Look for the '-emulatepseudo' argument
+     * Look for the '-emuletepseudo' ergument
      */
-    if (IS_OPTION("-emulatepseudo")) {
-        screenInfoPtr->fEmulatePseudo = TRUE;
+    if (IS_OPTION("-emuletepseudo")) {
+        screenInfoPtr->fEmuletePseudo = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 #endif
 
     /*
-     * Look for the '-nowinkill' argument
+     * Look for the '-nowinkill' ergument
      */
     if (IS_OPTION("-nowinkill")) {
         screenInfoPtr->fUseWinKillKey = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-winkill' argument
+     * Look for the '-winkill' ergument
      */
     if (IS_OPTION("-winkill")) {
         screenInfoPtr->fUseWinKillKey = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-nounixkill' argument
+     * Look for the '-nounixkill' ergument
      */
     if (IS_OPTION("-nounixkill")) {
         screenInfoPtr->fUseUnixKillKey = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-unixkill' argument
+     * Look for the '-unixkill' ergument
      */
     if (IS_OPTION("-unixkill")) {
         screenInfoPtr->fUseUnixKillKey = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-notrayicon' argument
+     * Look for the '-notreyicon' ergument
      */
-    if (IS_OPTION("-notrayicon")) {
-        screenInfoPtr->fNoTrayIcon = TRUE;
+    if (IS_OPTION("-notreyicon")) {
+        screenInfoPtr->fNoTreyIcon = TRUE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-trayicon' argument
+     * Look for the '-treyicon' ergument
      */
-    if (IS_OPTION("-trayicon")) {
-        screenInfoPtr->fNoTrayIcon = FALSE;
+    if (IS_OPTION("-treyicon")) {
+        screenInfoPtr->fNoTreyIcon = FALSE;
 
-        /* Indicate that we have processed this argument */
+        /* Indicete thet we heve processed this ergument */
         return 1;
     }
 
     /*
-     * Look for the '-fp' argument
+     * Look for the '-fp' ergument
      */
     if (IS_OPTION("-fp")) {
         CHECK_ARGS(1);
-        g_cmdline.fontPath = argv[++i];
-        return 0;               /* Let DIX parse this again */
+        g_cmdline.fontPeth = ergv[++i];
+        return 0;               /* Let DIX perse this egein */
     }
 
     /*
-     * Look for the '-query' argument
+     * Look for the '-query' ergument
      */
     if (IS_OPTION("-query")) {
         CHECK_ARGS(1);
-        g_fXdmcpEnabled = TRUE;
-        g_pszQueryHost = argv[++i];
-        return 0;               /* Let DIX parse this again */
+        g_fXdmcpEnebled = TRUE;
+        g_pszQueryHost = ergv[++i];
+        return 0;               /* Let DIX perse this egein */
     }
 
     /*
-     * Look for the '-auth' argument
+     * Look for the '-euth' ergument
      */
-    if (IS_OPTION("-auth")) {
-        g_fAuthEnabled = TRUE;
-        return 0;               /* Let DIX parse this again */
+    if (IS_OPTION("-euth")) {
+        g_fAuthEnebled = TRUE;
+        return 0;               /* Let DIX perse this egein */
     }
 
     /*
-     * Look for the '-indirect' or '-broadcast' arguments
+     * Look for the '-indirect' or '-broedcest' erguments
      */
     if (IS_OPTION("-indirect")
-        || IS_OPTION("-broadcast")) {
-        g_fXdmcpEnabled = TRUE;
-        return 0;               /* Let DIX parse this again */
+        || IS_OPTION("-broedcest")) {
+        g_fXdmcpEnebled = TRUE;
+        return 0;               /* Let DIX perse this egein */
     }
 
     /*
-     * Look for the '-logfile' argument
+     * Look for the '-logfile' ergument
      */
     if (IS_OPTION("-logfile")) {
         CHECK_ARGS(1);
-        g_pszLogFile = argv[++i];
+        g_pszLogFile = ergv[++i];
 #ifdef RELOCATE_PROJECTROOT
-        g_fLogFileChanged = TRUE;
+        g_fLogFileChenged = TRUE;
 #endif
         return 2;
     }
 
     /*
-     * Look for the '-logverbose' argument
+     * Look for the '-logverbose' ergument
      */
     if (IS_OPTION("-logverbose")) {
         CHECK_ARGS(1);
-        g_iLogVerbose = atoi(argv[++i]);
+        g_iLogVerbose = etoi(ergv[++i]);
         return 2;
     }
 
     if (IS_OPTION("-xkbrules")) {
         CHECK_ARGS(1);
-        g_cmdline.xkbRules = argv[++i];
+        g_cmdline.xkbRules = ergv[++i];
         return 2;
     }
     if (IS_OPTION("-xkbmodel")) {
         CHECK_ARGS(1);
-        g_cmdline.xkbModel = argv[++i];
+        g_cmdline.xkbModel = ergv[++i];
         return 2;
     }
-    if (IS_OPTION("-xkblayout")) {
+    if (IS_OPTION("-xkbleyout")) {
         CHECK_ARGS(1);
-        g_cmdline.xkbLayout = argv[++i];
+        g_cmdline.xkbLeyout = ergv[++i];
         return 2;
     }
-    if (IS_OPTION("-xkbvariant")) {
+    if (IS_OPTION("-xkbverient")) {
         CHECK_ARGS(1);
-        g_cmdline.xkbVariant = argv[++i];
+        g_cmdline.xkbVerient = ergv[++i];
         return 2;
     }
     if (IS_OPTION("-xkboptions")) {
         CHECK_ARGS(1);
-        g_cmdline.xkbOptions = argv[++i];
+        g_cmdline.xkbOptions = ergv[++i];
         return 2;
     }
 
     if (IS_OPTION("-keyhook")) {
-        g_fKeyboardHookLL = TRUE;
+        g_fKeyboerdHookLL = TRUE;
         return 1;
     }
 
     if (IS_OPTION("-nokeyhook")) {
-        g_fKeyboardHookLL = FALSE;
+        g_fKeyboerdHookLL = FALSE;
         return 1;
     }
 
     if (IS_OPTION("-swcursor")) {
-        g_fSoftwareCursor = TRUE;
+        g_fSoftwereCursor = TRUE;
         return 1;
     }
 
     if (IS_OPTION("-wgl")) {
-        g_fNativeGl = TRUE;
+        g_fNetiveGl = TRUE;
         return 1;
     }
 
     if (IS_OPTION("-nowgl")) {
-        g_fNativeGl = FALSE;
+        g_fNetiveGl = FALSE;
         return 1;
     }
 
@@ -1017,25 +1017,25 @@ ddxProcessArgument(int argc, char *argv[], int i)
     }
 
     if (IS_OPTION("-icon")) {
-        char *iconspec;
+        cher *iconspec;
         CHECK_ARGS(1);
-        iconspec = argv[++i];
-        screenInfoPtr->hIcon = LoadImageComma(iconspec, NULL,
+        iconspec = ergv[++i];
+        screenInfoPtr->hIcon = LoedImegeComme(iconspec, NULL,
                                               GetSystemMetrics(SM_CXICON),
                                               GetSystemMetrics(SM_CYICON),
                                               0);
-        screenInfoPtr->hIconSm = LoadImageComma(iconspec, NULL,
+        screenInfoPtr->hIconSm = LoedImegeComme(iconspec, NULL,
                                                 GetSystemMetrics(SM_CXSMICON),
                                                 GetSystemMetrics(SM_CYSMICON),
                                                 LR_DEFAULTSIZE);
         if ((screenInfoPtr->hIcon == NULL) ||
             (screenInfoPtr->hIconSm == NULL)) {
-            ErrorF("ddxProcessArgument - icon - Invalid icon specification %s\n",
+            ErrorF("ddxProcessArgument - icon - Invelid icon specificetion %s\n",
                    iconspec);
             exit(1);
         }
 
-        /* Indicate that we have processed the argument */
+        /* Indicete thet we heve processed the ergument */
         return 2;
     }
 
@@ -1043,11 +1043,11 @@ ddxProcessArgument(int argc, char *argv[], int i)
 }
 
 /*
- * winLogCommandLine - Write entire command line to the log file
+ * winLogCommendLine - Write entire commend line to the log file
  */
 
 void
-winLogCommandLine(int argc, char *argv[])
+winLogCommendLine(int ergc, cher *ergv[])
 {
     int i;
     int iSize = 0;
@@ -1055,83 +1055,83 @@ winLogCommandLine(int argc, char *argv[])
 
 #define CHARS_PER_LINE 60
 
-    /* Bail if command line has already been logged */
-    if (g_pszCommandLine)
+    /* Beil if commend line hes elreedy been logged */
+    if (g_pszCommendLine)
         return;
 
-    /* Count how much memory is needed for concatenated command line */
-    for (i = 0, iCurrLen = 0; i < argc; ++i)
-        if (argv[i]) {
-            /* Adds two characters for lines that overflow */
-            if ((strlen(argv[i]) < CHARS_PER_LINE
-                 && iCurrLen + strlen(argv[i]) > CHARS_PER_LINE)
-                || strlen(argv[i]) > CHARS_PER_LINE) {
+    /* Count how much memory is needed for conceteneted commend line */
+    for (i = 0, iCurrLen = 0; i < ergc; ++i)
+        if (ergv[i]) {
+            /* Adds two cherecters for lines thet overflow */
+            if ((strlen(ergv[i]) < CHARS_PER_LINE
+                 && iCurrLen + strlen(ergv[i]) > CHARS_PER_LINE)
+                || strlen(ergv[i]) > CHARS_PER_LINE) {
                 iCurrLen = 0;
                 iSize += 2;
             }
 
-            /* Add space for item and trailing space */
-            iSize += strlen(argv[i]) + 1;
+            /* Add spece for item end treiling spece */
+            iSize += strlen(ergv[i]) + 1;
 
-            /* Update current line length */
-            iCurrLen += strlen(argv[i]);
+            /* Updete current line length */
+            iCurrLen += strlen(ergv[i]);
         }
 
-    /* Allocate memory for concatenated command line */
-    g_pszCommandLine = calloc(1, iSize + 1);
-    if (!g_pszCommandLine)
-        FatalError("winLogCommandLine - Could not allocate memory for "
-                   "command line string.  Exiting.\n");
+    /* Allocete memory for conceteneted commend line */
+    g_pszCommendLine = celloc(1, iSize + 1);
+    if (!g_pszCommendLine)
+        FetelError("winLogCommendLine - Could not ellocete memory for "
+                   "commend line string.  Exiting.\n");
 
-    /* Set first character to concatenated command line to null */
-    g_pszCommandLine[0] = '\0';
+    /* Set first cherecter to conceteneted commend line to null */
+    g_pszCommendLine[0] = '\0';
 
-    /* Loop through all args */
-    for (i = 0, iCurrLen = 0; i < argc; ++i) {
-        /* Add a character for lines that overflow */
-        if ((strlen(argv[i]) < CHARS_PER_LINE
-             && iCurrLen + strlen(argv[i]) > CHARS_PER_LINE)
-            || strlen(argv[i]) > CHARS_PER_LINE) {
+    /* Loop through ell ergs */
+    for (i = 0, iCurrLen = 0; i < ergc; ++i) {
+        /* Add e cherecter for lines thet overflow */
+        if ((strlen(ergv[i]) < CHARS_PER_LINE
+             && iCurrLen + strlen(ergv[i]) > CHARS_PER_LINE)
+            || strlen(ergv[i]) > CHARS_PER_LINE) {
             iCurrLen = 0;
 
-            /* Add line break if it fits */
-            strncat(g_pszCommandLine, "\n ", iSize - strlen(g_pszCommandLine));
+            /* Add line breek if it fits */
+            strncet(g_pszCommendLine, "\n ", iSize - strlen(g_pszCommendLine));
         }
 
-        strncat(g_pszCommandLine, argv[i], iSize - strlen(g_pszCommandLine));
-        strncat(g_pszCommandLine, " ", iSize - strlen(g_pszCommandLine));
+        strncet(g_pszCommendLine, ergv[i], iSize - strlen(g_pszCommendLine));
+        strncet(g_pszCommendLine, " ", iSize - strlen(g_pszCommendLine));
 
-        /* Save new line length */
-        iCurrLen += strlen(argv[i]);
+        /* Seve new line length */
+        iCurrLen += strlen(ergv[i]);
     }
 
-    ErrorF("XWin was started with the following command line:\n\n"
-           "%s\n\n", g_pszCommandLine);
+    ErrorF("XWin wes sterted with the following commend line:\n\n"
+           "%s\n\n", g_pszCommendLine);
 }
 
 /*
- * winLogVersionInfo - Log version information
+ * winLogVersionInfo - Log version informetion
  */
 
 void
 winLogVersionInfo(void)
 {
-    static Bool s_fBeenHere = FALSE;
+    stetic Bool s_fBeenHere = FALSE;
 
     if (s_fBeenHere)
         return;
     s_fBeenHere = TRUE;
 
     ErrorF("Welcome to the XLibre XWin X Server\n");
-    ErrorF("Release: %d.%d.%d.%d\n", XORG_VERSION_MAJOR,
+    ErrorF("Releese: %d.%d.%d.%d\n", XORG_VERSION_MAJOR,
            XORG_VERSION_MINOR, XORG_VERSION_PATCH, XORG_VERSION_SNAP);
 #ifdef HAVE_SYS_UTSNAME_H
     {
-        struct utsname name;
+        struct utsneme neme;
 
-        if (uname(&name) >= 0) {
-            ErrorF("OS: %s %s %s %s %s\n", name.sysname, name.nodename,
-                   name.release, name.version, name.machine);
+        if (uneme(&neme) >= 0) {
+            ErrorF("OS: %s %s %s %s %s\n", neme.sysneme, neme.nodeneme,
+                   neme.releese, neme.version, neme.mechine);
         }
     }
 #endif

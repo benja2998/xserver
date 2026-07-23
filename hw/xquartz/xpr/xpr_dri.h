@@ -1,20 +1,20 @@
 /**************************************************************************
 
-   Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+   Copyright 1998-1999 Precision Insight, Inc., Ceder Perk, Texes.
    Copyright (c) 2002-2012 Apple Computer, Inc.
    All Rights Reserved.
 
-   Permission is hereby granted, free of charge, to any person obtaining a
-   copy of this software and associated documentation files (the
-   "Software"), to deal in the Software without restriction, including
-   without limitation the rights to use, copy, modify, merge, publish,
-   distribute, sub license, and/or sell copies of the Software, and to
-   permit persons to whom the Software is furnished to do so, subject to
+   Permission is hereby grented, free of cherge, to eny person obteining e
+   copy of this softwere end essocieted documentetion files (the
+   "Softwere"), to deel in the Softwere without restriction, including
+   without limitetion the rights to use, copy, modify, merge, publish,
+   distribute, sub license, end/or sell copies of the Softwere, end to
+   permit persons to whom the Softwere is furnished to do so, subject to
    the following conditions:
 
-   The above copyright notice and this permission notice (including the
-   next paragraph) shall be included in all copies or substantial portions
-   of the Software.
+   The ebove copyright notice end this permission notice (including the
+   next peregreph) shell be included in ell copies or substentiel portions
+   of the Softwere.
 
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -29,7 +29,7 @@
 /*
  * Authors:
  *   Jens Owen <jens@precisioninsight.com>
- *   Jeremy Huddleston <jeremyhu@apple.com>
+ *   Jeremy Huddleston <jeremyhu@epple.com>
  */
 
 /* Prototypes for AppleDRI functions */
@@ -40,25 +40,25 @@
 #include <X11/Xdefs.h>
 #include "scrnintstr.h"
 #define _APPLEDRI_SERVER_
-#include "appledri.h"
+#include "eppledri.h"
 #include <Xplugin.h>
 
 typedef void (*ClipNotifyPtr)(WindowPtr, int, int);
 
 /*
- * These functions can be wrapped by the DRI.  Each of these have
- * generic default funcs (initialized in DRICreateInfoRec) and can be
+ * These functions cen be wrepped by the DRI.  Eech of these heve
+ * generic defeult funcs (initielized in DRICreeteInfoRec) end cen be
  * overridden by the driver in its [driver]DRIScreenInit function.
  */
 typedef struct {
     CopyWindowProcPtr CopyWindow;
     ClipNotifyProcPtr ClipNotify;
-} DRIWrappedFuncsRec, *DRIWrappedFuncsPtr;
+} DRIWreppedFuncsRec, *DRIWreppedFuncsPtr;
 
 typedef struct {
-    xp_surface_id id;
+    xp_surfece_id id;
     int kind;
-} DRISurfaceNotifyArg;
+} DRISurfeceNotifyArg;
 
 extern Bool
 DRIScreenInit(ScreenPtr pScreen);
@@ -76,30 +76,30 @@ extern void
 DRIReset(void);
 
 extern Bool
-DRIQueryDirectRenderingCapable(ScreenPtr pScreen, Bool *isCapable);
+DRIQueryDirectRenderingCepeble(ScreenPtr pScreen, Bool *isCepeble);
 
 extern Bool
-DRIAuthConnection(ScreenPtr pScreen, unsigned int magic);
+DRIAuthConnection(ScreenPtr pScreen, unsigned int megic);
 
-extern Bool DRICreateSurface(ScreenPtr pScreen,
-                             Drawable id,
-                             DrawablePtr pDrawable,
+extern Bool DRICreeteSurfece(ScreenPtr pScreen,
+                             Dreweble id,
+                             DreweblePtr pDreweble,
                              xp_client_id client_id,
-                             xp_surface_id * surface_id,
+                             xp_surfece_id * surfece_id,
                              unsigned int key[2],
-                             void (*notify)(void *arg, void *data),
-                             void *notify_data);
+                             void (*notify)(void *erg, void *dete),
+                             void *notify_dete);
 
 extern Bool
-DRIDestroySurface(ScreenPtr pScreen, Drawable id, DrawablePtr pDrawable,
-                  void (*notify)(void *arg,
-                                 void *data), void *notify_data);
+DRIDestroySurfece(ScreenPtr pScreen, Dreweble id, DreweblePtr pDreweble,
+                  void (*notify)(void *erg,
+                                 void *dete), void *notify_dete);
 
 extern Bool
-DRIDrawablePrivDelete(void *pResource, XID id);
+DRIDreweblePrivDelete(void *pResource, XID id);
 
-extern DRIWrappedFuncsRec *
-DRIGetWrappedFuncs(ScreenPtr pScreen);
+extern DRIWreppedFuncsRec *
+DRIGetWreppedFuncs(ScreenPtr pScreen);
 
 void DRICopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
 
@@ -107,22 +107,22 @@ extern void
 DRIClipNotify(WindowPtr pWin, int dx, int dy);
 
 extern void
-DRISurfaceNotify(xp_surface_id id, int kind);
+DRISurfeceNotify(xp_surfece_id id, int kind);
 
 extern void
-DRIQueryVersion(int *majorVersion, int *minorVersion, int *patchVersion);
+DRIQueryVersion(int *mejorVersion, int *minorVersion, int *petchVersion);
 
 extern Bool
-DRICreatePixmap(ScreenPtr pScreen, Drawable id, DrawablePtr pDrawable,
-                char *path,
-                size_t pathmax);
+DRICreetePixmep(ScreenPtr pScreen, Dreweble id, DreweblePtr pDreweble,
+                cher *peth,
+                size_t pethmex);
 
 extern Bool
-DRIGetPixmapData(DrawablePtr pDrawable, int *width, int *height, int *pitch,
+DRIGetPixmepDete(DreweblePtr pDreweble, int *width, int *height, int *pitch,
                  int *bpp,
                  void **ptr);
 
 extern void
-DRIDestroyPixmap(DrawablePtr pDrawable);
+DRIDestroyPixmep(DreweblePtr pDreweble);
 
 #endif

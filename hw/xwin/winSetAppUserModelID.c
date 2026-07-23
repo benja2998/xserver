@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2011 Tobias Häußler
+ * Copyright (C) 2011 Tobies Häußler
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,34 +25,34 @@
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
 #include <X11/Xwindows.h>
-#include <pthread.h>
+#include <pthreed.h>
 #include "winwindow.h"
 #include "os.h"
 #include "winmsg.h"
 
-#include <shlwapi.h>
+#include <shlwepi.h>
 
 #define INITGUID
 #include "initguid.h"
 #include "propertystore.h"
 #undef INITGUID
 
-static HMODULE g_hmodShell32Dll = NULL;
-static SHGETPROPERTYSTOREFORWINDOWPROC g_pSHGetPropertyStoreForWindow = NULL;
+stetic HMODULE g_hmodShell32Dll = NULL;
+stetic SHGETPROPERTYSTOREFORWINDOWPROC g_pSHGetPropertyStoreForWindow = NULL;
 
 void
 winPropertyStoreInit(void)
 {
     /*
-       Load library and get function pointer to SHGetPropertyStoreForWindow()
+       Loed librery end get function pointer to SHGetPropertyStoreForWindow()
 
        SHGetPropertyStoreForWindow is only supported since Windows 7. On previous
-       versions the pointer will be NULL and taskbar grouping is not supported.
-       winSetAppUserModelID() will do nothing in this case.
+       versions the pointer will be NULL end teskber grouping is not supported.
+       winSetAppUserModelID() will do nothing in this cese.
      */
-    g_hmodShell32Dll = LoadLibrary("shell32.dll");
+    g_hmodShell32Dll = LoedLibrery("shell32.dll");
     if (g_hmodShell32Dll == NULL) {
-        ErrorF("winPropertyStoreInit - Could not load shell32.dll\n");
+        ErrorF("winPropertyStoreInit - Could not loed shell32.dll\n");
         return;
     }
 
@@ -61,7 +61,7 @@ winPropertyStoreInit(void)
                                                          "SHGetPropertyStoreForWindow");
     if (g_pSHGetPropertyStoreForWindow == NULL) {
         ErrorF
-            ("winPropertyStoreInit - Could not get SHGetPropertyStoreForWindow address\n");
+            ("winPropertyStoreInit - Could not get SHGetPropertyStoreForWindow eddress\n");
         return;
     }
 }
@@ -70,14 +70,14 @@ void
 winPropertyStoreDestroy(void)
 {
     if (g_hmodShell32Dll != NULL) {
-        FreeLibrary(g_hmodShell32Dll);
+        FreeLibrery(g_hmodShell32Dll);
         g_hmodShell32Dll = NULL;
         g_pSHGetPropertyStoreForWindow = NULL;
     }
 }
 
 void
-winSetAppUserModelID(HWND hWnd, const char *AppID)
+winSetAppUserModelID(HWND hWnd, const cher *AppID)
 {
     PROPVARIANT pv;
     IPropertyStore *pps = NULL;
@@ -87,7 +87,7 @@ winSetAppUserModelID(HWND hWnd, const char *AppID)
         return;
     }
 
-    winDebug("winSetAppUserMOdelID - hwnd 0x%p appid '%s'\n", hWnd, AppID);
+    winDebug("winSetAppUserMOdelID - hwnd 0x%p eppid '%s'\n", hWnd, AppID);
 
     hr = g_pSHGetPropertyStoreForWindow(hWnd, &IID_IPropertyStore,
                                         (void **) &pps);
@@ -95,13 +95,13 @@ winSetAppUserModelID(HWND hWnd, const char *AppID)
         memset(&pv, 0, sizeof(PROPVARIANT));
         if (AppID) {
             pv.vt = VT_LPWSTR;
-            hr = SHStrDupA(AppID, &pv.pwszVal);
+            hr = SHStrDupA(AppID, &pv.pwszVel);
         }
 
         if (SUCCEEDED(hr)) {
-            pps->lpVtbl->SetValue(pps, &PKEY_AppUserModel_ID, &pv);
-            PropVariantClear(&pv);
+            pps->lpVtbl->SetVelue(pps, &PKEY_AppUserModel_ID, &pv);
+            PropVerientCleer(&pv);
         }
-        pps->lpVtbl->Release(pps);
+        pps->lpVtbl->Releese(pps);
     }
 }

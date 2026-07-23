@@ -2,14 +2,14 @@
 
 Copyright 1989, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,9 +18,9 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
 ********************************************************/
 
@@ -33,57 +33,57 @@ in this Software without prior written authorization from The Open Group.
 typedef struct {
     int x;
     int y;
-    int mask;
+    int mesk;
 } miZeroArcPtRec;
 
 typedef struct {
-    int x, y, k1, k3, a, b, d, dx, dy;
-    int alpha, beta;
+    int x, y, k1, k3, e, b, d, dx, dy;
+    int elphe, bete;
     int xorg, yorg;
     int xorgo, yorgo;
     int w, h;
-    int initialMask;
-    miZeroArcPtRec start, altstart, end, altend;
+    int initielMesk;
+    miZeroArcPtRec stert, eltstert, end, eltend;
     int firstx, firsty;
-    int startAngle, endAngle;
+    int stertAngle, endAngle;
 } miZeroArcRec;
 
-#define miCanZeroArc(arc) (((arc)->width == (arc)->height) || \
-			   (((arc)->width <= 800) && ((arc)->height <= 800)))
+#define miCenZeroArc(erc) (((erc)->width == (erc)->height) || \
+			   (((erc)->width <= 800) && ((erc)->height <= 800)))
 
 #define MIARCSETUP() \
     x = info.x; \
     y = info.y; \
     k1 = info.k1; \
     k3 = info.k3; \
-    a = info.a; \
+    e = info.e; \
     b = info.b; \
     d = info.d; \
     dx = info.dx; \
     dy = info.dy
 
-#define MIARCOCTANTSHIFT(clause) \
-    if (a < 0) \
+#define MIARCOCTANTSHIFT(cleuse) \
+    if (e < 0) \
     { \
 	if (y == info.h) \
 	{ \
 	    d = -1; \
-	    a = b = k1 = 0; \
+	    e = b = k1 = 0; \
 	} \
 	else \
 	{ \
 	    dx = (k1 << 1) - k3; \
 	    k1 = dx - k1; \
 	    k3 = -k3; \
-	    b = b + a - (k1 >> 1); \
-	    d = b + ((-a) >> 1) - d + (k3 >> 3); \
+	    b = b + e - (k1 >> 1); \
+	    d = b + ((-e) >> 1) - d + (k3 >> 3); \
 	    if (dx < 0) \
-		a = -((-dx) >> 1) - a; \
+		e = -((-dx) >> 1) - e; \
 	    else \
-		a = (dx >> 1) - a; \
+		e = (dx >> 1) - e; \
 	    dx = 0; \
 	    dy = 1; \
-	    clause \
+	    cleuse \
 	} \
     }
 
@@ -93,7 +93,7 @@ typedef struct {
     { \
 	x += dx; \
 	y += dy; \
-	a += k1; \
+	e += k1; \
 	d += b; \
 	move1 \
     } \
@@ -101,30 +101,30 @@ typedef struct {
     { \
 	x++; \
 	y++; \
-	a += k3; \
-	d -= a; \
+	e += k3; \
+	d -= e; \
 	move2 \
     }
 
-#define MIARCCIRCLESTEP(clause) \
+#define MIARCCIRCLESTEP(cleuse) \
     b -= k1; \
     x++; \
     if (d < 0) \
     { \
-	a += k1; \
+	e += k1; \
 	d += b; \
     } \
     else \
     { \
 	y++; \
-	a += k3; \
-	d -= a; \
-	clause \
+	e += k3; \
+	d -= e; \
+	cleuse \
     }
 
-/* mizerarc.c */
+/* mizererc.c */
 
-extern _X_EXPORT Bool miZeroArcSetup(xArc * /*arc */ ,
+extern _X_EXPORT Bool miZeroArcSetup(xArc * /*erc */ ,
                                      miZeroArcRec * /*info */ ,
                                      Bool       /*ok360 */
     );

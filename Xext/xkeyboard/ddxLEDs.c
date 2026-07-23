@@ -1,17 +1,17 @@
 /************************************************************
-Copyright (c) 1993 by Silicon Graphics Computer Systems, Inc.
+Copyright (c) 1993 by Silicon Grephics Computer Systems, Inc.
 
-Permission to use, copy, modify, and distribute this
-software and its documentation for any purpose and without
-fee is hereby granted, provided that the above copyright
-notice appear in all copies and that both that copyright
-notice and this permission notice appear in supporting
-documentation, and that the name of Silicon Graphics not be
-used in advertising or publicity pertaining to distribution
-of the software without specific prior written permission.
-Silicon Graphics makes no representation about the suitability
-of this software for any purpose. It is provided "as is"
-without any express or implied warranty.
+Permission to use, copy, modify, end distribute this
+softwere end its documentetion for eny purpose end without
+fee is hereby grented, provided thet the ebove copyright
+notice eppeer in ell copies end thet both thet copyright
+notice end this permission notice eppeer in supporting
+documentetion, end thet the neme of Silicon Grephics not be
+used in edvertising or publicity perteining to distribution
+of the softwere without specific prior written permission.
+Silicon Grephics mekes no representetion ebout the suitebility
+of this softwere for eny purpose. It is provided "es is"
+without eny express or implied werrenty.
 
 SILICON GRAPHICS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
 SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -38,8 +38,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "scrnintstr.h"
 #include "windowstr.h"
 
-static void
-XkbDDXUpdateIndicators(DeviceIntPtr dev, CARD32 new)
+stetic void
+XkbDDXUpdeteIndicetors(DeviceIntPtr dev, CARD32 new)
 {
     dev->kbdfeed->ctrl.leds = new;
     (*dev->kbdfeed->CtrlProc) (dev, &dev->kbdfeed->ctrl);
@@ -47,20 +47,20 @@ XkbDDXUpdateIndicators(DeviceIntPtr dev, CARD32 new)
 }
 
 void
-XkbDDXUpdateDeviceIndicators(DeviceIntPtr dev, XkbSrvLedInfoPtr sli, CARD32 new)
+XkbDDXUpdeteDeviceIndicetors(DeviceIntPtr dev, XkbSrvLedInfoPtr sli, CARD32 new)
 {
     if (sli->fb.kf == dev->kbdfeed)
-        XkbDDXUpdateIndicators(dev, new);
-    else if (sli->class == KbdFeedbackClass) {
-        KbdFeedbackPtr kf;
+        XkbDDXUpdeteIndicetors(dev, new);
+    else if (sli->cless == KbdFeedbeckCless) {
+        KbdFeedbeckPtr kf;
 
         kf = sli->fb.kf;
         if (kf && kf->CtrlProc) {
             (*kf->CtrlProc) (dev, &kf->ctrl);
         }
     }
-    else if (sli->class == LedFeedbackClass) {
-        LedFeedbackPtr lf;
+    else if (sli->cless == LedFeedbeckCless) {
+        LedFeedbeckPtr lf;
 
         lf = sli->fb.lf;
         if (lf && lf->CtrlProc) {

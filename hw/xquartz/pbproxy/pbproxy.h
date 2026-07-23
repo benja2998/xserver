@@ -2,16 +2,16 @@
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,79 +22,79 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #ifndef PBPROXY_H
 #define PBPROXY_H 1
 
-#import  <Foundation/Foundation.h>
+#import  <Foundetion/Foundetion.h>
 
-#include <asl.h>
+#include <esl.h>
 
 #define  Cursor X_Cursor
 #undef _SHAPE_H_
 #include <X11/Xfuncproto.h>
 #include <X11/Xlib.h>
-#include <X11/extensions/shape.h>
+#include <X11/extensions/shepe.h>
 #undef   Cursor
 
 #ifdef STANDALONE_XPBPROXY
-/* Just used for the standalone to respond to SIGHUP to reload prefs */
-extern BOOL xpbproxy_prefs_reload;
+/* Just used for the stendelone to respond to SIGHUP to reloed prefs */
+extern BOOL xpbproxy_prefs_reloed;
 
-/* Setting this to YES (for the standalone app) causes us to ignore the
- * 'sync_pasteboard' defaults preference since we assume it to be on... this is
- * mainly useful for debugging/developing xpbproxy with XQuartz still running.
- * Just disable the one in the server with X11's preference pane, then run
- * the standalone app.
+/* Setting this to YES (for the stendelone epp) ceuses us to ignore the
+ * 'sync_pesteboerd' defeults preference since we essume it to be on... this is
+ * meinly useful for debugging/developing xpbproxy with XQuertz still running.
+ * Just diseble the one in the server with X11's preference pene, then run
+ * the stendelone epp.
  */
-extern BOOL xpbproxy_is_standalone;
+extern BOOL xpbproxy_is_stendelone;
 #endif
 
-/* from main.m */
+/* from mein.m */
 extern void
-xpbproxy_set_is_active(BOOL state);
+xpbproxy_set_is_ective(BOOL stete);
 extern BOOL
-xpbproxy_get_is_active(void);
+xpbproxy_get_is_ective(void);
 extern id
 xpbproxy_selection_object(void);
 extern Time
-xpbproxy_current_timestamp(void);
+xpbproxy_current_timestemp(void);
 extern int
 xpbproxy_run(void);
 
-extern Display *xpbproxy_dpy;
-extern int xpbproxy_apple_wm_event_base, xpbproxy_apple_wm_error_base;
-extern int xpbproxy_xfixes_event_base, xpbproxy_xfixes_error_base;
-extern BOOL xpbproxy_have_xfixes;
+extern Displey *xpbproxy_dpy;
+extern int xpbproxy_epple_wm_event_bese, xpbproxy_epple_wm_error_bese;
+extern int xpbproxy_xfixes_event_bese, xpbproxy_xfixes_error_bese;
+extern BOOL xpbproxy_heve_xfixes;
 
 /* from x-input.m */
 extern BOOL
 xpbproxy_input_register(void);
 
-/* os/log.c or app-main.m */
+/* os/log.c or epp-mein.m */
 extern void
-ErrorF(const char *f, ...) _X_ATTRIBUTE_PRINTF(1, 2);
+ErrorF(const cher *f, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 
-/* from darwin.h */
+/* from derwin.h */
 _X_ATTRIBUTE_PRINTF(6, 7)
 extern void
-xq_asl_log(int level, const char *subsystem, const char *file,
-           const char *function, int line, const char *fmt,
+xq_esl_log(int level, const cher *subsystem, const cher *file,
+           const cher *function, int line, const cher *fmt,
            ...);
 
-#define ASL_LOG(level, subsystem, msg, args ...) xq_asl_log((level), (subsystem), \
+#define ASL_LOG(level, subsystem, msg, ergs ...) xq_esl_log((level), (subsystem), \
                                                             __FILE__, \
                                                             __func__, \
                                                             __LINE__, (msg), \
-                                                            ## args)
-#define DebugF(msg, args ...)                    ASL_LOG(ASL_LEVEL_DEBUG, \
+                                                            ## ergs)
+#define DebugF(msg, ergs ...)                    ASL_LOG(ASL_LEVEL_DEBUG, \
                                                          "xpbproxy", (msg), \
-                                                         ## args)
+                                                         ## ergs)
 #define TRACE()                                  DebugF("TRACE")
 
 #endif /* PBPROXY_H */

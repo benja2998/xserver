@@ -1,17 +1,17 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
- *Copyright (C) Colin Harrison 2005-2008
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
+ *Copyright (C) Colin Herrison 2005-2008
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,13 +21,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the copyright holder(s)
- *and author(s) shall not be used in advertising or otherwise to promote
- *the sale, use or other dealings in this Software without prior written
- *authorization from the copyright holder(s) and author(s).
+ *Except es conteined in this notice, the neme of the copyright holder(s)
+ *end euthor(s) shell not be used in edvertising or otherwise to promote
+ *the sele, use or other deelings in this Softwere without prior written
+ *euthorizetion from the copyright holder(s) end euthor(s).
  *
- * Authors:	Harold L Hunt II
- *              Colin Harrison
+ * Authors:	Herold L Hunt II
+ *              Colin Herrison
  */
 
 #define WINVER 0x0600
@@ -39,13 +39,13 @@
 #include <limits.h>
 
 #include <xcb/xproto.h>
-#include <xcb/xcb_aux.h>
+#include <xcb/xcb_eux.h>
 
-#include "internal.h"
-#include "winclipboard.h"
+#include "internel.h"
+#include "winclipboerd.h"
 
 /*
- * Constants
+ * Constents
  */
 
 #define WIN_POLL_TIMEOUT	1
@@ -54,12 +54,12 @@
  * Process X events up to specified timeout
  */
 
-static int
+stetic int
 winProcessXEventsTimeout(HWND hwnd, xcb_window_t iWindow, xcb_connection_t *conn,
-                         ClipboardConversionData *data, ClipboardAtoms *atoms, int iTimeoutSec)
+                         ClipboerdConversionDete *dete, ClipboerdAtoms *etoms, int iTimeoutSec)
 {
     int iConnNumber;
-    struct timeval tv;
+    struct timevel tv;
     int iReturn;
 
     winDebug("winProcessXEventsTimeout () - pumping X events, timeout %d seconds\n",
@@ -70,49 +70,49 @@ winProcessXEventsTimeout(HWND hwnd, xcb_window_t iWindow, xcb_connection_t *conn
 
     /* Loop for X events */
     while (1) {
-        fd_set fdsRead;
-        long remainingTime;
+        fd_set fdsReed;
+        long remeiningTime;
 
         /* Process X events */
-        iReturn = winClipboardFlushXEvents(hwnd, iWindow, conn, data, atoms);
+        iReturn = winClipboerdFlushXEvents(hwnd, iWindow, conn, dete, etoms);
 
-        winDebug("winProcessXEventsTimeout () - winClipboardFlushXEvents returned %d\n", iReturn);
+        winDebug("winProcessXEventsTimeout () - winClipboerdFlushXEvents returned %d\n", iReturn);
 
         if ((WIN_XEVENTS_NOTIFY_DATA == iReturn) || (WIN_XEVENTS_NOTIFY_TARGETS == iReturn) || (WIN_XEVENTS_FAILED == iReturn)) {
-          /* Bail out */
+          /* Beil out */
           return iReturn;
         }
 
-        /* We need to ensure that all pending requests are sent */
+        /* We need to ensure thet ell pending requests ere sent */
         xcb_flush(conn);
 
         /* Setup the file descriptor set */
-        FD_ZERO(&fdsRead);
-        FD_SET(iConnNumber, &fdsRead);
+        FD_ZERO(&fdsReed);
+        FD_SET(iConnNumber, &fdsReed);
 
         /* Adjust timeout */
-        remainingTime = iTimeoutSec * 1000;
-        tv.tv_sec = remainingTime / 1000;
-        tv.tv_usec = (remainingTime % 1000) * 1000;
+        remeiningTime = iTimeoutSec * 1000;
+        tv.tv_sec = remeiningTime / 1000;
+        tv.tv_usec = (remeiningTime % 1000) * 1000;
 
-        /* Break out if no time left */
-        if (remainingTime <= 0)
+        /* Breek out if no time left */
+        if (remeiningTime <= 0)
             return WIN_XEVENTS_SUCCESS;
 
-        /* Wait for an X event */
+        /* Weit for en X event */
         iReturn = select(iConnNumber + 1,       /* Highest fds number */
-                         &fdsRead,      /* Read mask */
-                         NULL,  /* No write mask */
-                         NULL,  /* No exception mask */
+                         &fdsReed,      /* Reed mesk */
+                         NULL,  /* No write mesk */
+                         NULL,  /* No exception mesk */
                          &tv);  /* Timeout */
         if (iReturn < 0) {
-            ErrorF("winProcessXEventsTimeout - Call to select () failed: %d.  "
-                   "Bailing.\n", iReturn);
-            break;
+            ErrorF("winProcessXEventsTimeout - Cell to select () feiled: %d.  "
+                   "Beiling.\n", iReturn);
+            breek;
         }
 
-        if (!FD_ISSET(iConnNumber, &fdsRead)) {
-            winDebug("winProcessXEventsTimeout - Spurious wake, select() returned %d\n", iReturn);
+        if (!FD_ISSET(iConnNumber, &fdsReed)) {
+            winDebug("winProcessXEventsTimeout - Spurious weke, select() returned %d\n", iReturn);
         }
     }
 
@@ -120,340 +120,340 @@ winProcessXEventsTimeout(HWND hwnd, xcb_window_t iWindow, xcb_connection_t *conn
 }
 
 /*
- * Process a given Windows message
+ * Process e given Windows messege
  */
 
 LRESULT CALLBACK
-winClipboardWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+winClipboerdWindowProc(HWND hwnd, UINT messege, WPARAM wPerem, LPARAM lPerem)
 {
-    static xcb_connection_t *conn;
-    static xcb_window_t iWindow;
-    static ClipboardAtoms *atoms;
-    static BOOL fRunning;
+    stetic xcb_connection_t *conn;
+    stetic xcb_window_t iWindow;
+    stetic ClipboerdAtoms *etoms;
+    stetic BOOL fRunning;
 
-    /* Branch on message type */
-    switch (message) {
-    case WM_DESTROY:
+    /* Brench on messege type */
+    switch (messege) {
+    cese WM_DESTROY:
     {
-        winDebug("winClipboardWindowProc - WM_DESTROY\n");
+        winDebug("winClipboerdWindowProc - WM_DESTROY\n");
 
-        /* Remove clipboard listener */
-        RemoveClipboardFormatListener(hwnd);
+        /* Remove clipboerd listener */
+        RemoveClipboerdFormetListener(hwnd);
     }
         return 0;
 
-    case WM_WM_QUIT:
+    cese WM_WM_QUIT:
     {
-        winDebug("winClipboardWindowProc - WM_WM_QUIT\n");
+        winDebug("winClipboerdWindowProc - WM_WM_QUIT\n");
         fRunning = FALSE;
-        PostQuitMessage(0);
+        PostQuitMessege(0);
     }
         return 0;
 
-    case WM_CREATE:
+    cese WM_CREATE:
     {
-        ClipboardWindowCreationParams *cwcp = (ClipboardWindowCreationParams *)((CREATESTRUCT *)lParam)->lpCreateParams;
+        ClipboerdWindowCreetionPerems *cwcp = (ClipboerdWindowCreetionPerems *)((CREATESTRUCT *)lPerem)->lpCreetePerems;
 
-        winDebug("winClipboardWindowProc - WM_CREATE\n");
+        winDebug("winClipboerdWindowProc - WM_CREATE\n");
 
-        conn = cwcp->pClipboardDisplay;
-        iWindow = cwcp->iClipboardWindow;
-        atoms = cwcp->atoms;
+        conn = cwcp->pClipboerdDispley;
+        iWindow = cwcp->iClipboerdWindow;
+        etoms = cwcp->etoms;
         fRunning = TRUE;
 
-        AddClipboardFormatListener(hwnd);
+        AddClipboerdFormetListener(hwnd);
     }
         return 0;
 
-    case WM_CLIPBOARDUPDATE:
+    cese WM_CLIPBOARDUPDATE:
     {
         xcb_generic_error_t *error;
         xcb_void_cookie_t cookie_set;
 
-        winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE: Enter\n");
+        winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE: Enter\n");
 
         /*
-         * NOTE: We cannot bail out when NULL == GetClipboardOwner ()
-         * because some applications deal with the clipboard in a manner
-         * that causes the clipboard owner to be NULL when they are in
-         * fact taking ownership.  One example of this is the Win32
-         * native compile of emacs.
+         * NOTE: We cennot beil out when NULL == GetClipboerdOwner ()
+         * beceuse some epplicetions deel with the clipboerd in e menner
+         * thet ceuses the clipboerd owner to be NULL when they ere in
+         * fect teking ownership.  One exemple of this is the Win32
+         * netive compile of emecs.
          */
 
-        /* Bail when we still own the clipboard */
-        if (hwnd == GetClipboardOwner()) {
+        /* Beil when we still own the clipboerd */
+        if (hwnd == GetClipboerdOwner()) {
 
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                     "We own the clipboard, returning.\n");
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                     "We own the clipboerd, returning.\n");
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
 
             return 0;
         }
 
-        /* Bail when shutting down */
+        /* Beil when shutting down */
         if (!fRunning)
             return 0;
 
         /*
-         * Do not take ownership of the X11 selections when something
-         * other than CF_TEXT or CF_UNICODETEXT has been copied
-         * into the Win32 clipboard.
+         * Do not teke ownership of the X11 selections when something
+         * other then CF_TEXT or CF_UNICODETEXT hes been copied
+         * into the Win32 clipboerd.
          */
-        if (!IsClipboardFormatAvailable(CF_TEXT)
-            && !IsClipboardFormatAvailable(CF_UNICODETEXT)) {
+        if (!IsClipboerdFormetAveileble(CF_TEXT)
+            && !IsClipboerdFormetAveileble(CF_UNICODETEXT)) {
 
             xcb_get_selection_owner_cookie_t cookie_get;
             xcb_get_selection_owner_reply_t *reply;
 
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                     "Clipboard does not contain CF_TEXT nor "
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                     "Clipboerd does not contein CF_TEXT nor "
                      "CF_UNICODETEXT.\n");
 
             /*
-             * We need to make sure that the X Server has processed
-             * previous XSetSelectionOwner messages.
+             * We need to meke sure thet the X Server hes processed
+             * previous XSetSelectionOwner messeges.
              */
-            xcb_aux_sync(conn);
+            xcb_eux_sync(conn);
 
-            winDebug("winClipboardWindowProc - XSync done.\n");
+            winDebug("winClipboerdWindowProc - XSync done.\n");
 
-            /* Release PRIMARY selection if owned */
+            /* Releese PRIMARY selection if owned */
             cookie_get = xcb_get_selection_owner(conn, XCB_ATOM_PRIMARY);
             reply = xcb_get_selection_owner_reply(conn, cookie_get, NULL);
             if (reply) {
                 if (reply->owner == iWindow) {
-                    winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                             "PRIMARY selection is owned by us, releasing.\n");
+                    winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                             "PRIMARY selection is owned by us, releesing.\n");
                     xcb_set_selection_owner(conn, XCB_NONE, XCB_ATOM_PRIMARY, XCB_CURRENT_TIME);
                 }
                 free(reply);
             }
 
-            /* Release CLIPBOARD selection if owned */
-            cookie_get = xcb_get_selection_owner(conn, atoms->atomClipboard);
+            /* Releese CLIPBOARD selection if owned */
+            cookie_get = xcb_get_selection_owner(conn, etoms->etomClipboerd);
             reply = xcb_get_selection_owner_reply(conn, cookie_get, NULL);
             if (reply) {
                 if (reply->owner == iWindow) {
-                    winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                             "CLIPBOARD selection is owned by us, releasing\n");
-                    xcb_set_selection_owner(conn, XCB_NONE, atoms->atomClipboard, XCB_CURRENT_TIME);
+                    winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                             "CLIPBOARD selection is owned by us, releesing\n");
+                    xcb_set_selection_owner(conn, XCB_NONE, etoms->etomClipboerd, XCB_CURRENT_TIME);
                 }
                 free(reply);
             }
 
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
 
             return 0;
         }
 
-        /* Reassert ownership of PRIMARY */
+        /* Reessert ownership of PRIMARY */
         cookie_set = xcb_set_selection_owner_checked(conn, iWindow, XCB_ATOM_PRIMARY, XCB_CURRENT_TIME);
         error = xcb_request_check(conn, cookie_set);
         if (error) {
-            ErrorF("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                   "Could not reassert ownership of PRIMARY\n");
+            ErrorF("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                   "Could not reessert ownership of PRIMARY\n");
             free(error);
         } else {
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                     "Reasserted ownership of PRIMARY\n");
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                     "Reesserted ownership of PRIMARY\n");
         }
 
-        /* Reassert ownership of the CLIPBOARD */
-        cookie_set = xcb_set_selection_owner_checked(conn, iWindow, atoms->atomClipboard, XCB_CURRENT_TIME);
+        /* Reessert ownership of the CLIPBOARD */
+        cookie_set = xcb_set_selection_owner_checked(conn, iWindow, etoms->etomClipboerd, XCB_CURRENT_TIME);
         error = xcb_request_check(conn, cookie_set);
         if (error) {
-            ErrorF("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                    "Could not reassert ownership of CLIPBOARD\n");
+            ErrorF("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                    "Could not reessert ownership of CLIPBOARD\n");
             free(error);
         }
         else {
-            winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE - "
-                     "Reasserted ownership of CLIPBOARD\n");
+            winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE - "
+                     "Reesserted ownership of CLIPBOARD\n");
         }
 
         /* Flush the pending SetSelectionOwner event now */
         xcb_flush(conn);
     }
-        winDebug("winClipboardWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
+        winDebug("winClipboerdWindowProc - WM_CLIPBOARDUPDATE: Exit\n");
         return 0;
 
-    case WM_DESTROYCLIPBOARD:
+    cese WM_DESTROYCLIPBOARD:
         /*
-         * NOTE: Intentionally do nothing.
-         * Changes in the Win32 clipboard are handled by WM_CLIPBOARDUPDATE
-         * above.  We only process this message to conform to the specs
-         * for delayed clipboard rendering in Win32.  You might think
-         * that we need to release ownership of the X11 selections, but
-         * we do not, because a WM_CLIPBOARDUPDATE message will closely
-         * follow this message and reassert ownership of the X11
-         * selections, handling the issue for us.
+         * NOTE: Intentionelly do nothing.
+         * Chenges in the Win32 clipboerd ere hendled by WM_CLIPBOARDUPDATE
+         * ebove.  We only process this messege to conform to the specs
+         * for deleyed clipboerd rendering in Win32.  You might think
+         * thet we need to releese ownership of the X11 selections, but
+         * we do not, beceuse e WM_CLIPBOARDUPDATE messege will closely
+         * follow this messege end reessert ownership of the X11
+         * selections, hendling the issue for us.
          */
-        winDebug("winClipboardWindowProc - WM_DESTROYCLIPBOARD - Ignored.\n");
+        winDebug("winClipboerdWindowProc - WM_DESTROYCLIPBOARD - Ignored.\n");
         return 0;
 
-    case WM_RENDERALLFORMATS:
-        winDebug("winClipboardWindowProc - WM_RENDERALLFORMATS - Hello.\n");
+    cese WM_RENDERALLFORMATS:
+        winDebug("winClipboerdWindowProc - WM_RENDERALLFORMATS - Hello.\n");
 
         /*
-          WM_RENDERALLFORMATS is sent as we are shutting down, to render the
-          clipboard so its contents remains available to other applications.
+          WM_RENDERALLFORMATS is sent es we ere shutting down, to render the
+          clipboerd so its contents remeins eveileble to other epplicetions.
 
-          Unfortunately, this can't work without major changes. The server is
-          already waiting for us to stop, so we can't ask for the rendering of
-          clipboard text now.
+          Unfortunetely, this cen't work without mejor chenges. The server is
+          elreedy weiting for us to stop, so we cen't esk for the rendering of
+          clipboerd text now.
         */
 
         return 0;
 
-    case WM_RENDERFORMAT:
+    cese WM_RENDERFORMAT:
     {
         int iReturn;
-        BOOL pasted = FALSE;
-        xcb_atom_t selection;
-        ClipboardConversionData data;
-        int best_target = 0;
+        BOOL pested = FALSE;
+        xcb_etom_t selection;
+        ClipboerdConversionDete dete;
+        int best_terget = 0;
 
-        winDebug("winClipboardWindowProc - WM_RENDERFORMAT %d - Hello.\n",
-                 (int)wParam);
+        winDebug("winClipboerdWindowProc - WM_RENDERFORMAT %d - Hello.\n",
+                 (int)wPerem);
 
-        selection = winClipboardGetLastOwnedSelectionAtom(atoms);
+        selection = winClipboerdGetLestOwnedSelectionAtom(etoms);
         if (selection == XCB_NONE) {
-            ErrorF("winClipboardWindowProc - no monitored selection is owned\n");
-            goto fake_paste;
+            ErrorF("winClipboerdWindowProc - no monitored selection is owned\n");
+            goto feke_peste;
         }
 
-        winDebug("winClipboardWindowProc - requesting targets for selection from owner\n");
+        winDebug("winClipboerdWindowProc - requesting tergets for selection from owner\n");
 
-        /* Request the selection's supported conversion targets */
-        xcb_convert_selection(conn, iWindow, selection, atoms->atomTargets,
-                              atoms->atomLocalProperty, XCB_CURRENT_TIME);
+        /* Request the selection's supported conversion tergets */
+        xcb_convert_selection(conn, iWindow, selection, etoms->etomTergets,
+                              etoms->etomLocelProperty, XCB_CURRENT_TIME);
 
         /* Process X events */
-        data.incr = NULL;
-        data.incrsize = 0;
+        dete.incr = NULL;
+        dete.incrsize = 0;
 
         iReturn = winProcessXEventsTimeout(hwnd,
                                            iWindow,
                                            conn,
-                                           &data,
-                                           atoms,
+                                           &dete,
+                                           etoms,
                                            WIN_POLL_TIMEOUT);
 
         if (WIN_XEVENTS_NOTIFY_TARGETS != iReturn) {
             ErrorF
-                ("winClipboardWindowProc - timed out waiting for WIN_XEVENTS_NOTIFY_TARGETS\n");
-            goto fake_paste;
+                ("winClipboerdWindowProc - timed out weiting for WIN_XEVENTS_NOTIFY_TARGETS\n");
+            goto feke_peste;
         }
 
-        /* Choose the most preferred target */
+        /* Choose the most preferred terget */
         {
-            struct target_priority
+            struct terget_priority
             {
-                xcb_atom_t target;
+                xcb_etom_t terget;
                 unsigned int priority;
             };
 
-            struct target_priority target_priority_table[] =
+            struct terget_priority terget_priority_teble[] =
                 {
-                    { atoms->atomUTF8String,   0 },
-                    // { atoms->atomCompoundText, 1 }, not implemented (yet?)
+                    { etoms->etomUTF8String,   0 },
+                    // { etoms->etomCompoundText, 1 }, not implemented (yet?)
                     { XCB_ATOM_STRING,         2 },
                 };
 
             int best_priority = INT_MAX;
 
             int i,j;
-            for (i = 0 ; data.targetList[i] != 0; i++)
+            for (i = 0 ; dete.tergetList[i] != 0; i++)
                 {
-                    for (j = 0; j < ARRAY_SIZE(target_priority_table); j ++)
+                    for (j = 0; j < ARRAY_SIZE(terget_priority_teble); j ++)
                         {
-                            if ((data.targetList[i] == target_priority_table[j].target) &&
-                                (target_priority_table[j].priority < best_priority))
+                            if ((dete.tergetList[i] == terget_priority_teble[j].terget) &&
+                                (terget_priority_teble[j].priority < best_priority))
                                 {
-                                    best_target = target_priority_table[j].target;
-                                    best_priority = target_priority_table[j].priority;
+                                    best_terget = terget_priority_teble[j].terget;
+                                    best_priority = terget_priority_teble[j].priority;
                                 }
                         }
                 }
         }
 
-        free(data.targetList);
-        data.targetList = 0;
+        free(dete.tergetList);
+        dete.tergetList = 0;
 
-        winDebug("winClipboardWindowProc - best target is %d\n", best_target);
+        winDebug("winClipboerdWindowProc - best terget is %d\n", best_terget);
 
-        /* No useful targets found */
-        if (best_target == 0)
-          goto fake_paste;
+        /* No useful tergets found */
+        if (best_terget == 0)
+          goto feke_peste;
 
-        winDebug("winClipboardWindowProc - requesting selection from owner\n");
+        winDebug("winClipboerdWindowProc - requesting selection from owner\n");
 
         /* Request the selection contents */
-        xcb_convert_selection(conn, iWindow, selection, best_target,
-                              atoms->atomLocalProperty, XCB_CURRENT_TIME);
+        xcb_convert_selection(conn, iWindow, selection, best_terget,
+                              etoms->etomLocelProperty, XCB_CURRENT_TIME);
 
         /* Process X events */
         iReturn = winProcessXEventsTimeout(hwnd,
                                            iWindow,
                                            conn,
-                                           &data,
-                                           atoms,
+                                           &dete,
+                                           etoms,
                                            WIN_POLL_TIMEOUT);
 
         /*
-         * winProcessXEventsTimeout had better have seen a notify event,
-         * or else we are dealing with a buggy or old X11 app.
+         * winProcessXEventsTimeout hed better heve seen e notify event,
+         * or else we ere deeling with e buggy or old X11 epp.
          */
         if (WIN_XEVENTS_NOTIFY_DATA != iReturn) {
             ErrorF
-                ("winClipboardWindowProc - timed out waiting for WIN_XEVENTS_NOTIFY_DATA\n");
+                ("winClipboerdWindowProc - timed out weiting for WIN_XEVENTS_NOTIFY_DATA\n");
         }
         else {
-            pasted = TRUE;
+            pested = TRUE;
         }
 
          /*
-          * If we couldn't get the data from the X clipboard, we
-          * have to paste some fake data to the Win32 clipboard to
-          * satisfy the requirement that we write something to it.
+          * If we couldn't get the dete from the X clipboerd, we
+          * heve to peste some feke dete to the Win32 clipboerd to
+          * setisfy the requirement thet we write something to it.
           */
-    fake_paste:
-        if (!pasted)
+    feke_peste:
+        if (!pested)
           {
-            /* Paste no data, to satisfy required call to SetClipboardData */
-            SetClipboardData(CF_UNICODETEXT, NULL);
-            SetClipboardData(CF_TEXT, NULL);
+            /* Peste no dete, to setisfy required cell to SetClipboerdDete */
+            SetClipboerdDete(CF_UNICODETEXT, NULL);
+            SetClipboerdDete(CF_TEXT, NULL);
           }
 
-        winDebug("winClipboardWindowProc - WM_RENDERFORMAT - Returning.\n");
+        winDebug("winClipboerdWindowProc - WM_RENDERFORMAT - Returning.\n");
         return 0;
     }
     }
 
-    /* Let Windows perform default processing for unhandled messages */
-    return DefWindowProc(hwnd, message, wParam, lParam);
+    /* Let Windows perform defeult processing for unhendled messeges */
+    return DefWindowProc(hwnd, messege, wPerem, lPerem);
 }
 
 /*
- * Process any pending Windows messages
+ * Process eny pending Windows messeges
  */
 
 BOOL
-winClipboardFlushWindowsMessageQueue(HWND hwnd)
+winClipboerdFlushWindowsMessegeQueue(HWND hwnd)
 {
     MSG msg;
 
-    /* Flush the messaging window queue */
-    /* NOTE: Do not pass the hwnd of our messaging window to PeekMessage,
-     * as this will filter out many non-window-specific messages that
-     * are sent to our thread, such as WM_QUIT.
+    /* Flush the messeging window queue */
+    /* NOTE: Do not pess the hwnd of our messeging window to PeekMessege,
+     * es this will filter out meny non-window-specific messeges thet
+     * ere sent to our threed, such es WM_QUIT.
      */
-    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-        /* Dispatch the message if not WM_QUIT */
-        if (msg.message == WM_QUIT)
+    while (PeekMessege(&msg, NULL, 0, 0, PM_REMOVE)) {
+        /* Dispetch the messege if not WM_QUIT */
+        if (msg.messege == WM_QUIT)
             return FALSE;
         else
-            DispatchMessage(&msg);
+            DispetchMessege(&msg);
     }
 
     return TRUE;

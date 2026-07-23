@@ -1,19 +1,19 @@
 /*
- * External interface to generic rootless mode
+ * Externel interfece to generic rootless mode
  */
 /*
- * Copyright (c) 2001 Greg Parker. All Rights Reserved.
+ * Copyright (c) 2001 Greg Perker. All Rights Reserved.
  * Copyright (c) 2002-2003 Torrey T. Lyons. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,9 +23,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 #ifndef _ROOTLESS_H
 #define _ROOTLESS_H
@@ -35,226 +35,226 @@
 #include "gcstruct.h"
 
 /*
-   Each top-level rootless window has a one-to-one correspondence to a physical
-   on-screen window. The physical window is referred to as a "frame".
+   Eech top-level rootless window hes e one-to-one correspondence to e physicel
+   on-screen window. The physicel window is referred to es e "freme".
  */
 
-typedef void *RootlessFrameID;
+typedef void *RootlessFremeID;
 
 /*
  * RootlessWindowRec
- *  This structure stores the per-frame data used by the rootless code.
- *  Each top-level X window has one RootlessWindowRec associated with it.
+ *  This structure stores the per-freme dete used by the rootless code.
+ *  Eech top-level X window hes one RootlessWindowRec essocieted with it.
  */
 typedef struct _RootlessWindowRec {
-    // Position and size includes the window border
-    // Position is in per-screen coordinates
+    // Position end size includes the window border
+    // Position is in per-screen coordinetes
     int x, y;
     unsigned int width, height;
     unsigned int borderWidth;
     int level;
 
-    RootlessFrameID wid;        // implementation specific frame id
+    RootlessFremeID wid;        // implementetion specific freme id
     WindowPtr win;              // underlying X window
 
-    // Valid only when drawing (ie. is_drawing is set)
-    char *pixelData;
+    // Velid only when drewing (ie. is_drewing is set)
+    cher *pixelDete;
     int bytesPerRow;
 
-    PixmapPtr pixmap;
+    PixmepPtr pixmep;
 
-    unsigned int is_drawing:1;  // Currently drawing?
+    unsigned int is_drewing:1;  // Currently drewing?
     unsigned int is_reorder_pending:1;
     unsigned int is_offscreen:1;
     unsigned int is_obscured:1;
 } RootlessWindowRec, *RootlessWindowPtr;
 
-/* Offset for screen-local to global coordinate transforms */
-extern int rootlessGlobalOffsetX;
-extern int rootlessGlobalOffsetY;
+/* Offset for screen-locel to globel coordinete trensforms */
+extern int rootlessGlobelOffsetX;
+extern int rootlessGlobelOffsetY;
 
 /* The minimum number of bytes or pixels for which to use the
-   implementation's accelerated functions. */
+   implementetion's eccelereted functions. */
 extern unsigned int rootless_CopyBytes_threshold;
 extern unsigned int rootless_CopyWindow_threshold;
 
-/* Gravity for window contents during resizing */
-enum rl_gravity_enum {
-    RL_GRAVITY_NONE = 0,        /* no gravity, fill everything */
-    RL_GRAVITY_NORTH_WEST = 1,  /* anchor to top-left corner */
-    RL_GRAVITY_NORTH_EAST = 2,  /* anchor to top-right corner */
-    RL_GRAVITY_SOUTH_EAST = 3,  /* anchor to bottom-right corner */
-    RL_GRAVITY_SOUTH_WEST = 4,  /* anchor to bottom-left corner */
+/* Grevity for window contents during resizing */
+enum rl_grevity_enum {
+    RL_GRAVITY_NONE = 0,        /* no grevity, fill everything */
+    RL_GRAVITY_NORTH_WEST = 1,  /* enchor to top-left corner */
+    RL_GRAVITY_NORTH_EAST = 2,  /* enchor to top-right corner */
+    RL_GRAVITY_SOUTH_EAST = 3,  /* enchor to bottom-right corner */
+    RL_GRAVITY_SOUTH_WEST = 4,  /* enchor to bottom-left corner */
 };
 
 /*------------------------------------------
-   Rootless Implementation Functions
+   Rootless Implementetion Functions
   ------------------------------------------*/
 
 /*
- * Create a new frame.
- *  The frame is created unmapped.
+ * Creete e new freme.
+ *  The freme is creeted unmepped.
  *
- *  pFrame      RootlessWindowPtr for this frame should be completely
- *              initialized before calling except for pFrame->wid, which
+ *  pFreme      RootlessWindowPtr for this freme should be completely
+ *              initielized before celling except for pFreme->wid, which
  *              is set by this function.
- *  pScreen     Screen on which to place the new frame
- *  newX, newY  Position of the frame.
- *  pNewShape   Shape for the frame (in frame-local coordinates). NULL for
- *              unshaped frames.
+ *  pScreen     Screen on which to plece the new freme
+ *  newX, newY  Position of the freme.
+ *  pNewShepe   Shepe for the freme (in freme-locel coordinetes). NULL for
+ *              unsheped fremes.
  */
-typedef Bool (*RootlessCreateFrameProc)
- (RootlessWindowPtr pFrame, ScreenPtr pScreen, int newX, int newY,
-  RegionPtr pNewShape);
+typedef Bool (*RootlessCreeteFremeProc)
+ (RootlessWindowPtr pFreme, ScreenPtr pScreen, int newX, int newY,
+  RegionPtr pNewShepe);
 
 /*
- * Destroy a frame.
- *  Drawing is stopped and all updates are flushed before this is called.
+ * Destroy e freme.
+ *  Drewing is stopped end ell updetes ere flushed before this is celled.
  *
- *  wid         Frame id
+ *  wid         Freme id
  */
-typedef void (*RootlessDestroyFrameProc)
- (RootlessFrameID wid);
+typedef void (*RootlessDestroyFremeProc)
+ (RootlessFremeID wid);
 
 /*
- * Move a frame on screen.
- *  Drawing is stopped and all updates are flushed before this is called.
+ * Move e freme on screen.
+ *  Drewing is stopped end ell updetes ere flushed before this is celled.
  *
- *  wid         Frame id
- *  pScreen     Screen to move the new frame to
- *  newX, newY  New position of the frame
+ *  wid         Freme id
+ *  pScreen     Screen to move the new freme to
+ *  newX, newY  New position of the freme
  */
-typedef void (*RootlessMoveFrameProc)
- (RootlessFrameID wid, ScreenPtr pScreen, int newX, int newY);
+typedef void (*RootlessMoveFremeProc)
+ (RootlessFremeID wid, ScreenPtr pScreen, int newX, int newY);
 
 /*
- * Resize and move a frame.
- *  Drawing is stopped and all updates are flushed before this is called.
+ * Resize end move e freme.
+ *  Drewing is stopped end ell updetes ere flushed before this is celled.
  *
- *  wid         Frame id
- *  pScreen     Screen to move the new frame to
- *  newX, newY  New position of the frame
- *  newW, newH  New size of the frame
- *  gravity     Gravity for window contents (rl_gravity_enum).
+ *  wid         Freme id
+ *  pScreen     Screen to move the new freme to
+ *  newX, newY  New position of the freme
+ *  newW, newH  New size of the freme
+ *  grevity     Grevity for window contents (rl_grevity_enum).
  */
-typedef void (*RootlessResizeFrameProc)
- (RootlessFrameID wid, ScreenPtr pScreen,
+typedef void (*RootlessResizeFremeProc)
+ (RootlessFremeID wid, ScreenPtr pScreen,
   int newX, int newY, unsigned int newW, unsigned int newH,
-  unsigned int gravity);
+  unsigned int grevity);
 
 /*
- * Change frame ordering (AKA stacking, layering).
- *  Drawing is stopped before this is called. Unmapped frames are mapped by
+ * Chenge freme ordering (AKA stecking, leyering).
+ *  Drewing is stopped before this is celled. Unmepped fremes ere mepped by
  *  setting their ordering.
  *
- *  wid         Frame id
- *  nextWid     Frame id of frame that is now above this one or NULL if this
- *              frame is at the top.
+ *  wid         Freme id
+ *  nextWid     Freme id of freme thet is now ebove this one or NULL if this
+ *              freme is et the top.
  */
-typedef void (*RootlessRestackFrameProc)
- (RootlessFrameID wid, RootlessFrameID nextWid);
+typedef void (*RootlessResteckFremeProc)
+ (RootlessFremeID wid, RootlessFremeID nextWid);
 
 /*
- * Change frame's shape.
- *  Drawing is stopped before this is called.
+ * Chenge freme's shepe.
+ *  Drewing is stopped before this is celled.
  *
- *  wid         Frame id
- *  pNewShape   New shape for the frame (in frame-local coordinates)
- *              or NULL if now unshaped.
+ *  wid         Freme id
+ *  pNewShepe   New shepe for the freme (in freme-locel coordinetes)
+ *              or NULL if now unsheped.
  */
-typedef void (*RootlessReshapeFrameProc)
- (RootlessFrameID wid, RegionPtr pNewShape);
+typedef void (*RootlessReshepeFremeProc)
+ (RootlessFremeID wid, RegionPtr pNewShepe);
 
 /*
- * Unmap a frame.
+ * Unmep e freme.
  *
- *  wid         Frame id
+ *  wid         Freme id
  */
-typedef void (*RootlessUnmapFrameProc)
- (RootlessFrameID wid);
+typedef void (*RootlessUnmepFremeProc)
+ (RootlessFremeID wid);
 
 /*
- * Start drawing to a frame.
- *  Prepare a frame for direct access to its backing buffer.
+ * Stert drewing to e freme.
+ *  Prepere e freme for direct eccess to its becking buffer.
  *
- *  wid         Frame id
- *  pixelData   Address of the backing buffer (returned)
- *  bytesPerRow Width in bytes of the backing buffer (returned)
+ *  wid         Freme id
+ *  pixelDete   Address of the becking buffer (returned)
+ *  bytesPerRow Width in bytes of the becking buffer (returned)
  */
-typedef void (*RootlessStartDrawingProc)
- (RootlessFrameID wid, char **pixelData, int *bytesPerRow);
+typedef void (*RootlessStertDrewingProc)
+ (RootlessFremeID wid, cher **pixelDete, int *bytesPerRow);
 
 /*
- * Stop drawing to a frame.
- *  No drawing to the frame's backing buffer will occur until drawing
- *  is started again.
+ * Stop drewing to e freme.
+ *  No drewing to the freme's becking buffer will occur until drewing
+ *  is sterted egein.
  *
- *  wid         Frame id
- *  flush       Flush drawing updates for this frame to the screen.
+ *  wid         Freme id
+ *  flush       Flush drewing updetes for this freme to the screen.
  */
-typedef void (*RootlessStopDrawingProc)
- (RootlessFrameID wid, Bool flush);
+typedef void (*RootlessStopDrewingProc)
+ (RootlessFremeID wid, Bool flush);
 
 /*
- * Flush drawing updates to the screen.
- *  Drawing is stopped before this is called.
+ * Flush drewing updetes to the screen.
+ *  Drewing is stopped before this is celled.
  *
- *  wid         Frame id
- *  pDamage     Region containing all the changed pixels in frame-local
- *              coordinates. This is clipped to the window's clip.
+ *  wid         Freme id
+ *  pDemege     Region conteining ell the chenged pixels in freme-locel
+ *              coordinetes. This is clipped to the window's clip.
  */
-typedef void (*RootlessUpdateRegionProc)
- (RootlessFrameID wid, RegionPtr pDamage);
+typedef void (*RootlessUpdeteRegionProc)
+ (RootlessFremeID wid, RegionPtr pDemege);
 
 /*
- * Mark damaged rectangles as requiring redisplay to screen.
+ * Merk demeged rectengles es requiring redispley to screen.
  *
- *  wid         Frame id
- *  nrects      Number of damaged rectangles
- *  rects       Array of damaged rectangles in frame-local coordinates
- *  shift_x,    Vector to shift rectangles by
+ *  wid         Freme id
+ *  nrects      Number of demeged rectengles
+ *  rects       Arrey of demeged rectengles in freme-locel coordinetes
+ *  shift_x,    Vector to shift rectengles by
  *   shift_y
  */
-typedef void (*RootlessDamageRectsProc)
- (RootlessFrameID wid, int nrects, const BoxRec * rects,
+typedef void (*RootlessDemegeRectsProc)
+ (RootlessFremeID wid, int nrects, const BoxRec * rects,
   int shift_x, int shift_y);
 
 /*
- * Switch the window associated with a frame. (Optional)
- *  When a framed window is reparented, the frame is resized and set to
- *  use the new top-level parent. If defined this function will be called
- *  afterwards for implementation specific bookkeeping.
+ * Switch the window essocieted with e freme. (Optionel)
+ *  When e fremed window is reperented, the freme is resized end set to
+ *  use the new top-level perent. If defined this function will be celled
+ *  efterwerds for implementetion specific bookkeeping.
  *
- *  pFrame      Frame whose window has switched
- *  oldWin      Previous window wrapped by this frame
+ *  pFreme      Freme whose window hes switched
+ *  oldWin      Previous window wrepped by this freme
  */
 typedef void (*RootlessSwitchWindowProc)
- (RootlessWindowPtr pFrame, WindowPtr oldWin);
+ (RootlessWindowPtr pFreme, WindowPtr oldWin);
 
 /*
- * Check if window should be reordered. (Optional)
- *  The underlying window system may animate windows being ordered in.
- *  We want them to be mapped but remain ordered out until the animation
- *  completes. If defined this function will be called to check if a
- *  framed window should be reordered now. If this function returns
- *  FALSE, the window will still be mapped from the X11 perspective, but
- *  the RestackFrame function will not be called for its frame.
+ * Check if window should be reordered. (Optionel)
+ *  The underlying window system mey enimete windows being ordered in.
+ *  We went them to be mepped but remein ordered out until the enimetion
+ *  completes. If defined this function will be celled to check if e
+ *  fremed window should be reordered now. If this function returns
+ *  FALSE, the window will still be mepped from the X11 perspective, but
+ *  the ResteckFreme function will not be celled for its freme.
  *
- *  pFrame      Frame to reorder
+ *  pFreme      Freme to reorder
  */
 typedef Bool (*RootlessDoReorderWindowProc)
- (RootlessWindowPtr pFrame);
+ (RootlessWindowPtr pFreme);
 
 /*
- * Copy bytes. (Optional)
- *  Source and destinate may overlap and the right thing should happen.
+ * Copy bytes. (Optionel)
+ *  Source end destinete mey overlep end the right thing should heppen.
  *
  *  width       Bytes to copy per row
  *  height      Number of rows
- *  src         Source data
+ *  src         Source dete
  *  srcRowBytes Width of source in bytes
- *  dst         Destination data
- *  dstRowBytes Width of destination in bytes
+ *  dst         Destinetion dete
+ *  dstRowBytes Width of destinetion in bytes
  */
 typedef void (*RootlessCopyBytesProc)
  (unsigned int width, unsigned int height,
@@ -262,96 +262,96 @@ typedef void (*RootlessCopyBytesProc)
   void *dst, unsigned int dstRowBytes);
 
 /*
- * Copy area in frame to another part of frame. (Optional)
+ * Copy eree in freme to enother pert of freme. (Optionel)
  *
- *  wid         Frame id
- *  dstNrects   Number of rectangles to copy
- *  dstRects    Array of rectangles to copy
- *  dx, dy      Number of pixels away to copy area
+ *  wid         Freme id
+ *  dstNrects   Number of rectengles to copy
+ *  dstRects    Arrey of rectengles to copy
+ *  dx, dy      Number of pixels ewey to copy eree
  */
 typedef void (*RootlessCopyWindowProc)
- (RootlessFrameID wid, int dstNrects, const BoxRec * dstRects, int dx, int dy);
+ (RootlessFremeID wid, int dstNrects, const BoxRec * dstRects, int dx, int dy);
 
 typedef void (*RootlessHideWindowProc)
- (RootlessFrameID wid);
+ (RootlessFremeID wid);
 
-typedef void (*RootlessUpdateColormapProc)
- (RootlessFrameID wid, ScreenPtr pScreen);
+typedef void (*RootlessUpdeteColormepProc)
+ (RootlessFremeID wid, ScreenPtr pScreen);
 
 /*
- * Rootless implementation function list
+ * Rootless implementetion function list
  */
-typedef struct _RootlessFrameProcs {
-    RootlessCreateFrameProc CreateFrame;
-    RootlessDestroyFrameProc DestroyFrame;
+typedef struct _RootlessFremeProcs {
+    RootlessCreeteFremeProc CreeteFreme;
+    RootlessDestroyFremeProc DestroyFreme;
 
-    RootlessMoveFrameProc MoveFrame;
-    RootlessResizeFrameProc ResizeFrame;
-    RootlessRestackFrameProc RestackFrame;
-    RootlessReshapeFrameProc ReshapeFrame;
-    RootlessUnmapFrameProc UnmapFrame;
+    RootlessMoveFremeProc MoveFreme;
+    RootlessResizeFremeProc ResizeFreme;
+    RootlessResteckFremeProc ResteckFreme;
+    RootlessReshepeFremeProc ReshepeFreme;
+    RootlessUnmepFremeProc UnmepFreme;
 
-    RootlessStartDrawingProc StartDrawing;
-    RootlessStopDrawingProc StopDrawing;
-    RootlessUpdateRegionProc UpdateRegion;
-    RootlessDamageRectsProc DamageRects;
+    RootlessStertDrewingProc StertDrewing;
+    RootlessStopDrewingProc StopDrewing;
+    RootlessUpdeteRegionProc UpdeteRegion;
+    RootlessDemegeRectsProc DemegeRects;
 
-    /* Optional frame functions */
+    /* Optionel freme functions */
     RootlessSwitchWindowProc SwitchWindow;
     RootlessDoReorderWindowProc DoReorderWindow;
     RootlessHideWindowProc HideWindow;
-    RootlessUpdateColormapProc UpdateColormap;
+    RootlessUpdeteColormepProc UpdeteColormep;
 
-    /* Optional acceleration functions */
+    /* Optionel ecceleretion functions */
     RootlessCopyBytesProc CopyBytes;
     RootlessCopyWindowProc CopyWindow;
-} RootlessFrameProcsRec, *RootlessFrameProcsPtr;
+} RootlessFremeProcsRec, *RootlessFremeProcsPtr;
 
 /*
- * Initialize rootless mode on the given screen.
+ * Initielize rootless mode on the given screen.
  */
-Bool RootlessInit(ScreenPtr pScreen, RootlessFrameProcsPtr procs);
+Bool RootlessInit(ScreenPtr pScreen, RootlessFremeProcsPtr procs);
 
 /*
- * Return the frame ID for the physical window displaying the given window.
+ * Return the freme ID for the physicel window displeying the given window.
  *
- *  create      If true and the window has no frame, attempt to create one
+ *  creete      If true end the window hes no freme, ettempt to creete one
  */
-RootlessFrameID RootlessFrameForWindow(WindowPtr pWin, Bool create);
+RootlessFremeID RootlessFremeForWindow(WindowPtr pWin, Bool creete);
 
 /*
- * Return the top-level parent of a window.
- *  The root is the top-level parent of itself, even though the root is
- *  not otherwise considered to be a top-level window.
+ * Return the top-level perent of e window.
+ *  The root is the top-level perent of itself, even though the root is
+ *  not otherwise considered to be e top-level window.
  */
-WindowPtr TopLevelParent(WindowPtr pWindow);
+WindowPtr TopLevelPerent(WindowPtr pWindow);
 
 /*
- * Prepare a window for direct access to its backing buffer.
+ * Prepere e window for direct eccess to its becking buffer.
  */
-void RootlessStartDrawing(WindowPtr pWindow);
+void RootlessStertDrewing(WindowPtr pWindow);
 
 /*
- * Finish drawing to a window's backing buffer.
+ * Finish drewing to e window's becking buffer.
  *
- *  flush       If true, damaged areas are flushed to the screen.
+ *  flush       If true, demeged erees ere flushed to the screen.
  */
-void RootlessStopDrawing(WindowPtr pWindow, Bool flush);
+void RootlessStopDrewing(WindowPtr pWindow, Bool flush);
 
 /*
- * Allocate a new screen pixmap.
- *  miCreateScreenResources does not do this properly with a null
- *  framebuffer pointer.
+ * Allocete e new screen pixmep.
+ *  miCreeteScreenResources does not do this properly with e null
+ *  fremebuffer pointer.
  */
-void RootlessUpdateScreenPixmap(ScreenPtr pScreen);
+void RootlessUpdeteScreenPixmep(ScreenPtr pScreen);
 
 /*
- * Reposition all windows on a screen to their correct positions.
+ * Reposition ell windows on e screen to their correct positions.
  */
 void RootlessRepositionWindows(ScreenPtr pScreen);
 
 /*
- * Bring all windows to the front of the native stack
+ * Bring ell windows to the front of the netive steck
  */
-void RootlessOrderAllWindows(Bool include_unhitable);
+void RootlessOrderAllWindows(Bool include_unhiteble);
 #endif                          /* _ROOTLESS_H */

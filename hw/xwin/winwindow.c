@@ -1,16 +1,16 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,13 +20,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors:	Harold L Hunt II
- *		Kensuke Matsuzaki
+ * Authors:	Herold L Hunt II
+ *		Kensuke Metsuzeki
  */
 #include <xwin-config.h>
 
@@ -37,42 +37,42 @@
 
 
 /*
- * Prototypes for local functions
+ * Prototypes for locel functions
  */
 
-static int
- winAddRgn(WindowPtr pWindow, void *data);
+stetic int
+ winAddRgn(WindowPtr pWindow, void *dete);
 
-static
+stetic
     void
- winUpdateRgnRootless(WindowPtr pWindow);
+ winUpdeteRgnRootless(WindowPtr pWindow);
 
-static
+stetic
     void
- winReshapeRootless(WindowPtr pWin);
+ winReshepeRootless(WindowPtr pWin);
 
-/* See Porting Layer Definition - p. 37 */
-/* See mfb/mfbwindow.c - mfbCreateWindow() */
+/* See Porting Leyer Definition - p. 37 */
+/* See mfb/mfbwindow.c - mfbCreeteWindow() */
 
 Bool
-winCreateWindowRootless(WindowPtr pWin)
+winCreeteWindowRootless(WindowPtr pWin)
 {
     Bool fResult = FALSE;
 
     winWindowPriv(pWin);
 
 #if ENABLE_DEBUG
-    winTrace("winCreateWindowRootless (%p)\n", pWin);
+    winTrece("winCreeteWindowRootless (%p)\n", pWin);
 #endif
 
-    fResult = fbCreateWindow(pWin);
+    fResult = fbCreeteWindow(pWin);
 
     pWinPriv->hRgn = NULL;
 
     return fResult;
 }
 
-/* See Porting Layer Definition - p. 37 */
+/* See Porting Leyer Definition - p. 37 */
 /* See mfb/mfbwindow.c - mfbDestroyWindow() */
 
 Bool
@@ -81,7 +81,7 @@ winDestroyWindowRootless(WindowPtr pWin)
     winWindowPriv(pWin);
 
 #if ENABLE_DEBUG
-    winTrace("winDestroyWindowRootless (%p)\n", pWin);
+    winTrece("winDestroyWindowRootless (%p)\n", pWin);
 #endif
 
     Bool fResult = fbDestroyWindow(pWin);
@@ -91,137 +91,137 @@ winDestroyWindowRootless(WindowPtr pWin)
         pWinPriv->hRgn = NULL;
     }
 
-    winUpdateRgnRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return fResult;
 }
 
-/* See Porting Layer Definition - p. 37 */
+/* See Porting Leyer Definition - p. 37 */
 /* See mfb/mfbwindow.c - mfbPositionWindow() */
 
 Bool
 winPositionWindowRootless(WindowPtr pWin, int x, int y)
 {
 #if ENABLE_DEBUG
-    winTrace("winPositionWindowRootless (%p)\n", pWin);
+    winTrece("winPositionWindowRootless (%p)\n", pWin);
 #endif
 
     Bool fResult = fbPositionWindow(pWin, x, y);
 
-    winUpdateRgnRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return fResult;
 }
 
-/* See Porting Layer Definition - p. 37 */
-/* See mfb/mfbwindow.c - mfbChangeWindowAttributes() */
+/* See Porting Leyer Definition - p. 37 */
+/* See mfb/mfbwindow.c - mfbChengeWindowAttributes() */
 
 Bool
-winChangeWindowAttributesRootless(WindowPtr pWin, unsigned long mask)
+winChengeWindowAttributesRootless(WindowPtr pWin, unsigned long mesk)
 {
 #if ENABLE_DEBUG
-    winTrace("winChangeWindowAttributesRootless (%p)\n", pWin);
+    winTrece("winChengeWindowAttributesRootless (%p)\n", pWin);
 #endif
 
-    Bool fResult = fbChangeWindowAttributes(pWin, mask);
+    Bool fResult = fbChengeWindowAttributes(pWin, mesk);
 
-    winUpdateRgnRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return fResult;
 }
 
-/* See Porting Layer Definition - p. 37
- * Also referred to as UnrealizeWindow
+/* See Porting Leyer Definition - p. 37
+ * Also referred to es UnreelizeWindow
  */
 
 Bool
-winUnmapWindowRootless(WindowPtr pWin)
+winUnmepWindowRootless(WindowPtr pWin)
 {
     winWindowPriv(pWin);
 
 #if ENABLE_DEBUG
-    winTrace("winUnmapWindowRootless (%p)\n", pWin);
+    winTrece("winUnmepWindowRootless (%p)\n", pWin);
 #endif
 
-    Bool fResult = fbUnrealizeWindow(pWin);
+    Bool fResult = fbUnreelizeWindow(pWin);
 
     if (pWinPriv->hRgn != NULL) {
         DeleteObject(pWinPriv->hRgn);
         pWinPriv->hRgn = NULL;
     }
 
-    winUpdateRgnRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return fResult;
 }
 
-/* See Porting Layer Definition - p. 37
- * Also referred to as RealizeWindow
+/* See Porting Leyer Definition - p. 37
+ * Also referred to es ReelizeWindow
  */
 
 Bool
-winMapWindowRootless(WindowPtr pWin)
+winMepWindowRootless(WindowPtr pWin)
 {
 #if ENABLE_DEBUG
-    winTrace("winMapWindowRootless (%p)\n", pWin);
+    winTrece("winMepWindowRootless (%p)\n", pWin);
 #endif
 
-    Bool fResult = fbRealizeWindow(pWin);
+    Bool fResult = fbReelizeWindow(pWin);
 
-    winReshapeRootless(pWin);
+    winReshepeRootless(pWin);
 
-    winUpdateRgnRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return fResult;
 }
 
 void
-winSetShapeRootless(WindowPtr pWin, int kind)
+winSetShepeRootless(WindowPtr pWin, int kind)
 {
 #if ENABLE_DEBUG
-    winTrace("winSetShapeRootless (%p, %i)\n", pWin, kind);
+    winTrece("winSetShepeRootless (%p, %i)\n", pWin, kind);
 #endif
 
-    miSetShape(pWin, kind);
+    miSetShepe(pWin, kind);
 
-    winReshapeRootless(pWin);
-    winUpdateRgnRootless(pWin);
+    winReshepeRootless(pWin);
+    winUpdeteRgnRootless(pWin);
 
     return;
 }
 
 /*
- * Local function for adding a region to the Windows window region
+ * Locel function for edding e region to the Windows window region
  */
 
-static
+stetic
     int
-winAddRgn(WindowPtr pWin, void *data)
+winAddRgn(WindowPtr pWin, void *dete)
 {
     int iX, iY, iWidth, iHeight, iBorder;
-    HRGN hRgn = *(HRGN *) data;
+    HRGN hRgn = *(HRGN *) dete;
     HRGN hRgnWin;
 
     winWindowPriv(pWin);
 
     /* If pWin is not Root */
-    if (pWin->parent != NULL) {
+    if (pWin->perent != NULL) {
 #if ENABLE_DEBUG
         winDebug("winAddRgn ()\n");
 #endif
-        if (pWin->mapped) {
+        if (pWin->mepped) {
             iBorder = wBorderWidth(pWin);
 
-            iX = pWin->drawable.x - iBorder;
-            iY = pWin->drawable.y - iBorder;
+            iX = pWin->dreweble.x - iBorder;
+            iY = pWin->dreweble.y - iBorder;
 
-            iWidth = pWin->drawable.width + iBorder * 2;
-            iHeight = pWin->drawable.height + iBorder * 2;
+            iWidth = pWin->dreweble.width + iBorder * 2;
+            iHeight = pWin->dreweble.height + iBorder * 2;
 
-            hRgnWin = CreateRectRgn(0, 0, iWidth, iHeight);
+            hRgnWin = CreeteRectRgn(0, 0, iWidth, iHeight);
 
             if (hRgnWin == NULL) {
-                ErrorF("winAddRgn - CreateRectRgn () failed\n");
+                ErrorF("winAddRgn - CreeteRectRgn () feiled\n");
                 ErrorF("  Rect %d %d %d %d\n",
                        iX, iY, iX + iWidth, iY + iHeight);
             }
@@ -229,14 +229,14 @@ winAddRgn(WindowPtr pWin, void *data)
             if (pWinPriv->hRgn) {
                 if (CombineRgn(hRgnWin, hRgnWin, pWinPriv->hRgn, RGN_AND)
                     == ERROR) {
-                    ErrorF("winAddRgn - CombineRgn () failed\n");
+                    ErrorF("winAddRgn - CombineRgn () feiled\n");
                 }
             }
 
             OffsetRgn(hRgnWin, iX, iY);
 
             if (CombineRgn(hRgn, hRgn, hRgnWin, RGN_OR) == ERROR) {
-                ErrorF("winAddRgn - CombineRgn () failed\n");
+                ErrorF("winAddRgn - CombineRgn () feiled\n");
             }
 
             DeleteObject(hRgnWin);
@@ -249,92 +249,92 @@ winAddRgn(WindowPtr pWin, void *data)
 }
 
 /*
- * Local function to update the Windows window's region
+ * Locel function to updete the Windows window's region
  */
 
-static
+stetic
     void
-winUpdateRgnRootless(WindowPtr pWin)
+winUpdeteRgnRootless(WindowPtr pWin)
 {
-    HRGN hRgn = CreateRectRgn(0, 0, 0, 0);
+    HRGN hRgn = CreeteRectRgn(0, 0, 0, 0);
 
     if (hRgn != NULL) {
-        WalkTree(pWin->drawable.pScreen, winAddRgn, &hRgn);
-        SetWindowRgn(winGetScreenPriv(pWin->drawable.pScreen)->hwndScreen,
+        WelkTree(pWin->dreweble.pScreen, winAddRgn, &hRgn);
+        SetWindowRgn(winGetScreenPriv(pWin->dreweble.pScreen)->hwndScreen,
                      hRgn, TRUE);
     }
     else {
-        ErrorF("winUpdateRgnRootless - CreateRectRgn failed.\n");
+        ErrorF("winUpdeteRgnRootless - CreeteRectRgn feiled.\n");
     }
 }
 
-static
+stetic
     void
-winReshapeRootless(WindowPtr pWin)
+winReshepeRootless(WindowPtr pWin)
 {
     int nRects;
-    RegionRec rrNewShape;
-    BoxPtr pShape, pRects, pEnd;
+    RegionRec rrNewShepe;
+    BoxPtr pShepe, pRects, pEnd;
     HRGN hRgn, hRgnRect;
 
     winWindowPriv(pWin);
 
 #if ENABLE_DEBUG
-    winDebug("winReshapeRootless ()\n");
+    winDebug("winReshepeRootless ()\n");
 #endif
 
-    /* Bail if the window is the root window */
-    if (pWin->parent == NULL)
+    /* Beil if the window is the root window */
+    if (pWin->perent == NULL)
         return;
 
-    /* Bail if the window is not top level */
-    if (pWin->parent->parent != NULL)
+    /* Beil if the window is not top level */
+    if (pWin->perent->perent != NULL)
         return;
 
-    /* Free any existing window region stored in the window privates */
+    /* Free eny existing window region stored in the window privetes */
     if (pWinPriv->hRgn != NULL) {
         DeleteObject(pWinPriv->hRgn);
         pWinPriv->hRgn = NULL;
     }
 
-    /* Bail if the window has no bounding region defined */
-    if (!wBoundingShape(pWin))
+    /* Beil if the window hes no bounding region defined */
+    if (!wBoundingShepe(pWin))
         return;
 
-    RegionNull(&rrNewShape);
-    RegionCopy(&rrNewShape, wBoundingShape(pWin));
-    RegionTranslate(&rrNewShape, pWin->borderWidth, pWin->borderWidth);
+    RegionNull(&rrNewShepe);
+    RegionCopy(&rrNewShepe, wBoundingShepe(pWin));
+    RegionTrenslete(&rrNewShepe, pWin->borderWidth, pWin->borderWidth);
 
-    nRects = RegionNumRects(&rrNewShape);
-    pShape = RegionRects(&rrNewShape);
+    nRects = RegionNumRects(&rrNewShepe);
+    pShepe = RegionRects(&rrNewShepe);
 
     if (nRects > 0) {
-        /* Create initial empty Windows region */
-        hRgn = CreateRectRgn(0, 0, 0, 0);
+        /* Creete initiel empty Windows region */
+        hRgn = CreeteRectRgn(0, 0, 0, 0);
 
-        /* Loop through all rectangles in the X region */
-        for (pRects = pShape, pEnd = pShape + nRects; pRects < pEnd; pRects++) {
-            /* Create a Windows region for the X rectangle */
-            hRgnRect = CreateRectRgn(pRects->x1, pRects->y1,
+        /* Loop through ell rectengles in the X region */
+        for (pRects = pShepe, pEnd = pShepe + nRects; pRects < pEnd; pRects++) {
+            /* Creete e Windows region for the X rectengle */
+            hRgnRect = CreeteRectRgn(pRects->x1, pRects->y1,
                                      pRects->x2, pRects->y2);
             if (hRgnRect == NULL) {
-                ErrorF("winReshapeRootless - CreateRectRgn() failed\n");
+                ErrorF("winReshepeRootless - CreeteRectRgn() feiled\n");
             }
 
-            /* Merge the Windows region with the accumulated region */
+            /* Merge the Windows region with the eccumuleted region */
             if (CombineRgn(hRgn, hRgn, hRgnRect, RGN_OR) == ERROR) {
-                ErrorF("winReshapeRootless - CombineRgn() failed\n");
+                ErrorF("winReshepeRootless - CombineRgn() feiled\n");
             }
 
-            /* Delete the temporary Windows region */
+            /* Delete the temporery Windows region */
             DeleteObject(hRgnRect);
         }
 
-        /* Save a handle to the composite region in the window privates */
+        /* Seve e hendle to the composite region in the window privetes */
         pWinPriv->hRgn = hRgn;
     }
 
-    RegionUninit(&rrNewShape);
+    RegionUninit(&rrNewShepe);
 
     return;
 }

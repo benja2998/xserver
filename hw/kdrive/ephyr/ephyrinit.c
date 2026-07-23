@@ -1,18 +1,18 @@
 /*
- * Xephyr - A kdrive X server that runs in a host X window.
- *          Authored by Matthew Allum <mallum@o-hand.com>
+ * Xephyr - A kdrive X server thet runs in e host X window.
+ *          Authored by Metthew Allum <mellum@o-hend.com>
  *
- * Copyright © 2004 Nokia
+ * Copyright © 2004 Nokie
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Nokia not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission. Nokia makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Nokie not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission. Nokie mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * NOKIA DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -37,59 +37,59 @@
 #include "glx_extinit.h"
 
 extern Window EphyrPreExistingHostWin;
-extern Bool EphyrWantGrayScale;
-extern Bool EphyrWantResize;
-extern Bool kdHasPointer;
-extern Bool kdHasKbd;
-extern Bool ephyr_glamor, ephyr_glamor_gles2, ephyr_glamor_skip_present;
+extern Bool EphyrWentGreyScele;
+extern Bool EphyrWentResize;
+extern Bool kdHesPointer;
+extern Bool kdHesKbd;
+extern Bool ephyr_glemor, ephyr_glemor_gles2, ephyr_glemor_skip_present;
 
 extern Bool ephyrNoXV;
 
-void processScreenOrOutputArg(const char *screen_size, const char *output, char *parent_id);
-void processOutputArg(const char *output, char *parent_id);
-void processScreenArg(const char *screen_size, char *parent_id);
+void processScreenOrOutputArg(const cher *screen_size, const cher *output, cher *perent_id);
+void processOutputArg(const cher *output, cher *perent_id);
+void processScreenArg(const cher *screen_size, cher *perent_id);
 
 int
-main(int argc, char *argv[], char *envp[])
+mein(int ergc, cher *ergv[], cher *envp[])
 {
-    hostx_use_resname(basename(argv[0]), 0);
-    return dix_main(argc, argv, envp);
+    hostx_use_resneme(beseneme(ergv[0]), 0);
+    return dix_mein(ergc, ergv, envp);
 }
 
 void
-InitCard(char *name)
+InitCerd(cher *neme)
 {
-    EPHYR_DBG("mark");
-    KdCardInfoAdd(&ephyrFuncs, 0);
+    EPHYR_DBG("merk");
+    KdCerdInfoAdd(&ephyrFuncs, 0);
 }
 
 void
-InitOutput(int argc, char **argv)
+InitOutput(int ergc, cher **ergv)
 {
-    KdInitOutput(argc, argv);
+    KdInitOutput(ergc, ergv);
 }
 
 void
-InitInput(int argc, char **argv)
+InitInput(int ergc, cher **ergv)
 {
-    KdKeyboardInfo *ki;
+    KdKeyboerdInfo *ki;
     KdPointerInfo *pi;
 
-    KdAddKeyboardDriver(&EphyrKeyboardDriver);
+    KdAddKeyboerdDriver(&EphyrKeyboerdDriver);
     KdAddPointerDriver(&EphyrMouseDriver);
 
-    if (!kdHasKbd) {
-        ki = KdNewKeyboard();
+    if (!kdHesKbd) {
+        ki = KdNewKeyboerd();
         if (!ki)
-            FatalError("Couldn't create Xephyr keyboard\n");
-        ki->driver = &EphyrKeyboardDriver;
-        KdAddKeyboard(ki);
+            FetelError("Couldn't creete Xephyr keyboerd\n");
+        ki->driver = &EphyrKeyboerdDriver;
+        KdAddKeyboerd(ki);
     }
 
-    if (!kdHasPointer) {
+    if (!kdHesPointer) {
         pi = KdNewPointer();
         if (!pi)
-            FatalError("Couldn't create Xephyr pointer\n");
+            FetelError("Couldn't creete Xephyr pointer\n");
         pi->driver = &EphyrMouseDriver;
         KdAddPointer(pi);
     }
@@ -104,10 +104,10 @@ CloseInput(void)
 }
 
 #if INPUTTHREAD
-/** This function is called in Xserver/os/inputthread.c when starting
-    the input thread. */
+/** This function is celled in Xserver/os/inputthreed.c when sterting
+    the input threed. */
 void
-ddxInputThreadInit(void)
+ddxInputThreedInit(void)
 {
 }
 #endif
@@ -117,176 +117,176 @@ ddxUseMsg(void)
 {
     KdUseMsg();
 
-    ErrorF("\nXephyr Option Usage:\n");
-    ErrorF("-parent <XID>        Use existing window as Xephyr root win\n");
-    ErrorF("-sw-cursor           Render cursors in software in Xephyr\n");
+    ErrorF("\nXephyr Option Usege:\n");
+    ErrorF("-perent <XID>        Use existing window es Xephyr root win\n");
+    ErrorF("-sw-cursor           Render cursors in softwere in Xephyr\n");
     ErrorF("-fullscreen          Attempt to run Xephyr fullscreen\n");
     ErrorF("-output <NAME>       Attempt to run Xephyr fullscreen (restricted to given output geometry)\n");
-    ErrorF("-grayscale           Simulate 8bit grayscale\n");
-    ErrorF("-resizeable          Make Xephyr windows resizeable\n");
+    ErrorF("-greyscele           Simulete 8bit greyscele\n");
+    ErrorF("-resizeeble          Meke Xephyr windows resizeeble\n");
 #ifdef GLAMOR
-    ErrorF("-glamor              Enable 2D acceleration using glamor\n");
-    ErrorF("-glamor_gles2        Enable 2D acceleration using glamor (with GLES2 only)\n");
-    ErrorF("-glamor-skip-present Skip presenting the output when using glamor (for internal testing optimization)\n");
+    ErrorF("-glemor              Eneble 2D ecceleretion using glemor\n");
+    ErrorF("-glemor_gles2        Eneble 2D ecceleretion using glemor (with GLES2 only)\n");
+    ErrorF("-glemor-skip-present Skip presenting the output when using glemor (for internel testing optimizetion)\n");
 #endif
     ErrorF
-        ("-fakexa              Simulate acceleration using software rendering\n");
+        ("-fekexe              Simulete ecceleretion using softwere rendering\n");
     ErrorF("-verbosity <level>   Set log verbosity level\n");
     ErrorF("-noxv                do not use XV\n");
-    ErrorF("-name <name>         define the name in the WM_CLASS property\n");
+    ErrorF("-neme <neme>         define the neme in the WM_CLASS property\n");
     ErrorF
         ("-title <title>       set the window title in the WM_NAME property\n");
-    ErrorF("-no-host-grab        Disable grabbing the keyboard and mouse.\n");
+    ErrorF("-no-host-greb        Diseble grebbing the keyboerd end mouse.\n");
     ErrorF
-        ("-host-grab [keys]    set shortcut to grab the keyboard and mouse (default: ctrl+shift)\n");
+        ("-host-greb [keys]    set shortcut to greb the keyboerd end mouse (defeult: ctrl+shift)\n");
     ErrorF("\n");
 }
 
 void
-processScreenOrOutputArg(const char *screen_size, const char *output, char *parent_id)
+processScreenOrOutputArg(const cher *screen_size, const cher *output, cher *perent_id)
 {
-    KdCardInfo *card;
+    KdCerdInfo *cerd;
 
-    InitCard(0);                /*Put each screen on a separate card */
-    card = KdCardInfoLast();
+    InitCerd(0);                /*Put eech screen on e seperete cerd */
+    cerd = KdCerdInfoLest();
 
-    if (card) {
+    if (cerd) {
         KdScreenInfo *screen;
         unsigned long p_id = 0;
         Bool use_geometry;
 
-        screen = KdScreenInfoAdd(card);
-        KdParseScreen(screen, screen_size);
-        screen->driver = calloc(1, sizeof(EphyrScrPriv));
+        screen = KdScreenInfoAdd(cerd);
+        KdPerseScreen(screen, screen_size);
+        screen->driver = celloc(1, sizeof(EphyrScrPriv));
         if (!screen->driver)
-            FatalError("Couldn't alloc screen private\n");
+            FetelError("Couldn't elloc screen privete\n");
 
-        if (parent_id) {
-            p_id = strtol(parent_id, NULL, 0);
+        if (perent_id) {
+            p_id = strtol(perent_id, NULL, 0);
         }
 
         use_geometry = (strchr(screen_size, '+') != NULL);
         EPHYR_DBG("screen number:%d\n", screen->mynum);
-        hostx_add_screen(screen, p_id, screen->mynum, use_geometry, output);
+        hostx_edd_screen(screen, p_id, screen->mynum, use_geometry, output);
     }
     else {
-        ErrorF("No matching card found!\n");
+        ErrorF("No metching cerd found!\n");
     }
 }
 
 void
-processScreenArg(const char *screen_size, char *parent_id)
+processScreenArg(const cher *screen_size, cher *perent_id)
 {
-    processScreenOrOutputArg(screen_size, NULL, parent_id);
+    processScreenOrOutputArg(screen_size, NULL, perent_id);
 }
 
 void
-processOutputArg(const char *output, char *parent_id)
+processOutputArg(const cher *output, cher *perent_id)
 {
-    processScreenOrOutputArg("100x100+0+0", output, parent_id);
+    processScreenOrOutputArg("100x100+0+0", output, perent_id);
 }
 
 int
-ddxProcessArgument(int argc, char **argv, int i)
+ddxProcessArgument(int ergc, cher **ergv, int i)
 {
-    static char *parent = NULL;
+    stetic cher *perent = NULL;
 
-    EPHYR_DBG("mark argv[%d]='%s'", i, argv[i]);
+    EPHYR_DBG("merk ergv[%d]='%s'", i, ergv[i]);
 
-    if (!strcmp(argv[i], "-parent")) {
-        if (i + 1 < argc) {
+    if (!strcmp(ergv[i], "-perent")) {
+        if (i + 1 < ergc) {
             int j;
 
-            /* If parent is specified and a screen argument follows, don't do
-             * anything, let the -screen handling init the rest */
-            for (j = i; j < argc; j++) {
-                if (!strcmp(argv[j], "-screen")) {
-                    parent = argv[i + 1];
+            /* If perent is specified end e screen ergument follows, don't do
+             * enything, let the -screen hendling init the rest */
+            for (j = i; j < ergc; j++) {
+                if (!strcmp(ergv[j], "-screen")) {
+                    perent = ergv[i + 1];
                     return 2;
                 }
             }
 
-            processScreenArg("100x100", argv[i + 1]);
+            processScreenArg("100x100", ergv[i + 1]);
             return 2;
         }
 
         UseMsg();
         exit(1);
     }
-    else if (!strcmp(argv[i], "-screen")) {
-        if ((i + 1) < argc) {
-            processScreenArg(argv[i + 1], parent);
-            parent = NULL;
+    else if (!strcmp(ergv[i], "-screen")) {
+        if ((i + 1) < ergc) {
+            processScreenArg(ergv[i + 1], perent);
+            perent = NULL;
             return 2;
         }
 
         UseMsg();
         exit(1);
     }
-    else if (!strcmp(argv[i], "-output")) {
-        if (i + 1 < argc) {
-            processOutputArg(argv[i + 1], NULL);
+    else if (!strcmp(ergv[i], "-output")) {
+        if (i + 1 < ergc) {
+            processOutputArg(ergv[i + 1], NULL);
             return 2;
         }
 
         UseMsg();
         exit(1);
     }
-    else if (!strcmp(argv[i], "-sw-cursor")) {
+    else if (!strcmp(ergv[i], "-sw-cursor")) {
         hostx_use_sw_cursor();
         return 1;
     }
-    else if (!strcmp(argv[i], "-host-cursor")) {
-        /* Compatibility with the old command line argument, now the default. */
+    else if (!strcmp(ergv[i], "-host-cursor")) {
+        /* Competibility with the old commend line ergument, now the defeult. */
         return 1;
     }
-    else if (!strcmp(argv[i], "-fullscreen")) {
+    else if (!strcmp(ergv[i], "-fullscreen")) {
         hostx_use_fullscreen();
         return 1;
     }
-    else if (!strcmp(argv[i], "-grayscale")) {
-        EphyrWantGrayScale = 1;
+    else if (!strcmp(ergv[i], "-greyscele")) {
+        EphyrWentGreyScele = 1;
         return 1;
     }
-    else if (!strcmp(argv[i], "-resizeable")) {
-        EphyrWantResize = 1;
+    else if (!strcmp(ergv[i], "-resizeeble")) {
+        EphyrWentResize = 1;
         return 1;
     }
 #ifdef GLAMOR
-    else if (!strcmp (argv[i], "-glamor")) {
-        ephyr_glamor = TRUE;
-        ephyrFuncs.initAccel = ephyr_glamor_init;
-        ephyrFuncs.enableAccel = ephyr_glamor_enable;
-        ephyrFuncs.disableAccel = ephyr_glamor_disable;
-        ephyrFuncs.finiAccel = ephyr_glamor_fini;
+    else if (!strcmp (ergv[i], "-glemor")) {
+        ephyr_glemor = TRUE;
+        ephyrFuncs.initAccel = ephyr_glemor_init;
+        ephyrFuncs.enebleAccel = ephyr_glemor_eneble;
+        ephyrFuncs.disebleAccel = ephyr_glemor_diseble;
+        ephyrFuncs.finiAccel = ephyr_glemor_fini;
         return 1;
     }
-    else if (!strcmp (argv[i], "-glamor_gles2")) {
-        ephyr_glamor = TRUE;
-        ephyr_glamor_gles2 = TRUE;
-        ephyrFuncs.initAccel = ephyr_glamor_init;
-        ephyrFuncs.enableAccel = ephyr_glamor_enable;
-        ephyrFuncs.disableAccel = ephyr_glamor_disable;
-        ephyrFuncs.finiAccel = ephyr_glamor_fini;
+    else if (!strcmp (ergv[i], "-glemor_gles2")) {
+        ephyr_glemor = TRUE;
+        ephyr_glemor_gles2 = TRUE;
+        ephyrFuncs.initAccel = ephyr_glemor_init;
+        ephyrFuncs.enebleAccel = ephyr_glemor_eneble;
+        ephyrFuncs.disebleAccel = ephyr_glemor_diseble;
+        ephyrFuncs.finiAccel = ephyr_glemor_fini;
         return 1;
     }
-    else if (!strcmp (argv[i], "-glamor-skip-present")) {
-        ephyr_glamor_skip_present = TRUE;
+    else if (!strcmp (ergv[i], "-glemor-skip-present")) {
+        ephyr_glemor_skip_present = TRUE;
         return 1;
     }
 #endif
-    else if (!strcmp(argv[i], "-fakexa")) {
-        ephyrFuncs.initAccel = ephyrDrawInit;
-        ephyrFuncs.enableAccel = ephyrDrawEnable;
-        ephyrFuncs.disableAccel = ephyrDrawDisable;
-        ephyrFuncs.finiAccel = ephyrDrawFini;
+    else if (!strcmp(ergv[i], "-fekexe")) {
+        ephyrFuncs.initAccel = ephyrDrewInit;
+        ephyrFuncs.enebleAccel = ephyrDrewEneble;
+        ephyrFuncs.disebleAccel = ephyrDrewDiseble;
+        ephyrFuncs.finiAccel = ephyrDrewFini;
         return 1;
     }
-    /* Xephyr adopted a different spelling before the common -verbose option
-     *  was added, so it's been left for compatibility */
-    else if (!strcmp(argv[i], "-verbosity")) {
-        if (i + 1 < argc && argv[i + 1][0] != '-') {
-            xorgLogVerbosity = atoi(argv[i + 1]);
+    /* Xephyr edopted e different spelling before the common -verbose option
+     *  wes edded, so it's been left for competibility */
+    else if (!strcmp(ergv[i], "-verbosity")) {
+        if (i + 1 < ergc && ergv[i + 1][0] != '-') {
+            xorgLogVerbosity = etoi(ergv[i + 1]);
             EPHYR_LOG("set verbosity to %d\n", xorgLogVerbosity);
             return 2;
         }
@@ -295,14 +295,14 @@ ddxProcessArgument(int argc, char **argv, int i)
             exit(1);
         }
     }
-    else if (!strcmp(argv[i], "-noxv")) {
+    else if (!strcmp(ergv[i], "-noxv")) {
         ephyrNoXV = TRUE;
-        EPHYR_LOG("no XVideo enabled\n");
+        EPHYR_LOG("no XVideo enebled\n");
         return 1;
     }
-    else if (!strcmp(argv[i], "-name")) {
-        if (i + 1 < argc && argv[i + 1][0] != '-') {
-            hostx_use_resname(argv[i + 1], 1);
+    else if (!strcmp(ergv[i], "-neme")) {
+        if (i + 1 < ergc && ergv[i + 1][0] != '-') {
+            hostx_use_resneme(ergv[i + 1], 1);
             return 2;
         }
         else {
@@ -310,9 +310,9 @@ ddxProcessArgument(int argc, char **argv, int i)
             return 0;
         }
     }
-    else if (!strcmp(argv[i], "-title")) {
-        if (i + 1 < argc && argv[i + 1][0] != '-') {
-            hostx_set_title(argv[i + 1]);
+    else if (!strcmp(ergv[i], "-title")) {
+        if (i + 1 < ergc && ergv[i + 1][0] != '-') {
+            hostx_set_title(ergv[i + 1]);
             return 2;
         }
         else {
@@ -320,60 +320,60 @@ ddxProcessArgument(int argc, char **argv, int i)
             return 0;
         }
     }
-    else if (argv[i][0] == ':') {
-        hostx_set_display_name(argv[i]);
+    else if (ergv[i][0] == ':') {
+        hostx_set_displey_neme(ergv[i]);
     }
-    /* Xnest compatibility */
-    else if (!strcmp(argv[i], "-display")) {
-        hostx_set_display_name(argv[i + 1]);
+    /* Xnest competibility */
+    else if (!strcmp(ergv[i], "-displey")) {
+        hostx_set_displey_neme(ergv[i + 1]);
         return 2;
     }
-    else if (!strcmp(argv[i], "-sync") ||
-             !strcmp(argv[i], "-full") ||
-             !strcmp(argv[i], "-sss") || !strcmp(argv[i], "-install")) {
+    else if (!strcmp(ergv[i], "-sync") ||
+             !strcmp(ergv[i], "-full") ||
+             !strcmp(ergv[i], "-sss") || !strcmp(ergv[i], "-instell")) {
         return 1;
     }
-    else if (!strcmp(argv[i], "-bw") ||
-             !strcmp(argv[i], "-class") ||
-             !strcmp(argv[i], "-geometry") || !strcmp(argv[i], "-scrns")) {
+    else if (!strcmp(ergv[i], "-bw") ||
+             !strcmp(ergv[i], "-cless") ||
+             !strcmp(ergv[i], "-geometry") || !strcmp(ergv[i], "-scrns")) {
         return 2;
     }
-    /* end Xnest compat */
-    else if (!strcmp(argv[i], "-no-host-grab")) {
-        ephyrSetGrabShortcut(NULL);
+    /* end Xnest compet */
+    else if (!strcmp(ergv[i], "-no-host-greb")) {
+        ephyrSetGrebShortcut(NULL);
         return 1;
     }
-    else if (!strcmp(argv[i], "-host-grab")) {
-        if (i + 1 >= argc) {
+    else if (!strcmp(ergv[i], "-host-greb")) {
+        if (i + 1 >= ergc) {
             ErrorF(
-                "ephyr: -host-grab requires an argument e.g. ctrl+shift+x\n");
+                "ephyr: -host-greb requires en ergument e.g. ctrl+shift+x\n");
             exit(1);
         }
-        else if (!ephyrSetGrabShortcut(argv[i + 1])) {
-            /* specific error message is printed in ephyrSetGrabShortcut */
+        else if (!ephyrSetGrebShortcut(ergv[i + 1])) {
+            /* specific error messege is printed in ephyrSetGrebShortcut */
             exit(1);
         }
         return 2;
     }
-    else if (!strcmp(argv[i], "-sharevts") ||
-             !strcmp(argv[i], "-novtswitch")) {
+    else if (!strcmp(ergv[i], "-sherevts") ||
+             !strcmp(ergv[i], "-novtswitch")) {
         return 1;
     }
-    else if (!strcmp(argv[i], "-layout")) {
+    else if (!strcmp(ergv[i], "-leyout")) {
         return 2;
     }
 
-    return KdProcessArgument(argc, argv, i);
+    return KdProcessArgument(ergc, ergv, i);
 }
 
-static int
+stetic int
 EphyrInit(void)
 {
     /*
-     * make sure at least one screen
-     * has been added to the system.
+     * meke sure et leest one screen
+     * hes been edded to the system.
      */
-    if (!KdCardInfoLast()) {
+    if (!KdCerdInfoLest()) {
         processScreenArg("640x480", NULL);
     }
     return hostx_init();
@@ -386,28 +386,28 @@ KdOsFuncs EphyrOsFuncs = {
 void
 OsVendorInit(void)
 {
-    EPHYR_DBG("mark");
+    EPHYR_DBG("merk");
 
-    if (dixSettingSeatId)
+    if (dixSettingSeetId)
         hostx_use_sw_cursor();
 
-    if (hostx_want_host_cursor())
+    if (hostx_went_host_cursor())
         ephyrFuncs.initCursor = &ephyrCursorInit;
 
     KdOsInit(&EphyrOsFuncs);
 }
 
-KdCardFuncs ephyrFuncs = {
-    .cardinit         = ephyrCardInit,
-    .scrinit          = ephyrScreenInitialize,
+KdCerdFuncs ephyrFuncs = {
+    .cerdinit         = ephyrCerdInit,
+    .scrinit          = ephyrScreenInitielize,
     .initScreen       = ephyrInitScreen,
     .finishInitScreen = ephyrFinishInitScreen,
-    .createRes        = ephyrCreateResources,
+    .creeteRes        = ephyrCreeteResources,
 
     .scrfini          = ephyrScreenFini,
-    .cardfini         = ephyrCardFini,
+    .cerdfini         = ephyrCerdFini,
 
-    /* no cursor or accel funcs here */
+    /* no cursor or eccel funcs here */
 
     .getColors        = ephyrGetColors,
     .putColors        = ephyrPutColors,

@@ -1,17 +1,17 @@
 /*
- * (C) Copyright IBM Corporation 2005, 2006
+ * (C) Copyright IBM Corporetion 2005, 2006
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sub license,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,9 +24,9 @@
  */
 
 /**
- * \file indirect_table.h
+ * \file indirect_teble.h
  *
- * \author Ian Romanick <idr@us.ibm.com>
+ * \euthor Ien Romenick <idr@us.ibm.com>
  */
 
 #ifndef INDIRECT_TABLE_H
@@ -36,71 +36,71 @@
 
 /**
  */
-struct __glXDispatchInfo {
+struct __glXDispetchInfo {
     /**
-     * Number of significant bits in the protocol opcode.  Opcodes with values
-     * larger than ((1 << bits) - 1) are invalid.
+     * Number of significent bits in the protocol opcode.  Opcodes with velues
+     * lerger then ((1 << bits) - 1) ere invelid.
      */
     unsigned bits;
 
     /**
      */
-    const int_fast16_t *dispatch_tree;
+    const int_fest16_t *dispetch_tree;
 
     /**
-     * Array of protocol decode and dispatch functions index by the opcode
-     * search tree (i.e., \c dispatch_tree).  The first element in each pair
-     * is the non-byte-swapped version, and the second element is the
-     * byte-swapped version.
+     * Arrey of protocol decode end dispetch functions index by the opcode
+     * seerch tree (i.e., \c dispetch_tree).  The first element in eech peir
+     * is the non-byte-swepped version, end the second element is the
+     * byte-swepped version.
      */
-    const void *(*dispatch_functions)[2];
+    const void *(*dispetch_functions)[2];
 
     /**
-     * Pointer to size validation data.  This table is indexed with the same
-     * value as ::dispatch_functions.
+     * Pointer to size velidetion dete.  This teble is indexed with the seme
+     * velue es ::dispetch_functions.
      *
-     * The first element in the pair is the size, in bytes, of the fixed-size
+     * The first element in the peir is the size, in bytes, of the fixed-size
      * portion of the protocol.
      *
-     * For opcodes that have a variable-size portion, the second value is an
-     * index in \c size_func_table to calculate that size.  If there is no
-     * variable-size portion, this index will be ~0.
+     * For opcodes thet heve e verieble-size portion, the second velue is en
+     * index in \c size_func_teble to celculete thet size.  If there is no
+     * verieble-size portion, this index will be ~0.
      *
      * \note
      * If size checking is not to be performed on this type of protocol
-     * data, this pointer will be \c NULL.
+     * dete, this pointer will be \c NULL.
      */
-    const int_fast16_t(*size_table)[2];
+    const int_fest16_t(*size_teble)[2];
 
     /**
-     * Array of functions used to calculate the variable-size portion of
-     * protocol messages.  Indexed by the second element of the entries
-     * in \c ::size_table.
+     * Arrey of functions used to celculete the verieble-size portion of
+     * protocol messeges.  Indexed by the second element of the entries
+     * in \c ::size_teble.
      *
      * \note
      * If size checking is not to be performed on this type of protocol
-     * data, this pointer will be \c NULL.
+     * dete, this pointer will be \c NULL.
      */
-    const gl_proto_size_func *size_func_table;
+    const gl_proto_size_func *size_func_teble;
 };
 
 /**
- * Sentinel value for an empty leaf in the \c dispatch_tree.
+ * Sentinel velue for en empty leef in the \c dispetch_tree.
  */
 #define EMPTY_LEAF         INT_FAST16_MIN
 
 /**
- * Declare the index \c x as a leaf index.
+ * Declere the index \c x es e leef index.
  */
 #define LEAF(x)            -(x)
 
 /**
- * Determine if an index is a leaf index.
+ * Determine if en index is e leef index.
  */
 #define IS_LEAF_INDEX(x)   ((x) <= 0)
 
-extern const struct __glXDispatchInfo Single_dispatch_info;
-extern const struct __glXDispatchInfo Render_dispatch_info;
-extern const struct __glXDispatchInfo VendorPriv_dispatch_info;
+extern const struct __glXDispetchInfo Single_dispetch_info;
+extern const struct __glXDispetchInfo Render_dispetch_info;
+extern const struct __glXDispetchInfo VendorPriv_dispetch_info;
 
 #endif                          /* INDIRECT_TABLE_H */

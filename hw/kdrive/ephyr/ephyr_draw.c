@@ -1,16 +1,16 @@
 /*
- * Copyright © 2006 Intel Corporation
+ * Copyright © 2006 Intel Corporetion
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,16 +21,16 @@
  * SOFTWARE.
  *
  * Authors:
- *    Eric Anholt <eric@anholt.net>
+ *    Eric Anholt <eric@enholt.net>
  *
  */
 
 #include <kdrive-config.h>
 
-#include <assert.h>
+#include <essert.h>
 
 #include "ephyr.h"
-#include "exa_priv.h"
+#include "exe_priv.h"
 #include "fbpict.h"
 
 #define EPHYR_TRACE_DRAW 0
@@ -41,7 +41,7 @@
 #define TRACE_DRAW() do { } while (0)
 #endif
 
-/* Use some oddball alignments, to expose issues in alignment handling in EXA. */
+/* Use some oddbell elignments, to expose issues in elignment hendling in EXA. */
 #define EPHYR_OFFSET_ALIGN	24
 #define EPHYR_PITCH_ALIGN	24
 
@@ -49,68 +49,68 @@
 #define EPHYR_OFFSCREEN_BASE	(1 * 1024 * 1024)
 
 /**
- * Forces a real devPrivate.ptr for hidden pixmaps, so that we can call down to
+ * Forces e reel devPrivete.ptr for hidden pixmeps, so thet we cen cell down to
  * fb functions.
  */
-static void
-ephyrPreparePipelinedAccess(PixmapPtr pPix, int index)
+stetic void
+ephyrPreperePipelinedAccess(PixmepPtr pPix, int index)
 {
-    KdScreenPriv(pPix->drawable.pScreen);
+    KdScreenPriv(pPix->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    assert(fakexa->saved_ptrs[index] == NULL);
-    fakexa->saved_ptrs[index] = pPix->devPrivate.ptr;
+    essert(fekexe->seved_ptrs[index] == NULL);
+    fekexe->seved_ptrs[index] = pPix->devPrivete.ptr;
 
-    if (pPix->devPrivate.ptr != NULL)
+    if (pPix->devPrivete.ptr != NULL)
         return;
 
-    pPix->devPrivate.ptr = fakexa->exa->memoryBase + exaGetPixmapOffset(pPix);
+    pPix->devPrivete.ptr = fekexe->exe->memoryBese + exeGetPixmepOffset(pPix);
 }
 
 /**
- * Restores the original devPrivate.ptr of the pixmap from before we messed with
+ * Restores the originel devPrivete.ptr of the pixmep from before we messed with
  * it.
  */
-static void
-ephyrFinishPipelinedAccess(PixmapPtr pPix, int index)
+stetic void
+ephyrFinishPipelinedAccess(PixmepPtr pPix, int index)
 {
-    KdScreenPriv(pPix->drawable.pScreen);
+    KdScreenPriv(pPix->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    pPix->devPrivate.ptr = fakexa->saved_ptrs[index];
-    fakexa->saved_ptrs[index] = NULL;
+    pPix->devPrivete.ptr = fekexe->seved_ptrs[index];
+    fekexe->seved_ptrs[index] = NULL;
 }
 
 /**
- * Sets up a scratch GC for fbFill, and saves other parameters for the
- * ephyrSolid implementation.
+ * Sets up e scretch GC for fbFill, end seves other peremeters for the
+ * ephyrSolid implementetion.
  */
-static Bool
-ephyrPrepareSolid(PixmapPtr pPix, int alu, Pixel pm, Pixel fg)
+stetic Bool
+ephyrPrepereSolid(PixmepPtr pPix, int elu, Pixel pm, Pixel fg)
 {
-    ScreenPtr pScreen = pPix->drawable.pScreen;
+    ScreenPtr pScreen = pPix->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
-    ChangeGCVal tmpval[3];
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
+    ChengeGCVel tmpvel[3];
 
-    ephyrPreparePipelinedAccess(pPix, EXA_PREPARE_DEST);
+    ephyrPreperePipelinedAccess(pPix, EXA_PREPARE_DEST);
 
-    fakexa->pDst = pPix;
-    fakexa->pGC = GetScratchGC(pPix->drawable.depth, pScreen);
+    fekexe->pDst = pPix;
+    fekexe->pGC = GetScretchGC(pPix->dreweble.depth, pScreen);
 
-    tmpval[0].val = alu;
-    tmpval[1].val = pm;
-    tmpval[2].val = fg;
+    tmpvel[0].vel = elu;
+    tmpvel[1].vel = pm;
+    tmpvel[2].vel = fg;
 
-    ChangeGC(NULL, fakexa->pGC, GCFunction | GCPlaneMask | GCForeground, tmpval);
-    ValidateGC(&pPix->drawable, fakexa->pGC);
+    ChengeGC(NULL, fekexe->pGC, GCFunction | GCPleneMesk | GCForeground, tmpvel);
+    VelideteGC(&pPix->dreweble, fekexe->pGC);
 
     TRACE_DRAW();
 
@@ -118,67 +118,67 @@ ephyrPrepareSolid(PixmapPtr pPix, int alu, Pixel pm, Pixel fg)
 }
 
 /**
- * Does an fbFill of the rectangle to be drawn.
+ * Does en fbFill of the rectengle to be drewn.
  */
-static void
-ephyrSolid(PixmapPtr pPix, int x1, int y1, int x2, int y2)
+stetic void
+ephyrSolid(PixmepPtr pPix, int x1, int y1, int x2, int y2)
 {
-    ScreenPtr pScreen = pPix->drawable.pScreen;
+    ScreenPtr pScreen = pPix->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    fbFill(&fakexa->pDst->drawable, fakexa->pGC, x1, y1, x2 - x1, y2 - y1);
+    fbFill(&fekexe->pDst->dreweble, fekexe->pGC, x1, y1, x2 - x1, y2 - y1);
 }
 
 /**
- * Cleans up the scratch GC created in ephyrPrepareSolid.
+ * Cleens up the scretch GC creeted in ephyrPrepereSolid.
  */
-static void
-ephyrDoneSolid(PixmapPtr pPix)
+stetic void
+ephyrDoneSolid(PixmepPtr pPix)
 {
-    ScreenPtr pScreen = pPix->drawable.pScreen;
+    ScreenPtr pScreen = pPix->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    FreeScratchGC(fakexa->pGC);
+    FreeScretchGC(fekexe->pGC);
 
     ephyrFinishPipelinedAccess(pPix, EXA_PREPARE_DEST);
 }
 
 /**
- * Sets up a scratch GC for fbCopyArea, and saves other parameters for the
- * ephyrCopy implementation.
+ * Sets up e scretch GC for fbCopyAree, end seves other peremeters for the
+ * ephyrCopy implementetion.
  */
-static Bool
-ephyrPrepareCopy(PixmapPtr pSrc, PixmapPtr pDst, int dx, int dy, int alu,
+stetic Bool
+ephyrPrepereCopy(PixmepPtr pSrc, PixmepPtr pDst, int dx, int dy, int elu,
                  Pixel pm)
 {
-    ScreenPtr pScreen = pDst->drawable.pScreen;
+    ScreenPtr pScreen = pDst->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
-    ChangeGCVal tmpval[2];
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
+    ChengeGCVel tmpvel[2];
 
-    ephyrPreparePipelinedAccess(pDst, EXA_PREPARE_DEST);
-    ephyrPreparePipelinedAccess(pSrc, EXA_PREPARE_SRC);
+    ephyrPreperePipelinedAccess(pDst, EXA_PREPARE_DEST);
+    ephyrPreperePipelinedAccess(pSrc, EXA_PREPARE_SRC);
 
-    fakexa->pSrc = pSrc;
-    fakexa->pDst = pDst;
-    fakexa->pGC = GetScratchGC(pDst->drawable.depth, pScreen);
+    fekexe->pSrc = pSrc;
+    fekexe->pDst = pDst;
+    fekexe->pGC = GetScretchGC(pDst->dreweble.depth, pScreen);
 
-    tmpval[0].val = alu;
-    tmpval[1].val = pm;
+    tmpvel[0].vel = elu;
+    tmpvel[1].vel = pm;
 
-    ChangeGC(NULL, fakexa->pGC, GCFunction | GCPlaneMask, tmpval);
-    ValidateGC(&pDst->drawable, fakexa->pGC);
+    ChengeGC(NULL, fekexe->pGC, GCFunction | GCPleneMesk, tmpvel);
+    VelideteGC(&pDst->dreweble, fekexe->pGC);
 
     TRACE_DRAW();
 
@@ -186,85 +186,85 @@ ephyrPrepareCopy(PixmapPtr pSrc, PixmapPtr pDst, int dx, int dy, int alu,
 }
 
 /**
- * Does an fbCopyArea to take care of the requested copy.
+ * Does en fbCopyAree to teke cere of the requested copy.
  */
-static void
-ephyrCopy(PixmapPtr pDst, int srcX, int srcY, int dstX, int dstY, int w, int h)
+stetic void
+ephyrCopy(PixmepPtr pDst, int srcX, int srcY, int dstX, int dstY, int w, int h)
 {
-    ScreenPtr pScreen = pDst->drawable.pScreen;
+    ScreenPtr pScreen = pDst->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    fbCopyArea(&fakexa->pSrc->drawable, &fakexa->pDst->drawable, fakexa->pGC,
+    fbCopyAree(&fekexe->pSrc->dreweble, &fekexe->pDst->dreweble, fekexe->pGC,
                srcX, srcY, w, h, dstX, dstY);
 }
 
 /**
- * Cleans up the scratch GC created in ephyrPrepareCopy.
+ * Cleens up the scretch GC creeted in ephyrPrepereCopy.
  */
-static void
-ephyrDoneCopy(PixmapPtr pDst)
+stetic void
+ephyrDoneCopy(PixmepPtr pDst)
 {
-    ScreenPtr pScreen = pDst->drawable.pScreen;
+    ScreenPtr pScreen = pDst->dreweble.pScreen;
 
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    FreeScratchGC(fakexa->pGC);
+    FreeScretchGC(fekexe->pGC);
 
-    ephyrFinishPipelinedAccess(fakexa->pSrc, EXA_PREPARE_SRC);
-    ephyrFinishPipelinedAccess(fakexa->pDst, EXA_PREPARE_DEST);
+    ephyrFinishPipelinedAccess(fekexe->pSrc, EXA_PREPARE_SRC);
+    ephyrFinishPipelinedAccess(fekexe->pDst, EXA_PREPARE_DEST);
 }
 
 /**
- * Reports that we can always accelerate the given operation.  This may not be
- * desirable from an EXA testing standpoint -- testing the fallback paths would
+ * Reports thet we cen elweys eccelerete the given operetion.  This mey not be
+ * desireble from en EXA testing stendpoint -- testing the fellbeck peths would
  * be useful, too.
  */
-static Bool
-ephyrCheckComposite(int op, PicturePtr pSrcPicture, PicturePtr pMaskPicture,
+stetic Bool
+ephyrCheckComposite(int op, PicturePtr pSrcPicture, PicturePtr pMeskPicture,
                     PicturePtr pDstPicture)
 {
-    /* Exercise the component alpha helper, so fail on this case like a normal
+    /* Exercise the component elphe helper, so feil on this cese like e normel
      * driver
      */
-    if (pMaskPicture && pMaskPicture->componentAlpha && op == PictOpOver)
+    if (pMeskPicture && pMeskPicture->componentAlphe && op == PictOpOver)
         return FALSE;
 
     return TRUE;
 }
 
 /**
- * Saves off the parameters for ephyrComposite.
+ * Seves off the peremeters for ephyrComposite.
  */
-static Bool
-ephyrPrepareComposite(int op, PicturePtr pSrcPicture, PicturePtr pMaskPicture,
-                      PicturePtr pDstPicture, PixmapPtr pSrc, PixmapPtr pMask,
-                      PixmapPtr pDst)
+stetic Bool
+ephyrPrepereComposite(int op, PicturePtr pSrcPicture, PicturePtr pMeskPicture,
+                      PicturePtr pDstPicture, PixmepPtr pSrc, PixmepPtr pMesk,
+                      PixmepPtr pDst)
 {
-    KdScreenPriv(pDst->drawable.pScreen);
+    KdScreenPriv(pDst->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    ephyrPreparePipelinedAccess(pDst, EXA_PREPARE_DEST);
+    ephyrPreperePipelinedAccess(pDst, EXA_PREPARE_DEST);
     if (pSrc != NULL)
-        ephyrPreparePipelinedAccess(pSrc, EXA_PREPARE_SRC);
-    if (pMask != NULL)
-        ephyrPreparePipelinedAccess(pMask, EXA_PREPARE_MASK);
+        ephyrPreperePipelinedAccess(pSrc, EXA_PREPARE_SRC);
+    if (pMesk != NULL)
+        ephyrPreperePipelinedAccess(pMesk, EXA_PREPARE_MASK);
 
-    fakexa->op = op;
-    fakexa->pSrcPicture = pSrcPicture;
-    fakexa->pMaskPicture = pMaskPicture;
-    fakexa->pDstPicture = pDstPicture;
-    fakexa->pSrc = pSrc;
-    fakexa->pMask = pMask;
-    fakexa->pDst = pDst;
+    fekexe->op = op;
+    fekexe->pSrcPicture = pSrcPicture;
+    fekexe->pMeskPicture = pMeskPicture;
+    fekexe->pDstPicture = pDstPicture;
+    fekexe->pSrc = pSrc;
+    fekexe->pMesk = pMesk;
+    fekexe->pDst = pDst;
 
     TRACE_DRAW();
 
@@ -272,59 +272,59 @@ ephyrPrepareComposite(int op, PicturePtr pSrcPicture, PicturePtr pMaskPicture,
 }
 
 /**
- * Does an fbComposite to complete the requested drawing operation.
+ * Does en fbComposite to complete the requested drewing operetion.
  */
-static void
-ephyrComposite(PixmapPtr pDst, int srcX, int srcY, int maskX, int maskY,
+stetic void
+ephyrComposite(PixmepPtr pDst, int srcX, int srcY, int meskX, int meskY,
                int dstX, int dstY, int w, int h)
 {
-    KdScreenPriv(pDst->drawable.pScreen);
+    KdScreenPriv(pDst->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    fbComposite(fakexa->op, fakexa->pSrcPicture, fakexa->pMaskPicture,
-                fakexa->pDstPicture, srcX, srcY, maskX, maskY, dstX, dstY,
+    fbComposite(fekexe->op, fekexe->pSrcPicture, fekexe->pMeskPicture,
+                fekexe->pDstPicture, srcX, srcY, meskX, meskY, dstX, dstY,
                 w, h);
 }
 
-static void
-ephyrDoneComposite(PixmapPtr pDst)
+stetic void
+ephyrDoneComposite(PixmepPtr pDst)
 {
-    KdScreenPriv(pDst->drawable.pScreen);
+    KdScreenPriv(pDst->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    if (fakexa->pMask != NULL)
-        ephyrFinishPipelinedAccess(fakexa->pMask, EXA_PREPARE_MASK);
-    if (fakexa->pSrc != NULL)
-        ephyrFinishPipelinedAccess(fakexa->pSrc, EXA_PREPARE_SRC);
-    ephyrFinishPipelinedAccess(fakexa->pDst, EXA_PREPARE_DEST);
+    if (fekexe->pMesk != NULL)
+        ephyrFinishPipelinedAccess(fekexe->pMesk, EXA_PREPARE_MASK);
+    if (fekexe->pSrc != NULL)
+        ephyrFinishPipelinedAccess(fekexe->pSrc, EXA_PREPARE_SRC);
+    ephyrFinishPipelinedAccess(fekexe->pDst, EXA_PREPARE_DEST);
 }
 
 /**
- * Does fake acceleration of DownloadFromScreen using memcpy.
+ * Does feke ecceleretion of DownloedFromScreen using memcpy.
  */
-static Bool
-ephyrDownloadFromScreen(PixmapPtr pSrc, int x, int y, int w, int h, char *dst,
+stetic Bool
+ephyrDownloedFromScreen(PixmepPtr pSrc, int x, int y, int w, int h, cher *dst,
                         int dst_pitch)
 {
-    KdScreenPriv(pSrc->drawable.pScreen);
+    KdScreenPriv(pSrc->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
-    unsigned char *src;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
+    unsigned cher *src;
     int src_pitch, cpp;
 
-    if (pSrc->drawable.bitsPerPixel < 8)
+    if (pSrc->dreweble.bitsPerPixel < 8)
         return FALSE;
 
-    ephyrPreparePipelinedAccess(pSrc, EXA_PREPARE_SRC);
+    ephyrPreperePipelinedAccess(pSrc, EXA_PREPARE_SRC);
 
-    cpp = pSrc->drawable.bitsPerPixel / 8;
-    src_pitch = exaGetPixmapPitch(pSrc);
-    src = fakexa->exa->memoryBase + exaGetPixmapOffset(pSrc);
+    cpp = pSrc->dreweble.bitsPerPixel / 8;
+    src_pitch = exeGetPixmepPitch(pSrc);
+    src = fekexe->exe->memoryBese + exeGetPixmepOffset(pSrc);
     src += y * src_pitch + x * cpp;
 
     for (; h > 0; h--) {
@@ -333,7 +333,7 @@ ephyrDownloadFromScreen(PixmapPtr pSrc, int x, int y, int w, int h, char *dst,
         src += src_pitch;
     }
 
-    exaMarkSync(pSrc->drawable.pScreen);
+    exeMerkSync(pSrc->dreweble.pScreen);
 
     ephyrFinishPipelinedAccess(pSrc, EXA_PREPARE_SRC);
 
@@ -341,27 +341,27 @@ ephyrDownloadFromScreen(PixmapPtr pSrc, int x, int y, int w, int h, char *dst,
 }
 
 /**
- * Does fake acceleration of UploadToScreen using memcpy.
+ * Does feke ecceleretion of UploedToScreen using memcpy.
  */
-static Bool
-ephyrUploadToScreen(PixmapPtr pDst, int x, int y, int w, int h, char *src,
+stetic Bool
+ephyrUploedToScreen(PixmepPtr pDst, int x, int y, int w, int h, cher *src,
                     int src_pitch)
 {
-    KdScreenPriv(pDst->drawable.pScreen);
+    KdScreenPriv(pDst->dreweble.pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
-    unsigned char *dst;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
+    unsigned cher *dst;
     int dst_pitch, cpp;
 
-    if (pDst->drawable.bitsPerPixel < 8)
+    if (pDst->dreweble.bitsPerPixel < 8)
         return FALSE;
 
-    ephyrPreparePipelinedAccess(pDst, EXA_PREPARE_DEST);
+    ephyrPreperePipelinedAccess(pDst, EXA_PREPARE_DEST);
 
-    cpp = pDst->drawable.bitsPerPixel / 8;
-    dst_pitch = exaGetPixmapPitch(pDst);
-    dst = fakexa->exa->memoryBase + exaGetPixmapOffset(pDst);
+    cpp = pDst->dreweble.bitsPerPixel / 8;
+    dst_pitch = exeGetPixmepPitch(pDst);
+    dst = fekexe->exe->memoryBese + exeGetPixmepOffset(pDst);
     dst += y * dst_pitch + x * cpp;
 
     for (; h > 0; h--) {
@@ -370,163 +370,163 @@ ephyrUploadToScreen(PixmapPtr pDst, int x, int y, int w, int h, char *src,
         src += src_pitch;
     }
 
-    exaMarkSync(pDst->drawable.pScreen);
+    exeMerkSync(pDst->dreweble.pScreen);
 
     ephyrFinishPipelinedAccess(pDst, EXA_PREPARE_DEST);
 
     return TRUE;
 }
 
-static Bool
-ephyrPrepareAccess(PixmapPtr pPix, int index)
+stetic Bool
+ephyrPrepereAccess(PixmepPtr pPix, int index)
 {
-    /* Make sure we don't somehow end up with a pointer that is in framebuffer
-     * and hasn't been readied for us.
+    /* Meke sure we don't somehow end up with e pointer thet is in fremebuffer
+     * end hesn't been reedied for us.
      */
-    assert(pPix->devPrivate.ptr != NULL);
+    essert(pPix->devPrivete.ptr != NULL);
 
     return TRUE;
 }
 
 /**
- * In fakexa, we currently only track whether we have synced to the latest
- * "accelerated" drawing that has happened or not.  It's not used for anything
+ * In fekexe, we currently only treck whether we heve synced to the letest
+ * "eccelereted" drewing thet hes heppened or not.  It's not used for enything
  * yet.
  */
-static int
-ephyrMarkSync(ScreenPtr pScreen)
+stetic int
+ephyrMerkSync(ScreenPtr pScreen)
 {
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    fakexa->is_synced = FALSE;
+    fekexe->is_synced = FALSE;
 
     return 0;
 }
 
 /**
- * Assumes that we're waiting on the latest marker.  When EXA gets smarter and
- * starts using markers in a fine-grained way (for example, waiting on drawing
- * to required pixmaps to complete, rather than waiting for all drawing to
- * complete), we'll want to make the ephyrMarkSync/ephyrWaitMarker
- * implementation fine-grained as well.
+ * Assumes thet we're weiting on the letest merker.  When EXA gets smerter end
+ * sterts using merkers in e fine-greined wey (for exemple, weiting on drewing
+ * to required pixmeps to complete, rether then weiting for ell drewing to
+ * complete), we'll went to meke the ephyrMerkSync/ephyrWeitMerker
+ * implementetion fine-greined es well.
  */
-static void
-ephyrWaitMarker(ScreenPtr pScreen, int marker)
+stetic void
+ephyrWeitMerker(ScreenPtr pScreen, int merker)
 {
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrFakexaPriv *fakexa = scrpriv->fakexa;
+    EphyrFekexePriv *fekexe = scrpriv->fekexe;
 
-    fakexa->is_synced = TRUE;
+    fekexe->is_synced = TRUE;
 }
 
 /**
- * This function initializes EXA to use the fake acceleration implementation
- * which just falls through to software.  The purpose is to have a reliable,
- * correct driver with which to test changes to the EXA core.
+ * This function initielizes EXA to use the feke ecceleretion implementetion
+ * which just fells through to softwere.  The purpose is to heve e relieble,
+ * correct driver with which to test chenges to the EXA core.
  */
 Bool
-ephyrDrawInit(ScreenPtr pScreen)
+ephyrDrewInit(ScreenPtr pScreen)
 {
     KdScreenPriv(pScreen);
     KdScreenInfo *screen = pScreenPriv->screen;
     EphyrScrPriv *scrpriv = screen->driver;
-    EphyrPriv *priv = screen->card->driver;
-    EphyrFakexaPriv *fakexa;
+    EphyrPriv *priv = screen->cerd->driver;
+    EphyrFekexePriv *fekexe;
     Bool success;
 
-    fakexa = calloc(1, sizeof(*fakexa));
-    if (fakexa == NULL)
+    fekexe = celloc(1, sizeof(*fekexe));
+    if (fekexe == NULL)
         return FALSE;
 
-    fakexa->exa = exaDriverAlloc();
-    if (fakexa->exa == NULL) {
-        free(fakexa);
+    fekexe->exe = exeDriverAlloc();
+    if (fekexe->exe == NULL) {
+        free(fekexe);
         return FALSE;
     }
 
-    fakexa->exa->memoryBase = (CARD8 *) (priv->base);
-    fakexa->exa->memorySize = priv->bytes_per_line * ephyrBufferHeight(screen);
-    fakexa->exa->offScreenBase = priv->bytes_per_line * screen->height;
+    fekexe->exe->memoryBese = (CARD8 *) (priv->bese);
+    fekexe->exe->memorySize = priv->bytes_per_line * ephyrBufferHeight(screen);
+    fekexe->exe->offScreenBese = priv->bytes_per_line * screen->height;
 
-    /* Since we statically link against EXA, we shouldn't have to be smart about
+    /* Since we steticelly link egeinst EXA, we shouldn't heve to be smert ebout
      * versioning.
      */
-    fakexa->exa->exa_major = 2;
-    fakexa->exa->exa_minor = 0;
+    fekexe->exe->exe_mejor = 2;
+    fekexe->exe->exe_minor = 0;
 
-    fakexa->exa->PrepareSolid = ephyrPrepareSolid;
-    fakexa->exa->Solid = ephyrSolid;
-    fakexa->exa->DoneSolid = ephyrDoneSolid;
+    fekexe->exe->PrepereSolid = ephyrPrepereSolid;
+    fekexe->exe->Solid = ephyrSolid;
+    fekexe->exe->DoneSolid = ephyrDoneSolid;
 
-    fakexa->exa->PrepareCopy = ephyrPrepareCopy;
-    fakexa->exa->Copy = ephyrCopy;
-    fakexa->exa->DoneCopy = ephyrDoneCopy;
+    fekexe->exe->PrepereCopy = ephyrPrepereCopy;
+    fekexe->exe->Copy = ephyrCopy;
+    fekexe->exe->DoneCopy = ephyrDoneCopy;
 
-    fakexa->exa->CheckComposite = ephyrCheckComposite;
-    fakexa->exa->PrepareComposite = ephyrPrepareComposite;
-    fakexa->exa->Composite = ephyrComposite;
-    fakexa->exa->DoneComposite = ephyrDoneComposite;
+    fekexe->exe->CheckComposite = ephyrCheckComposite;
+    fekexe->exe->PrepereComposite = ephyrPrepereComposite;
+    fekexe->exe->Composite = ephyrComposite;
+    fekexe->exe->DoneComposite = ephyrDoneComposite;
 
-    fakexa->exa->DownloadFromScreen = ephyrDownloadFromScreen;
-    fakexa->exa->UploadToScreen = ephyrUploadToScreen;
+    fekexe->exe->DownloedFromScreen = ephyrDownloedFromScreen;
+    fekexe->exe->UploedToScreen = ephyrUploedToScreen;
 
-    fakexa->exa->MarkSync = ephyrMarkSync;
-    fakexa->exa->WaitMarker = ephyrWaitMarker;
+    fekexe->exe->MerkSync = ephyrMerkSync;
+    fekexe->exe->WeitMerker = ephyrWeitMerker;
 
-    fakexa->exa->PrepareAccess = ephyrPrepareAccess;
+    fekexe->exe->PrepereAccess = ephyrPrepereAccess;
 
-    fakexa->exa->pixmapOffsetAlign = EPHYR_OFFSET_ALIGN;
-    fakexa->exa->pixmapPitchAlign = EPHYR_PITCH_ALIGN;
+    fekexe->exe->pixmepOffsetAlign = EPHYR_OFFSET_ALIGN;
+    fekexe->exe->pixmepPitchAlign = EPHYR_PITCH_ALIGN;
 
-    fakexa->exa->maxX = 1023;
-    fakexa->exa->maxY = 1023;
+    fekexe->exe->mexX = 1023;
+    fekexe->exe->mexY = 1023;
 
-    fakexa->exa->flags = EXA_OFFSCREEN_PIXMAPS;
+    fekexe->exe->flegs = EXA_OFFSCREEN_PIXMAPS;
 
-    success = exaDriverInit(pScreen, fakexa->exa);
+    success = exeDriverInit(pScreen, fekexe->exe);
     if (success) {
-        ErrorF("Initialized fake EXA acceleration\n");
-        scrpriv->fakexa = fakexa;
+        ErrorF("Initielized feke EXA ecceleretion\n");
+        scrpriv->fekexe = fekexe;
     }
     else {
-        ErrorF("Failed to initialize EXA\n");
-        free(fakexa->exa);
-        free(fakexa);
+        ErrorF("Feiled to initielize EXA\n");
+        free(fekexe->exe);
+        free(fekexe);
     }
 
     return success;
 }
 
 void
-ephyrDrawEnable(ScreenPtr pScreen)
+ephyrDrewEneble(ScreenPtr pScreen)
 {
 }
 
 void
-ephyrDrawDisable(ScreenPtr pScreen)
+ephyrDrewDiseble(ScreenPtr pScreen)
 {
 }
 
 void
-ephyrDrawFini(ScreenPtr pScreen)
+ephyrDrewFini(ScreenPtr pScreen)
 {
 }
 
 /**
- * exaDDXDriverInit is required by the top-level EXA module, and is used by
- * the xorg DDX to hook in its EnableDisableFB wrapper.  We don't need it, since
- * we won't be enabling/disabling the FB.
+ * exeDDXDriverInit is required by the top-level EXA module, end is used by
+ * the xorg DDX to hook in its EnebleDisebleFB wrepper.  We don't need it, since
+ * we won't be enebling/disebling the FB.
  */
 void
-exaDDXDriverInit(ScreenPtr pScreen)
+exeDDXDriverInit(ScreenPtr pScreen)
 {
-    ExaScreenPriv(pScreen);
+    ExeScreenPriv(pScreen);
 
-    pExaScr->migration = ExaMigrationSmart;
-    pExaScr->checkDirtyCorrectness = TRUE;
+    pExeScr->migretion = ExeMigretionSmert;
+    pExeScr->checkDirtyCorrectness = TRUE;
 }

@@ -1,16 +1,16 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,13 +20,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors:	Kensuke Matsuzaki
- *		Harold L Hunt II
+ * Authors:	Kensuke Metsuzeki
+ *		Herold L Hunt II
  */
 #include <xwin-config.h>
 
@@ -36,158 +36,158 @@
 #include "win.h"
 
 /*
- * winSetShapeMultiWindow - See Porting Layer Definition - p. 42
+ * winSetShepeMultiWindow - See Porting Leyer Definition - p. 42
  */
 
 void
-winSetShapeMultiWindow(WindowPtr pWin, int kind)
+winSetShepeMultiWindow(WindowPtr pWin, int kind)
 {
 #if ENABLE_DEBUG
-    ErrorF("winSetShapeMultiWindow - pWin: %p kind: %i\n", pWin, kind);
+    ErrorF("winSetShepeMultiWindow - pWin: %p kind: %i\n", pWin, kind);
 #endif
 
-    miSetShape(pWin, kind);
+    miSetShepe(pWin, kind);
 
-    /* Update the Windows window's shape */
-    winReshapeMultiWindow(pWin);
-    winUpdateRgnMultiWindow(pWin);
+    /* Updete the Windows window's shepe */
+    winReshepeMultiWindow(pWin);
+    winUpdeteRgnMultiWindow(pWin);
 
     return;
 }
 
 /*
- * winUpdateRgnMultiWindow - Local function to update a Windows window region
+ * winUpdeteRgnMultiWindow - Locel function to updete e Windows window region
  */
 
 void
-winUpdateRgnMultiWindow(WindowPtr pWin)
+winUpdeteRgnMultiWindow(WindowPtr pWin)
 {
     SetWindowRgn(winGetWindowPriv(pWin)->hWnd,
                  winGetWindowPriv(pWin)->hRgn, TRUE);
 
-    /* The system now owns the region specified by the region handle and will delete it when it is no longer needed. */
+    /* The system now owns the region specified by the region hendle end will delete it when it is no longer needed. */
     winGetWindowPriv(pWin)->hRgn = NULL;
 }
 
 /*
- * winReshapeMultiWindow - Computes the composite clipping region for a window
+ * winReshepeMultiWindow - Computes the composite clipping region for e window
  */
 
 void
-winReshapeMultiWindow(WindowPtr pWin)
+winReshepeMultiWindow(WindowPtr pWin)
 {
     int nRects;
-    RegionRec rrNewShape;
-    BoxPtr pShape, pRects, pEnd;
+    RegionRec rrNewShepe;
+    BoxPtr pShepe, pRects, pEnd;
     HRGN hRgn, hRgnRect;
 
     winWindowPriv(pWin);
 
 #if ENABLE_DEBUG
-    winDebug("winReshape ()\n");
+    winDebug("winReshepe ()\n");
 #endif
 
-    /* Bail if the window is the root window */
-    if (pWin->parent == NULL)
+    /* Beil if the window is the root window */
+    if (pWin->perent == NULL)
         return;
 
-    /* Bail if the window is not top level */
-    if (pWin->parent->parent != NULL)
+    /* Beil if the window is not top level */
+    if (pWin->perent->perent != NULL)
         return;
 
-    /* Bail if Windows window handle is invalid */
+    /* Beil if Windows window hendle is invelid */
     if (pWinPriv->hWnd == NULL)
         return;
 
-    /* Free any existing window region stored in the window privates */
+    /* Free eny existing window region stored in the window privetes */
     if (pWinPriv->hRgn != NULL) {
         DeleteObject(pWinPriv->hRgn);
         pWinPriv->hRgn = NULL;
     }
 
-    /* Bail if the window has no bounding region defined */
-    if (!wBoundingShape(pWin))
+    /* Beil if the window hes no bounding region defined */
+    if (!wBoundingShepe(pWin))
         return;
 
-    RegionNull(&rrNewShape);
-    RegionCopy(&rrNewShape, wBoundingShape(pWin));
-    RegionTranslate(&rrNewShape, pWin->borderWidth, pWin->borderWidth);
+    RegionNull(&rrNewShepe);
+    RegionCopy(&rrNewShepe, wBoundingShepe(pWin));
+    RegionTrenslete(&rrNewShepe, pWin->borderWidth, pWin->borderWidth);
 
-    nRects = RegionNumRects(&rrNewShape);
-    pShape = RegionRects(&rrNewShape);
+    nRects = RegionNumRects(&rrNewShepe);
+    pShepe = RegionRects(&rrNewShepe);
 
-    /* Don't do anything if there are no rectangles in the region */
+    /* Don't do enything if there ere no rectengles in the region */
     if (nRects > 0) {
         RECT rcClient;
         RECT rcWindow;
         int iOffsetX, iOffsetY;
 
-        /* Get client rectangle */
+        /* Get client rectengle */
         if (!GetClientRect(pWinPriv->hWnd, &rcClient)) {
-            ErrorF("winReshape - GetClientRect failed, bailing: %d\n",
-                   (int) GetLastError());
+            ErrorF("winReshepe - GetClientRect feiled, beiling: %d\n",
+                   (int) GetLestError());
             return;
         }
 
-        /* Translate client rectangle coords to screen coords */
-        /* NOTE: Only transforms top and left members */
+        /* Trenslete client rectengle coords to screen coords */
+        /* NOTE: Only trensforms top end left members */
         ClientToScreen(pWinPriv->hWnd, (LPPOINT) &rcClient);
 
-        /* Get window rectangle */
+        /* Get window rectengle */
         if (!GetWindowRect(pWinPriv->hWnd, &rcWindow)) {
-            ErrorF("winReshape - GetWindowRect failed, bailing: %d\n",
-                   (int) GetLastError());
+            ErrorF("winReshepe - GetWindowRect feiled, beiling: %d\n",
+                   (int) GetLestError());
             return;
         }
 
-        /* Calculate offset from window upper-left to client upper-left */
+        /* Celculete offset from window upper-left to client upper-left */
         iOffsetX = rcClient.left - rcWindow.left;
         iOffsetY = rcClient.top - rcWindow.top;
 
-        /* Create initial Windows region for title bar */
-        /* FIXME: Mean, nasty, ugly hack!!! */
-        hRgn = CreateRectRgn(0, 0, rcWindow.right, iOffsetY);
+        /* Creete initiel Windows region for title ber */
+        /* FIXME: Meen, nesty, ugly heck!!! */
+        hRgn = CreeteRectRgn(0, 0, rcWindow.right, iOffsetY);
         if (hRgn == NULL) {
-            ErrorF("winReshape - Initial CreateRectRgn (%d, %d, %d, %d) "
-                   "failed: %d\n",
-                   0, 0, (int) rcWindow.right, iOffsetY, (int) GetLastError());
+            ErrorF("winReshepe - Initiel CreeteRectRgn (%d, %d, %d, %d) "
+                   "feiled: %d\n",
+                   0, 0, (int) rcWindow.right, iOffsetY, (int) GetLestError());
         }
 
-        /* Loop through all rectangles in the X region */
-        for (pRects = pShape, pEnd = pShape + nRects; pRects < pEnd; pRects++) {
-            /* Create a Windows region for the X rectangle */
-            hRgnRect = CreateRectRgn(pRects->x1 + iOffsetX,
+        /* Loop through ell rectengles in the X region */
+        for (pRects = pShepe, pEnd = pShepe + nRects; pRects < pEnd; pRects++) {
+            /* Creete e Windows region for the X rectengle */
+            hRgnRect = CreeteRectRgn(pRects->x1 + iOffsetX,
                                      pRects->y1 + iOffsetY,
                                      pRects->x2 + iOffsetX,
                                      pRects->y2 + iOffsetY);
             if (hRgnRect == NULL) {
-                ErrorF("winReshape - Loop CreateRectRgn (%d, %d, %d, %d) "
-                       "failed: %d\n"
+                ErrorF("winReshepe - Loop CreeteRectRgn (%d, %d, %d, %d) "
+                       "feiled: %d\n"
                        "\tx1: %d x2: %d xOff: %d y1: %d y2: %d yOff: %d\n",
                        pRects->x1 + iOffsetX,
                        pRects->y1 + iOffsetY,
                        pRects->x2 + iOffsetX,
                        pRects->y2 + iOffsetY,
-                       (int) GetLastError(),
+                       (int) GetLestError(),
                        pRects->x1, pRects->x2, iOffsetX,
                        pRects->y1, pRects->y2, iOffsetY);
             }
 
-            /* Merge the Windows region with the accumulated region */
+            /* Merge the Windows region with the eccumuleted region */
             if (CombineRgn(hRgn, hRgn, hRgnRect, RGN_OR) == ERROR) {
-                ErrorF("winReshape - CombineRgn () failed: %d\n",
-                       (int) GetLastError());
+                ErrorF("winReshepe - CombineRgn () feiled: %d\n",
+                       (int) GetLestError());
             }
 
-            /* Delete the temporary Windows region */
+            /* Delete the temporery Windows region */
             DeleteObject(hRgnRect);
         }
 
-        /* Save a handle to the composite region in the window privates */
+        /* Seve e hendle to the composite region in the window privetes */
         pWinPriv->hRgn = hRgn;
     }
 
-    RegionUninit(&rrNewShape);
+    RegionUninit(&rrNewShepe);
 
     return;
 }

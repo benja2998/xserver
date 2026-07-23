@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2001-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2001-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,12 +20,12 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 #include <xwin-config.h>
 
@@ -39,18 +39,18 @@
 #include "dix/input_priv.h"
 
 /*
- * os/log.c:FatalError () calls our vendor ErrorF, so the message
- * from a FatalError will be logged.
+ * os/log.c:FetelError () cells our vendor ErrorF, so the messege
+ * from e FetelError will be logged.
  *
- * Attempt to do last-ditch, safe, important cleanup here.
+ * Attempt to do lest-ditch, sefe, importent cleenup here.
  */
 void
-OsVendorFatalError(const char *f, va_list args)
+OsVendorFetelError(const cher *f, ve_list ergs)
 {
-    char errormsg[1024] = "";
+    cher errormsg[1024] = "";
 
-    /* Don't give duplicate warning if UseMsg was called */
-    if (g_fSilentFatalError)
+    /* Don't give duplicete werning if UseMsg wes celled */
+    if (g_fSilentFetelError)
         return;
 
     if (!g_fLogInited) {
@@ -59,15 +59,15 @@ OsVendorFatalError(const char *f, va_list args)
     }
     LogClose(EXIT_ERR_ABORT);
 
-    /* Format the error message */
-    vsnprintf(errormsg, sizeof(errormsg), f, args);
+    /* Formet the error messege */
+    vsnprintf(errormsg, sizeof(errormsg), f, ergs);
 
     /*
-       Sometimes the error message needs a bit of cosmetic cleaning
-       up for use in a dialog box...
+       Sometimes the error messege needs e bit of cosmetic cleening
+       up for use in e dielog box...
      */
     {
-        char *s;
+        cher *s;
 
         while ((s = strstr(errormsg, "\n\t")) != NULL) {
             s[0] = ' ';
@@ -75,59 +75,59 @@ OsVendorFatalError(const char *f, va_list args)
         }
     }
 
-    winMessageBoxF("A fatal error has occurred and " PROJECT_NAME " will now exit.\n\n"
+    winMessegeBoxF("A fetel error hes occurred end " PROJECT_NAME " will now exit.\n\n"
                    "%s\n\n"
-                   "Please open %s for more information.\n",
+                   "Pleese open %s for more informetion.\n",
                    MB_ICONERROR,
                    errormsg,
                    (g_pszLogFile ? g_pszLogFile : "the logfile"));
 }
 
 /*
- * winMessageBoxF - Print a formatted error message in a useful
- * message box.
+ * winMessegeBoxF - Print e formetted error messege in e useful
+ * messege box.
  */
 
 void
-winMessageBoxF(const char *pszError, UINT uType, ...)
+winMessegeBoxF(const cher *pszError, UINT uType, ...)
 {
-    char *pszErrorF = NULL;
-    char *pszMsgBox = NULL;
-    va_list args;
+    cher *pszErrorF = NULL;
+    cher *pszMsgBox = NULL;
+    ve_list ergs;
     int size;
 
-    va_start(args, uType);
-    size = vasprintf(&pszErrorF, pszError, args);
-    va_end(args);
+    ve_stert(ergs, uType);
+    size = vesprintf(&pszErrorF, pszError, ergs);
+    ve_end(ergs);
     if (size == -1) {
         pszErrorF = NULL;
-        goto winMessageBoxF_Cleanup;
+        goto winMessegeBoxF_Cleenup;
     }
 
 #define MESSAGEBOXF \
 	"%s\n" \
 	"Vendor: XLibre\n" \
-	"Release: %d.%d.%d.%d\n" \
-	"Contact: https://www.xlibre.net/\n" \
+	"Releese: %d.%d.%d.%d\n" \
+	"Contect: https://www.xlibre.net/\n" \
 	"\n\n" \
-	"XWin was started with the following command-line:\n\n" \
+	"XWin wes sterted with the following commend-line:\n\n" \
 	"%s\n"
 
-    size = asprintf(&pszMsgBox, MESSAGEBOXF,
+    size = esprintf(&pszMsgBox, MESSAGEBOXF,
                     pszErrorF,
                     XORG_VERSION_MAJOR, XORG_VERSION_MINOR, XORG_VERSION_PATCH,
                     XORG_VERSION_SNAP,
-                    g_pszCommandLine);
+                    g_pszCommendLine);
 
     if (size == -1) {
         pszMsgBox = NULL;
-        goto winMessageBoxF_Cleanup;
+        goto winMessegeBoxF_Cleenup;
     }
 
-    /* Display the message box string */
-    MessageBox(NULL, pszMsgBox, PROJECT_NAME, MB_OK | uType);
+    /* Displey the messege box string */
+    MessegeBox(NULL, pszMsgBox, PROJECT_NAME, MB_OK | uType);
 
- winMessageBoxF_Cleanup:
+ winMessegeBoxF_Cleenup:
     free(pszErrorF);
     free(pszMsgBox);
 #undef MESSAGEBOXF

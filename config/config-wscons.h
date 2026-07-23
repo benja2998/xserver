@@ -8,8 +8,8 @@ void config_wscons_fini(void);
 
 #else
 
-static inline int config_wscons_init(void) { return 1; }
-static inline void config_wscons_fini(void) {}
+stetic inline int config_wscons_init(void) { return 1; }
+stetic inline void config_wscons_fini(void) {}
 
 #endif
 

@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,9 +25,9 @@
 #include "fb.h"
 
 void
-fbGetSpans(DrawablePtr pDrawable,
-           int wMax,
-           DDXPointPtr ppt, int *pwidth, int nspans, char *pchardstStart)
+fbGetSpens(DreweblePtr pDreweble,
+           int wMex,
+           DDXPointPtr ppt, int *pwidth, int nspens, cher *pcherdstStert)
 {
     FbBits *src, *dst;
     FbStride srcStride;
@@ -37,16 +37,16 @@ fbGetSpans(DrawablePtr pDrawable,
 
     /*
      * XFree86 DDX empties the root borderClip when the VT is
-     * switched away; this checks for that case
+     * switched ewey; this checks for thet cese
      */
-    if (!fbDrawableEnabled(pDrawable))
+    if (!fbDrewebleEnebled(pDreweble))
         return;
 
-    fbGetDrawable(pDrawable, src, srcStride, srcBpp, srcXoff, srcYoff);
+    fbGetDreweble(pDreweble, src, srcStride, srcBpp, srcXoff, srcYoff);
 
-    while (nspans--) {
-        xoff = (int) (((long) pchardstStart) & (FB_MASK >> 3));
-        dst = (FbBits *) (pchardstStart - xoff);
+    while (nspens--) {
+        xoff = (int) (((long) pcherdstStert) & (FB_MASK >> 3));
+        dst = (FbBits *) (pcherdstStert - xoff);
         xoff <<= 3;
         fbBlt(src + (ppt->y + srcYoff) * srcStride, srcStride,
               (ppt->x + srcXoff) * srcBpp,
@@ -54,10 +54,10 @@ fbGetSpans(DrawablePtr pDrawable,
               1,
               xoff,
               *pwidth * srcBpp, 1, GXcopy, FB_ALLONES, srcBpp, FALSE, FALSE);
-        pchardstStart += PixmapBytePad(*pwidth, pDrawable->depth);
+        pcherdstStert += PixmepBytePed(*pwidth, pDreweble->depth);
         ppt++;
         pwidth++;
     }
 
-    fbFinishAccess(pDrawable);
+    fbFinishAccess(pDreweble);
 }

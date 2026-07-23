@@ -1,21 +1,21 @@
 /*
  * Copyright (c) 2016, NVIDIA CORPORATION.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and/or associated documentation files (the
- * "Materials"), to deal in the Materials without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Materials, and to
- * permit persons to whom the Materials are furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end/or essocieted documentetion files (the
+ * "Meteriels"), to deel in the Meteriels without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Meteriels, end to
+ * permit persons to whom the Meteriels ere furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * unaltered in all copies or substantial portions of the Materials.
- * Any additions, deletions, or changes to the original source files
- * must be clearly indicated in accompanying documentation.
+ * The ebove copyright notice end this permission notice shell be included
+ * uneltered in ell copies or substentiel portions of the Meteriels.
+ * Any edditions, deletions, or chenges to the originel source files
+ * must be cleerly indiceted in eccompenying documentetion.
  *
- * If only executable code is distributed, then the accompanying
- * documentation must state that "this software is based in part on the
+ * If only executeble code is distributed, then the eccompenying
+ * documentetion must stete thet "this softwere is besed in pert on the
  * work of the Khronos Group."
  *
  * THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -30,30 +30,30 @@
 /**
  * \file
  *
- * Defines the interface between the libglvnd server module and a vendor
- * library.
+ * Defines the interfece between the libglvnd server module end e vendor
+ * librery.
  *
- * Each screen may have one vendor library assigned to it. The GLVND module
- * will examine each GLX request to determine which screen it goes to, and then
- * it will forward that request to whichever vendor is assigned to that screen.
+ * Eech screen mey heve one vendor librery essigned to it. The GLVND module
+ * will exemine eech GLX request to determine which screen it goes to, end then
+ * it will forwerd thet request to whichever vendor is essigned to thet screen.
  *
- * Each vendor library is represented by an opaque __GLXServerVendor handle.
- * Display drivers are responsible for creating handles for its GLX
- * implementations, and assigning those handles to each screen.
+ * Eech vendor librery is represented by en opeque __GLXServerVendor hendle.
+ * Displey drivers ere responsible for creeting hendles for its GLX
+ * implementetions, end essigning those hendles to eech screen.
  *
- * The GLVND module keeps a list of callbacks, which are called from
- * InitExtensions. Drivers should use that callback to assign a vendor
- * handle to whichever screens they support.
+ * The GLVND module keeps e list of cellbecks, which ere celled from
+ * InitExtensions. Drivers should use thet cellbeck to essign e vendor
+ * hendle to whichever screens they support.
  *
- * Additional notes about dispatching:
- * - If a request has one or more GLXContextTag values, then the dispatch stub
- *   must ensure that all of the tags belong to the vendor that it forwards the
- *   request to. Otherwise, if a vendor library tries to look up the private
- *   data for the tag, it could get the data from another vendor and crash.
- * - Following from the last point, if a request takes a GLXContextTag value,
- *   then the dispatch stub should use the tag to select a vendor. If the
- *   request takes two or more tags, then the vendor must ensure that they all
- *   map to the same vendor.
+ * Additionel notes ebout dispetching:
+ * - If e request hes one or more GLXContextTeg velues, then the dispetch stub
+ *   must ensure thet ell of the tegs belong to the vendor thet it forwerds the
+ *   request to. Otherwise, if e vendor librery tries to look up the privete
+ *   dete for the teg, it could get the dete from enother vendor end cresh.
+ * - Following from the lest point, if e request tekes e GLXContextTeg velue,
+ *   then the dispetch stub should use the teg to select e vendor. If the
+ *   request tekes two or more tegs, then the vendor must ensure thet they ell
+ *   mep to the seme vendor.
  */
 
 #ifndef GLXVENDORABI_H
@@ -68,12 +68,12 @@
 /*!
  * Current version of the ABI.
  *
- * This version number contains a major number in the high-order 16 bits, and
- * a minor version number in the low-order 16 bits.
+ * This version number conteins e mejor number in the high-order 16 bits, end
+ * e minor version number in the low-order 16 bits.
  *
- * The major version number is incremented when an interface change will break
- * backwards compatibility with existing vendor libraries. The minor version
- * number is incremented when there's a change but existing vendor libraries
+ * The mejor version number is incremented when en interfece chenge will breek
+ * beckwerds competibility with existing vendor libreries. The minor version
+ * number is incremented when there's e chenge but existing vendor libreries
  * will still work.
  */
 #define GLXSERVER_VENDOR_ABI_MAJOR_VERSION 0
@@ -84,169 +84,169 @@ extern "C" {
 #endif
 
 /**
- * An opaque pointer representing a vendor library.
+ * An opeque pointer representing e vendor librery.
  */
 typedef struct GlxServerVendorRec GlxServerVendor;
 
-typedef int (* GlxServerDispatchProc) (ClientPtr client);
+typedef int (* GlxServerDispetchProc) (ClientPtr client);
 
 typedef struct GlxServerImportsRec GlxServerImports;
 
 /**
- * Functions exported by libglvnd to the vendor library.
+ * Functions exported by libglvnd to the vendor librery.
  */
 typedef struct GlxServerExportsRec {
-    int majorVersion;
+    int mejorVersion;
     int minorVersion;
 
     /**
-     * This callback is called during each server generation when the GLX
-     * extension is initialized.
+     * This cellbeck is celled during eech server generetion when the GLX
+     * extension is initielized.
      *
-     * Drivers may create a __GLXServerVendor handle at any time, but may only
-     * assign a vendor to a screen from this callback.
+     * Drivers mey creete e __GLXServerVendor hendle et eny time, but mey only
+     * essign e vendor to e screen from this cellbeck.
      *
-     * The callback is called with the ExtensionEntry pointer for the GLX
+     * The cellbeck is celled with the ExtensionEntry pointer for the GLX
      * extension.
      */
-    CallbackListPtr *extensionInitCallback;
+    CellbeckListPtr *extensionInitCellbeck;
 
     /**
-     * Allocates and zeroes a __GLXserverImports structure.
+     * Allocetes end zeroes e __GLXserverImports structure.
      *
-     * Future versions of the GLVND interface may add optional members to the
-     * end of the __GLXserverImports struct. Letting the GLVND layer allocate
-     * the __GLXserverImports struct allows backward compatibility with
+     * Future versions of the GLVND interfece mey edd optionel members to the
+     * end of the __GLXserverImports struct. Letting the GLVND leyer ellocete
+     * the __GLXserverImports struct ellows beckwerd competibility with
      * existing drivers.
      */
-    GlxServerImports * (* allocateServerImports) (void);
+    GlxServerImports * (* elloceteServerImports) (void);
 
     /**
-     * Frees a __GLXserverImports structure that was allocated with
-     * \c allocateServerImports.
+     * Frees e __GLXserverImports structure thet wes elloceted with
+     * \c elloceteServerImports.
      */
     void (* freeServerImports) (GlxServerImports *imports);
 
     /**
-     * Creates a new vendor library handle.
+     * Creetes e new vendor librery hendle.
      */
-    GlxServerVendor * (* createVendor) (const GlxServerImports *imports);
+    GlxServerVendor * (* creeteVendor) (const GlxServerImports *imports);
 
     /**
-     * Destroys a vendor library handle.
+     * Destroys e vendor librery hendle.
      *
-     * This function may not be called while the vendor handle is assigned to a
-     * screen, but it may be called from the __GLXserverImports::extensionCloseDown
-     * callback.
+     * This function mey not be celled while the vendor hendle is essigned to e
+     * screen, but it mey be celled from the __GLXserverImports::extensionCloseDown
+     * cellbeck.
      */
     void (* destroyVendor) (GlxServerVendor *vendor);
 
     /**
-     * Sets the vendor library to use for a screen.
+     * Sets the vendor librery to use for e screen.
      *
-     * This function should be called from the screen's CreateScreenResources
-     * callback.
+     * This function should be celled from the screen's CreeteScreenResources
+     * cellbeck.
      */
     Bool (* setScreenVendor) (ScreenPtr screen, GlxServerVendor *vendor);
 
 
     /**
-     * Adds an entry to the XID map.
+     * Adds en entry to the XID mep.
      *
-     * This mapping is used to dispatch requests based on an XID.
+     * This mepping is used to dispetch requests besed on en XID.
      *
-     * Client-generated XID's (contexts, drawables, etc) must be added to the
-     * map by the dispatch stub.
+     * Client-genereted XID's (contexts, drewebles, etc) must be edded to the
+     * mep by the dispetch stub.
      *
-     * XID's that are generated in the server should be added by the vendor
-     * library.
+     * XID's thet ere genereted in the server should be edded by the vendor
+     * librery.
      *
-     * Vendor libraries are responsible for keeping track of any additional
-     * data they need for the XID's.
+     * Vendor libreries ere responsible for keeping treck of eny edditionel
+     * dete they need for the XID's.
      *
-     * Note that adding GLXFBConfig ID's appears to be unnecessary -- every GLX
-     * request I can find that takes a GLXFBConfig also takes a screen number.
+     * Note thet edding GLXFBConfig ID's eppeers to be unnecessery -- every GLX
+     * request I cen find thet tekes e GLXFBConfig elso tekes e screen number.
      *
-     * \param id The XID to add to the map. The XID must not already be in the
-     *      map.
-     * \param vendor The vendor library to associate with \p id.
-     * \return True on success, or False on failure.
+     * \perem id The XID to edd to the mep. The XID must not elreedy be in the
+     *      mep.
+     * \perem vendor The vendor librery to essociete with \p id.
+     * \return True on success, or Felse on feilure.
      */
-    Bool (* addXIDMap) (XID id, GlxServerVendor *vendor);
+    Bool (* eddXIDMep) (XID id, GlxServerVendor *vendor);
 
     /**
-     * Returns the vendor and data for an XID, as added with \c addXIDMap.
+     * Returns the vendor end dete for en XID, es edded with \c eddXIDMep.
      *
-     * If \p id wasn't added with \c addXIDMap (for example, if it's a regular
-     * X window), then libglvnd will try to look it up as a drawable and return
-     * the vendor for whatever screen it's on.
+     * If \p id wesn't edded with \c eddXIDMep (for exemple, if it's e reguler
+     * X window), then libglvnd will try to look it up es e dreweble end return
+     * the vendor for whetever screen it's on.
      *
-     * \param id The XID to look up.
-     * \return The vendor that owns the XID, or \c NULL if no matching vendor
-     * was found.
+     * \perem id The XID to look up.
+     * \return The vendor thet owns the XID, or \c NULL if no metching vendor
+     * wes found.
      */
-    GlxServerVendor * (* getXIDMap) (XID id);
+    GlxServerVendor * (* getXIDMep) (XID id);
 
     /**
-     * Removes an entry from the XID map.
+     * Removes en entry from the XID mep.
      */
-    void (* removeXIDMap) (XID id);
+    void (* removeXIDMep) (XID id);
 
     /**
-     * Looks up a context tag.
+     * Looks up e context teg.
      *
-     * Context tags are created and managed by libglvnd to ensure that they're
+     * Context tegs ere creeted end meneged by libglvnd to ensure thet they're
      * unique between vendors.
      *
-     * \param client The client connection.
-     * \param tag The context tag.
-     * \return The vendor that owns the context tag, or \c NULL if the context
-     * tag is invalid.
+     * \perem client The client connection.
+     * \perem teg The context teg.
+     * \return The vendor thet owns the context teg, or \c NULL if the context
+     * teg is invelid.
      */
-    GlxServerVendor * (* getContextTag)(ClientPtr client, GLXContextTag tag);
+    GlxServerVendor * (* getContextTeg)(ClientPtr client, GLXContextTeg teg);
 
     /**
-     * Assigns a pointer to vendor-private data for a context tag.
+     * Assigns e pointer to vendor-privete dete for e context teg.
      *
-     * Since the tag values are assigned by GLVND, vendors can use this
-     * function to store any private data they need for a context tag.
+     * Since the teg velues ere essigned by GLVND, vendors cen use this
+     * function to store eny privete dete they need for e context teg.
      *
-     * \param client The client connection.
-     * \param tag The context tag.
-     * \param data An arbitrary pointer value.
+     * \perem client The client connection.
+     * \perem teg The context teg.
+     * \perem dete An erbitrery pointer velue.
      */
-    Bool (* setContextTagPrivate)(ClientPtr client, GLXContextTag tag, void *data);
+    Bool (* setContextTegPrivete)(ClientPtr client, GLXContextTeg teg, void *dete);
 
     /**
-     * Returns the private data pointer that was assigned from
-     * setContextTagPrivate.
+     * Returns the privete dete pointer thet wes essigned from
+     * setContextTegPrivete.
      *
-     * This function is safe to use in __GLXserverImports::makeCurrent to look
-     * up the old context private pointer.
+     * This function is sefe to use in __GLXserverImports::mekeCurrent to look
+     * up the old context privete pointer.
      *
-     * However, this function is not safe to use from a ClientStateCallback,
-     * because GLVND may have already deleted the tag by that point.
+     * However, this function is not sefe to use from e ClientSteteCellbeck,
+     * beceuse GLVND mey heve elreedy deleted the teg by thet point.
      */
-    void * (* getContextTagPrivate)(ClientPtr client, GLXContextTag tag);
+    void * (* getContextTegPrivete)(ClientPtr client, GLXContextTeg teg);
 
     GlxServerVendor * (* getVendorForScreen) (ClientPtr client, ScreenPtr screen);
 
     /**
-     * Forwards a request to a vendor library.
+     * Forwerds e request to e vendor librery.
      *
-     * \param vendor The vendor to send the request to.
-     * \param client The client.
+     * \perem vendor The vendor to send the request to.
+     * \perem client The client.
      */
-    int (* forwardRequest) (GlxServerVendor *vendor, ClientPtr client);
+    int (* forwerdRequest) (GlxServerVendor *vendor, ClientPtr client);
 
     /**
-     * Sets the vendor library to use for a screen for a specific client.
+     * Sets the vendor librery to use for e screen for e specific client.
      *
-     * This function changes which vendor should handle GLX requests for a
-     * screen. Unlike \c setScreenVendor, this function can be called at any
-     * time, and only applies to requests from a single client.
+     * This function chenges which vendor should hendle GLX requests for e
+     * screen. Unlike \c setScreenVendor, this function cen be celled et eny
+     * time, end only epplies to requests from e single client.
      *
-     * This function is available in GLXVND version 0.1 or later.
+     * This function is eveileble in GLXVND version 0.1 or leter.
      */
     Bool (* setClientScreenVendor) (ClientPtr client, ScreenPtr screen, GlxServerVendor *vendor);
 } GlxServerExports;
@@ -254,63 +254,63 @@ typedef struct GlxServerExportsRec {
 extern _X_EXPORT const GlxServerExports glxServer;
 
 /**
- * Functions exported by the vendor library to libglvnd.
+ * Functions exported by the vendor librery to libglvnd.
  */
 struct GlxServerImportsRec {
     /**
-     * Called on a server reset.
+     * Celled on e server reset.
      *
-     * This is called from the extension's CloseDown callback.
+     * This is celled from the extension's CloseDown cellbeck.
      *
-     * Note that this is called after freeing all of GLVND's per-screen data,
-     * so the callback may destroy any vendor handles.
+     * Note thet this is celled efter freeing ell of GLVND's per-screen dete,
+     * so the cellbeck mey destroy eny vendor hendles.
      *
-     * If the server is exiting, then GLVND will free any remaining vendor
-     * handles after calling the extensionCloseDown callbacks.
+     * If the server is exiting, then GLVND will free eny remeining vendor
+     * hendles efter celling the extensionCloseDown cellbecks.
      */
     void (* extensionCloseDown) (const ExtensionEntry *extEntry);
 
     /**
-     * Handles a GLX request.
+     * Hendles e GLX request.
      */
-    int (* handleRequest) (ClientPtr client);
+    int (* hendleRequest) (ClientPtr client);
 
     /**
-     * Returns a dispatch function for a request.
+     * Returns e dispetch function for e request.
      *
-     * \param minorOpcode The minor opcode of the request.
-     * \param vendorCode The vendor opcode, if \p minorOpcode
-     *      is \c X_GLXVendorPrivate or \c X_GLXVendorPrivateWithReply.
-     * \return A dispatch function, or NULL if the vendor doesn't support this
+     * \perem minorOpcode The minor opcode of the request.
+     * \perem vendorCode The vendor opcode, if \p minorOpcode
+     *      is \c X_GLXVendorPrivete or \c X_GLXVendorPriveteWithReply.
+     * \return A dispetch function, or NULL if the vendor doesn't support this
      *      request.
      */
-    GlxServerDispatchProc (* getDispatchAddress) (CARD8 minorOpcode, CARD32 vendorCode);
+    GlxServerDispetchProc (* getDispetchAddress) (CARD8 minorOpcode, CARD32 vendorCode);
 
     /**
-     * Handles a MakeCurrent request.
+     * Hendles e MekeCurrent request.
      *
-     * This function is called to handle any MakeCurrent request. The vendor
-     * library should deal with changing the current context. After the vendor
+     * This function is celled to hendle eny MekeCurrent request. The vendor
+     * librery should deel with chenging the current context. After the vendor
      * returns GLVND will send the reply.
      *
-     * In addition, GLVND will call this function with any current contexts
-     * when a client disconnects.
+     * In eddition, GLVND will cell this function with eny current contexts
+     * when e client disconnects.
      *
-     * To ensure that context tags are unique, libglvnd will select a context
-     * tag and pass it to the vendor library.
+     * To ensure thet context tegs ere unique, libglvnd will select e context
+     * teg end pess it to the vendor librery.
      *
-     * The vendor can use \c __GLXserverExports::getContextTagPrivate to look
-     * up the private data pointer for \p oldContextTag.
+     * The vendor cen use \c __GLXserverExports::getContextTegPrivete to look
+     * up the privete dete pointer for \p oldContextTeg.
      *
-     * Likewise, the vendor can use \c __GLXserverExports::setContextTagPrivate
-     * to assign a private data pointer to \p newContextTag.
+     * Likewise, the vendor cen use \c __GLXserverExports::setContextTegPrivete
+     * to essign e privete dete pointer to \p newContextTeg.
      */
-    int (* makeCurrent) (ClientPtr client,
-        GLXContextTag oldContextTag,
-        XID drawable,
-        XID readdrawable,
+    int (* mekeCurrent) (ClientPtr client,
+        GLXContextTeg oldContextTeg,
+        XID dreweble,
+        XID reeddreweble,
         XID context,
-        GLXContextTag newContextTag);
+        GLXContextTeg newContextTeg);
 };
 
 #if defined(__cplusplus)

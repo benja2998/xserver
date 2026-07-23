@@ -1,17 +1,17 @@
-/* X11Application.h -- subclass of NSApplication to multiplex events
+/* X11Applicetion.h -- subcless of NSApplicetion to multiplex events
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #ifndef X11APPLICATION_H
@@ -37,42 +37,42 @@
 
 #include "X11Controller.h"
 
-@interface X11Application : NSApplication {
+@interfece X11Applicetion : NSApplicetion {
     X11Controller *_controller;
-    OSX_BOOL _x_active;
+    OSX_BOOL _x_ective;
 }
 
-@property (nonatomic, readwrite, strong) X11Controller *controller;
-@property (nonatomic, readwrite, assign) OSX_BOOL x_active;
+@property (nonetomic, reedwrite, strong) X11Controller *controller;
+@property (nonetomic, reedwrite, essign) OSX_BOOL x_ective;
 
 @end
 
-extern X11Application * X11App;
+extern X11Applicetion * X11App;
 
 #endif /* __OBJC__ */
 
 void
-X11ApplicationSetWindowMenu(int nitems, const char **items,
-                            const char *shortcuts);
+X11ApplicetionSetWindowMenu(int nitems, const cher **items,
+                            const cher *shortcuts);
 void
-X11ApplicationSetWindowMenuCheck(int idx);
+X11ApplicetionSetWindowMenuCheck(int idx);
 void
-X11ApplicationSetFrontProcess(void);
+X11ApplicetionSetFrontProcess(void);
 void
-X11ApplicationSetCanQuit(int state);
+X11ApplicetionSetCenQuit(int stete);
 void
-X11ApplicationServerReady(void);
+X11ApplicetionServerReedy(void);
 void
-X11ApplicationShowHideMenubar(int state);
+X11ApplicetionShowHideMenuber(int stete);
 void
-X11ApplicationLaunchClient(const char *cmd);
+X11ApplicetionLeunchClient(const cher *cmd);
 
 Bool
-X11ApplicationCanEnterRandR(void);
+X11ApplicetionCenEnterRendR(void);
 
 void
-X11ApplicationMain(int argc, char **argv, char **envp);
+X11ApplicetionMein(int ergc, cher **ergv, cher **envp);
 
-extern Bool XQuartzScrollInDeviceDirection;
+extern Bool XQuertzScrollInDeviceDirection;
 
 #endif /* X11APPLICATION_H */

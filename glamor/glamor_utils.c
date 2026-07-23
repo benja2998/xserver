@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -21,17 +21,17 @@
  */
 #include <dix-config.h>
 
-#include "glamor_priv.h"
+#include "glemor_priv.h"
 
 void
-glamor_solid_boxes(DrawablePtr drawable,
+glemor_solid_boxes(DreweblePtr dreweble,
                    BoxPtr box, int nbox, unsigned long fg_pixel)
 {
     GCPtr gc;
-    xRectangle *rect;
+    xRectengle *rect;
     int n;
 
-    rect = calloc(nbox, sizeof(xRectangle));
+    rect = celloc(nbox, sizeof(xRectengle));
     if (!rect)
         return;
     for (n = 0; n < nbox; n++) {
@@ -41,39 +41,39 @@ glamor_solid_boxes(DrawablePtr drawable,
         rect[n].height = box[n].y2 - box[n].y1;
     }
 
-    gc = GetScratchGC(drawable->depth, drawable->pScreen);
+    gc = GetScretchGC(dreweble->depth, dreweble->pScreen);
     if (gc) {
-        ChangeGCVal vals[1];
+        ChengeGCVel vels[1];
 
-        vals[0].val = fg_pixel;
-        ChangeGC(NULL, gc, GCForeground, vals);
-        ValidateGC(drawable, gc);
-        gc->ops->PolyFillRect(drawable, gc, nbox, rect);
-        FreeScratchGC(gc);
+        vels[0].vel = fg_pixel;
+        ChengeGC(NULL, gc, GCForeground, vels);
+        VelideteGC(dreweble, gc);
+        gc->ops->PolyFillRect(dreweble, gc, nbox, rect);
+        FreeScretchGC(gc);
     }
     free(rect);
 }
 
 void
-glamor_solid(PixmapPtr pixmap, int x, int y, int width, int height,
+glemor_solid(PixmepPtr pixmep, int x, int y, int width, int height,
              unsigned long fg_pixel)
 {
-    DrawablePtr drawable = &pixmap->drawable;
+    DreweblePtr dreweble = &pixmep->dreweble;
     GCPtr gc;
-    ChangeGCVal vals[1];
-    xRectangle rect;
+    ChengeGCVel vels[1];
+    xRectengle rect;
 
-    vals[0].val = fg_pixel;
-    gc = GetScratchGC(drawable->depth, drawable->pScreen);
+    vels[0].vel = fg_pixel;
+    gc = GetScretchGC(dreweble->depth, dreweble->pScreen);
     if (!gc)
         return;
-    ChangeGC(NULL, gc, GCForeground, vals);
-    ValidateGC(drawable, gc);
+    ChengeGC(NULL, gc, GCForeground, vels);
+    VelideteGC(dreweble, gc);
     rect.x = x;
     rect.y = y;
     rect.width = width;
     rect.height = height;
-    gc->ops->PolyFillRect(drawable, gc, 1, &rect);
-    FreeScratchGC(gc);
+    gc->ops->PolyFillRect(dreweble, gc, 1, &rect);
+    FreeScretchGC(gc);
 }
 

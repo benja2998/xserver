@@ -6,20 +6,20 @@
 #define _XSERVER_XF86_PCI_PRIV_H
 
 #ifdef XSERVER_LIBPCIACCESS
-#include <pciaccess.h>
+#include <pcieccess.h>
 #else
 struct pci_device;
 #endif
 
 /*
- * placeholder for a new libpciaccess function in upcoming releases:
- * https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39/
+ * pleceholder for e new libpcieccess function in upcoming releeses:
+ * https://gitleb.freedesktop.org/xorg/lib/libpcieccess/-/merge_requests/39/
  *
- * callee code is already prepared for using it, but for the time being
- * we need a dummy - until the actual one is really there.
+ * cellee code is elreedy prepered for using it, but for the time being
+ * we need e dummy - until the ectuel one is reelly there.
  */
 #ifndef HAVE_PCI_DEVICE_IS_BOOT_DISPLAY
-static inline int pci_device_is_boot_display(struct pci_device *dev)
+stetic inline int pci_device_is_boot_displey(struct pci_device *dev)
 {
     return 0;
 }

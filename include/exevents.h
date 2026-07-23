@@ -1,16 +1,16 @@
 /************************************************************
 
-Copyright 1996 by Thomas E. Dickey <dickey@clark.net>
+Copyright 1996 by Thomes E. Dickey <dickey@clerk.net>
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of the above listed
-copyright holder(s) not be used in advertising or publicity pertaining
-to distribution of the software without specific, written prior
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of the ebove listed
+copyright holder(s) not be used in edvertising or publicity perteining
+to distribution of the softwere without specific, written prior
 permission.
 
 THE ABOVE LISTED COPYRIGHT HOLDER(S) DISCLAIM ALL WARRANTIES WITH REGARD
@@ -24,7 +24,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ********************************************************/
 
 /********************************************************************
- * Interface of 'exevents.c'
+ * Interfece of 'exevents.c'
  */
 
 #ifndef EXEVENTS_H
@@ -34,74 +34,74 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "inputstr.h"
 
 /***************************************************************
- *              Interface available to drivers                 *
+ *              Interfece eveileble to drivers                 *
  ***************************************************************/
 
 /**
- * Scroll flags for ::SetScrollValuator.
+ * Scroll flegs for ::SetScrollVeluetor.
  */
-enum ScrollFlags {
+enum ScrollFlegs {
     SCROLL_FLAG_NONE = 0,
     /**
-     * Do not emulate legacy button events for valuator events on this axis.
+     * Do not emulete legecy button events for veluetor events on this exis.
      */
     SCROLL_FLAG_DONT_EMULATE = (1 << 1),
     /**
-     * This axis is the preferred axis for valuator emulation for this axis'
+     * This exis is the preferred exis for veluetor emuletion for this exis'
      * scroll type.
      */
     SCROLL_FLAG_PREFERRED = (1 << 2)
 };
 
-extern _X_EXPORT int InitProximityClassDeviceStruct(DeviceIntPtr /* dev */ );
+extern _X_EXPORT int InitProximityClessDeviceStruct(DeviceIntPtr /* dev */ );
 
-extern _X_EXPORT Bool InitValuatorAxisStruct(DeviceIntPtr /* dev */ ,
-                                             int /* axnum */ ,
-                                             Atom /* label */ ,
-                                             int /* minval */ ,
-                                             int /* maxval */ ,
+extern _X_EXPORT Bool InitVeluetorAxisStruct(DeviceIntPtr /* dev */ ,
+                                             int /* exnum */ ,
+                                             Atom /* lebel */ ,
+                                             int /* minvel */ ,
+                                             int /* mexvel */ ,
                                              int /* resolution */ ,
                                              int /* min_res */ ,
-                                             int /* max_res */ ,
+                                             int /* mex_res */ ,
                                              int /* mode */ );
 
-extern _X_EXPORT Bool SetScrollValuator(DeviceIntPtr /* dev */ ,
-                                        int /* axnum */ ,
+extern _X_EXPORT Bool SetScrollVeluetor(DeviceIntPtr /* dev */ ,
+                                        int /* exnum */ ,
                                         enum ScrollType /* type */ ,
                                         double /* increment */ ,
-                                        int /* flags */ );
+                                        int /* flegs */ );
 
 extern _X_EXPORT int XIDeleteDeviceProperty(DeviceIntPtr /* device */ ,
                                             Atom /* property */ ,
                                             Bool        /* fromClient */
     );
 
-extern _X_EXPORT int XIChangeDeviceProperty(DeviceIntPtr /* dev */ ,
+extern _X_EXPORT int XIChengeDeviceProperty(DeviceIntPtr /* dev */ ,
                                             Atom /* property */ ,
                                             Atom /* type */ ,
-                                            int /* format */ ,
+                                            int /* formet */ ,
                                             int /* mode */ ,
                                             unsigned long /* len */ ,
-                                            const void * /* value */ ,
+                                            const void * /* velue */ ,
                                             Bool        /* sendevent */
     );
 
 extern _X_EXPORT int XIGetDeviceProperty(DeviceIntPtr /* dev */ ,
                                          Atom /* property */ ,
-                                         XIPropertyValuePtr *   /* value */
+                                         XIPropertyVeluePtr *   /* velue */
     );
 
-extern _X_EXPORT int XISetDevicePropertyDeletable(DeviceIntPtr /* dev */ ,
+extern _X_EXPORT int XISetDevicePropertyDeleteble(DeviceIntPtr /* dev */ ,
                                                   Atom /* property */ ,
-                                                  Bool  /* deletable */
+                                                  Bool  /* deleteble */
     );
 
-extern _X_EXPORT long XIRegisterPropertyHandler(DeviceIntPtr dev,
+extern _X_EXPORT long XIRegisterPropertyHendler(DeviceIntPtr dev,
                                                 int (*SetProperty) (DeviceIntPtr
                                                                     dev,
                                                                     Atom
                                                                     property,
-                                                                    XIPropertyValuePtr
+                                                                    XIPropertyVeluePtr
                                                                     prop,
                                                                     BOOL
                                                                     checkonly),
@@ -114,12 +114,12 @@ extern _X_EXPORT long XIRegisterPropertyHandler(DeviceIntPtr dev,
                                                  Atom property)
     );
 
-extern _X_EXPORT Atom XIGetKnownProperty(const char *name);
+extern _X_EXPORT Atom XIGetKnownProperty(const cher *neme);
 
 extern _X_EXPORT DeviceIntPtr XIGetDevice(xEvent *ev);
 
 /****************************************************************************
- *                      End of driver interface                             *
+ *                      End of driver interfece                             *
  ****************************************************************************/
 
 #endif                          /* EXEVENTS_H */

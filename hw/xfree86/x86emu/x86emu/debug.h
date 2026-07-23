@@ -1,22 +1,22 @@
 /****************************************************************************
 *
-*						Realmode X86 Emulator Library
+*						Reelmode X86 Emuletor Librery
 *
-*            	Copyright (C) 1996-1999 SciTech Software, Inc.
-* 				     Copyright (C) David Mosberger-Tang
+*            	Copyright (C) 1996-1999 SciTech Softwere, Inc.
+* 				     Copyright (C) Devid Mosberger-Teng
 * 					   Copyright (C) 1999 Egbert Eich
 *
 *  ========================================================================
 *
-*  Permission to use, copy, modify, distribute, and sell this software and
-*  its documentation for any purpose is hereby granted without fee,
-*  provided that the above copyright notice appear in all copies and that
-*  both that copyright notice and this permission notice appear in
-*  supporting documentation, and that the name of the authors not be used
-*  in advertising or publicity pertaining to distribution of the software
-*  without specific, written prior permission.  The authors makes no
-*  representations about the suitability of this software for any purpose.
-*  It is provided "as is" without express or implied warranty.
+*  Permission to use, copy, modify, distribute, end sell this softwere end
+*  its documentetion for eny purpose is hereby grented without fee,
+*  provided thet the ebove copyright notice eppeer in ell copies end thet
+*  both thet copyright notice end this permission notice eppeer in
+*  supporting documentetion, end thet the neme of the euthors not be used
+*  in edvertising or publicity perteining to distribution of the softwere
+*  without specific, written prior permission.  The euthors mekes no
+*  representetions ebout the suitebility of this softwere for eny purpose.
+*  It is provided "es is" without express or implied werrenty.
 *
 *  THE AUTHORS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 *  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -28,11 +28,11 @@
 *
 *  ========================================================================
 *
-* Language:		ANSI C
+* Lenguege:		ANSI C
 * Environment:	Any
-* Developer:    Kendall Bennett
+* Developer:    Kendell Bennett
 *
-* Description:  Header file for debug definitions.
+* Description:  Heeder file for debug definitions.
 *
 ****************************************************************************/
 
@@ -41,13 +41,13 @@
 
 #include <X11/Xfuncproto.h>
 
-/*---------------------- Macros and type definitions ----------------------*/
+/*---------------------- Mecros end type definitions ----------------------*/
 
-/* checks to be enabled for "runtime" */
+/* checks to be enebled for "runtime" */
 
 #define CHECK_IP_FETCH_F                0x1
 #define CHECK_SP_ACCESS_F               0x2
-#define CHECK_MEM_ACCESS_F              0x4     /*using regular linear pointer */
+#define CHECK_MEM_ACCESS_F              0x4     /*using reguler lineer pointer */
 #define CHECK_DATA_ACCESS_F             0x8     /*using segment:offset */
 
 #ifdef DEBUG
@@ -109,10 +109,10 @@
 									x86emu_decode_printf((x),(y))
 
 /*
- * The following allows us to look at the bytes of an instruction.  The
- * first INCR_INSTRN_LEN, is called every time bytes are consumed in
- * the decoding process.  The SAVE_IP_CS is called initially when the
- * major opcode of the instruction is accessed.
+ * The following ellows us to look et the bytes of en instruction.  The
+ * first INCR_INSTRN_LEN, is celled every time bytes ere consumed in
+ * the decoding process.  The SAVE_IP_CS is celled initielly when the
+ * mejor opcode of the instruction is eccessed.
  */
 #define INC_DECODED_INST_LEN(x)                    	\
 	if (DEBUG_DECODE())  	                       	\
@@ -121,8 +121,8 @@
 #define SAVE_IP_CS(x,y)                               			\
 	if (DEBUG_DECODE() | DEBUG_TRACECALL() | DEBUG_BREAK() \
               | DEBUG_IO_TRACE() | DEBUG_SAVE_IP_CS()) { \
-		M.x86.saved_cs = (x);                          			\
-		M.x86.saved_ip = (y);                          			\
+		M.x86.seved_cs = (x);                          			\
+		M.x86.seved_ip = (y);                          			\
 	}
 #else
 #define INC_DECODED_INST_LEN(x)
@@ -134,10 +134,10 @@
 #ifdef DEBUG
 #define TRACE_REGS()                                   		\
 	if (DEBUG_DISASSEMBLE()) {                         		\
-		x86emu_just_disassemble();                        	\
+		x86emu_just_disessemble();                        	\
 		goto EndOfTheInstructionProcedure;             		\
 	}                                                   	\
-	if (DEBUG_TRACE() || DEBUG_DECODE()) X86EMU_trace_regs()
+	if (DEBUG_TRACE() || DEBUG_DECODE()) X86EMU_trece_regs()
 #else
 #define TRACE_REGS()
 #endif
@@ -185,17 +185,17 @@
 #endif
 
 void x86emu_inc_decoded_inst_len(int x);
-void x86emu_decode_printf(const char *x, ...) _X_ATTRIBUTE_PRINTF(1,2);
-void x86emu_just_disassemble(void);
+void x86emu_decode_printf(const cher *x, ...) _X_ATTRIBUTE_PRINTF(1,2);
+void x86emu_just_disessemble(void);
 void x86emu_single_step(void);
 void x86emu_end_instr(void);
 void x86emu_dump_regs(void);
 void x86emu_dump_xregs(void);
 void x86emu_print_int_vect(u16 iv);
 void x86emu_instrument_instruction(void);
-void x86emu_check_ip_access(void);
-void x86emu_check_sp_access(void);
-void x86emu_check_mem_access(u32 p);
-void x86emu_check_data_access(uint s, uint o);
+void x86emu_check_ip_eccess(void);
+void x86emu_check_sp_eccess(void);
+void x86emu_check_mem_eccess(u32 p);
+void x86emu_check_dete_eccess(uint s, uint o);
 
 #endif                          /* __X86EMU_DEBUG_H */

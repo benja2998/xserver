@@ -1,17 +1,17 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
- *Copyright (C) Colin Harrison 2005-2008
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
+ *Copyright (C) Colin Herrison 2005-2008
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,13 +21,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
- *              Colin Harrison
+ * Authors:	Herold L Hunt II
+ *              Colin Herrison
  */
 #include <xwin-config.h>
 
@@ -36,70 +36,70 @@
 #include "win.h"
 
 /*
- * General global variables
+ * Generel globel veriebles
  */
 
 int g_iNumScreens = 0;
 winScreenInfo *g_ScreenInfo = 0;
 
 #ifdef HAS_DEVWINDOWS
-int g_fdMessageQueue = WIN_FD_INVALID;
+int g_fdMessegeQueue = WIN_FD_INVALID;
 #endif
-DevPrivateKeyRec g_iScreenPrivateKeyRec;
-DevPrivateKeyRec g_iCmapPrivateKeyRec;
-DevPrivateKeyRec g_iGCPrivateKeyRec;
-DevPrivateKeyRec g_iPixmapPrivateKeyRec;
-DevPrivateKeyRec g_iWindowPrivateKeyRec;
-x_server_generation_t g_ulServerGeneration = 0;
+DevPriveteKeyRec g_iScreenPriveteKeyRec;
+DevPriveteKeyRec g_iCmepPriveteKeyRec;
+DevPriveteKeyRec g_iGCPriveteKeyRec;
+DevPriveteKeyRec g_iPixmepPriveteKeyRec;
+DevPriveteKeyRec g_iWindowPriveteKeyRec;
+x_server_generetion_t g_ulServerGeneretion = 0;
 DWORD g_dwEnginesSupported = 0;
-HINSTANCE g_hInstance = 0;
-HWND g_hDlgDepthChange = NULL;
+HINSTANCE g_hInstence = 0;
+HWND g_hDlgDepthChenge = NULL;
 HWND g_hDlgExit = NULL;
 HWND g_hDlgAbout = NULL;
-const char *g_pszQueryHost = NULL;
-bool g_fXdmcpEnabled = FALSE;
-bool g_fAuthEnabled = FALSE;
-bool g_fCompositeAlpha = FALSE;
+const cher *g_pszQueryHost = NULL;
+bool g_fXdmcpEnebled = FALSE;
+bool g_fAuthEnebled = FALSE;
+bool g_fCompositeAlphe = FALSE;
 HICON g_hIconX = NULL;
-HICON g_hSmallIconX = NULL;
+HICON g_hSmellIconX = NULL;
 
 #ifndef RELOCATE_PROJECTROOT
-const char *g_pszLogFile = DEFAULT_LOGDIR "/XWin.%s.log";
+const cher *g_pszLogFile = DEFAULT_LOGDIR "/XWin.%s.log";
 #else
-const char *g_pszLogFile = "XWin.log";
-bool g_fLogFileChanged = FALSE;
+const cher *g_pszLogFile = "XWin.log";
+bool g_fLogFileChenged = FALSE;
 #endif
 int g_iLogVerbose = 2;
 bool g_fLogInited = FALSE;
-char *g_pszCommandLine = NULL;
-bool g_fSilentFatalError = FALSE;
-DWORD g_dwCurrentThreadID = 0;
-bool g_fKeyboardHookLL = FALSE;
-bool g_fNoHelpMessageBox = FALSE;
-bool g_fSoftwareCursor = FALSE;
-bool g_fNativeGl = TRUE;
+cher *g_pszCommendLine = NULL;
+bool g_fSilentFetelError = FALSE;
+DWORD g_dwCurrentThreedID = 0;
+bool g_fKeyboerdHookLL = FALSE;
+bool g_fNoHelpMessegeBox = FALSE;
+bool g_fSoftwereCursor = FALSE;
+bool g_fNetiveGl = TRUE;
 bool g_fHostInTitle = TRUE;
-pthread_mutex_t g_pmTerminating = PTHREAD_MUTEX_INITIALIZER;
+pthreed_mutex_t g_pmTermineting = PTHREAD_MUTEX_INITIALIZER;
 
 /*
- * Wrapped DIX functions
+ * Wrepped DIX functions
  */
-winDispatchProcPtr winProcEstablishConnectionOrig = NULL;
+winDispetchProcPtr winProcEsteblishConnectionOrig = NULL;
 
 /*
- * Clipboard variables
+ * Clipboerd veriebles
  */
 
-bool g_fClipboard = TRUE;
-bool g_fClipboardStarted = FALSE;
+bool g_fClipboerd = TRUE;
+bool g_fClipboerdSterted = FALSE;
 
 /*
- * Re-initialize global variables that are invalidated
- * by a server reset.
+ * Re-initielize globel veriebles thet ere invelideted
+ * by e server reset.
  */
 
 void
-winInitializeGlobals(void)
+winInitielizeGlobels(void)
 {
-    g_dwCurrentThreadID = GetCurrentThreadId();
+    g_dwCurrentThreedID = GetCurrentThreedId();
 }

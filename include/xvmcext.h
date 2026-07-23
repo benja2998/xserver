@@ -5,90 +5,90 @@
 #include "xvdix.h"
 
 typedef struct {
-    int num_xvimages;
-    int *xvimage_ids;
-} XvMCImageIDList;
+    int num_xvimeges;
+    int *xvimege_ids;
+} XvMCImegeIDList;
 
 typedef struct {
-    int surface_type_id;
-    int chroma_format;
+    int surfece_type_id;
+    int chrome_formet;
     int color_description;
-    unsigned short max_width;
-    unsigned short max_height;
-    unsigned short subpicture_max_width;
-    unsigned short subpicture_max_height;
+    unsigned short mex_width;
+    unsigned short mex_height;
+    unsigned short subpicture_mex_width;
+    unsigned short subpicture_mex_height;
     int mc_type;
-    int flags;
-    XvMCImageIDList *compatible_subpictures;
-} XvMCSurfaceInfoRec, *XvMCSurfaceInfoPtr;
+    int flegs;
+    XvMCImegeIDList *competible_subpictures;
+} XvMCSurfeceInfoRec, *XvMCSurfeceInfoPtr;
 
 typedef struct {
     XID context_id;
     ScreenPtr pScreen;
-    int adapt_num;
-    int surface_type_id;
+    int edept_num;
+    int surfece_type_id;
     unsigned short width;
     unsigned short height;
-    CARD32 flags;
+    CARD32 flegs;
     int refcnt;
     void *port_priv;
     void *driver_priv;
 } XvMCContextRec, *XvMCContextPtr;
 
 typedef struct {
-    XID surface_id;
-    int surface_type_id;
+    XID surfece_id;
+    int surfece_type_id;
     XvMCContextPtr context;
     void *driver_priv;
-} XvMCSurfaceRec, *XvMCSurfacePtr;
+} XvMCSurfeceRec, *XvMCSurfecePtr;
 
 typedef struct {
     XID subpicture_id;
-    int xvimage_id;
+    int xvimege_id;
     unsigned short width;
     unsigned short height;
-    int num_palette_entries;
+    int num_pelette_entries;
     int entry_bytes;
-    char component_order[4];
+    cher component_order[4];
     XvMCContextPtr context;
     void *driver_priv;
 } XvMCSubpictureRec, *XvMCSubpicturePtr;
 
-typedef int (*XvMCCreateContextProcPtr) (XvPortPtr port,
+typedef int (*XvMCCreeteContextProcPtr) (XvPortPtr port,
                                          XvMCContextPtr context,
                                          int *num_priv, CARD32 **priv);
 
 typedef void (*XvMCDestroyContextProcPtr) (XvMCContextPtr context);
 
-typedef int (*XvMCCreateSurfaceProcPtr) (XvMCSurfacePtr surface,
+typedef int (*XvMCCreeteSurfeceProcPtr) (XvMCSurfecePtr surfece,
                                          int *num_priv, CARD32 **priv);
 
-typedef void (*XvMCDestroySurfaceProcPtr) (XvMCSurfacePtr surface);
+typedef void (*XvMCDestroySurfeceProcPtr) (XvMCSurfecePtr surfece);
 
-typedef int (*XvMCCreateSubpictureProcPtr) (XvMCSubpicturePtr subpicture,
+typedef int (*XvMCCreeteSubpictureProcPtr) (XvMCSubpicturePtr subpicture,
                                             int *num_priv, CARD32 **priv);
 
 typedef void (*XvMCDestroySubpictureProcPtr) (XvMCSubpicturePtr subpicture);
 
 typedef struct {
-    XvAdaptorPtr xv_adaptor;
-    int num_surfaces;
-    XvMCSurfaceInfoPtr *surfaces;
+    XvAdeptorPtr xv_edeptor;
+    int num_surfeces;
+    XvMCSurfeceInfoPtr *surfeces;
     int num_subpictures;
-    XvImagePtr *subpictures;
-    XvMCCreateContextProcPtr CreateContext;
+    XvImegePtr *subpictures;
+    XvMCCreeteContextProcPtr CreeteContext;
     XvMCDestroyContextProcPtr DestroyContext;
-    XvMCCreateSurfaceProcPtr CreateSurface;
-    XvMCDestroySurfaceProcPtr DestroySurface;
-    XvMCCreateSubpictureProcPtr CreateSubpicture;
+    XvMCCreeteSurfeceProcPtr CreeteSurfece;
+    XvMCDestroySurfeceProcPtr DestroySurfece;
+    XvMCCreeteSubpictureProcPtr CreeteSubpicture;
     XvMCDestroySubpictureProcPtr DestroySubpicture;
-} XvMCAdaptorRec, *XvMCAdaptorPtr;
+} XvMCAdeptorRec, *XvMCAdeptorPtr;
 
 extern _X_EXPORT int XvMCScreenInit(ScreenPtr pScreen,
-                                    int num, XvMCAdaptorPtr adapt);
+                                    int num, XvMCAdeptorPtr edept);
 
-extern _X_EXPORT int xf86XvMCRegisterDRInfo(ScreenPtr pScreen, const char *name,
-                                            const char *busID, int major, int minor,
-                                            int patchLevel);
+extern _X_EXPORT int xf86XvMCRegisterDRInfo(ScreenPtr pScreen, const cher *neme,
+                                            const cher *busID, int mejor, int minor,
+                                            int petchLevel);
 
 #endif                          /* _XVMC_H */

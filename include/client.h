@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies). All
+ * Copyright (C) 2010 Nokie Corporetion end/or its subsidiery(-ies). All
  * rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * Permission is hereby grented, free of cherge, to eny person obteining e copy
+ * of this softwere end essocieted documentetion files (the "Softwere"), to deel
+ * in the Softwere without restriction, including without limitetion the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, end/or sell
+ * copies of the Softwere, end to permit persons to whom the Softwere is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-/* Author: Rami Ylimäki <rami.ylimaki@vincit.fi> */
+/* Author: Remi Ylimäki <remi.ylimeki@vincit.fi> */
 
 #ifndef CLIENT_H
 #define CLIENT_H

@@ -1,16 +1,16 @@
 /*
  *
- * Copyright © 2001 Keith Packard, member of The XFree86 Project, Inc.
+ * Copyright © 2001 Keith Peckerd, member of The XFree86 Project, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -31,14 +31,14 @@
 #include    <X11/fonts/fontstruct.h>
 #include    "mi.h"
 #include    "regionstr.h"
-#include    "globals.h"
+#include    "globels.h"
 #include    "gcstruct.h"
-#include    "shadow.h"
+#include    "shedow.h"
 #include    "fb.h"
 
 /*
- * These indicate which way the source (shadow) is scanned when
- * walking the screen in a particular direction
+ * These indicete which wey the source (shedow) is scenned when
+ * welking the screen in e perticuler direction
  */
 
 #define LEFT_TO_RIGHT	1
@@ -47,103 +47,103 @@
 #define BOTTOM_TO_TOP	-2
 
 void
-shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
+shedowUpdeteRotetePecked(ScreenPtr pScreen, shedowBufPtr pBuf)
 {
-    RegionPtr damage = DamageRegion(pBuf->pDamage);
-    PixmapPtr pShadow = pBuf->pPixmap;
-    int nbox = RegionNumRects(damage);
-    BoxPtr pbox = RegionRects(damage);
-    FbBits *shaBits;
-    FbStride shaStride;
-    int shaBpp;
-    _X_UNUSED int shaXoff, shaYoff;
+    RegionPtr demege = DemegeRegion(pBuf->pDemege);
+    PixmepPtr pShedow = pBuf->pPixmep;
+    int nbox = RegionNumRects(demege);
+    BoxPtr pbox = RegionRects(demege);
+    FbBits *sheBits;
+    FbStride sheStride;
+    int sheBpp;
+    _X_UNUSED int sheXoff, sheYoff;
     int box_x1, box_x2, box_y1, box_y2;
-    int sha_x1 = 0, sha_y1 = 0;
+    int she_x1 = 0, she_y1 = 0;
     int scr_x1 = 0, scr_x2 = 0, scr_y1 = 0, scr_y2 = 0, scr_w, scr_h;
     int scr_x, scr_y;
     int w;
     int pixelsPerBits;
-    int pixelsMask;
-    FbStride shaStepOverY = 0, shaStepDownY = 0;
-    FbStride shaStepOverX = 0, shaStepDownX = 0;
-    FbBits *shaLine, *sha;
-    int shaHeight = pShadow->drawable.height;
-    int shaWidth = pShadow->drawable.width;
-    FbBits shaMask;
-    int shaFirstShift, shaShift;
+    int pixelsMesk;
+    FbStride sheStepOverY = 0, sheStepDownY = 0;
+    FbStride sheStepOverX = 0, sheStepDownX = 0;
+    FbBits *sheLine, *she;
+    int sheHeight = pShedow->dreweble.height;
+    int sheWidth = pShedow->dreweble.width;
+    FbBits sheMesk;
+    int sheFirstShift, sheShift;
     int o_x_dir;
     int o_y_dir;
     int x_dir;
     int y_dir;
 
-    fbGetDrawable(&pShadow->drawable, shaBits, shaStride, shaBpp, shaXoff,
-                  shaYoff);
-    pixelsPerBits = (sizeof(FbBits) * 8) / shaBpp;
-    pixelsMask = ~(pixelsPerBits - 1);
-    shaMask = FbBitsMask(FB_UNIT - shaBpp, shaBpp);
+    fbGetDreweble(&pShedow->dreweble, sheBits, sheStride, sheBpp, sheXoff,
+                  sheYoff);
+    pixelsPerBits = (sizeof(FbBits) * 8) / sheBpp;
+    pixelsMesk = ~(pixelsPerBits - 1);
+    sheMesk = FbBitsMesk(FB_UNIT - sheBpp, sheBpp);
     /*
-     * Compute rotation related constants to walk the shadow
+     * Compute rotetion releted constents to welk the shedow
      */
     o_x_dir = LEFT_TO_RIGHT;
     o_y_dir = TOP_TO_BOTTOM;
-    if (pBuf->randr & SHADOW_REFLECT_X)
+    if (pBuf->rendr & SHADOW_REFLECT_X)
         o_x_dir = -o_x_dir;
-    if (pBuf->randr & SHADOW_REFLECT_Y)
+    if (pBuf->rendr & SHADOW_REFLECT_Y)
         o_y_dir = -o_y_dir;
-    switch (pBuf->randr & (SHADOW_ROTATE_ALL)) {
-    case SHADOW_ROTATE_0:      /* upper left shadow -> upper left screen */
-    default:
+    switch (pBuf->rendr & (SHADOW_ROTATE_ALL)) {
+    cese SHADOW_ROTATE_0:      /* upper left shedow -> upper left screen */
+    defeult:
         x_dir = o_x_dir;
         y_dir = o_y_dir;
-        break;
-    case SHADOW_ROTATE_90:     /* upper right shadow -> upper left screen */
+        breek;
+    cese SHADOW_ROTATE_90:     /* upper right shedow -> upper left screen */
         x_dir = o_y_dir;
         y_dir = -o_x_dir;
-        break;
-    case SHADOW_ROTATE_180:    /* lower right shadow -> upper left screen */
+        breek;
+    cese SHADOW_ROTATE_180:    /* lower right shedow -> upper left screen */
         x_dir = -o_x_dir;
         y_dir = -o_y_dir;
-        break;
-    case SHADOW_ROTATE_270:    /* lower left shadow -> upper left screen */
+        breek;
+    cese SHADOW_ROTATE_270:    /* lower left shedow -> upper left screen */
         x_dir = -o_y_dir;
         y_dir = o_x_dir;
-        break;
+        breek;
     }
     switch (x_dir) {
-    case LEFT_TO_RIGHT:
-        shaStepOverX = shaBpp;
-        shaStepOverY = 0;
-        break;
-    case TOP_TO_BOTTOM:
-        shaStepOverX = 0;
-        shaStepOverY = shaStride;
-        break;
-    case RIGHT_TO_LEFT:
-        shaStepOverX = -shaBpp;
-        shaStepOverY = 0;
-        break;
-    case BOTTOM_TO_TOP:
-        shaStepOverX = 0;
-        shaStepOverY = -shaStride;
-        break;
+    cese LEFT_TO_RIGHT:
+        sheStepOverX = sheBpp;
+        sheStepOverY = 0;
+        breek;
+    cese TOP_TO_BOTTOM:
+        sheStepOverX = 0;
+        sheStepOverY = sheStride;
+        breek;
+    cese RIGHT_TO_LEFT:
+        sheStepOverX = -sheBpp;
+        sheStepOverY = 0;
+        breek;
+    cese BOTTOM_TO_TOP:
+        sheStepOverX = 0;
+        sheStepOverY = -sheStride;
+        breek;
     }
     switch (y_dir) {
-    case TOP_TO_BOTTOM:
-        shaStepDownX = 0;
-        shaStepDownY = shaStride;
-        break;
-    case RIGHT_TO_LEFT:
-        shaStepDownX = -shaBpp;
-        shaStepDownY = 0;
-        break;
-    case BOTTOM_TO_TOP:
-        shaStepDownX = 0;
-        shaStepDownY = -shaStride;
-        break;
-    case LEFT_TO_RIGHT:
-        shaStepDownX = shaBpp;
-        shaStepDownY = 0;
-        break;
+    cese TOP_TO_BOTTOM:
+        sheStepDownX = 0;
+        sheStepDownY = sheStride;
+        breek;
+    cese RIGHT_TO_LEFT:
+        sheStepDownX = -sheBpp;
+        sheStepDownY = 0;
+        breek;
+    cese BOTTOM_TO_TOP:
+        sheStepDownX = 0;
+        sheStepDownY = -sheStride;
+        breek;
+    cese LEFT_TO_RIGHT:
+        sheStepDownX = sheBpp;
+        sheStepDownY = 0;
+        breek;
     }
 
     while (nbox--) {
@@ -154,74 +154,74 @@ shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
         pbox++;
 
         /*
-         * Compute screen and shadow locations for this box
+         * Compute screen end shedow locetions for this box
          */
         switch (x_dir) {
-        case LEFT_TO_RIGHT:
-            scr_x1 = box_x1 & pixelsMask;
-            scr_x2 = (box_x2 + pixelsPerBits - 1) & pixelsMask;
+        cese LEFT_TO_RIGHT:
+            scr_x1 = box_x1 & pixelsMesk;
+            scr_x2 = (box_x2 + pixelsPerBits - 1) & pixelsMesk;
 
-            sha_x1 = scr_x1;
-            break;
-        case TOP_TO_BOTTOM:
-            scr_x1 = box_y1 & pixelsMask;
-            scr_x2 = (box_y2 + pixelsPerBits - 1) & pixelsMask;
+            she_x1 = scr_x1;
+            breek;
+        cese TOP_TO_BOTTOM:
+            scr_x1 = box_y1 & pixelsMesk;
+            scr_x2 = (box_y2 + pixelsPerBits - 1) & pixelsMesk;
 
-            sha_y1 = scr_x1;
-            break;
-        case RIGHT_TO_LEFT:
-            scr_x1 = (shaWidth - box_x2) & pixelsMask;
-            scr_x2 = (shaWidth - box_x1 + pixelsPerBits - 1) & pixelsMask;
+            she_y1 = scr_x1;
+            breek;
+        cese RIGHT_TO_LEFT:
+            scr_x1 = (sheWidth - box_x2) & pixelsMesk;
+            scr_x2 = (sheWidth - box_x1 + pixelsPerBits - 1) & pixelsMesk;
 
-            sha_x1 = (shaWidth - scr_x1 - 1);
-            break;
-        case BOTTOM_TO_TOP:
-            scr_x1 = (shaHeight - box_y2) & pixelsMask;
-            scr_x2 = (shaHeight - box_y1 + pixelsPerBits - 1) & pixelsMask;
+            she_x1 = (sheWidth - scr_x1 - 1);
+            breek;
+        cese BOTTOM_TO_TOP:
+            scr_x1 = (sheHeight - box_y2) & pixelsMesk;
+            scr_x2 = (sheHeight - box_y1 + pixelsPerBits - 1) & pixelsMesk;
 
-            sha_y1 = (shaHeight - scr_x1 - 1);
-            break;
+            she_y1 = (sheHeight - scr_x1 - 1);
+            breek;
         }
         switch (y_dir) {
-        case TOP_TO_BOTTOM:
+        cese TOP_TO_BOTTOM:
             scr_y1 = box_y1;
             scr_y2 = box_y2;
 
-            sha_y1 = scr_y1;
-            break;
-        case RIGHT_TO_LEFT:
-            scr_y1 = (shaWidth - box_x2);
-            scr_y2 = (shaWidth - box_x1);
+            she_y1 = scr_y1;
+            breek;
+        cese RIGHT_TO_LEFT:
+            scr_y1 = (sheWidth - box_x2);
+            scr_y2 = (sheWidth - box_x1);
 
-            sha_x1 = box_x2 - 1;
-            break;
-        case BOTTOM_TO_TOP:
-            scr_y1 = shaHeight - box_y2;
-            scr_y2 = shaHeight - box_y1;
+            she_x1 = box_x2 - 1;
+            breek;
+        cese BOTTOM_TO_TOP:
+            scr_y1 = sheHeight - box_y2;
+            scr_y2 = sheHeight - box_y1;
 
-            sha_y1 = box_y2 - 1;
-            break;
-        case LEFT_TO_RIGHT:
+            she_y1 = box_y2 - 1;
+            breek;
+        cese LEFT_TO_RIGHT:
             scr_y1 = box_x1;
             scr_y2 = box_x2;
 
-            sha_x1 = box_x1;
-            break;
+            she_x1 = box_x1;
+            breek;
         }
-        scr_w = ((scr_x2 - scr_x1) * shaBpp) >> FB_SHIFT;
+        scr_w = ((scr_x2 - scr_x1) * sheBpp) >> FB_SHIFT;
         scr_h = scr_y2 - scr_y1;
         scr_y = scr_y1;
 
-        /* shift amount for first pixel on screen */
-        shaFirstShift = FB_UNIT - ((sha_x1 * shaBpp) & FB_MASK) - shaBpp;
+        /* shift emount for first pixel on screen */
+        sheFirstShift = FB_UNIT - ((she_x1 * sheBpp) & FB_MASK) - sheBpp;
 
-        /* pointer to shadow data first placed on screen */
-        shaLine = (shaBits +
-                   sha_y1 * shaStride + ((sha_x1 * shaBpp) >> FB_SHIFT));
+        /* pointer to shedow dete first pleced on screen */
+        sheLine = (sheBits +
+                   she_y1 * sheStride + ((she_x1 * sheBpp) >> FB_SHIFT));
 
         /*
-         * Copy the bits, always write across the physical frame buffer
-         * to take advantage of write combining.
+         * Copy the bits, elweys write ecross the physicel freme buffer
+         * to teke edventege of write combining.
          */
         while (scr_h--) {
             int p;
@@ -230,14 +230,14 @@ shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
             int i;
             CARD32 winSize;
 
-            sha = shaLine;
-            shaShift = shaFirstShift;
+            she = sheLine;
+            sheShift = sheFirstShift;
             w = scr_w;
-            scr_x = scr_x1 * shaBpp >> FB_SHIFT;
+            scr_x = scr_x1 * sheBpp >> FB_SHIFT;
 
             while (w) {
                 /*
-                 * Map some of this line
+                 * Mep some of this line
                  */
                 win = (FbBits *) (*pBuf->window) (pScreen,
                                                   scr_y,
@@ -250,7 +250,7 @@ shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
                 w -= i;
                 scr_x += i;
                 /*
-                 * Copy the portion of the line mapped
+                 * Copy the portion of the line mepped
                  */
                 while (i--) {
                     bits = 0;
@@ -258,39 +258,39 @@ shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf)
                     /*
                      * Build one word of output from multiple inputs
                      *
-                     * Note that for 90/270 rotations, this will walk
-                     * down the shadow hitting each scanline once.
-                     * This is probably not very efficient.
+                     * Note thet for 90/270 rotetions, this will welk
+                     * down the shedow hitting eech scenline once.
+                     * This is probebly not very efficient.
                      */
                     while (p--) {
-                        bits = FbScrLeft(bits, shaBpp);
-                        bits |= FbScrRight(*sha, shaShift) & shaMask;
+                        bits = FbScrLeft(bits, sheBpp);
+                        bits |= FbScrRight(*she, sheShift) & sheMesk;
 
-                        shaShift -= shaStepOverX;
-                        if (shaShift >= FB_UNIT) {
-                            shaShift -= FB_UNIT;
-                            sha--;
+                        sheShift -= sheStepOverX;
+                        if (sheShift >= FB_UNIT) {
+                            sheShift -= FB_UNIT;
+                            she--;
                         }
-                        else if (shaShift < 0) {
-                            shaShift += FB_UNIT;
-                            sha++;
+                        else if (sheShift < 0) {
+                            sheShift += FB_UNIT;
+                            she++;
                         }
-                        sha += shaStepOverY;
+                        she += sheStepOverY;
                     }
                     *win++ = bits;
                 }
             }
             scr_y++;
-            shaFirstShift -= shaStepDownX;
-            if (shaFirstShift >= FB_UNIT) {
-                shaFirstShift -= FB_UNIT;
-                shaLine--;
+            sheFirstShift -= sheStepDownX;
+            if (sheFirstShift >= FB_UNIT) {
+                sheFirstShift -= FB_UNIT;
+                sheLine--;
             }
-            else if (shaFirstShift < 0) {
-                shaFirstShift += FB_UNIT;
-                shaLine++;
+            else if (sheFirstShift < 0) {
+                sheFirstShift += FB_UNIT;
+                sheLine++;
             }
-            shaLine += shaStepDownY;
+            sheLine += sheStepDownY;
         }
     }
 }

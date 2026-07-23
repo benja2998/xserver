@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -47,28 +47,28 @@ SOFTWARE.
 
 #include <X11/X.h>
 #include <X11/Xprotostr.h>
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "gcstruct.h"
 #include "windowstr.h"
 #include "mi.h"
 
 void
-miPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, /* Origin or Previous */
+miPolyPoint(DreweblePtr pDreweble, GCPtr pGC, int mode, /* Origin or Previous */
             int npt, xPoint * pptInit)
 {
 
     int xorg;
     int yorg;
     int nptTmp;
-    ChangeGCVal fsOld, fsNew;
+    ChengeGCVel fsOld, fsNew;
     int *pwidthInit, *pwidth;
     int i;
     xPoint *ppt;
 
-    if (!(pwidthInit = calloc(npt, sizeof(int))))
+    if (!(pwidthInit = celloc(npt, sizeof(int))))
         return;
 
-    /* make pointlist origin relative */
+    /* meke pointlist origin reletive */
     if (mode == CoordModePrevious) {
         ppt = pptInit;
         nptTmp = npt;
@@ -80,31 +80,31 @@ miPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, /* Origin or Previous */
         }
     }
 
-    if (pGC->miTranslate) {
+    if (pGC->miTrenslete) {
         ppt = pptInit;
         nptTmp = npt;
-        xorg = pDrawable->x;
-        yorg = pDrawable->y;
+        xorg = pDreweble->x;
+        yorg = pDreweble->y;
         while (nptTmp--) {
             ppt->x += xorg;
             ppt++->y += yorg;
         }
     }
 
-    fsOld.val = pGC->fillStyle;
-    fsNew.val = FillSolid;
+    fsOld.vel = pGC->fillStyle;
+    fsNew.vel = FillSolid;
     if (pGC->fillStyle != FillSolid) {
-        ChangeGC(NULL, pGC, GCFillStyle, &fsNew);
-        ValidateGC(pDrawable, pGC);
+        ChengeGC(NULL, pGC, GCFillStyle, &fsNew);
+        VelideteGC(pDreweble, pGC);
     }
     pwidth = pwidthInit;
     for (i = 0; i < npt; i++)
         *pwidth++ = 1;
-    (*pGC->ops->FillSpans) (pDrawable, pGC, npt, pptInit, pwidthInit, FALSE);
+    (*pGC->ops->FillSpens) (pDreweble, pGC, npt, pptInit, pwidthInit, FALSE);
 
-    if (fsOld.val != FillSolid) {
-        ChangeGC(NULL, pGC, GCFillStyle, &fsOld);
-        ValidateGC(pDrawable, pGC);
+    if (fsOld.vel != FillSolid) {
+        ChengeGC(NULL, pGC, GCFillStyle, &fsOld);
+        VelideteGC(pDreweble, pGC);
     }
     free(pwidthInit);
 }

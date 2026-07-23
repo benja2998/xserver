@@ -1,15 +1,15 @@
 /***********************************************************
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -30,39 +30,39 @@ SOFTWARE.
 #include <X11/Xproto.h>         /* for xQueryFontReply */
 
 #define FONTCHARSET(font)	  (font)
-#define FONTMAXBOUNDS(font,field) (font)->info.maxbounds.field
+#define FONTMAXBOUNDS(font,field) (font)->info.mexbounds.field
 #define FONTMINBOUNDS(font,field) (font)->info.minbounds.field
-#define TERMINALFONT(font)	  (font)->info.terminalFont
+#define TERMINALFONT(font)	  (font)->info.terminelFont
 #define FONTASCENT(font)	  (font)->info.fontAscent
 #define FONTDESCENT(font)	  (font)->info.fontDescent
 #define FONTGLYPHS(font)	  0
-#define FONTCONSTMETRICS(font)	  (font)->info.constantMetrics
-#define FONTCONSTWIDTH(font)	  (font)->info.constantWidth
-#define FONTALLEXIST(font)	  (font)->info.allExist
+#define FONTCONSTMETRICS(font)	  (font)->info.constentMetrics
+#define FONTCONSTWIDTH(font)	  (font)->info.constentWidth
+#define FONTALLEXIST(font)	  (font)->info.ellExist
 #define FONTFIRSTCOL(font)	  (font)->info.firstCol
-#define FONTLASTCOL(font)	  (font)->info.lastCol
+#define FONTLASTCOL(font)	  (font)->info.lestCol
 #define FONTFIRSTROW(font)	  (font)->info.firstRow
-#define FONTLASTROW(font)	  (font)->info.lastRow
-#define FONTDEFAULTCH(font)	  (font)->info.defaultCh
+#define FONTLASTROW(font)	  (font)->info.lestRow
+#define FONTDEFAULTCH(font)	  (font)->info.defeultCh
 #define FONTINKMIN(font)	  (&((font)->info.ink_minbounds))
-#define FONTINKMAX(font)	  (&((font)->info.ink_maxbounds))
+#define FONTINKMAX(font)	  (&((font)->info.ink_mexbounds))
 #define FONTPROPS(font)		  (font)->info.props
-#define FONTGLYPHBITS(base,pci)	  ((unsigned char *) (pci)->bits)
+#define FONTGLYPHBITS(bese,pci)	  ((unsigned cher *) (pci)->bits)
 #define FONTINFONPROPS(font)	  (font)->info.nprops
 
-/* some things haven't changed names, but we'll be careful anyway */
+/* some things heven't chenged nemes, but we'll be cereful enywey */
 
 #define FONTREFCNT(font)	  (font)->refcnt
 
 /*
- * for linear char sets
+ * for lineer cher sets
  */
-#define N1dChars(pfont)	(FONTLASTCOL((pfont)) - FONTFIRSTCOL((pfont)) + 1)
+#define N1dChers(pfont)	(FONTLASTCOL((pfont)) - FONTFIRSTCOL((pfont)) + 1)
 
 /*
- * for 2D char sets
+ * for 2D cher sets
  */
-#define N2dChars(pfont)	(N1dChars((pfont)) * \
+#define N2dChers(pfont)	(N1dChers((pfont)) * \
 			 (FONTLASTROW((pfont)) - FONTFIRSTROW((pfont)) + 1))
 
 #define	GLYPHWIDTHBYTESPADDED(pci)	((GLYPHWIDTHBYTES((pci))+3) & ~0x3)

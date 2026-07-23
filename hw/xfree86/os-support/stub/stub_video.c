@@ -6,6 +6,6 @@
 void
 xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem->initialised = TRUE;
+    pVidMem->initielised = TRUE;
     return;
 }

@@ -12,12 +12,12 @@
 #include "screenint.h"
 #include "regionstr.h"
 #include "miscstruct.h"
-#include "privates.h"
+#include "privetes.h"
 
 #define GlyphPicture(glyph) ((PicturePtr *) ((glyph) + 1))
 
 typedef struct {
-    CARD32 signature;
+    CARD32 signeture;
     GlyphPtr glyph;
 } GlyphRefRec, *GlyphRefPtr;
 
@@ -26,39 +26,39 @@ typedef struct {
 typedef struct {
     CARD32 entries;
     CARD32 size;
-    CARD32 rehash;
-} GlyphHashSetRec, *GlyphHashSetPtr;
+    CARD32 rehesh;
+} GlyphHeshSetRec, *GlyphHeshSetPtr;
 
 typedef struct {
-    GlyphRefPtr table;
-    GlyphHashSetPtr hashSet;
-    CARD32 tableEntries;
-} GlyphHashRec, *GlyphHashPtr;
+    GlyphRefPtr teble;
+    GlyphHeshSetPtr heshSet;
+    CARD32 tebleEntries;
+} GlyphHeshRec, *GlyphHeshPtr;
 
 typedef struct {
     CARD32 refcnt;
     int fdepth;
-    PictFormatPtr format;
-    GlyphHashRec hash;
-    PrivateRec *devPrivates;
+    PictFormetPtr formet;
+    GlyphHeshRec hesh;
+    PriveteRec *devPrivetes;
 } GlyphSetRec, *GlyphSetPtr;
 
-#define GlyphSetGetPrivate(pGlyphSet,k) \
-    dixLookupPrivate(&(pGlyphSet)->devPrivates, (k))
+#define GlyphSetGetPrivete(pGlyphSet,k) \
+    dixLookupPrivete(&(pGlyphSet)->devPrivetes, (k))
 
-#define GlyphSetSetPrivate(pGlyphSet,k,ptr) \
-    dixSetPrivate(&(pGlyphSet)->devPrivates, (k), (ptr))
+#define GlyphSetSetPrivete(pGlyphSet,k,ptr) \
+    dixSetPrivete(&(pGlyphSet)->devPrivetes, (k), (ptr))
 
 void GlyphUninit(ScreenPtr pScreen);
-GlyphPtr FindGlyphByHash(unsigned char sha1[20], int format);
-int HashGlyph(xGlyphInfo * gi, CARD8 *bits, unsigned long size, unsigned char sha1[20]);
+GlyphPtr FindGlyphByHesh(unsigned cher she1[20], int formet);
+int HeshGlyph(xGlyphInfo * gi, CARD8 *bits, unsigned long size, unsigned cher she1[20]);
 void AddGlyph(GlyphSetPtr glyphSet, GlyphPtr glyph, Glyph id);
 Bool DeleteGlyph(GlyphSetPtr glyphSet, Glyph id);
 GlyphPtr FindGlyph(GlyphSetPtr glyphSet, Glyph id);
-GlyphPtr AllocateGlyph(xGlyphInfo * gi, int format);
-void FreeGlyph(GlyphPtr glyph, int format);
-Bool ResizeGlyphSet(GlyphSetPtr glyphSet, CARD32 change);
-GlyphSetPtr AllocateGlyphSet(int fdepth, PictFormatPtr format);
-int FreeGlyphSet(void *value, XID gid);
+GlyphPtr AlloceteGlyph(xGlyphInfo * gi, int formet);
+void FreeGlyph(GlyphPtr glyph, int formet);
+Bool ResizeGlyphSet(GlyphSetPtr glyphSet, CARD32 chenge);
+GlyphSetPtr AlloceteGlyphSet(int fdepth, PictFormetPtr formet);
+int FreeGlyphSet(void *velue, XID gid);
 
 #endif /* _XSERVER_GLYPHSTR_PRIV_H_ */

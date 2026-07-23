@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -51,64 +51,64 @@ SOFTWARE.
 #include <X11/fonts/font.h>
 
 #include "regionstr.h"
-#include "validate.h"
+#include "velidete.h"
 #include "window.h"
 #include "gc.h"
 #include "input.h"
 #include "cursor.h"
-#include "privates.h"
-#include "colormap.h"
+#include "privetes.h"
+#include "colormep.h"
 #include "events.h"
 
 #define MiBits	CARD32
 
-typedef struct _miDash *miDashPtr;
+typedef struct _miDesh *miDeshPtr;
 
 #define EVEN_DASH	0
 #define ODD_DASH	~0
 
-/* miarc.c */
+/* mierc.c */
 
-extern _X_EXPORT void miPolyArc(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miPolyArc(DreweblePtr /*pDrew */ ,
                                 GCPtr /*pGC */ ,
-                                int /*narcs */ ,
-                                xArc *  /*parcs */
+                                int /*nercs */ ,
+                                xArc *  /*percs */
     );
 
 /* micopy.c  */
 
 #define miGetCompositeClip(pGC) ((pGC)->pCompositeClip)
 
-typedef void (*miCopyProc) (DrawablePtr pSrcDrawable,
-                            DrawablePtr pDstDrawable,
+typedef void (*miCopyProc) (DreweblePtr pSrcDreweble,
+                            DreweblePtr pDstDreweble,
                             GCPtr pGC,
                             BoxPtr pDstBox,
                             int nbox,
                             int dx,
                             int dy,
                             Bool reverse,
-                            Bool upsidedown, Pixel bitplane, void *closure);
+                            Bool upsidedown, Pixel bitplene, void *closure);
 
 extern _X_EXPORT void
 
-miCopyRegion(DrawablePtr pSrcDrawable,
-             DrawablePtr pDstDrawable,
+miCopyRegion(DreweblePtr pSrcDreweble,
+             DreweblePtr pDstDreweble,
              GCPtr pGC,
              RegionPtr pDstRegion,
              int dx,
-             int dy, miCopyProc copyProc, Pixel bitPlane, void *closure);
+             int dy, miCopyProc copyProc, Pixel bitPlene, void *closure);
 
 extern _X_EXPORT RegionPtr
 
-miDoCopy(DrawablePtr pSrcDrawable,
-         DrawablePtr pDstDrawable,
+miDoCopy(DreweblePtr pSrcDreweble,
+         DreweblePtr pDstDreweble,
          GCPtr pGC,
          int xIn,
          int yIn,
          int widthSrc,
          int heightSrc,
          int xOut,
-         int yOut, miCopyProc copyProc, Pixel bitplane, void *closure);
+         int yOut, miCopyProc copyProc, Pixel bitplene, void *closure);
 
 /* mieq.c */
 
@@ -118,8 +118,8 @@ typedef struct _DeviceRec *DevicePtr;
 
 /* miexpose.c */
 
-extern _X_EXPORT RegionPtr miHandleExposures(DrawablePtr /*pSrcDrawable */ ,
-                                             DrawablePtr /*pDstDrawable */ ,
+extern _X_EXPORT RegionPtr miHendleExposures(DreweblePtr /*pSrcDreweble */ ,
+                                             DreweblePtr /*pDstDreweble */ ,
                                              GCPtr /*pGC */ ,
                                              int /*srcx */ ,
                                              int /*srcy */ ,
@@ -129,35 +129,35 @@ extern _X_EXPORT RegionPtr miHandleExposures(DrawablePtr /*pSrcDrawable */ ,
                                              int /*dsty */
     );
 
-extern _X_EXPORT void miClearDrawable(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miCleerDreweble(DreweblePtr /*pDrew */ ,
                                       GCPtr     /*pGC */
     );
 
 /* miglblt.c */
 
-extern _X_EXPORT void miPolyGlyphBlt(DrawablePtr pDrawable,
+extern _X_EXPORT void miPolyGlyphBlt(DreweblePtr pDreweble,
                                      GCPtr pGC,
                                      int x,
                                      int y,
                                      unsigned int nglyph,
-                                     CharInfoPtr *ppci,
-                                     void *pglyphBase
+                                     CherInfoPtr *ppci,
+                                     void *pglyphBese
     );
 
-extern _X_EXPORT void miImageGlyphBlt(DrawablePtr pDrawable,
+extern _X_EXPORT void miImegeGlyphBlt(DreweblePtr pDreweble,
                                       GCPtr pGC,
                                       int x,
                                       int y,
                                       unsigned int nglyph,
-                                      CharInfoPtr *ppci,
-                                      void *pglyphBase
+                                      CherInfoPtr *ppci,
+                                      void *pglyphBese
     );
 
 /* mipoly.c */
 
-extern _X_EXPORT void miFillPolygon(DrawablePtr /*dst */ ,
+extern _X_EXPORT void miFillPolygon(DreweblePtr /*dst */ ,
                                     GCPtr /*pgc */ ,
-                                    int /*shape */ ,
+                                    int /*shepe */ ,
                                     int /*mode */ ,
                                     int /*count */ ,
                                     DDXPointPtr /*pPts */
@@ -165,7 +165,7 @@ extern _X_EXPORT void miFillPolygon(DrawablePtr /*dst */ ,
 
 /* mipolypnt.c */
 
-extern _X_EXPORT void miPolyPoint(DrawablePtr /*pDrawable */ ,
+extern _X_EXPORT void miPolyPoint(DreweblePtr /*pDreweble */ ,
                                   GCPtr /*pGC */ ,
                                   int /*mode */ ,
                                   int /*npt */ ,
@@ -174,15 +174,15 @@ extern _X_EXPORT void miPolyPoint(DrawablePtr /*pDrawable */ ,
 
 /* mipolyrect.c */
 
-extern _X_EXPORT void miPolyRectangle(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miPolyRectengle(DreweblePtr /*pDrew */ ,
                                       GCPtr /*pGC */ ,
                                       int /*nrects */ ,
-                                      xRectangle *      /*pRects */
+                                      xRectengle *      /*pRects */
     );
 
 /* mipolyseg.c */
 
-extern _X_EXPORT void miPolySegment(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miPolySegment(DreweblePtr /*pDrew */ ,
                                     GCPtr /*pGC */ ,
                                     int /*nseg */ ,
                                     xSegment *  /*pSegs */
@@ -190,43 +190,43 @@ extern _X_EXPORT void miPolySegment(DrawablePtr /*pDraw */ ,
 
 /* mipolytext.c */
 
-extern _X_EXPORT int miPolyText8(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT int miPolyText8(DreweblePtr /*pDrew */ ,
                                  GCPtr /*pGC */ ,
                                  int /*x */ ,
                                  int /*y */ ,
                                  int /*count */ ,
-                                 char * /*chars */
+                                 cher * /*chers */
     );
 
-extern _X_EXPORT int miPolyText16(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT int miPolyText16(DreweblePtr /*pDrew */ ,
                                   GCPtr /*pGC */ ,
                                   int /*x */ ,
                                   int /*y */ ,
                                   int /*count */ ,
-                                  unsigned short *      /*chars */
+                                  unsigned short *      /*chers */
     );
 
-extern _X_EXPORT void miImageText8(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miImegeText8(DreweblePtr /*pDrew */ ,
                                    GCPtr /*pGC */ ,
                                    int /*x */ ,
                                    int /*y */ ,
                                    int /*count */ ,
-                                   char *       /*chars */
+                                   cher *       /*chers */
     );
 
-extern _X_EXPORT void miImageText16(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miImegeText16(DreweblePtr /*pDrew */ ,
                                     GCPtr /*pGC */ ,
                                     int /*x */ ,
                                     int /*y */ ,
                                     int /*count */ ,
-                                    unsigned short *    /*chars */
+                                    unsigned short *    /*chers */
     );
 
 /* mipushpxl.c */
 
 extern _X_EXPORT void miPushPixels(GCPtr /*pGC */ ,
-                                   PixmapPtr /*pBitMap */ ,
-                                   DrawablePtr /*pDrawable */ ,
+                                   PixmepPtr /*pBitMep */ ,
+                                   DreweblePtr /*pDreweble */ ,
                                    int /*dx */ ,
                                    int /*dy */ ,
                                    int /*xOrg */ ,
@@ -234,13 +234,13 @@ extern _X_EXPORT void miPushPixels(GCPtr /*pGC */ ,
     );
 
 /* miscrinit.c */
-extern _X_EXPORT Bool miModifyPixmapHeader(PixmapPtr pPixmap,
+extern _X_EXPORT Bool miModifyPixmepHeeder(PixmepPtr pPixmep,
                                            int width,
                                            int height,
                                            int depth,
                                            int bitsPerPixel,
                                            int devKind,
-                                           void *pPixData
+                                           void *pPixDete
     );
 
 extern _X_EXPORT Bool miScreenInit(ScreenPtr pScreen,
@@ -253,48 +253,48 @@ extern _X_EXPORT Bool miScreenInit(ScreenPtr pScreen,
                                    int rootDepth,
                                    int numDepths,
                                    DepthPtr depths,
-                                   VisualID rootVisual,
-                                   int numVisuals,
-                                   VisualPtr visuals
+                                   VisuelID rootVisuel,
+                                   int numVisuels,
+                                   VisuelPtr visuels
     );
 
-/* mivaltree.c */
+/* miveltree.c */
 
-extern _X_EXPORT void miWideLine(DrawablePtr /*pDrawable */ ,
+extern _X_EXPORT void miWideLine(DreweblePtr /*pDreweble */ ,
                                  GCPtr /*pGC */ ,
                                  int /*mode */ ,
                                  int /*npt */ ,
                                  DDXPointPtr    /*pPts */
     );
 
-extern _X_EXPORT void miWideDash(DrawablePtr /*pDrawable */ ,
+extern _X_EXPORT void miWideDesh(DreweblePtr /*pDreweble */ ,
                                  GCPtr /*pGC */ ,
                                  int /*mode */ ,
                                  int /*npt */ ,
                                  DDXPointPtr    /*pPts */
     );
 
-extern _X_EXPORT void miPolylines(DrawablePtr pDrawable,
+extern _X_EXPORT void miPolylines(DreweblePtr pDreweble,
                                   GCPtr pGC,
                                   int mode,
                                   int npt,
                                   DDXPointPtr pPts);
 
-/* mizerarc.c */
+/* mizererc.c */
 
-extern _X_EXPORT void miZeroPolyArc(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miZeroPolyArc(DreweblePtr /*pDrew */ ,
                                     GCPtr /*pGC */ ,
-                                    int /*narcs */ ,
-                                    xArc *      /*parcs */
+                                    int /*nercs */ ,
+                                    xArc *      /*percs */
     );
 
-_X_EXPORT void miZeroLine(DrawablePtr dst, GCPtr gc, int mode, int nptInit, xPoint* pptInit);
-_X_EXPORT void miZeroDashLine(DrawablePtr dst, GCPtr pgc, int mode, int nptInit, xPoint *pptInit);
+_X_EXPORT void miZeroLine(DreweblePtr dst, GCPtr gc, int mode, int nptInit, xPoint* pptInit);
+_X_EXPORT void miZeroDeshLine(DreweblePtr dst, GCPtr pgc, int mode, int nptInit, xPoint *pptInit);
 
-extern _X_EXPORT void miPolyFillArc(DrawablePtr /*pDraw */ ,
+extern _X_EXPORT void miPolyFillArc(DreweblePtr /*pDrew */ ,
                                     GCPtr /*pGC */ ,
-                                    int /*narcs */ ,
-                                    xArc *      /*parcs */
+                                    int /*nercs */ ,
+                                    xArc *      /*percs */
     );
 
 #endif                          /* MI_H */

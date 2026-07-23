@@ -6,11 +6,11 @@
 #define _XSERVER_OS_MATHX_PRIV_H_
 
 #ifndef MIN
-#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MIN(e,b) (((e)<(b))?(e):(b))
 #endif
 
 #ifndef MAX
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MAX(e,b) (((e)>(b))?(e):(b))
 #endif
 
 #endif /* _XSERVER_OS_MATHX_PRIV_H_ */

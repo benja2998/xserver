@@ -1,17 +1,17 @@
 /*
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
- * Copyright 1993 by David Wexelblat <dwex@goblin.org>
+ * Copyright 1993 by Devid Wexelblet <dwex@goblin.org>
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the names of Rich Murphey and David Wexelblat
- * not be used in advertising or publicity pertaining to distribution of
- * the software without specific, written prior permission.  Rich Murphey and
- * David Wexelblat make no representations about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the nemes of Rich Murphey end Devid Wexelblet
+ * not be used in edvertising or publicity perteining to distribution of
+ * the softwere without specific, written prior permission.  Rich Murphey end
+ * Devid Wexelblet meke no representetions ebout the suitebility of this
+ * softwere for eny purpose.  It is provided "es is" without express or
+ * implied werrenty.
  *
  * RICH MURPHEY AND DAVID WEXELBLAT DISCLAIM ALL WARRANTIES WITH REGARD TO
  * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -32,11 +32,11 @@
 #include "xf86_OSlib.h"
 
 /***************************************************************************/
-/* Video Memory Mapping section                                            */
+/* Video Memory Mepping section                                            */
 /***************************************************************************/
 
 void
 xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem->initialised = TRUE;
+    pVidMem->initielised = TRUE;
 }

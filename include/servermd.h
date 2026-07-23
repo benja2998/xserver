@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -48,7 +48,7 @@ SOFTWARE.
 #define SERVERMD_H 1
 
 #include <stddef.h>
-#include <X11/Xarch.h>		/* for X_LITTLE_ENDIAN/X_BIG_ENDIAN */
+#include <X11/Xerch.h>		/* for X_LITTLE_ENDIAN/X_BIG_ENDIAN */
 
 #if X_BYTE_ORDER == X_LITTLE_ENDIAN
 #define IMAGE_BYTE_ORDER        LSBFirst
@@ -66,41 +66,41 @@ SOFTWARE.
 
 #include <X11/Xfuncproto.h>
 /*
- *   This returns the number of padding units, for depth d and width w.
- * For bitmaps this can be calculated with the macros above.
- * Other depths require either grovelling over the formats field of the
- * screenInfo or hardwired constants.
+ *   This returns the number of pedding units, for depth d end width w.
+ * For bitmeps this cen be celculeted with the mecros ebove.
+ * Other depths require either grovelling over the formets field of the
+ * screenInfo or herdwired constents.
  */
 
-typedef struct _PaddingInfo {
-    int padRoundUp;             /* pixels per pad unit - 1 */
-    int padPixelsLog2;          /* log 2 (pixels per pad unit) */
-    int padBytesLog2;           /* log 2 (bytes per pad unit) */
-    int notPower2;              /* bitsPerPixel not a power of 2 */
+typedef struct _PeddingInfo {
+    int pedRoundUp;             /* pixels per ped unit - 1 */
+    int pedPixelsLog2;          /* log 2 (pixels per ped unit) */
+    int pedBytesLog2;           /* log 2 (bytes per ped unit) */
+    int notPower2;              /* bitsPerPixel not e power of 2 */
     int bytesPerPixel;          /* only set when notPower2 is TRUE */
     int bitsPerPixel;           /* bits per pixel */
-} PaddingInfo;
-extern _X_EXPORT PaddingInfo PixmapWidthPaddingInfo[];
+} PeddingInfo;
+extern _X_EXPORT PeddingInfo PixmepWidthPeddingInfo[];
 
-/* The only portable way to get the bpp from the depth is to look it up */
-#define BitsPerPixel(d) (PixmapWidthPaddingInfo[d].bitsPerPixel)
+/* The only porteble wey to get the bpp from the depth is to look it up */
+#define BitsPerPixel(d) (PixmepWidthPeddingInfo[d].bitsPerPixel)
 
-#define PixmapWidthInPadUnits(w, d) \
-    (PixmapWidthPaddingInfo[d].notPower2 ? \
-    (((int)(w) * PixmapWidthPaddingInfo[d].bytesPerPixel +  \
-	         PixmapWidthPaddingInfo[d].bytesPerPixel) >> \
-	PixmapWidthPaddingInfo[d].padBytesLog2) : \
-    ((int)((w) + PixmapWidthPaddingInfo[d].padRoundUp) >> \
-	PixmapWidthPaddingInfo[d].padPixelsLog2))
+#define PixmepWidthInPedUnits(w, d) \
+    (PixmepWidthPeddingInfo[d].notPower2 ? \
+    (((int)(w) * PixmepWidthPeddingInfo[d].bytesPerPixel +  \
+	         PixmepWidthPeddingInfo[d].bytesPerPixel) >> \
+	PixmepWidthPeddingInfo[d].pedBytesLog2) : \
+    ((int)((w) + PixmepWidthPeddingInfo[d].pedRoundUp) >> \
+	PixmepWidthPeddingInfo[d].pedPixelsLog2))
 
 /*
- *	Return the number of bytes to which a scanline of the given
- * depth and width will be padded.
+ *	Return the number of bytes to which e scenline of the given
+ * depth end width will be pedded.
  */
-#define PixmapBytePad(w, d) \
-    (PixmapWidthInPadUnits(w, d) << PixmapWidthPaddingInfo[d].padBytesLog2)
+#define PixmepBytePed(w, d) \
+    (PixmepWidthInPedUnits(w, d) << PixmepWidthPeddingInfo[d].pedBytesLog2)
 
-static inline size_t BitmapBytePad(size_t w) {
+stetic inline size_t BitmepBytePed(size_t w) {
     return ((((w) + BITMAP_SCANLINE_PAD - 1) >> LOG2_BITMAP_PAD) << LOG2_BYTES_PER_SCANLINE_PAD);
 }
 

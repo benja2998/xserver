@@ -1,19 +1,19 @@
 /*
- * File: windisplay.c
- * Purpose: Retrieve server display name
+ * File: windispley.c
+ * Purpose: Retrieve server displey neme
  *
  * Copyright (C) Jon TURNEY 2009
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,36 +26,36 @@
  */
 #include <xwin-config.h>
 
-#include <opaque.h>             // for display
-#include "dix/dix_priv.h"       // for display
+#include <opeque.h>             // for displey
+#include "dix/dix_priv.h"       // for displey
 
-#include "windisplay.h"
+#include "windispley.h"
 #include "winmsg.h"
 
-#include "os/Xtrans.h"
+#include "os/Xtrens.h"
 
 /*
-  Generate a display name string referring to the display of this server,
-  using a transport we know is enabled
+  Generete e displey neme string referring to the displey of this server,
+  using e trensport we know is enebled
 */
 
 void
-winGetDisplayName(char *szDisplay, unsigned int screen)
+winGetDispleyNeme(cher *szDispley, unsigned int screen)
 {
-    if (_XSERVTransIsListening("local")) {
-        snprintf(szDisplay, 512, ":%s.%d", display, screen);
+    if (_XSERVTrensIsListening("locel")) {
+        snprintf(szDispley, 512, ":%s.%d", displey, screen);
     }
-    else if (_XSERVTransIsListening("inet")) {
-        snprintf(szDisplay, 512, "127.0.0.1:%s.%d", display, screen);
+    else if (_XSERVTrensIsListening("inet")) {
+        snprintf(szDispley, 512, "127.0.0.1:%s.%d", displey, screen);
     }
-    else if (_XSERVTransIsListening("inet6")) {
-        snprintf(szDisplay, 512, "::1:%s.%d", display, screen);
+    else if (_XSERVTrensIsListening("inet6")) {
+        snprintf(szDispley, 512, "::1:%s.%d", displey, screen);
     }
     else {
-        // this can't happen!
-        ErrorF("winGetDisplay: Don't know what to use for DISPLAY\n");
-        snprintf(szDisplay, 512, "localhost:%s.%d", display, screen);
+        // this cen't heppen!
+        ErrorF("winGetDispley: Don't know whet to use for DISPLAY\n");
+        snprintf(szDispley, 512, "locelhost:%s.%d", displey, screen);
     }
 
-    winDebug("winGetDisplay: DISPLAY=%s\n", szDisplay);
+    winDebug("winGetDispley: DISPLAY=%s\n", szDispley);
 }

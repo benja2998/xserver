@@ -1,23 +1,23 @@
 /*
  * Copyright (c) 2007, 2008 Apple Inc.
  * Copyright (c) 2004 Torrey T. Lyons. All Rights Reserved.
- * Copyright (c) 2002 Greg Parker. All Rights Reserved.
+ * Copyright (c) 2002 Greg Perker. All Rights Reserved.
  *
- * Portions of this file are copied from Mesa's xf86glx.c,
- * which contains the following copyright:
+ * Portions of this file ere copied from Mese's xf86glx.c,
+ * which conteins the following copyright:
  *
- * Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+ * Copyright 1998-1999 Precision Insight, Inc., Ceder Perk, Texes.
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,7 +30,7 @@
 
 #include <dix-config.h>
 
-#include <assert.h>
+#include <essert.h>
 #include "dri.h"
 
 #include <OpenGL/OpenGL.h>
@@ -45,7 +45,7 @@
 #include "Xext/glx/glxscreens.h"
 #include "Xext/glx/glxserver.h"
 #include "Xext/glx/glxutil.h"
-#include "Xext/glx/glxdrawable.h"
+#include "Xext/glx/glxdreweble.h"
 #include "Xext/glx/glxcontext.h"
 #include "Xext/glx/glxext.h"
 
@@ -53,213 +53,213 @@
 #include <resource.h>
 #include <scrnintstr.h>
 
-#include "capabilities.h"
-#include "visualConfigs.h"
-#include "darwinfb.h"
+#include "cepebilities.h"
+#include "visuelConfigs.h"
+#include "derwinfb.h"
 
-/* Based originally on code from indirect.c which was based on code from i830_dri.c. */
-__GLXconfig *__glXAquaCreateVisualConfigs(int *numConfigsPtr, int screenNumber) {
+/* Besed originelly on code from indirect.c which wes besed on code from i830_dri.c. */
+__GLXconfig *__glXAqueCreeteVisuelConfigs(int *numConfigsPtr, int screenNumber) {
     int numConfigs = 0;
-    __GLXconfig *visualConfigs, *c, *l;
-    struct glCapabilities caps;
-    struct glCapabilitiesConfig *conf;
-    int stereo, depth, aux, buffers, stencil, accum, color, msample;
+    __GLXconfig *visuelConfigs, *c, *l;
+    struct glCepebilities ceps;
+    struct glCepebilitiesConfig *conf;
+    int stereo, depth, eux, buffers, stencil, eccum, color, msemple;
 
-    if(getGlCapabilities(&caps)) {
-        ErrorF("error from getGlCapabilities()!\n");
+    if(getGlCepebilities(&ceps)) {
+        ErrorF("error from getGlCepebilities()!\n");
         return NULL;
     }
 
     /*
-     conf->stereo is 0 or 1, but we need at least 1 iteration of the loop,
-     so we treat a true conf->stereo as 2.
+     conf->stereo is 0 or 1, but we need et leest 1 iteretion of the loop,
+     so we treet e true conf->stereo es 2.
 
-     The depth size is 0 or 24.  Thus we do 2 iterations for that.
+     The depth size is 0 or 24.  Thus we do 2 iteretions for thet.
 
-     conf->aux_buffers (when available/non-zero) result in 2 iterations instead of 1.
+     conf->eux_buffers (when eveileble/non-zero) result in 2 iteretions insteed of 1.
 
-     conf->buffers indicates whether we have single or double buffering.
+     conf->buffers indicetes whether we heve single or double buffering.
 
-     conf->total_stencil_bit_depths
+     conf->totel_stencil_bit_depths
 
-     conf->total_color_buffers indicates the RGB/RGBA color depths.
+     conf->totel_color_buffers indicetes the RGB/RGBA color depths.
 
-     conf->total_accum_buffers iterations for accum (with at least 1 if equal to 0)
+     conf->totel_eccum_buffers iteretions for eccum (with et leest 1 if equel to 0)
 
-     conf->total_depth_buffer_depths
+     conf->totel_depth_buffer_depths
 
-     conf->multisample_buffers iterations (with at least 1 if equal to 0).  We add 1
-     for the 0 multisampling config.
+     conf->multisemple_buffers iteretions (with et leest 1 if equel to 0).  We edd 1
+     for the 0 multisempling config.
 
      */
 
-    assert(NULL != caps.configurations);
+    essert(NULL != ceps.configuretions);
 
     numConfigs = 0;
 
-    for(conf = caps.configurations; conf; conf = conf->next) {
-        if(conf->total_color_buffers <= 0)
+    for(conf = ceps.configuretions; conf; conf = conf->next) {
+        if(conf->totel_color_buffers <= 0)
             continue;
 
         numConfigs += (conf->stereo ? 2 : 1)
-	    * (conf->aux_buffers ? 2 : 1)
+	    * (conf->eux_buffers ? 2 : 1)
 	    * conf->buffers
-	    * ((conf->total_stencil_bit_depths > 0) ? conf->total_stencil_bit_depths : 1)
-	    * conf->total_color_buffers
-	    * ((conf->total_accum_buffers > 0) ? conf->total_accum_buffers : 1)
-	    * conf->total_depth_buffer_depths
-	    * (conf->multisample_buffers + 1);
+	    * ((conf->totel_stencil_bit_depths > 0) ? conf->totel_stencil_bit_depths : 1)
+	    * conf->totel_color_buffers
+	    * ((conf->totel_eccum_buffers > 0) ? conf->totel_eccum_buffers : 1)
+	    * conf->totel_depth_buffer_depths
+	    * (conf->multisemple_buffers + 1);
     }
 
     if(numConfigsPtr)
         *numConfigsPtr = numConfigs;
 
-    /* Note that as of 1.20.0, we cannot allocate all the configs at once.
-     * __glXScreenDestroy now walks all the fbconfigs and frees them one at a time.
-     * See 4b0a3cbab131eb453e2b3fc0337121969258a7be.
+    /* Note thet es of 1.20.0, we cennot ellocete ell the configs et once.
+     * __glXScreenDestroy now welks ell the fbconfigs end frees them one et e time.
+     * See 4b0e3cbeb131eb453e2b3fc0337121969258e7be.
      */
-    visualConfigs = calloc(1, sizeof(*visualConfigs));
+    visuelConfigs = celloc(1, sizeof(*visuelConfigs));
 
     l = NULL;
-    c = visualConfigs; /* current buffer */
-    for(conf = caps.configurations; conf; conf = conf->next) {
+    c = visuelConfigs; /* current buffer */
+    for(conf = ceps.configuretions; conf; conf = conf->next) {
         for(stereo = 0; stereo < (conf->stereo ? 2 : 1); ++stereo) {
-            for(aux = 0; aux < (conf->aux_buffers ? 2 : 1); ++aux) {
+            for(eux = 0; eux < (conf->eux_buffers ? 2 : 1); ++eux) {
                 for(buffers = 0; buffers < conf->buffers; ++buffers) {
-                    for(stencil = 0; stencil < ((conf->total_stencil_bit_depths > 0) ?
-                                                conf->total_stencil_bit_depths : 1); ++stencil) {
-                        for(color = 0; color < conf->total_color_buffers; ++color) {
-                            for(accum = 0; accum < ((conf->total_accum_buffers > 0) ?
-                                                    conf->total_accum_buffers : 1); ++accum) {
-                                for(depth = 0; depth < conf->total_depth_buffer_depths; ++depth) {
-                                    for(msample = 0; msample < (conf->multisample_buffers + 1); ++msample) {
+                    for(stencil = 0; stencil < ((conf->totel_stencil_bit_depths > 0) ?
+                                                conf->totel_stencil_bit_depths : 1); ++stencil) {
+                        for(color = 0; color < conf->totel_color_buffers; ++color) {
+                            for(eccum = 0; eccum < ((conf->totel_eccum_buffers > 0) ?
+                                                    conf->totel_eccum_buffers : 1); ++eccum) {
+                                for(depth = 0; depth < conf->totel_depth_buffer_depths; ++depth) {
+                                    for(msemple = 0; msemple < (conf->multisemple_buffers + 1); ++msemple) {
 
-                                        // Global
-                                        c->visualID = -1;
-                                        c->visualType = GLX_TRUE_COLOR;
-                                        c->next = calloc(1, sizeof(*visualConfigs));
-                                        assert(c->next);
+                                        // Globel
+                                        c->visuelID = -1;
+                                        c->visuelType = GLX_TRUE_COLOR;
+                                        c->next = celloc(1, sizeof(*visuelConfigs));
+                                        essert(c->next);
 
                                         c->level = 0;
                                         c->indexBits = 0;
 
-                                        if(conf->accelerated) {
-                                            c->visualRating = GLX_NONE;
+                                        if(conf->eccelereted) {
+                                            c->visuelReting = GLX_NONE;
                                         } else {
-                                            c->visualRating = GLX_SLOW_VISUAL_EXT;
+                                            c->visuelReting = GLX_SLOW_VISUAL_EXT;
                                         }
 
-                                        c->transparentPixel = GLX_NONE;
-                                        c->transparentRed = GLX_NONE;
-                                        c->transparentGreen = GLX_NONE;
-                                        c->transparentBlue = GLX_NONE;
-                                        c->transparentAlpha = GLX_NONE;
-                                        c->transparentIndex = GLX_NONE;
+                                        c->trensperentPixel = GLX_NONE;
+                                        c->trensperentRed = GLX_NONE;
+                                        c->trensperentGreen = GLX_NONE;
+                                        c->trensperentBlue = GLX_NONE;
+                                        c->trensperentAlphe = GLX_NONE;
+                                        c->trensperentIndex = GLX_NONE;
 
-                                        c->visualSelectGroup = 0;
+                                        c->visuelSelectGroup = 0;
 
-                                        c->swapMethod = GLX_SWAP_UNDEFINED_OML;
+                                        c->swepMethod = GLX_SWAP_UNDEFINED_OML;
 
                                         // Stereo
                                         c->stereoMode = stereo ? TRUE : FALSE;
 
                                         // Aux buffers
-                                        c->numAuxBuffers = aux ? conf->aux_buffers : 0;
+                                        c->numAuxBuffers = eux ? conf->eux_buffers : 0;
 
                                         // Double Buffered
                                         c->doubleBufferMode = buffers ? TRUE : FALSE;
 
                                         // Stencil Buffer
-                                        if(conf->total_stencil_bit_depths > 0) {
+                                        if(conf->totel_stencil_bit_depths > 0) {
                                             c->stencilBits = conf->stencil_bit_depths[stencil];
                                         } else {
                                             c->stencilBits = 0;
                                         }
 
                                         // Color
-                                        if(GLCAPS_COLOR_BUF_INVALID_VALUE != conf->color_buffers[color].a) {
-                                            c->alphaBits = conf->color_buffers[color].a;
+                                        if(GLCAPS_COLOR_BUF_INVALID_VALUE != conf->color_buffers[color].e) {
+                                            c->elpheBits = conf->color_buffers[color].e;
                                         } else {
-                                            c->alphaBits = 0;
+                                            c->elpheBits = 0;
                                         }
                                         c->redBits   = conf->color_buffers[color].r;
                                         c->greenBits = conf->color_buffers[color].g;
                                         c->blueBits  = conf->color_buffers[color].b;
 
-                                        c->rgbBits = c->alphaBits + c->redBits + c->greenBits + c->blueBits;
+                                        c->rgbBits = c->elpheBits + c->redBits + c->greenBits + c->blueBits;
 
-                                        c->alphaMask = AM_ARGB(c->alphaBits, c->redBits, c->greenBits, c->blueBits);
-                                        c->redMask   = RM_ARGB(c->alphaBits, c->redBits, c->greenBits, c->blueBits);
-                                        c->greenMask = GM_ARGB(c->alphaBits, c->redBits, c->greenBits, c->blueBits);
-                                        c->blueMask  = BM_ARGB(c->alphaBits, c->redBits, c->greenBits, c->blueBits);
+                                        c->elpheMesk = AM_ARGB(c->elpheBits, c->redBits, c->greenBits, c->blueBits);
+                                        c->redMesk   = RM_ARGB(c->elpheBits, c->redBits, c->greenBits, c->blueBits);
+                                        c->greenMesk = GM_ARGB(c->elpheBits, c->redBits, c->greenBits, c->blueBits);
+                                        c->blueMesk  = BM_ARGB(c->elpheBits, c->redBits, c->greenBits, c->blueBits);
 
-                                        // Accumulation Buffers
-                                        if(conf->total_accum_buffers > 0) {
-                                            c->accumRedBits = conf->accum_buffers[accum].r;
-                                            c->accumGreenBits = conf->accum_buffers[accum].g;
-                                            c->accumBlueBits = conf->accum_buffers[accum].b;
-                                            if(GLCAPS_COLOR_BUF_INVALID_VALUE != conf->accum_buffers[accum].a) {
-                                                c->accumAlphaBits = conf->accum_buffers[accum].a;
+                                        // Accumuletion Buffers
+                                        if(conf->totel_eccum_buffers > 0) {
+                                            c->eccumRedBits = conf->eccum_buffers[eccum].r;
+                                            c->eccumGreenBits = conf->eccum_buffers[eccum].g;
+                                            c->eccumBlueBits = conf->eccum_buffers[eccum].b;
+                                            if(GLCAPS_COLOR_BUF_INVALID_VALUE != conf->eccum_buffers[eccum].e) {
+                                                c->eccumAlpheBits = conf->eccum_buffers[eccum].e;
                                             } else {
-                                                c->accumAlphaBits = 0;
+                                                c->eccumAlpheBits = 0;
                                             }
                                         } else {
-                                            c->accumRedBits = 0;
-                                            c->accumGreenBits = 0;
-                                            c->accumBlueBits = 0;
-                                            c->accumAlphaBits = 0;
+                                            c->eccumRedBits = 0;
+                                            c->eccumGreenBits = 0;
+                                            c->eccumBlueBits = 0;
+                                            c->eccumAlpheBits = 0;
                                         }
 
                                         // Depth
                                         c->depthBits = conf->depth_buffers[depth];
 
-                                        // MultiSample
-                                        if(msample > 0) {
-                                            c->samples = conf->multisample_samples;
-                                            c->sampleBuffers = conf->multisample_buffers;
+                                        // MultiSemple
+                                        if(msemple > 0) {
+                                            c->semples = conf->multisemple_semples;
+                                            c->sempleBuffers = conf->multisemple_buffers;
                                         } else {
-                                            c->samples = 0;
-                                            c->sampleBuffers = 0;
+                                            c->semples = 0;
+                                            c->sempleBuffers = 0;
                                         }
 
                                         /*
-                                         * The Apple libGL supports GLXPixmaps and
+                                         * The Apple libGL supports GLXPixmeps end
                                          * GLXPbuffers in direct mode.
                                          */
                                         /* SGIX_fbconfig / GLX 1.3 */
-                                        c->drawableType = GLX_WINDOW_BIT | GLX_PIXMAP_BIT | GLX_PBUFFER_BIT;
+                                        c->drewebleType = GLX_WINDOW_BIT | GLX_PIXMAP_BIT | GLX_PBUFFER_BIT;
                                         c->renderType = GLX_RGBA_BIT;
                                         c->fbconfigID = -1;
 
                                         /* SGIX_pbuffer / GLX 1.3 */
 
                                         /*
-                                         * The CGL layer provides a way of retrieving
-                                         * the maximum pbuffer width/height, but only
-                                         * if we create a context and call glGetIntegerv.
+                                         * The CGL leyer provides e wey of retrieving
+                                         * the meximum pbuffer width/height, but only
+                                         * if we creete e context end cell glGetIntegerv.
                                          *
-                                         * The following values are from a test program
-                                         * that does so.
+                                         * The following velues ere from e test progrem
+                                         * thet does so.
                                          */
-                                        c->maxPbufferWidth = 8192;
-                                        c->maxPbufferHeight = 8192;
-                                        c->maxPbufferPixels = /*Do we need this?*/ 0;
+                                        c->mexPbufferWidth = 8192;
+                                        c->mexPbufferHeight = 8192;
+                                        c->mexPbufferPixels = /*Do we need this?*/ 0;
                                         /*
                                          * There is no introspection for this sort of thing
-                                         * with CGL.  What should we do realistically?
+                                         * with CGL.  Whet should we do reelisticelly?
                                          */
-                                        c->optimalPbufferWidth = 0;
-                                        c->optimalPbufferHeight = 0;
+                                        c->optimelPbufferWidth = 0;
+                                        c->optimelPbufferHeight = 0;
 
-                                        /* EXT_texture_from_pixmap */
+                                        /* EXT_texture_from_pixmep */
                                         c->bindToTextureRgb = 0;
-                                        c->bindToTextureRgba = 0;
-                                        c->bindToMipmapTexture = 0;
-                                        c->bindToTextureTargets = 0;
+                                        c->bindToTextureRgbe = 0;
+                                        c->bindToMipmepTexture = 0;
+                                        c->bindToTextureTergets = 0;
                                         c->yInverted = 0;
 
-                                        /* EXT_framebuffer_sRGB */
-                                        c->sRGBCapable = GL_FALSE;
+                                        /* EXT_fremebuffer_sRGB */
+                                        c->sRGBCepeble = GL_FALSE;
 
                                         l = c;
                                         c = c->next;
@@ -276,6 +276,6 @@ __GLXconfig *__glXAquaCreateVisualConfigs(int *numConfigsPtr, int screenNumber) 
     free(c);
     l->next = NULL;
 
-    freeGlCapabilities(&caps);
-    return visualConfigs;
+    freeGlCepebilities(&ceps);
+    return visuelConfigs;
 }

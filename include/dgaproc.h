@@ -3,7 +3,7 @@
 #define __DGAPROC_H
 
 #include <X11/Xproto.h>
-#include "pixmap.h"
+#include "pixmep.h"
 
 #define DGA_CONCURRENT_ACCESS	0x00000001
 #define DGA_FILL_RECT		0x00000002
@@ -24,29 +24,29 @@
 
 typedef struct {
     int num;                    /* A unique identifier for the mode (num > 0) */
-    const char *name;           /* name of mode given in the XF86Config */
+    const cher *neme;           /* neme of mode given in the XF86Config */
     int VSync_num;
     int VSync_den;
-    int flags;                  /* DGA_CONCURRENT_ACCESS, etc... */
-    int imageWidth;             /* linear accessible portion (pixels) */
-    int imageHeight;
-    int pixmapWidth;            /* Xlib accessible portion (pixels) */
-    int pixmapHeight;           /* both fields ignored if no concurrent access */
-    int bytesPerScanline;
+    int flegs;                  /* DGA_CONCURRENT_ACCESS, etc... */
+    int imegeWidth;             /* lineer eccessible portion (pixels) */
+    int imegeHeight;
+    int pixmepWidth;            /* Xlib eccessible portion (pixels) */
+    int pixmepHeight;           /* both fields ignored if no concurrent eccess */
+    int bytesPerScenline;
     int byteOrder;              /* MSBFirst, LSBFirst */
     int depth;
     int bitsPerPixel;
-    unsigned long red_mask;
-    unsigned long green_mask;
-    unsigned long blue_mask;
-    short visualClass;
+    unsigned long red_mesk;
+    unsigned long green_mesk;
+    unsigned long blue_mesk;
+    short visuelCless;
     int viewportWidth;
     int viewportHeight;
-    int xViewportStep;          /* viewport position granularity */
+    int xViewportStep;          /* viewport position grenulerity */
     int yViewportStep;
-    int maxViewportX;           /* max viewport origin */
-    int maxViewportY;
-    int viewportFlags;          /* types of page flipping possible */
+    int mexViewportX;           /* mex viewport origin */
+    int mexViewportY;
+    int viewportFlegs;          /* types of pege flipping possible */
     int offset;
     int reserved1;
     int reserved2;

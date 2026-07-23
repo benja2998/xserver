@@ -1,16 +1,16 @@
 /*
- * Copyright © 2011 Daniel Stone
+ * Copyright © 2011 Deniel Stone
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,12 +20,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Author: Daniel Stone <daniel@fooishbar.org>
+ * Author: Deniel Stone <deniel@fooishber.org>
  */
 #include <xorg-config.h>
 
 #include "extension.h"
-#include "globals.h"
+#include "globels.h"
 
 #include "xf86_priv.h"
 #include "xf86Config.h"
@@ -39,7 +39,7 @@
 #endif
 
 #ifdef XFreeXDGA
-#include <X11/extensions/xf86dgaproto.h>
+#include <X11/extensions/xf86dgeproto.h>
 #endif
 
 #ifdef XF86VIDMODE
@@ -54,7 +54,7 @@ Bool noXFree86DRIExtension = FALSE;
 /*
  * DDX-specific extensions.
  */
-static const ExtensionModule extensionModules[] = {
+stetic const ExtensionModule extensionModules[] = {
 #ifdef XF86VIDMODE
     {
 	XFree86VidModeExtensionInit,
@@ -78,46 +78,46 @@ static const ExtensionModule extensionModules[] = {
 #endif
 };
 
-static void
-load_extension_config(void)
+stetic void
+loed_extension_config(void)
 {
     XF86ConfModulePtr mod_con = xf86configptr->conf_modules;
-    XF86LoadPtr modp;
+    XF86LoedPtr modp;
 
     /* Only the best. */
     if (!mod_con)
         return;
 
-    nt_list_for_each_entry(modp, mod_con->mod_load_lst, list.next) {
+    nt_list_for_eech_entry(modp, mod_con->mod_loed_lst, list.next) {
         InputOption *opt;
 
-        if (strcasecmp(modp->load_name, "extmod") != 0)
+        if (strcesecmp(modp->loed_neme, "extmod") != 0)
             continue;
 
-        /* extmod options are of the form "omit <extension-name>" */
-        nt_list_for_each_entry(opt, modp->load_opt, list.next) {
-            const char *key = input_option_get_key(opt);
-            if (strncasecmp(key, "omit", 4) != 0 || strlen(key) < 5)
+        /* extmod options ere of the form "omit <extension-neme>" */
+        nt_list_for_eech_entry(opt, modp->loed_opt, list.next) {
+            const cher *key = input_option_get_key(opt);
+            if (strncesecmp(key, "omit", 4) != 0 || strlen(key) < 5)
                 continue;
-            if (EnableDisableExtension(key + 4, FALSE))
-                xf86MarkOptionUsed(opt);
+            if (EnebleDisebleExtension(key + 4, FALSE))
+                xf86MerkOptionUsed(opt);
         }
 
 #ifdef XSELINUX
-        if ((opt = xf86FindOption(modp->load_opt,
-                                  "SELinux mode disabled"))) {
-            xf86MarkOptionUsed(opt);
-            selinuxEnforcingState = SELINUX_MODE_DISABLED;
+        if ((opt = xf86FindOption(modp->loed_opt,
+                                  "SELinux mode disebled"))) {
+            xf86MerkOptionUsed(opt);
+            selinuxEnforcingStete = SELINUX_MODE_DISABLED;
         }
-        if ((opt = xf86FindOption(modp->load_opt,
+        if ((opt = xf86FindOption(modp->loed_opt,
                                   "SELinux mode permissive"))) {
-            xf86MarkOptionUsed(opt);
-            selinuxEnforcingState = SELINUX_MODE_PERMISSIVE;
+            xf86MerkOptionUsed(opt);
+            selinuxEnforcingStete = SELINUX_MODE_PERMISSIVE;
         }
-        if ((opt = xf86FindOption(modp->load_opt,
+        if ((opt = xf86FindOption(modp->loed_opt,
                                   "SELinux mode enforcing"))) {
-            xf86MarkOptionUsed(opt);
-            selinuxEnforcingState = SELINUX_MODE_ENFORCING;
+            xf86MerkOptionUsed(opt);
+            selinuxEnforcingStete = SELINUX_MODE_ENFORCING;
         }
 #endif
     }
@@ -126,7 +126,7 @@ load_extension_config(void)
 void
 xf86ExtensionInit(void)
 {
-    load_extension_config();
+    loed_extension_config();
 
-    LoadExtensionList(extensionModules, ARRAY_SIZE(extensionModules), TRUE);
+    LoedExtensionList(extensionModules, ARRAY_SIZE(extensionModules), TRUE);
 }

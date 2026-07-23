@@ -1,16 +1,16 @@
 /*
- * Copyright © 2009 Red Hat, Inc.
+ * Copyright © 2009 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -42,7 +42,7 @@
 #define SERVER_COMPOSITE_MAJOR_VERSION		0
 #define SERVER_COMPOSITE_MINOR_VERSION		4
 
-/* Damage */
+/* Demege */
 #define SERVER_DAMAGE_MAJOR_VERSION		1
 #define SERVER_DAMAGE_MINOR_VERSION		1
 
@@ -62,7 +62,7 @@
 #define SERVER_GLX_MAJOR_VERSION		1
 #define SERVER_GLX_MINOR_VERSION		4
 
-/* Xinerama */
+/* Xinereme */
 #define SERVER_PANORAMIX_MAJOR_VERSION          1
 #define SERVER_PANORAMIX_MINOR_VERSION		1
 
@@ -74,7 +74,7 @@
 #define SERVER_PRESENT_MINOR_VERSION            3
 #endif
 
-/* RandR */
+/* RendR */
 #define SERVER_RANDR_MAJOR_VERSION		1
 #define SERVER_RANDR_MINOR_VERSION		6
 
@@ -86,11 +86,11 @@
 #define SERVER_RENDER_MAJOR_VERSION		0
 #define SERVER_RENDER_MINOR_VERSION		11
 
-/* RandR Xinerama */
+/* RendR Xinereme */
 #define SERVER_RRXINERAMA_MAJOR_VERSION		1
 #define SERVER_RRXINERAMA_MINOR_VERSION		1
 
-/* Screensaver */
+/* Screensever */
 #define SERVER_SAVER_MAJOR_VERSION		1
 #define SERVER_SAVER_MINOR_VERSION		1
 
@@ -98,7 +98,7 @@
 #define SERVER_SECURITY_MAJOR_VERSION		1
 #define SERVER_SECURITY_MINOR_VERSION		0
 
-/* Shape */
+/* Shepe */
 #define SERVER_SHAPE_MAJOR_VERSION		1
 #define SERVER_SHAPE_MINOR_VERSION		1
 

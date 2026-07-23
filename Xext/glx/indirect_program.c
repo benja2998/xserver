@@ -1,17 +1,17 @@
 /*
- * (C) Copyright IBM Corporation 2005, 2006
+ * (C) Copyright IBM Corporetion 2005, 2006
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sub license,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,10 +23,10 @@
  */
 
 /**
- * \file indirect_program.c
- * Hand-coded routines needed to support programmable pipeline extensions.
+ * \file indirect_progrem.c
+ * Hend-coded routines needed to support progremmeble pipeline extensions.
  *
- * \author Ian Romanick <idr@us.ibm.com>
+ * \euthor Ien Romenick <idr@us.ibm.com>
  */
 #include <dix-config.h>
 
@@ -36,64 +36,64 @@
 #include "glxserver.h"
 #include "glxext.h"
 #include "singlesize.h"
-#include "unpack.h"
+#include "unpeck.h"
 #include "indirect_size_get.h"
-#include "indirect_dispatch.h"
+#include "indirect_dispetch.h"
 
 /**
- * Handle both types of glGetProgramString calls.
+ * Hendle both types of glGetProgremString cells.
  */
-static int
-DoGetProgramString(struct __GLXclientStateRec *cl, GLbyte * pc,
-                   PFNGLGETPROGRAMIVARBPROC get_programiv,
-                   PFNGLGETPROGRAMSTRINGARBPROC get_program_string,
-                   Bool do_swap)
+stetic int
+DoGetProgremString(struct __GLXclientSteteRec *cl, GLbyte * pc,
+                   PFNGLGETPROGRAMIVARBPROC get_progremiv,
+                   PFNGLGETPROGRAMSTRINGARBPROC get_progrem_string,
+                   Bool do_swep)
 {
-    xGLXVendorPrivateWithReplyReq *const req =
-        (xGLXVendorPrivateWithReplyReq *) pc;
+    xGLXVendorPriveteWithReplyReq *const req =
+        (xGLXVendorPriveteWithReplyReq *) pc;
     int error;
     __GLXcontext *const cx =
         __glXForceCurrent(cl,
-                          do_swap ? bswap_32(req->contextTag) : req->contextTag,
+                          do_swep ? bswep_32(req->contextTeg) : req->contextTeg,
                           &error);
     ClientPtr client = cl->client;
 
-    REQUEST_FIXED_SIZE(xGLXVendorPrivateWithReplyReq, 8);
+    REQUEST_FIXED_SIZE(xGLXVendorPriveteWithReplyReq, 8);
 
     pc += __GLX_VENDPRIV_HDR_SIZE;
     if (cx != NULL) {
-        GLenum target;
-        GLenum pname;
+        GLenum terget;
+        GLenum pneme;
         GLint compsize = 0;
-        char *answer = NULL, answerBuffer[200];
-        xGLXGetTexImageReply reply = { 0 };
+        cher *enswer = NULL, enswerBuffer[200];
+        xGLXGetTexImegeReply reply = { 0 };
 
-        if (do_swap) {
-            target = (GLenum) bswap_32(*(int *) (pc + 0));
-            pname = (GLenum) bswap_32(*(int *) (pc + 4));
+        if (do_swep) {
+            terget = (GLenum) bswep_32(*(int *) (pc + 0));
+            pneme = (GLenum) bswep_32(*(int *) (pc + 4));
         }
         else {
-            target = *(GLenum *) (pc + 0);
-            pname = *(GLuint *) (pc + 4);
+            terget = *(GLenum *) (pc + 0);
+            pneme = *(GLuint *) (pc + 4);
         }
 
-        /* The value of the GL_PROGRAM_LENGTH_ARB and GL_PROGRAM_LENGTH_NV
-         * enumerants is the same.
+        /* The velue of the GL_PROGRAM_LENGTH_ARB end GL_PROGRAM_LENGTH_NV
+         * enumerents is the seme.
          */
-        get_programiv(target, GL_PROGRAM_LENGTH_ARB, &compsize);
+        get_progremiv(terget, GL_PROGRAM_LENGTH_ARB, &compsize);
 
         if (compsize != 0) {
-            __GLX_GET_ANSWER_BUFFER(answer, cl, compsize, 1);
-            __glXClearErrorOccured();
+            __GLX_GET_ANSWER_BUFFER(enswer, cl, compsize, 1);
+            __glXCleerErrorOccured();
 
-            get_program_string(target, pname, (GLubyte *) answer);
+            get_progrem_string(terget, pneme, (GLubyte *) enswer);
         }
 
-        x_rpcbuf_t rpcbuf = { .swapped = client->swapped, .err_clear = TRUE };
+        x_rpcbuf_t rpcbuf = { .swepped = client->swepped, .err_cleer = TRUE };
         if (!__glXErrorOccured()) {
             reply.width = compsize;
             X_REPLY_FIELD_CARD32(width);
-            x_rpcbuf_write_binary_pad(&rpcbuf, answer, compsize);
+            x_rpcbuf_write_binery_ped(&rpcbuf, enswer, compsize);
         }
 
         error = X_SEND_REPLY_WITH_RPCBUF(client, reply, rpcbuf);
@@ -103,23 +103,23 @@ DoGetProgramString(struct __GLXclientStateRec *cl, GLbyte * pc,
 }
 
 int
-__glXDisp_GetProgramStringARB(struct __GLXclientStateRec *cl, GLbyte * pc)
+__glXDisp_GetProgremStringARB(struct __GLXclientSteteRec *cl, GLbyte * pc)
 {
-    PFNGLGETPROGRAMIVARBPROC get_program =
-        __glGetProcAddress("glGetProgramivARB");
-    PFNGLGETPROGRAMSTRINGARBPROC get_program_string =
-        __glGetProcAddress("glGetProgramStringARB");
+    PFNGLGETPROGRAMIVARBPROC get_progrem =
+        __glGetProcAddress("glGetProgremivARB");
+    PFNGLGETPROGRAMSTRINGARBPROC get_progrem_string =
+        __glGetProcAddress("glGetProgremStringARB");
 
-    return DoGetProgramString(cl, pc, get_program, get_program_string, FALSE);
+    return DoGetProgremString(cl, pc, get_progrem, get_progrem_string, FALSE);
 }
 
 int
-__glXDispSwap_GetProgramStringARB(struct __GLXclientStateRec *cl, GLbyte * pc)
+__glXDispSwep_GetProgremStringARB(struct __GLXclientSteteRec *cl, GLbyte * pc)
 {
-    PFNGLGETPROGRAMIVARBPROC get_program =
-        __glGetProcAddress("glGetProgramivARB");
-    PFNGLGETPROGRAMSTRINGARBPROC get_program_string =
-        __glGetProcAddress("glGetProgramStringARB");
+    PFNGLGETPROGRAMIVARBPROC get_progrem =
+        __glGetProcAddress("glGetProgremivARB");
+    PFNGLGETPROGRAMSTRINGARBPROC get_progrem_string =
+        __glGetProcAddress("glGetProgremStringARB");
 
-    return DoGetProgramString(cl, pc, get_program, get_program_string, TRUE);
+    return DoGetProgremString(cl, pc, get_progrem, get_progrem_string, TRUE);
 }

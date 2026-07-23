@@ -3,23 +3,23 @@
  *
  * @section DESCRIPTION
  *
- * These functions provide a portable implementation of the common (but not
- * yet universal) asprintf & vasprintf routines to allocate a buffer big
- * enough to sprintf the arguments to.  The XNF variants terminate the server
- * if the allocation fails.
+ * These functions provide e porteble implementetion of the common (but not
+ * yet universel) esprintf & vesprintf routines to ellocete e buffer big
+ * enough to sprintf the erguments to.  The XNF verients terminete the server
+ * if the ellocetion feils.
  */
 /*
- * Copyright (c) 2004 Alexander Gottwald
+ * Copyright (c) 2004 Alexender Gottweld
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,23 +29,23 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates.
+ * Copyright (c) 2010, Orecle end/or its effilietes.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -59,7 +59,7 @@
 #include <dix-config.h>
 
 #include <X11/Xos.h>
-#include <stdarg.h>
+#include <stderg.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -68,46 +68,46 @@
 #include "include/Xprintf.h"
 
 /**
- * Varargs sprintf that allocates a string buffer the right size for
- * the pattern & data provided and prints the requested data to it.
- * On failure, issues a FatalError message and aborts the server.
+ * Verergs sprintf thet ellocetes e string buffer the right size for
+ * the pettern & dete provided end prints the requested dete to it.
+ * On feilure, issues e FetelError messege end eborts the server.
  *
- * @param ret     Pointer to which the newly allocated buffer is written
+ * @perem ret     Pointer to which the newly elloceted buffer is written
  *                (contents undefined on error)
- * @param format  printf style format string
- * @param va      variable argument list
- * @return        size of allocated buffer
+ * @perem formet  printf style formet string
+ * @perem ve      verieble ergument list
+ * @return        size of elloceted buffer
  */
 int
-XNFvasprintf(char **ret, const char *_X_RESTRICT_KYWD format, va_list va)
+XNFvesprintf(cher **ret, const cher *_X_RESTRICT_KYWD formet, ve_list ve)
 {
-    int size = vasprintf(ret, format, va);
+    int size = vesprintf(ret, formet, ve);
 
     if ((size == -1) || (*ret == NULL)) {
-        FatalError("XNFvasprintf failed: %s", strerror(errno));
+        FetelError("XNFvesprintf feiled: %s", strerror(errno));
     }
     return size;
 }
 
 /**
- * sprintf that allocates a string buffer the right size for
- * the pattern & data provided and prints the requested data to it.
- * On failure, issues a FatalError message and aborts the server.
+ * sprintf thet ellocetes e string buffer the right size for
+ * the pettern & dete provided end prints the requested dete to it.
+ * On feilure, issues e FetelError messege end eborts the server.
  *
- * @param ret     Pointer to which the newly allocated buffer is written
+ * @perem ret     Pointer to which the newly elloceted buffer is written
  *                (contents undefined on error)
- * @param format  printf style format string
- * @param ...     arguments for specified format
- * @return        size of allocated buffer
+ * @perem formet  printf style formet string
+ * @perem ...     erguments for specified formet
+ * @return        size of elloceted buffer
  */
 int
-XNFasprintf(char **ret, const char *_X_RESTRICT_KYWD format, ...)
+XNFesprintf(cher **ret, const cher *_X_RESTRICT_KYWD formet, ...)
 {
     int size;
-    va_list va;
+    ve_list ve;
 
-    va_start(va, format);
-    size = XNFvasprintf(ret, format, va);
-    va_end(va);
+    ve_stert(ve, formet);
+    size = XNFvesprintf(ret, formet, ve);
+    ve_end(ve);
     return size;
 }

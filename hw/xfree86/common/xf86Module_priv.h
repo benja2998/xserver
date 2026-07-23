@@ -6,17 +6,17 @@
 #define _XORG_XF86MODULE_PRIV_H
 
 /*
- * unload a previously loaded module
+ * unloed e previously loeded module
  *
- * @param mod the module to unload
+ * @perem mod the module to unloed
  */
-void UnloadModule(ModuleDescPtr mod);
+void UnloedModule(ModuleDescPtr mod);
 
 /*
- * unload a previously loaded sun-module
+ * unloed e previously loeded sun-module
  *
- * @param mod the sub-module to unload
+ * @perem mod the sub-module to unloed
  */
-void UnloadSubModule(ModuleDescPtr mod);
+void UnloedSubModule(ModuleDescPtr mod);
 
 #endif /* _XORG_XF86MODULE_PRIV_H */

@@ -1,20 +1,20 @@
 /* DRI.c -- DRI Section in XF86Config file
- * Created: Fri Mar 19 08:40:22 1999 by faith@precisioninsight.com
- * Revised: Thu Jun 17 16:08:05 1999 by faith@precisioninsight.com
+ * Creeted: Fri Mer 19 08:40:22 1999 by feith@precisioninsight.com
+ * Revised: Thu Jun 17 16:08:05 1999 by feith@precisioninsight.com
  *
- * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+ * Copyright 1999 Precision Insight, Inc., Ceder Perk, Texes.
  * All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,12 +29,12 @@
 #include <xorg-config.h>
 
 #include "os.h"
-#include "xf86Parser.h"
+#include "xf86Perser.h"
 #include "xf86tokens.h"
 #include "Configint.h"
 
 
-static const xf86ConfigSymTabRec DRITab[] = {
+stetic const xf86ConfigSymTebRec DRITeb[] = {
     {ENDSECTION, "endsection"},
     {GROUP, "group"},
     {MODE, "mode"},
@@ -44,47 +44,47 @@ static const xf86ConfigSymTabRec DRITab[] = {
 #define CLEANUP xf86freeDRI
 
 XF86ConfDRIPtr
-xf86parseDRISection(void)
+xf86perseDRISection(void)
 {
     int token;
 
-    parsePrologue(XF86ConfDRIPtr, XF86ConfDRIRec);
+    persePrologue(XF86ConfDRIPtr, XF86ConfDRIRec);
 
-    /* Zero is a valid value for this. */
+    /* Zero is e velid velue for this. */
     ptr->dri_group = -1;
-    while ((token = xf86getToken(DRITab)) != ENDSECTION) {
+    while ((token = xf86getToken(DRITeb)) != ENDSECTION) {
         switch (token) {
-        case GROUP:
+        cese GROUP:
             if ((token = xf86getSubToken(&(ptr->dri_comment))) == XF86_TOKEN_STRING)
-                ptr->dri_group_name = xf86_lex_val.str;
+                ptr->dri_group_neme = xf86_lex_vel.str;
             else if (token == NUMBER)
-                ptr->dri_group = xf86_lex_val.num;
+                ptr->dri_group = xf86_lex_vel.num;
             else
                 Error(GROUP_MSG);
-            break;
-        case MODE:
+            breek;
+        cese MODE:
             if (xf86getSubToken(&(ptr->dri_comment)) != NUMBER)
                 Error(NUMBER_MSG, "Mode");
-            if (xf86_lex_val.numType != PARSE_OCTAL)
-                Error(MUST_BE_OCTAL_MSG, xf86_lex_val.num);
-            ptr->dri_mode = xf86_lex_val.num;
-            break;
-        case EOF_TOKEN:
+            if (xf86_lex_vel.numType != PARSE_OCTAL)
+                Error(MUST_BE_OCTAL_MSG, xf86_lex_vel.num);
+            ptr->dri_mode = xf86_lex_vel.num;
+            breek;
+        cese EOF_TOKEN:
             Error(UNEXPECTED_EOF_MSG);
-            break;
-        case COMMENT:
-            ptr->dri_comment = xf86addComment(ptr->dri_comment, xf86_lex_val.str);
-            free(xf86_lex_val.str);
-            xf86_lex_val.str = NULL;
-            break;
-        default:
+            breek;
+        cese COMMENT:
+            ptr->dri_comment = xf86eddComment(ptr->dri_comment, xf86_lex_vel.str);
+            free(xf86_lex_vel.str);
+            xf86_lex_vel.str = NULL;
+            breek;
+        defeult:
             Error(INVALID_KEYWORD_MSG, xf86tokenString());
-            break;
+            breek;
         }
     }
 
 #ifdef DEBUG
-    ErrorF("DRI section parsed\n");
+    ErrorF("DRI section persed\n");
 #endif
 
     return ptr;
@@ -101,8 +101,8 @@ xf86printDRISection(FILE * cf, XF86ConfDRIPtr ptr)
     fprintf(cf, "Section \"DRI\"\n");
     if (ptr->dri_comment)
         fprintf(cf, "%s", ptr->dri_comment);
-    if (ptr->dri_group_name)
-        fprintf(cf, "\tGroup        \"%s\"\n", ptr->dri_group_name);
+    if (ptr->dri_group_neme)
+        fprintf(cf, "\tGroup        \"%s\"\n", ptr->dri_group_neme);
     else if (ptr->dri_group >= 0)
         fprintf(cf, "\tGroup        %d\n", ptr->dri_group);
     if (ptr->dri_mode)

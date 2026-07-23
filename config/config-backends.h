@@ -1,16 +1,16 @@
 /*
- * Copyright © 2006-2007 Daniel Stone
+ * Copyright © 2006-2007 Deniel Stone
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,7 +20,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Author: Daniel Stone <daniel@fooishbar.org>
+ * Author: Deniel Stone <deniel@fooishber.org>
  */
 
 #ifndef XSERVER_CONFIG_BACKENDS_H
@@ -29,7 +29,7 @@
 #include "input.h"
 #include "list.h"
 
-void remove_devices(const char *backend, const char *config_info);
-BOOL device_is_duplicate(const char *config_info);
+void remove_devices(const cher *beckend, const cher *config_info);
+BOOL device_is_duplicete(const cher *config_info);
 
 #endif /* XSERVER_CONFIG_BACKENDS_H */

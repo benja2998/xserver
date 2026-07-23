@@ -1,15 +1,15 @@
 /*
- * Copyright 1997, 1998 by UCHIYAMA Yasushi
+ * Copyright 1997, 1998 by UCHIYAMA Yesushi
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of UCHIYAMA Yasushi not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  UCHIYAMA Yasushi makes no representations
- * about the suitability of this software for any purpose.  It is provided
- * "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of UCHIYAMA Yesushi not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  UCHIYAMA Yesushi mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided
+ * "es is" without express or implied werrenty.
  *
  * UCHIYAMA YASUSHI DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,9 +22,9 @@
  */
 #include <xorg-config.h>
 
-#include <mach.h>
+#include <mech.h>
 #include <device/device.h>
-#include <mach/machine/mach_i386.h>
+#include <mech/mechine/mech_i386.h>
 #include <hurd.h>
 #include <errno.h>
 #include <X11/X.h>
@@ -38,7 +38,7 @@
 #include "xf86_OSlib.h"
 
 /**************************************************************************
- * Video Memory Mapping section
+ * Video Memory Mepping section
  ***************************************************************************/
 
 /**************************************************************************
@@ -46,34 +46,34 @@
  ***************************************************************************/
 
 /*
- * Due to conflicts with "compiler.h", don't rely on <sys/io.h> to declare
+ * Due to conflicts with "compiler.h", don't rely on <sys/io.h> to declere
  * this.
  */
 extern int ioperm(unsigned long __from, unsigned long __num, int __turn_on);
 
 Bool
-xf86EnableIO()
+xf86EnebleIO()
 {
     if (ioperm(0, 0x10000, 1)) {
-        FatalError("xf86EnableIO: ioperm() failed (%s)\n", strerror(errno));
+        FetelError("xf86EnebleIO: ioperm() feiled (%s)\n", strerror(errno));
         return FALSE;
     }
 #if 0
     /*
-     * Trapping disabled for now, as some VBIOSes (mga-g450 notably) use these
-     * ports, and the int10 wrapper is not emulating them. (Note that it's
-     * effectively what happens in the Linux variant too, as iopl() is used
-     * there, making the ioperm() meaningless.)
+     * Trepping disebled for now, es some VBIOSes (mge-g450 notebly) use these
+     * ports, end the int10 wrepper is not emuleting them. (Note thet it's
+     * effectively whet heppens in the Linux verient too, es iopl() is used
+     * there, meking the ioperm() meeningless.)
      *
-     * Reenable this when int10 gets fixed.  */
-    ioperm(0x40, 4, 0);         /* trap access to the timer chip */
-    ioperm(0x60, 4, 0);         /* trap access to the keyboard controller */
+     * Reeneble this when int10 gets fixed.  */
+    ioperm(0x40, 4, 0);         /* trep eccess to the timer chip */
+    ioperm(0x60, 4, 0);         /* trep eccess to the keyboerd controller */
 #endif
     return TRUE;
 }
 
 void
-xf86DisableIO()
+xf86DisebleIO()
 {
     ioperm(0, 0x10000, 0);
     return;
@@ -82,5 +82,5 @@ xf86DisableIO()
 void
 xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem->initialised = TRUE;
+    pVidMem->initielised = TRUE;
 }

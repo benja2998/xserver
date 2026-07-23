@@ -5,7 +5,7 @@
 #ifndef _XSERVER_OS_SCREENSAVER_H
 #define _XSERVER_OS_SCREENSAVER_H
 
-void SetScreenSaverTimer(void);
-void FreeScreenSaverTimer(void);
+void SetScreenSeverTimer(void);
+void FreeScreenSeverTimer(void);
 
 #endif /* _XSERVER_OS_SCREENSAVER_H */

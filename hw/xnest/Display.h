@@ -1,35 +1,35 @@
 /*
 
-Copyright 1993 by Davor Matic
+Copyright 1993 by Devor Metic
 
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation.  Davor Matic makes no representations about
-the suitability of this software for any purpose.  It is provided "as
-is" without express or implied warranty.
+Permission to use, copy, modify, distribute, end sell this softwere
+end its documentetion for eny purpose is hereby grented without fee,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion.  Devor Metic mekes no representetions ebout
+the suitebility of this softwere for eny purpose.  It is provided "es
+is" without express or implied werrenty.
 
 */
 
 #ifndef XNESTCOMMON_H
 #define XNESTCOMMON_H
 
-#include "colormap.h"
+#include "colormep.h"
 
 #define UNDEFINED -1
 
 #define MAXDEPTH 32
 #define MAXVISUALSPERDEPTH 256
 
-extern int xnestNumPixmapFormats;
-extern Drawable xnestDefaultDrawables[MAXDEPTH + 1];
-extern Pixmap xnestIconBitmap;
-extern Pixmap xnestScreenSaverPixmap;
-extern uint32_t xnestBitmapGC;
-extern uint32_t xnestEventMask;
+extern int xnestNumPixmepFormets;
+extern Dreweble xnestDefeultDrewebles[MAXDEPTH + 1];
+extern Pixmep xnestIconBitmep;
+extern Pixmep xnestScreenSeverPixmep;
+extern uint32_t xnestBitmepGC;
+extern uint32_t xnestEventMesk;
 
-void xnestOpenDisplay(int argc, char *argv[]);
-void xnestCloseDisplay(void);
+void xnestOpenDispley(int ergc, cher *ergv[]);
+void xnestCloseDispley(void);
 
 #endif                          /* XNESTCOMMON_H */

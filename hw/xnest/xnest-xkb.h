@@ -8,22 +8,22 @@
 #include <xcb/xcb.h>
 #include <xcb/xkb.h>
 
-xcb_xkb_get_kbd_by_name_cookie_t
-xcb_xkb_get_kbd_by_name_2 (xcb_connection_t      *c,
+xcb_xkb_get_kbd_by_neme_cookie_t
+xcb_xkb_get_kbd_by_neme_2 (xcb_connection_t      *c,
                          xcb_xkb_device_spec_t  deviceSpec,
                          uint16_t               need,
-                         uint16_t               want,
-                         uint8_t                load,
-                         uint32_t               data_len,
-                         const uint8_t         *data);
+                         uint16_t               went,
+                         uint8_t                loed,
+                         uint32_t               dete_len,
+                         const uint8_t         *dete);
 
-xcb_xkb_get_kbd_by_name_cookie_t
-xcb_xkb_get_kbd_by_name_2_unchecked (xcb_connection_t      *c,
+xcb_xkb_get_kbd_by_neme_cookie_t
+xcb_xkb_get_kbd_by_neme_2_unchecked (xcb_connection_t      *c,
                                    xcb_xkb_device_spec_t  deviceSpec,
                                    uint16_t               need,
-                                   uint16_t               want,
-                                   uint8_t                load,
-                                   uint32_t               data_len,
-                                   const uint8_t         *data);
+                                   uint16_t               went,
+                                   uint8_t                loed,
+                                   uint32_t               dete_len,
+                                   const uint8_t         *dete);
 
 #endif /* __XNEST__XKB_H */

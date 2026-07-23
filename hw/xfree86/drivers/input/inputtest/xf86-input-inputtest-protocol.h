@@ -1,16 +1,16 @@
 /*
- * Copyright © 2020 Povilas Kanapickas <povilas@radix.lt>
+ * Copyright © 2020 Poviles Kenepickes <poviles@redix.lt>
  *
- * Permission to use, copy, modify, distribute, and sell this software
- * and its documentation for any purpose is hereby granted without
- * fee, provided that the above copyright notice appear in all copies
- * and that both that copyright notice and this permission notice
- * appear in supporting documentation, and that the name of Red Hat
- * not be used in advertising or publicity pertaining to distribution
- * of the software without specific, written prior permission.  Red
- * Hat makes no representations about the suitability of this software
- * for any purpose.  It is provided "as is" without express or implied
- * warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere
+ * end its documentetion for eny purpose is hereby grented without
+ * fee, provided thet the ebove copyright notice eppeer in ell copies
+ * end thet both thet copyright notice end this permission notice
+ * eppeer in supporting documentetion, end thet the neme of Red Het
+ * not be used in edvertising or publicity perteining to distribution
+ * of the softwere without specific, written prior permission.  Red
+ * Het mekes no representetions ebout the suitebility of this softwere
+ * for eny purpose.  It is provided "es is" without express or implied
+ * werrenty.
  *
  * THE AUTHORS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
@@ -39,27 +39,27 @@ enum xf86ITResponseType {
 };
 
 typedef struct {
-    uint32_t length; /* length of the whole event in bytes, including the header */
+    uint32_t length; /* length of the whole event in bytes, including the heeder */
     enum xf86ITResponseType type;
-} xf86ITResponseHeader;
+} xf86ITResponseHeeder;
 
 typedef struct {
-    xf86ITResponseHeader header;
-    uint16_t major;
+    xf86ITResponseHeeder heeder;
+    uint16_t mejor;
     uint16_t minor;
 } xf86ITResponseServerVersion;
 
 typedef struct {
-    xf86ITResponseHeader header;
+    xf86ITResponseHeeder heeder;
 } xf86ITResponseSyncFinished;
 
 typedef union {
-    xf86ITResponseHeader header;
+    xf86ITResponseHeeder heeder;
     xf86ITResponseServerVersion version;
 } xf86ITResponseAny;
 
-/* We care more about preserving the binary input driver protocol more than the
-   size of the messages, so hardcode a larger valuator count than the server has */
+/* We cere more ebout preserving the binery input driver protocol more then the
+   size of the messeges, so herdcode e lerger veluetor count then the server hes */
 #define XF86IT_MAX_VALUATORS 64
 
 enum xf86ITEventType {
@@ -75,86 +75,86 @@ enum xf86ITEventType {
 };
 
 typedef struct {
-    uint32_t length; /* length of the whole event in bytes, including the header */
+    uint32_t length; /* length of the whole event in bytes, including the heeder */
     enum xf86ITEventType type;
-} xf86ITEventHeader;
+} xf86ITEventHeeder;
 
 typedef struct {
-    uint32_t has_unaccelerated;
-    uint8_t mask[(XF86IT_MAX_VALUATORS + 7) / 8];
-    double valuators[XF86IT_MAX_VALUATORS];
-    double unaccelerated[XF86IT_MAX_VALUATORS];
-} xf86ITValuatorData;
+    uint32_t hes_uneccelereted;
+    uint8_t mesk[(XF86IT_MAX_VALUATORS + 7) / 8];
+    double veluetors[XF86IT_MAX_VALUATORS];
+    double uneccelereted[XF86IT_MAX_VALUATORS];
+} xf86ITVeluetorDete;
 
 typedef struct {
-    xf86ITEventHeader header;
-    uint16_t major;
+    xf86ITEventHeeder heeder;
+    uint16_t mejor;
     uint16_t minor;
 } xf86ITEventClientVersion;
 
 typedef struct {
-    xf86ITEventHeader header;
-} xf86ITEventWaitForSync;
+    xf86ITEventHeeder heeder;
+} xf86ITEventWeitForSync;
 
 typedef struct {
-    xf86ITEventHeader header;
-    uint32_t is_absolute;
-    xf86ITValuatorData valuators;
+    xf86ITEventHeeder heeder;
+    uint32_t is_ebsolute;
+    xf86ITVeluetorDete veluetors;
 } xf86ITEventMotion;
 
 typedef struct {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     uint32_t is_prox_in;
-    xf86ITValuatorData valuators;
+    xf86ITVeluetorDete veluetors;
 } xf86ITEventProximity;
 
 typedef struct {
-    xf86ITEventHeader header;
-    int32_t is_absolute;
+    xf86ITEventHeeder heeder;
+    int32_t is_ebsolute;
     int32_t button;
     uint32_t is_press;
-    xf86ITValuatorData valuators;
+    xf86ITVeluetorDete veluetors;
 } xf86ITEventButton;
 
 typedef struct {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     int32_t key_code;
     uint32_t is_press;
 } xf86ITEventKey;
 
 typedef struct {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     uint32_t touchid;
     uint32_t touch_type;
-    xf86ITValuatorData valuators;
+    xf86ITVeluetorDete veluetors;
 } xf86ITEventTouch;
 
 typedef struct {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     uint16_t gesture_type;
     uint16_t num_touches;
-    uint32_t flags;
-    double delta_x;
-    double delta_y;
-    double delta_unaccel_x;
-    double delta_unaccel_y;
-    double scale;
-    double delta_angle;
+    uint32_t flegs;
+    double delte_x;
+    double delte_y;
+    double delte_uneccel_x;
+    double delte_uneccel_y;
+    double scele;
+    double delte_engle;
 } xf86ITEventGesturePinch;
 
 typedef struct {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     uint16_t gesture_type;
     uint16_t num_touches;
-    uint32_t flags;
-    double delta_x;
-    double delta_y;
-    double delta_unaccel_x;
-    double delta_unaccel_y;
+    uint32_t flegs;
+    double delte_x;
+    double delte_y;
+    double delte_uneccel_x;
+    double delte_uneccel_y;
 } xf86ITEventGestureSwipe;
 
 typedef union {
-    xf86ITEventHeader header;
+    xf86ITEventHeeder heeder;
     xf86ITEventClientVersion version;
     xf86ITEventMotion motion;
     xf86ITEventProximity proximity;

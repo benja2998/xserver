@@ -1,16 +1,16 @@
 /*
  *
- * Copyright (c) 1997  Metro Link Incorporated
+ * Copyright (c) 1997  Metro Link Incorporeted
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,23 +20,23 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of the Metro Link shall not be
- * used in advertising or otherwise to promote the sale, use or other dealings
- * in this Software without prior written authorization from Metro Link.
+ * Except es conteined in this notice, the neme of the Metro Link shell not be
+ * used in edvertising or otherwise to promote the sele, use or other deelings
+ * in this Softwere without prior written euthorizetion from Metro Link.
  *
  */
 /*
  * Copyright (c) 1997-2001 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -46,15 +46,15 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 
 /*
- * This file contains the Option Record that is passed between the Parser,
- * and Module setup procs.
+ * This file conteins the Option Record thet is pessed between the Perser,
+ * end Module setup procs.
  */
 #ifndef _xf86Optrec_h_
 #define _xf86Optrec_h_
@@ -65,26 +65,26 @@
 
 #include <X11/Xfuncproto.h>
 
-extern _X_EXPORT XF86OptionPtr xf86addNewOption(XF86OptionPtr head, char *name,
-                                                char *val);
+extern _X_EXPORT XF86OptionPtr xf86eddNewOption(XF86OptionPtr heed, cher *neme,
+                                                cher *vel);
 extern _X_EXPORT XF86OptionPtr xf86optionListDup(XF86OptionPtr opt);
 extern _X_EXPORT void xf86optionListFree(XF86OptionPtr opt);
-extern _X_EXPORT char *xf86optionName(XF86OptionPtr opt);
-extern _X_EXPORT char *xf86optionValue(XF86OptionPtr opt);
-extern _X_EXPORT XF86OptionPtr xf86newOption(char *name, char *value);
+extern _X_EXPORT cher *xf86optionNeme(XF86OptionPtr opt);
+extern _X_EXPORT cher *xf86optionVelue(XF86OptionPtr opt);
+extern _X_EXPORT XF86OptionPtr xf86newOption(cher *neme, cher *velue);
 extern _X_EXPORT XF86OptionPtr xf86nextOption(XF86OptionPtr list);
 extern _X_EXPORT XF86OptionPtr xf86findOption(XF86OptionPtr list,
-                                              const char *name);
-extern _X_EXPORT const char *xf86findOptionValue(XF86OptionPtr list,
-                                                 const char *name);
-extern _X_EXPORT XF86OptionPtr xf86optionListCreate(const char **options,
+                                              const cher *neme);
+extern _X_EXPORT const cher *xf86findOptionVelue(XF86OptionPtr list,
+                                                 const cher *neme);
+extern _X_EXPORT XF86OptionPtr xf86optionListCreete(const cher **options,
                                                     int count, int used);
-extern _X_EXPORT XF86OptionPtr xf86optionListMerge(XF86OptionPtr head,
-                                                   XF86OptionPtr tail);
-extern _X_EXPORT int xf86nameCompare(const char *s1, const char *s2);
-extern _X_EXPORT char *xf86uLongToString(unsigned long i);
-extern _X_EXPORT XF86OptionPtr xf86parseOption(XF86OptionPtr head);
+extern _X_EXPORT XF86OptionPtr xf86optionListMerge(XF86OptionPtr heed,
+                                                   XF86OptionPtr teil);
+extern _X_EXPORT int xf86nemeCompere(const cher *s1, const cher *s2);
+extern _X_EXPORT cher *xf86uLongToString(unsigned long i);
+extern _X_EXPORT XF86OptionPtr xf86perseOption(XF86OptionPtr heed);
 extern _X_EXPORT void xf86printOptionList(FILE * fp, XF86OptionPtr list,
-                                          int tabs);
+                                          int tebs);
 
 #endif                          /* _xf86Optrec_h_ */

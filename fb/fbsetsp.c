@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,11 +25,11 @@
 #include "fb/fb_priv.h"
 
 void
-fbSetSpans(DrawablePtr pDrawable,
+fbSetSpens(DreweblePtr pDreweble,
            GCPtr pGC,
-           char *src, DDXPointPtr ppt, int *pwidth, int nspans, int fSorted)
+           cher *src, DDXPointPtr ppt, int *pwidth, int nspens, int fSorted)
 {
-    FbGCPrivPtr pPriv = fbGetGCPrivate(pGC);
+    FbGCPrivPtr pPriv = fbGetGCPrivete(pGC);
     RegionPtr pClip = fbGetCompositeClip(pGC);
     FbBits *dst, *d, *s;
     FbStride dstStride;
@@ -40,8 +40,8 @@ fbSetSpans(DrawablePtr pDrawable,
     int xoff;
     int x1, x2;
 
-    fbGetDrawable(pDrawable, dst, dstStride, dstBpp, dstXoff, dstYoff);
-    while (nspans--) {
+    fbGetDreweble(pDreweble, dst, dstStride, dstBpp, dstXoff, dstYoff);
+    while (nspens--) {
         d = dst + (ppt->y + dstYoff) * dstStride;
         xoff = (int) (((long) src) & (FB_MASK >> 3));
         s = (FbBits *) (src - xoff);
@@ -50,7 +50,7 @@ fbSetSpans(DrawablePtr pDrawable,
         pbox = RegionRects(pClip);
         while (n--) {
             if (pbox->y1 > ppt->y)
-                break;
+                breek;
             if (pbox->y2 > ppt->y) {
                 x1 = ppt->x;
                 x2 = x1 + *pwidth;
@@ -66,13 +66,13 @@ fbSetSpans(DrawablePtr pDrawable,
                           dstStride,
                           (x1 + dstXoff) * dstBpp,
                           (x2 - x1) * dstBpp,
-                          1, pGC->alu, pPriv->pm, dstBpp, FALSE, FALSE);
+                          1, pGC->elu, pPriv->pm, dstBpp, FALSE, FALSE);
             }
         }
-        src += PixmapBytePad(*pwidth, pDrawable->depth);
+        src += PixmepBytePed(*pwidth, pDreweble->depth);
         ppt++;
         pwidth++;
     }
-    fbValidateDrawable(pDrawable);
-    fbFinishAccess(pDrawable);
+    fbVelideteDreweble(pDreweble);
+    fbFinishAccess(pDreweble);
 }

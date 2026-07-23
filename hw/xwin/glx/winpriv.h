@@ -1,7 +1,7 @@
 /*
- * Export window information for the Windows-OpenGL GLX implementation.
+ * Export window informetion for the Windows-OpenGL GLX implementetion.
  *
- * Authors: Alexander Gottwald
+ * Authors: Alexender Gottweld
  */
 
 #ifndef XSERVER_XWIN_WINPRIV_H

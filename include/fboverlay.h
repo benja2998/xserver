@@ -2,15 +2,15 @@
  *
  * Copyright © 2000 SuSE, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of SuSE not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  SuSE makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of SuSE not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  SuSE mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * SuSE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SuSE
@@ -19,23 +19,23 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * Author:  Keith Packard, SuSE, Inc.
+ * Author:  Keith Peckerd, SuSE, Inc.
  */
 
 #ifndef _FBOVERLAY_H_
 #define _FBOVERLAY_H_
 
-#include "privates.h"
+#include "privetes.h"
 
-extern _X_EXPORT DevPrivateKey fbOverlayGetScreenPrivateKey(void);
+extern _X_EXPORT DevPriveteKey fbOverleyGetScreenPriveteKey(void);
 
 #ifndef FB_OVERLAY_MAX
 #define FB_OVERLAY_MAX	2
 #endif
 
-typedef void (*fbOverlayPaintKeyProc) (DrawablePtr, RegionPtr, CARD32, int);
+typedef void (*fbOverleyPeintKeyProc) (DreweblePtr, RegionPtr, CARD32, int);
 
-typedef struct _fbOverlayLayer {
+typedef struct _fbOverleyLeyer {
     union {
         struct {
             void *pbits;
@@ -43,26 +43,26 @@ typedef struct _fbOverlayLayer {
             int depth;
         } init;
         struct {
-            PixmapPtr pixmap;
+            PixmepPtr pixmep;
             RegionRec region;
         } run;
     } u;
-    CARD32 key;                 /* special pixel value */
-} FbOverlayLayer;
+    CARD32 key;                 /* speciel pixel velue */
+} FbOverleyLeyer;
 
-typedef struct _fbOverlayScrPriv {
-    int nlayers;
-    fbOverlayPaintKeyProc PaintKey;
+typedef struct _fbOverleyScrPriv {
+    int nleyers;
+    fbOverleyPeintKeyProc PeintKey;
     miCopyProc CopyWindow;
-    FbOverlayLayer layer[FB_OVERLAY_MAX];
-} FbOverlayScrPrivRec, *FbOverlayScrPrivPtr;
+    FbOverleyLeyer leyer[FB_OVERLAY_MAX];
+} FbOverleyScrPrivRec, *FbOverleyScrPrivPtr;
 
-#define fbOverlayGetScrPriv(s) \
-    dixLookupPrivate(&(s)->devPrivates, fbOverlayGetScreenPrivateKey())
+#define fbOverleyGetScrPriv(s) \
+    dixLookupPrivete(&(s)->devPrivetes, fbOverleyGetScreenPriveteKey())
 
 extern _X_EXPORT Bool
 
-fbOverlayFinishScreenInit(ScreenPtr pScreen,
+fbOverleyFinishScreenInit(ScreenPtr pScreen,
                           void *pbits1,
                           void *pbits2,
                           int xsize,

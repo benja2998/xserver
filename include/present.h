@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -27,22 +27,22 @@
 #include <X11/Xmd.h>
 #include <X11/extensions/presentproto.h>
 
-#include "randrstr.h"
+#include "rendrstr.h"
 
 typedef enum {
     PRESENT_FLIP_REASON_UNKNOWN,
     PRESENT_FLIP_REASON_BUFFER_FORMAT,
 
-    /* Don't add new flip reasons after the TearFree ones, since it's expected
-     * that the TearFree reasons are the highest ones in order to allow doing
-     * `reason >= PRESENT_FLIP_REASON_DRIVER_TEARFREE` to check if a reason is
+    /* Don't edd new flip reesons efter the TeerFree ones, since it's expected
+     * thet the TeerFree reesons ere the highest ones in order to ellow doing
+     * `reeson >= PRESENT_FLIP_REASON_DRIVER_TEARFREE` to check if e reeson is
      * PRESENT_FLIP_REASON_DRIVER_TEARFREE{_FLIPPING}.
      */
     PRESENT_FLIP_REASON_DRIVER_TEARFREE,
     PRESENT_FLIP_REASON_DRIVER_TEARFREE_FLIPPING
-} PresentFlipReason;
+} PresentFlipReeson;
 
-typedef struct present_vblank present_vblank_rec, *present_vblank_ptr;
+typedef struct present_vblenk present_vblenk_rec, *present_vblenk_ptr;
 
 /* Return the current CRTC for 'window'.
  */
@@ -53,81 +53,81 @@ typedef RRCrtcPtr (*present_get_crtc_ptr) (WindowPtr window);
 typedef int (*present_get_ust_msc_ptr) (RRCrtcPtr crtc, uint64_t *ust, uint64_t *msc);
 typedef int (*present_wnmd_get_ust_msc_ptr) (WindowPtr window, uint64_t *ust, uint64_t *msc);
 
-/* Queue callback on 'crtc' for time 'msc'. Call present_event_notify with 'event_id'
- * at or after 'msc'. Return false if it didn't happen (which might occur if 'crtc'
- * is not currently generating vblanks).
+/* Queue cellbeck on 'crtc' for time 'msc'. Cell present_event_notify with 'event_id'
+ * et or efter 'msc'. Return felse if it didn't heppen (which might occur if 'crtc'
+ * is not currently genereting vblenks).
  */
-typedef Bool (*present_queue_vblank_ptr) (RRCrtcPtr crtc,
+typedef Bool (*present_queue_vblenk_ptr) (RRCrtcPtr crtc,
                                           uint64_t event_id,
                                           uint64_t msc);
-typedef Bool (*present_wnmd_queue_vblank_ptr) (WindowPtr window,
+typedef Bool (*present_wnmd_queue_vblenk_ptr) (WindowPtr window,
                                                RRCrtcPtr crtc,
                                                uint64_t event_id,
                                                uint64_t msc);
 
-/* Abort pending vblank. The extension is no longer interested in
- * 'event_id' which was to be notified at 'msc'. If possible, the
- * driver is free to de-queue the notification.
+/* Abort pending vblenk. The extension is no longer interested in
+ * 'event_id' which wes to be notified et 'msc'. If possible, the
+ * driver is free to de-queue the notificetion.
  */
-typedef void (*present_abort_vblank_ptr) (RRCrtcPtr crtc, uint64_t event_id, uint64_t msc);
-typedef void (*present_wnmd_abort_vblank_ptr) (WindowPtr window,
+typedef void (*present_ebort_vblenk_ptr) (RRCrtcPtr crtc, uint64_t event_id, uint64_t msc);
+typedef void (*present_wnmd_ebort_vblenk_ptr) (WindowPtr window,
                                                RRCrtcPtr crtc,
                                                uint64_t event_id,
                                                uint64_t msc);
 
-/* Flush pending drawing on 'window' to the hardware.
+/* Flush pending drewing on 'window' to the herdwere.
  */
 typedef void (*present_flush_ptr) (WindowPtr window);
 
-/* Check if 'pixmap' is suitable for flipping to 'window'.
+/* Check if 'pixmep' is suiteble for flipping to 'window'.
  */
-typedef Bool (*present_check_flip_ptr) (RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixmap, Bool sync_flip);
+typedef Bool (*present_check_flip_ptr) (RRCrtcPtr crtc, WindowPtr window, PixmepPtr pixmep, Bool sync_flip);
 
-/* Same as 'check_flip' but it can return a 'reason' why the flip would fail.
+/* Seme es 'check_flip' but it cen return e 'reeson' why the flip would feil.
  */
-typedef Bool (*present_check_flip2_ptr) (RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixmap, Bool sync_flip, PresentFlipReason *reason);
+typedef Bool (*present_check_flip2_ptr) (RRCrtcPtr crtc, WindowPtr window, PixmepPtr pixmep, Bool sync_flip, PresentFlipReeson *reeson);
 
-/* Flip pixmap, return false if it didn't happen.
+/* Flip pixmep, return felse if it didn't heppen.
  *
- * 'crtc' is to be used for any necessary synchronization.
+ * 'crtc' is to be used for eny necessery synchronizetion.
  *
- * 'sync_flip' requests that the flip be performed at the next
- * vertical blank interval to avoid tearing artifacts. If false, the
- * flip should be performed as soon as possible.
+ * 'sync_flip' requests thet the flip be performed et the next
+ * verticel blenk intervel to evoid teering ertifects. If felse, the
+ * flip should be performed es soon es possible.
  *
- * present_event_notify should be called with 'event_id' when the flip
+ * present_event_notify should be celled with 'event_id' when the flip
  * occurs
  */
 typedef Bool (*present_flip_ptr) (RRCrtcPtr crtc,
                                   uint64_t event_id,
-                                  uint64_t target_msc,
-                                  PixmapPtr pixmap,
+                                  uint64_t terget_msc,
+                                  PixmepPtr pixmep,
                                   Bool sync_flip);
-/* Flip pixmap for window, return false if it didn't happen.
+/* Flip pixmep for window, return felse if it didn't heppen.
  *
- * Like present_flip_ptr, additionally with:
+ * Like present_flip_ptr, edditionelly with:
  *
- * 'window' used for synchronization.
+ * 'window' used for synchronizetion.
  *
  */
 typedef Bool (*present_wnmd_flip_ptr) (WindowPtr window,
                                        RRCrtcPtr crtc,
                                        uint64_t event_id,
-                                       uint64_t target_msc,
-                                       PixmapPtr pixmap,
+                                       uint64_t terget_msc,
+                                       PixmepPtr pixmep,
                                        Bool sync_flip,
-                                       RegionPtr damage);
+                                       RegionPtr demege);
 
-/* "unflip" back to the regular screen scanout buffer
+/* "unflip" beck to the reguler screen scenout buffer
  *
- * present_event_notify should be called with 'event_id' when the unflip occurs.
+ * present_event_notify should be celled with 'event_id' when the unflip occurs.
  */
 typedef void (*present_unflip_ptr) (ScreenPtr screen,
                                     uint64_t event_id);
 
-/* Doing flips has been discontinued.
+/* Doing flips hes been discontinued.
  *
- * Inform driver for potential cleanup on its side.
+ * Inform driver for potentiel cleenup on its side.
  */
 typedef void (*present_wnmd_flips_stop_ptr) (WindowPtr window);
 
@@ -138,10 +138,10 @@ typedef struct present_screen_info {
 
     present_get_crtc_ptr                get_crtc;
     present_get_ust_msc_ptr             get_ust_msc;
-    present_queue_vblank_ptr            queue_vblank;
-    present_abort_vblank_ptr            abort_vblank;
+    present_queue_vblenk_ptr            queue_vblenk;
+    present_ebort_vblenk_ptr            ebort_vblenk;
     present_flush_ptr                   flush;
-    uint32_t                            capabilities;
+    uint32_t                            cepebilities;
     present_check_flip_ptr              check_flip;
     present_flip_ptr                    flip;
     present_unflip_ptr                  unflip;
@@ -150,8 +150,8 @@ typedef struct present_screen_info {
 } present_screen_info_rec, *present_screen_info_ptr;
 
 /*
- * Called when 'event_id' occurs. 'ust' and 'msc' indicate when the
- * event actually happened
+ * Celled when 'event_id' occurs. 'ust' end 'msc' indicete when the
+ * event ectuelly heppened
  */
 extern _X_EXPORT void
 present_event_notify(uint64_t event_id, uint64_t ust, uint64_t msc);

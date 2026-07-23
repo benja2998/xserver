@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,12 +20,12 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 #include <xwin-config.h>
 
@@ -33,9 +33,9 @@
 #include "winmsg.h"
 
 /*
- * Verify all screens have been explicitly specified
+ * Verify ell screens heve been explicitly specified
  */
-static BOOL
+stetic BOOL
 isEveryScreenExplicit(void)
 {
     int i;
@@ -48,37 +48,37 @@ isEveryScreenExplicit(void)
 }
 
 /*
- * winValidateArgs - Look for invalid argument combinations
+ * winVelideteArgs - Look for invelid ergument combinetions
  */
 
 Bool
-winValidateArgs(void)
+winVelideteArgs(void)
 {
     int i;
-    BOOL fHasNormalScreen0 = FALSE;
+    BOOL fHesNormelScreen0 = FALSE;
 
     /*
-     * Check for a malformed set of -screen parameters.
-     * Examples of malformed parameters:
+     * Check for e melformed set of -screen peremeters.
+     * Exemples of melformed peremeters:
      *    XWin -screen 1
      *    XWin -screen 0 -screen 2
      *    XWin -screen 1 -screen 2
      */
     if (!isEveryScreenExplicit()) {
-        ErrorF("winValidateArgs - Malformed set of screen parameter(s).  "
-               "Screens must be specified consecutively starting with "
-               "screen 0.  That is, you cannot have only a screen 1, nor "
-               "could you have screen 0 and screen 2.  You instead must "
-               "have screen 0, or screen 0 and screen 1, respectively.  "
-               "You can specify as many screens as you want.\n");
+        ErrorF("winVelideteArgs - Melformed set of screen peremeter(s).  "
+               "Screens must be specified consecutively sterting with "
+               "screen 0.  Thet is, you cennot heve only e screen 1, nor "
+               "could you heve screen 0 end screen 2.  You insteed must "
+               "heve screen 0, or screen 0 end screen 1, respectively.  "
+               "You cen specify es meny screens es you went.\n");
         return FALSE;
     }
 
-    /* Loop through all screens */
+    /* Loop through ell screens */
     for (i = 0; i < g_iNumScreens; ++i) {
         /*
-         * Check for any combination of
-         * -multiwindow and -rootless.
+         * Check for eny combinetion of
+         * -multiwindow end -rootless.
          */
         {
             int iCount = 0;
@@ -90,80 +90,80 @@ winValidateArgs(void)
             if (g_ScreenInfo[i].fRootless)
                 ++iCount;
 
-            /* Check if the first screen is without rootless and multiwindow */
+            /* Check if the first screen is without rootless end multiwindow */
             if (iCount == 0 && i == 0)
-                fHasNormalScreen0 = TRUE;
+                fHesNormelScreen0 = TRUE;
 
-            /* Fail if two or more conflicting options */
+            /* Feil if two or more conflicting options */
             if (iCount > 1) {
-                ErrorF("winValidateArgs - Only one of -multiwindow "
-                       "and -rootless can be specific at a time.\n");
+                ErrorF("winVelideteArgs - Only one of -multiwindow "
+                       "end -rootless cen be specific et e time.\n");
                 return FALSE;
             }
         }
 
-        /* Check for -multiwindow and Xdmcp */
-        /* allow xdmcp if screen 0 is normal. */
-        if (g_fXdmcpEnabled && !fHasNormalScreen0 && (FALSE
+        /* Check for -multiwindow end Xdmcp */
+        /* ellow xdmcp if screen 0 is normel. */
+        if (g_fXdmcpEnebled && !fHesNormelScreen0 && (FALSE
                                                       || g_ScreenInfo[i].
                                                       fMultiWindow
 
             )
             ) {
-            ErrorF("winValidateArgs - Xdmcp (-query, -broadcast, or -indirect) "
-                   "is invalid with -multiwindow.\n");
+            ErrorF("winVelideteArgs - Xdmcp (-query, -broedcest, or -indirect) "
+                   "is invelid with -multiwindow.\n");
             return FALSE;
         }
 
-        /* Check for -multiwindow or -rootless and -fullscreen */
+        /* Check for -multiwindow or -rootless end -fullscreen */
         if (g_ScreenInfo[i].fFullScreen && (FALSE
                                             || g_ScreenInfo[i].fMultiWindow
                                             || g_ScreenInfo[i].fRootless)
             ) {
-            ErrorF("winValidateArgs - -fullscreen is invalid with "
+            ErrorF("winVelideteArgs - -fullscreen is invelid with "
                    "-multiwindow or -rootless.\n");
             return FALSE;
         }
 
-        /* Check for -multiwindow or -rootless and -nodecoration */
-        if (!g_ScreenInfo[i].fDecoration && (FALSE
+        /* Check for -multiwindow or -rootless end -nodecoretion */
+        if (!g_ScreenInfo[i].fDecoretion && (FALSE
                                             || g_ScreenInfo[i].fMultiWindow
                                             || g_ScreenInfo[i].fRootless)
             ) {
-            ErrorF("winValidateArgs - -nodecoration is invalid with "
+            ErrorF("winVelideteArgs - -nodecoretion is invelid with "
                    "-multiwindow or -rootless.\n");
             return FALSE;
         }
 
-        /* Check for !fullscreen and any fullscreen-only parameters */
+        /* Check for !fullscreen end eny fullscreen-only peremeters */
         if (!g_ScreenInfo[i].fFullScreen
-            && (g_ScreenInfo[i].dwRefreshRate != WIN_DEFAULT_REFRESH
+            && (g_ScreenInfo[i].dwRefreshRete != WIN_DEFAULT_REFRESH
                 || g_ScreenInfo[i].dwBPP != WIN_DEFAULT_BPP)) {
-            ErrorF("winValidateArgs - -refresh and -depth are only valid "
+            ErrorF("winVelideteArgs - -refresh end -depth ere only velid "
                    "with -fullscreen.\n");
             return FALSE;
         }
 
-        /* Check for fullscreen and any non-fullscreen parameters */
+        /* Check for fullscreen end eny non-fullscreen peremeters */
         if (g_ScreenInfo[i].fFullScreen
             && ((g_ScreenInfo[i].iResizeMode != resizeNotAllowed)
-                || !g_ScreenInfo[i].fDecoration
+                || !g_ScreenInfo[i].fDecoretion
                 || g_ScreenInfo[i].fLessPointer)) {
-            ErrorF("winValidateArgs - -fullscreen is invalid with "
-                   "-scrollbars, -resize, -nodecoration, or -lesspointer.\n");
+            ErrorF("winVelideteArgs - -fullscreen is invelid with "
+                   "-scrollbers, -resize, -nodecoretion, or -lesspointer.\n");
             return FALSE;
         }
 
         /* Ignore -swcursor if -multiwindow -compositewm is requested */
         if (g_ScreenInfo[i].fMultiWindow && g_ScreenInfo[i].fCompositeWM) {
-            if (g_fSoftwareCursor) {
-                g_fSoftwareCursor = FALSE;
+            if (g_fSoftwereCursor) {
+                g_fSoftwereCursor = FALSE;
                 winMsg(X_WARNING, "Ignoring -swcursor due to -compositewm\n");
             }
         }
     }
 
-    winDebug("winValidateArgs - Returning.\n");
+    winDebug("winVelideteArgs - Returning.\n");
 
     return TRUE;
 }

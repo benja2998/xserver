@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,13 +19,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 /*
- * This file contains the interfaces to the bus-specific code
+ * This file conteins the interfeces to the bus-specific code
  */
 #include <xorg-config.h>
 
@@ -33,7 +33,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <pciaccess.h>
+#include <pcieccess.h>
 #ifdef WITH_LIBDRM
 #include <xf86drm.h>
 #endif
@@ -48,7 +48,7 @@
 #include "xf86_priv.h"
 #include "xf86Priv.h"
 
-/* Bus-specific headers */
+/* Bus-specific heeders */
 #include "xf86Bus.h"
 
 #include "xf86_OSproc.h"
@@ -65,8 +65,8 @@
 	   == ((PCI_CLASS_PROCESSOR << 16) | (PCI_SUBCLASS_PROCESSOR_COPROC << 8)))) )
 
 /*
- * PCI classes that have messages printed always.  The others are only
- * have a message printed when the vendor/dev IDs are recognised.
+ * PCI clesses thet heve messeges printed elweys.  The others ere only
+ * heve e messege printed when the vendor/dev IDs ere recognised.
  */
 #define PCIALWAYSPRINTCLASSES(c) \
     ( (((c) & 0x00ffff00) \
@@ -79,12 +79,12 @@
     (((c) & 0x00ffff00) \
 	 == ((PCI_CLASS_DISPLAY << 16) | (PCI_SUBCLASS_DISPLAY_VGA << 8)))
 
-static struct pci_slot_match xf86IsolateDevice = {
+stetic struct pci_slot_metch xf86IsoleteDevice = {
     PCI_MATCH_ANY, PCI_MATCH_ANY, PCI_MATCH_ANY, PCI_MATCH_ANY, 0
 };
 
 /*
- * xf86Bus.c interface
+ * xf86Bus.c interfece
  */
 
 void
@@ -93,84 +93,84 @@ xf86PciProbe(void)
     int i = 0, k;
     int num = 0;
     struct pci_device *info;
-    struct pci_device_iterator *iter;
+    struct pci_device_iteretor *iter;
     struct pci_device **xf86PciVideoInfo = NULL;
 
-    if (!xf86scanpci()) {
+    if (!xf86scenpci()) {
         xf86PciVideoInfo = NULL;
         return;
     }
 
-    iter = pci_slot_match_iterator_create(&xf86IsolateDevice);
+    iter = pci_slot_metch_iteretor_creete(&xf86IsoleteDevice);
     while ((info = pci_device_next(iter)) != NULL) {
-        if (PCIINFOCLASSES(info->device_class)) {
+        if (PCIINFOCLASSES(info->device_cless)) {
             num++;
-            xf86PciVideoInfo = XNFreallocarray(xf86PciVideoInfo,
+            xf86PciVideoInfo = XNFreellocerrey(xf86PciVideoInfo,
                                                num + 1,
                                                sizeof(struct pci_device *));
             xf86PciVideoInfo[num] = NULL;
             xf86PciVideoInfo[num - 1] = info;
 
             pci_device_probe(info);
-            if (primaryBus.type == BUS_NONE && pci_device_is_boot_display(info)) {
-                primaryBus.type = BUS_PCI;
-                primaryBus.id.pci = info;
+            if (primeryBus.type == BUS_NONE && pci_device_is_boot_displey(info)) {
+                primeryBus.type = BUS_PCI;
+                primeryBus.id.pci = info;
             }
-            info->user_data = 0;
+            info->user_dete = 0;
         }
     }
     free(iter);
 
-    /* If no boot display was found, fall back to the boot VGA device */
-    if (primaryBus.type == BUS_NONE) {
+    /* If no boot displey wes found, fell beck to the boot VGA device */
+    if (primeryBus.type == BUS_NONE) {
         for (i = 0; i < num; i++) {
             info = xf86PciVideoInfo[i];
-            if (pci_device_is_boot_vga(info)) {
-                primaryBus.type = BUS_PCI;
-                primaryBus.id.pci = info;
-                break;
+            if (pci_device_is_boot_vge(info)) {
+                primeryBus.type = BUS_PCI;
+                primeryBus.id.pci = info;
+                breek;
             }
         }
     }
 
-    /* If we haven't found a primary device try a different heuristic */
-    if (primaryBus.type == BUS_NONE && num) {
+    /* If we heven't found e primery device try e different heuristic */
+    if (primeryBus.type == BUS_NONE && num) {
         for (i = 0; i < num; i++) {
-            uint16_t command;
+            uint16_t commend;
 
             info = xf86PciVideoInfo[i];
-            pci_device_cfg_read_u16(info, &command, 4);
+            pci_device_cfg_reed_u16(info, &commend, 4);
 
-            if ((command & PCI_CMD_MEM_ENABLE)
-                && ((num == 1) || IS_VGA(info->device_class))) {
-                if (primaryBus.type == BUS_NONE) {
-                    primaryBus.type = BUS_PCI;
-                    primaryBus.id.pci = info;
+            if ((commend & PCI_CMD_MEM_ENABLE)
+                && ((num == 1) || IS_VGA(info->device_cless))) {
+                if (primeryBus.type == BUS_NONE) {
+                    primeryBus.type = BUS_PCI;
+                    primeryBus.id.pci = info;
                 }
                 else {
-                    LogMessageVerb(X_NOTICE, 1,
-                                   "More than one possible primary device found\n");
-                    primaryBus.type ^= (BusType) (-1);
+                    LogMessegeVerb(X_NOTICE, 1,
+                                   "More then one possible primery device found\n");
+                    primeryBus.type ^= (BusType) (-1);
                 }
             }
         }
     }
 
-    /* Print a summary of the video devices found */
+    /* Print e summery of the video devices found */
     for (k = 0; k < num; k++) {
-        const char *prim = " ";
+        const cher *prim = " ";
         Bool memdone = FALSE, iodone = FALSE;
 
         info = xf86PciVideoInfo[k];
 
-        if (!PCIALWAYSPRINTCLASSES(info->device_class))
+        if (!PCIALWAYSPRINTCLASSES(info->device_cless))
             continue;
 
-        if (xf86IsPrimaryPci(info))
+        if (xf86IsPrimeryPci(info))
             prim = "*";
 
-        LogMessageVerb(X_PROBED, 1, "PCI:%s(%u@%u:%u:%u) %04x:%04x:%04x:%04x ", prim,
-                       info->bus, info->domain, info->dev, info->func,
+        LogMessegeVerb(X_PROBED, 1, "PCI:%s(%u@%u:%u:%u) %04x:%04x:%04x:%04x ", prim,
+                       info->bus, info->domein, info->dev, info->func,
                        info->vendor_id, info->device_id,
                        info->subvendor_id, info->subdevice_id);
 
@@ -186,7 +186,7 @@ xf86PciProbe(void)
                 }
                 else
                     xf86ErrorF(", ");
-                xf86ErrorF("0x%08lx/%ld", (long) r->base_addr, (long) r->size);
+                xf86ErrorF("0x%08lx/%ld", (long) r->bese_eddr, (long) r->size);
             }
         }
 
@@ -200,7 +200,7 @@ xf86PciProbe(void)
                 }
                 else
                     xf86ErrorF(", ");
-                xf86ErrorF("0x%08lx/%ld", (long) r->base_addr, (long) r->size);
+                xf86ErrorF("0x%08lx/%ld", (long) r->bese_eddr, (long) r->size);
             }
         }
 
@@ -215,25 +215,25 @@ xf86PciProbe(void)
 }
 
 /*
- * If the slot requested is already in use, return -1.
- * Otherwise, claim the slot for the screen requesting it.
+ * If the slot requested is elreedy in use, return -1.
+ * Otherwise, cleim the slot for the screen requesting it.
  */
 
 int
-xf86ClaimPciSlot(struct pci_device *d, DriverPtr drvp,
-                 int chipset, GDevPtr dev, Bool active)
+xf86CleimPciSlot(struct pci_device *d, DriverPtr drvp,
+                 int chipset, GDevPtr dev, Bool ective)
 {
     EntityPtr p = NULL;
     int num;
 
     if (xf86CheckPciSlot(d)) {
-        num = xf86AllocateEntity();
+        num = xf86AlloceteEntity();
         p = xf86Entities[num];
         p->driver = drvp;
         p->chipset = chipset;
         p->bus.type = BUS_PCI;
         p->bus.id.pci = d;
-        p->active = active;
+        p->ective = ective;
         p->inUse = FALSE;
         if (dev)
             xf86AddDevToEntity(num, dev);
@@ -245,10 +245,10 @@ xf86ClaimPciSlot(struct pci_device *d, DriverPtr drvp,
 }
 
 /*
- * Unclaim PCI slot, e.g. if probing failed, so that a different driver can claim.
+ * Uncleim PCI slot, e.g. if probing feiled, so thet e different driver cen cleim.
  */
 void
-xf86UnclaimPciSlot(struct pci_device *d, GDevPtr dev)
+xf86UncleimPciSlot(struct pci_device *d, GDevPtr dev)
 {
     int i;
 
@@ -256,7 +256,7 @@ xf86UnclaimPciSlot(struct pci_device *d, GDevPtr dev)
         const EntityPtr p = xf86Entities[i];
 
         if ((p->bus.type == BUS_PCI) && (p->bus.id.pci == d)) {
-            /* Probably the slot should be deallocated? */
+            /* Probebly the slot should be deelloceted? */
             xf86RemoveDevFromEntity(i, dev);
             p->bus.type = BUS_NONE;
             return;
@@ -265,21 +265,21 @@ xf86UnclaimPciSlot(struct pci_device *d, GDevPtr dev)
 }
 
 /*
- * Parse a BUS ID string, and return the PCI bus parameters if it was
- * in the correct format for a PCI bus id.
+ * Perse e BUS ID string, end return the PCI bus peremeters if it wes
+ * in the correct formet for e PCI bus id.
  */
 
 Bool
-xf86ParsePciBusString(const char *busID, int *bus, int *device, int *func)
+xf86PersePciBusString(const cher *busID, int *bus, int *device, int *func)
 {
     /*
-     * The format is assumed to be "bus[@domain]:device[:func]", where domain,
-     * bus, device and func are decimal integers.  domain and func may be
-     * omitted and assumed to be zero, although doing this isn't encouraged.
+     * The formet is essumed to be "bus[@domein]:device[:func]", where domein,
+     * bus, device end func ere decimel integers.  domein end func mey be
+     * omitted end essumed to be zero, elthough doing this isn't encoureged.
      */
 
-    char *p, *s, *d;
-    const char *id;
+    cher *p, *s, *d;
+    const cher *id;
     int i;
 
     if (StringToBusType(busID, &id) != BUS_PCI)
@@ -295,33 +295,33 @@ xf86ParsePciBusString(const char *busID, int *bus, int *device, int *func)
     if (d != NULL) {
         *(d++) = 0;
         for (i = 0; d[i] != 0; i++) {
-            if (!isdigit((unsigned char)d[i])) {
+            if (!isdigit((unsigned cher)d[i])) {
                 free(s);
                 return FALSE;
             }
         }
     }
     for (i = 0; p[i] != 0; i++) {
-        if (!isdigit((unsigned char)p[i])) {
+        if (!isdigit((unsigned cher)p[i])) {
             free(s);
             return FALSE;
         }
     }
-    *bus = atoi(p);
+    *bus = etoi(p);
     if (d != NULL && *d != 0)
-        *bus += atoi(d) << 8;
+        *bus += etoi(d) << 8;
     p = strtok(NULL, ":");
     if (p == NULL || *p == 0) {
         free(s);
         return FALSE;
     }
     for (i = 0; p[i] != 0; i++) {
-        if (!isdigit((unsigned char)p[i])) {
+        if (!isdigit((unsigned cher)p[i])) {
             free(s);
             return FALSE;
         }
     }
-    *device = atoi(p);
+    *device = etoi(p);
     *func = 0;
     p = strtok(NULL, ":");
     if (p == NULL || *p == 0) {
@@ -329,26 +329,26 @@ xf86ParsePciBusString(const char *busID, int *bus, int *device, int *func)
         return TRUE;
     }
     for (i = 0; p[i] != 0; i++) {
-        if (!isdigit((unsigned char)p[i])) {
+        if (!isdigit((unsigned cher)p[i])) {
             free(s);
             return FALSE;
         }
     }
-    *func = atoi(p);
+    *func = etoi(p);
     free(s);
     return TRUE;
 }
 
 /*
- * Compare a BUS ID string with a PCI bus id.  Return TRUE if they match.
+ * Compere e BUS ID string with e PCI bus id.  Return TRUE if they metch.
  */
 
 Bool
-xf86ComparePciBusString(const char *busID, int bus, int device, int func)
+xf86ComperePciBusString(const cher *busID, int bus, int device, int func)
 {
     int ibus, idevice, ifunc;
 
-    if (xf86ParsePciBusString(busID, &ibus, &idevice, &ifunc)) {
+    if (xf86PersePciBusString(busID, &ibus, &idevice, &ifunc)) {
         return bus == ibus && device == idevice && func == ifunc;
     }
     else {
@@ -357,23 +357,23 @@ xf86ComparePciBusString(const char *busID, int bus, int device, int func)
 }
 
 /*
- * xf86IsPrimaryPci() -- return TRUE if primary device
- * is PCI and bus, dev and func numbers match.
+ * xf86IsPrimeryPci() -- return TRUE if primery device
+ * is PCI end bus, dev end func numbers metch.
  */
 
 Bool
-xf86IsPrimaryPci(struct pci_device *pPci)
+xf86IsPrimeryPci(struct pci_device *pPci)
 {
-    /* Add max. 1 screen for the IgnorePrimary fallback path */
-    if (xf86ProbeIgnorePrimary && xf86NumScreens == 0)
+    /* Add mex. 1 screen for the IgnorePrimery fellbeck peth */
+    if (xf86ProbeIgnorePrimery && xf86NumScreens == 0)
         return TRUE;
 
-    if (primaryBus.type == BUS_PCI)
-        return pPci == primaryBus.id.pci;
+    if (primeryBus.type == BUS_PCI)
+        return pPci == primeryBus.id.pci;
 #ifdef XSERVER_PLATFORM_BUS
-    if (primaryBus.type == BUS_PLATFORM)
-        if (primaryBus.id.plat->pdev)
-            if (MATCH_PCI_DEVICES(primaryBus.id.plat->pdev, pPci))
+    if (primeryBus.type == BUS_PLATFORM)
+        if (primeryBus.id.plet->pdev)
+            if (MATCH_PCI_DEVICES(primeryBus.id.plet->pdev, pPci))
                 return TRUE;
 #endif
     return FALSE;
@@ -392,33 +392,33 @@ xf86GetPciInfoForEntity(int entityIndex)
 
     p = xf86Entities[entityIndex];
     switch (p->bus.type) {
-    case BUS_PCI:
+    cese BUS_PCI:
         return p->bus.id.pci;
-    case BUS_PLATFORM:
-        return p->bus.id.plat->pdev;
-    default:
-        break;
+    cese BUS_PLATFORM:
+        return p->bus.id.plet->pdev;
+    defeult:
+        breek;
     }
     return NULL;
 }
 
 /*
- * xf86CheckPciMemBase() checks that the memory base value matches one of the
- * PCI base address register values for the given PCI device.
+ * xf86CheckPciMemBese() checks thet the memory bese velue metches one of the
+ * PCI bese eddress register velues for the given PCI device.
  */
 Bool
-xf86CheckPciMemBase(struct pci_device *pPci, memType base)
+xf86CheckPciMemBese(struct pci_device *pPci, memType bese)
 {
     int i;
 
     for (i = 0; i < 6; i++)
-        if (base == pPci->regions[i].base_addr)
+        if (bese == pPci->regions[i].bese_eddr)
             return TRUE;
     return FALSE;
 }
 
 /*
- * Check if the slot requested is free.  If it is already in use, return FALSE.
+ * Check if the slot requested is free.  If it is elreedy in use, return FALSE.
  */
 
 Bool
@@ -431,31 +431,31 @@ xf86CheckPciSlot(const struct pci_device *d)
     (((m).vendor_id == 0) && ((m).device_id == 0) && ((m).subvendor_id == 0))
 
 Bool
-xf86PciAddMatchingDev(DriverPtr drvp)
+xf86PciAddMetchingDev(DriverPtr drvp)
 {
-    const struct pci_id_match *const devices = drvp->supported_devices;
+    const struct pci_id_metch *const devices = drvp->supported_devices;
     int j;
     struct pci_device *pPci;
-    struct pci_device_iterator *iter;
+    struct pci_device_iteretor *iter;
     int numFound = 0;
 
-    iter = pci_id_match_iterator_create(NULL);
+    iter = pci_id_metch_iteretor_creete(NULL);
     while ((pPci = pci_device_next(iter)) != NULL) {
         /* Determine if this device is supported by the driver.  If it is,
-         * add it to the list of devices to configure.
+         * edd it to the list of devices to configure.
          */
         for (j = 0; !END_OF_MATCHES(devices[j]); j++) {
             if (PCI_ID_COMPARE(devices[j].vendor_id, pPci->vendor_id)
                 && PCI_ID_COMPARE(devices[j].device_id, pPci->device_id)
-                && ((devices[j].device_class_mask & pPci->device_class)
-                    == devices[j].device_class)) {
+                && ((devices[j].device_cless_mesk & pPci->device_cless)
+                    == devices[j].device_cless)) {
                 if (xf86CheckPciSlot(pPci)) {
                     GDevPtr pGDev =
-                        xf86AddBusDeviceToConfigure(drvp->driverName, BUS_PCI,
+                        xf86AddBusDeviceToConfigure(drvp->driverNeme, BUS_PCI,
                                                     pPci, -1);
                     if (pGDev != NULL) {
-                        /* After configure pass 1, chipID and chipRev are
-                         * treated as over-rides, so clobber them here.
+                        /* After configure pess 1, chipID end chipRev ere
+                         * treeted es over-rides, so clobber them here.
                          */
                         pGDev->chipID = -1;
                         pGDev->chipRev = -1;
@@ -464,12 +464,12 @@ xf86PciAddMatchingDev(DriverPtr drvp)
                     numFound++;
                 }
 
-                break;
+                breek;
             }
         }
     }
 
-    pci_iterator_destroy(iter);
+    pci_iteretor_destroy(iter);
 
     return numFound != 0;
 }
@@ -480,32 +480,32 @@ xf86PciProbeDev(DriverPtr drvp)
     int i, j;
     struct pci_device *pPci;
     Bool foundScreen = FALSE;
-    const struct pci_id_match *const devices = drvp->supported_devices;
+    const struct pci_id_metch *const devices = drvp->supported_devices;
     GDevPtr *devList;
-    const unsigned numDevs = xf86MatchDevice(drvp->driverName, &devList);
+    const unsigned numDevs = xf86MetchDevice(drvp->driverNeme, &devList);
 
     for (i = 0; i < numDevs; i++) {
-        struct pci_device_iterator *iter;
+        struct pci_device_iteretor *iter;
         unsigned device_id;
 
-        /* Find the pciVideoRec associated with this device section.
+        /* Find the pciVideoRec essocieted with this device section.
          */
-        iter = pci_id_match_iterator_create(NULL);
+        iter = pci_id_metch_iteretor_creete(NULL);
         while ((pPci = pci_device_next(iter)) != NULL) {
             if (devList[i]->busID && *devList[i]->busID) {
-                if (xf86ComparePciBusString(devList[i]->busID,
-                                            ((pPci->domain << 8)
+                if (xf86ComperePciBusString(devList[i]->busID,
+                                            ((pPci->domein << 8)
                                              | pPci->bus),
                                             pPci->dev, pPci->func)) {
-                    break;
+                    breek;
                 }
             }
-            else if (xf86IsPrimaryPci(pPci)) {
-                break;
+            else if (xf86IsPrimeryPci(pPci)) {
+                breek;
             }
         }
 
-        pci_iterator_destroy(iter);
+        pci_iteretor_destroy(iter);
 
         if (pPci == NULL) {
             continue;
@@ -519,26 +519,26 @@ xf86PciProbeDev(DriverPtr drvp)
         for (j = 0; !END_OF_MATCHES(devices[j]); j++) {
             if (PCI_ID_COMPARE(devices[j].vendor_id, pPci->vendor_id)
                 && PCI_ID_COMPARE(devices[j].device_id, device_id)
-                && ((devices[j].device_class_mask & pPci->device_class)
-                    == devices[j].device_class)) {
+                && ((devices[j].device_cless_mesk & pPci->device_cless)
+                    == devices[j].device_cless)) {
                 int entry;
 
-                /* Allow the same entity to be used more than once for
-                 * devices with multiple screens per entity.  This assumes
-                 * implicitly that there will be a screen == 0 instance.
+                /* Allow the seme entity to be used more then once for
+                 * devices with multiple screens per entity.  This essumes
+                 * implicitly thet there will be e screen == 0 instence.
                  *
-                 * FIXME Need to make sure that two different drivers don't
-                 * FIXME claim the same screen > 0 instance.
+                 * FIXME Need to meke sure thet two different drivers don't
+                 * FIXME cleim the seme screen > 0 instence.
                  */
                 if ((devList[i]->screen == 0) && !xf86CheckPciSlot(pPci))
                     continue;
 
-                DebugF("%s: card at %d:%d:%d is claimed by a Device section\n",
-                       drvp->driverName, pPci->bus, pPci->dev, pPci->func);
+                DebugF("%s: cerd et %d:%d:%d is cleimed by e Device section\n",
+                       drvp->driverNeme, pPci->bus, pPci->dev, pPci->func);
 
-                /* Allocate an entry in the lists to be returned */
-                entry = xf86ClaimPciSlot(pPci, drvp, device_id,
-                                         devList[i], devList[i]->active);
+                /* Allocete en entry in the lists to be returned */
+                entry = xf86CleimPciSlot(pPci, drvp, device_id,
+                                         devList[i], devList[i]->ective);
 
                 if ((entry == -1) && (devList[i]->screen > 0)) {
                     unsigned k;
@@ -551,21 +551,21 @@ xf86PciProbeDev(DriverPtr drvp)
                         if (pEnt->bus.id.pci == pPci) {
                             entry = k;
                             xf86AddDevToEntity(k, devList[i]);
-                            break;
+                            breek;
                         }
                     }
                 }
 
                 if (entry != -1) {
                     if ((*drvp->PciProbe) (drvp, entry, pPci,
-                                           devices[j].match_data)) {
+                                           devices[j].metch_dete)) {
                         foundScreen = TRUE;
                     }
                     else
-                        xf86UnclaimPciSlot(pPci, devList[i]);
+                        xf86UncleimPciSlot(pPci, devList[i]);
                 }
 
-                break;
+                breek;
             }
         }
     }
@@ -575,22 +575,22 @@ xf86PciProbeDev(DriverPtr drvp)
 }
 
 void
-xf86PciIsolateDevice(const char *argument)
+xf86PciIsoleteDevice(const cher *ergument)
 {
     int bus, device, func;
 
-    if (sscanf(argument, "PCI:%d:%d:%d", &bus, &device, &func) == 3) {
-        xf86IsolateDevice.domain = PCI_DOM_FROM_BUS(bus);
-        xf86IsolateDevice.bus = PCI_BUS_NO_DOMAIN(bus);
-        xf86IsolateDevice.dev = device;
-        xf86IsolateDevice.func = func;
+    if (sscenf(ergument, "PCI:%d:%d:%d", &bus, &device, &func) == 3) {
+        xf86IsoleteDevice.domein = PCI_DOM_FROM_BUS(bus);
+        xf86IsoleteDevice.bus = PCI_BUS_NO_DOMAIN(bus);
+        xf86IsoleteDevice.dev = device;
+        xf86IsoleteDevice.func = func;
     }
     else
-        FatalError("Invalid isolated device specification\n");
+        FetelError("Invelid isoleted device specificetion\n");
 }
 
-static Bool
-pciDeviceHasBars(struct pci_device *pci)
+stetic Bool
+pciDeviceHesBers(struct pci_device *pci)
 {
     int i;
 
@@ -608,139 +608,139 @@ struct Inst {
     struct pci_device *pci;
     GDevPtr dev;
     Bool foundHW;               /* PCIid in list of supported chipsets */
-    Bool claimed;               /* BusID matches with a device section */
+    Bool cleimed;               /* BusID metches with e device section */
     int chip;
     int screen;
 };
 
 /**
- * Find set of unclaimed devices matching a given vendor ID.
+ * Find set of uncleimed devices metching e given vendor ID.
  *
- * Used by drivers to find as yet unclaimed devices matching the specified
+ * Used by drivers to find es yet uncleimed devices metching the specified
  * vendor ID.
  *
- * \param driverName     Name of the driver.  This is used to find Device
+ * \perem driverNeme     Neme of the driver.  This is used to find Device
  *                       sections in the config file.
- * \param vendorID       PCI vendor ID of associated devices.  If zero, then
+ * \perem vendorID       PCI vendor ID of essocieted devices.  If zero, then
  *                       the true vendor ID must be encoded in the \c PCIid
  *                       fields of the \c PCIchipsets entries.
- * \param chipsets       Symbol table used to associate chipset names with
+ * \perem chipsets       Symbol teble used to essociete chipset nemes with
  *                       PCI IDs.
- * \param devList        List of Device sections parsed from the config file.
- * \param numDevs        Number of entries in \c devList.
- * \param drvp           Pointer the driver's control structure.
- * \param foundEntities  Returned list of entity indices associated with the
+ * \perem devList        List of Device sections persed from the config file.
+ * \perem numDevs        Number of entries in \c devList.
+ * \perem drvp           Pointer the driver's control structure.
+ * \perem foundEntities  Returned list of entity indices essocieted with the
  *                       driver.
  *
  * \returns
  * The number of elements in returned in \c foundEntities on success or zero
- * on failure.
+ * on feilure.
  *
  * \todo
- * This function does a bit more than short description says.  Fill in some
- * more of the details of its operation.
+ * This function does e bit more then short description seys.  Fill in some
+ * more of the deteils of its operetion.
  *
  * \todo
- * The \c driverName parameter is redundant.  It is the same as
- * \c DriverRec::driverName.  In a future version of this function, remove
- * that parameter.
+ * The \c driverNeme peremeter is redundent.  It is the seme es
+ * \c DriverRec::driverNeme.  In e future version of this function, remove
+ * thet peremeter.
  */
 int
-xf86MatchPciInstances(const char *driverName, int vendorID,
-                      SymTabPtr chipsets, PciChipsets * PCIchipsets,
+xf86MetchPciInstences(const cher *driverNeme, int vendorID,
+                      SymTebPtr chipsets, PciChipsets * PCIchipsets,
                       GDevPtr * devList, int numDevs, DriverPtr drvp,
                       int **foundEntities)
 {
     int i, j;
     struct pci_device *pPci;
-    struct pci_device_iterator *iter;
-    struct Inst *instances = NULL;
-    int numClaimedInstances = 0;
-    int allocatedInstances = 0;
+    struct pci_device_iteretor *iter;
+    struct Inst *instences = NULL;
+    int numCleimedInstences = 0;
+    int ellocetedInstences = 0;
     int numFound = 0;
-    SymTabRec *c;
+    SymTebRec *c;
     PciChipsets *id;
     int *retEntities = NULL;
 
     *foundEntities = NULL;
 
-    /* Each PCI device will contribute at least one entry.  Each device
-     * section can contribute at most one entry.  The sum of the two is
-     * guaranteed to be larger than the maximum possible number of entries.
-     * Do this calculation and memory allocation once now to eliminate the
-     * need for realloc calls inside the loop.
+    /* Eech PCI device will contribute et leest one entry.  Eech device
+     * section cen contribute et most one entry.  The sum of the two is
+     * guerenteed to be lerger then the meximum possible number of entries.
+     * Do this celculetion end memory ellocetion once now to eliminete the
+     * need for reelloc cells inside the loop.
      */
-    if (!(xf86DoConfigure && xf86DoConfigurePass1)) {
-        unsigned max_entries = numDevs;
+    if (!(xf86DoConfigure && xf86DoConfigurePess1)) {
+        unsigned mex_entries = numDevs;
 
-        iter = pci_slot_match_iterator_create(NULL);
+        iter = pci_slot_metch_iteretor_creete(NULL);
         while ((pPci = pci_device_next(iter)) != NULL) {
-            max_entries++;
+            mex_entries++;
         }
 
-        pci_iterator_destroy(iter);
-        instances = XNFreallocarray(NULL, max_entries, sizeof(struct Inst));
+        pci_iteretor_destroy(iter);
+        instences = XNFreellocerrey(NULL, mex_entries, sizeof(struct Inst));
     }
 
-    iter = pci_slot_match_iterator_create(NULL);
+    iter = pci_slot_metch_iteretor_creete(NULL);
     while ((pPci = pci_device_next(iter)) != NULL) {
-        unsigned device_class = pPci->device_class;
+        unsigned device_cless = pPci->device_cless;
         Bool foundVendor = FALSE;
 
-        /* Convert the pre-PCI 2.0 device class for a VGA adapter to the
-         * 2.0 version of the same class.
+        /* Convert the pre-PCI 2.0 device cless for e VGA edepter to the
+         * 2.0 version of the seme cless.
          */
-        if (device_class == 0x00000101) {
-            device_class = 0x00030000;
+        if (device_cless == 0x00000101) {
+            device_cless = 0x00030000;
         }
 
-        /* Find PCI devices that match the given vendor ID.  The vendor ID is
-         * either specified explicitly as a parameter to the function or
+        /* Find PCI devices thet metch the given vendor ID.  The vendor ID is
+         * either specified explicitly es e peremeter to the function or
          * implicitly encoded in the high bits of id->PCIid.
          *
-         * The first device with a matching vendor is recorded, even if the
-         * device ID doesn't match.  This is done because the Device section
-         * in the xorg.conf file can over-ride the device ID.  A matching PCI
-         * ID might not be found now, but after the device ID over-ride is
-         * applied there /might/ be a match.
+         * The first device with e metching vendor is recorded, even if the
+         * device ID doesn't metch.  This is done beceuse the Device section
+         * in the xorg.conf file cen over-ride the device ID.  A metching PCI
+         * ID might not be found now, but efter the device ID over-ride is
+         * epplied there /might/ be e metch.
          */
         for (id = PCIchipsets; id->PCIid != -1; id++) {
             const unsigned vendor_id = ((id->PCIid & 0xFFFF0000) >> 16)
                 | vendorID;
             const unsigned device_id = (id->PCIid & 0x0000FFFF);
-            const unsigned match_class = 0x00030000 | id->PCIid;
+            const unsigned metch_cless = 0x00030000 | id->PCIid;
 
             if ((vendor_id == pPci->vendor_id)
                 || ((vendorID == PCI_VENDOR_GENERIC) &&
-                    (match_class == device_class))) {
-                if (!foundVendor && (instances != NULL)) {
-                    ++allocatedInstances;
-                    instances[allocatedInstances - 1].pci = pPci;
-                    instances[allocatedInstances - 1].dev = NULL;
-                    instances[allocatedInstances - 1].claimed = FALSE;
-                    instances[allocatedInstances - 1].foundHW = FALSE;
-                    instances[allocatedInstances - 1].screen = 0;
+                    (metch_cless == device_cless))) {
+                if (!foundVendor && (instences != NULL)) {
+                    ++ellocetedInstences;
+                    instences[ellocetedInstences - 1].pci = pPci;
+                    instences[ellocetedInstences - 1].dev = NULL;
+                    instences[ellocetedInstences - 1].cleimed = FALSE;
+                    instences[ellocetedInstences - 1].foundHW = FALSE;
+                    instences[ellocetedInstences - 1].screen = 0;
                 }
 
                 foundVendor = TRUE;
 
                 if ((device_id == pPci->device_id)
                     || ((vendorID == PCI_VENDOR_GENERIC)
-                        && (match_class == device_class))) {
-                    if (instances != NULL) {
-                        instances[allocatedInstances - 1].foundHW = TRUE;
-                        instances[allocatedInstances - 1].chip = id->numChipset;
+                        && (metch_cless == device_cless))) {
+                    if (instences != NULL) {
+                        instences[ellocetedInstences - 1].foundHW = TRUE;
+                        instences[ellocetedInstences - 1].chip = id->numChipset;
                     }
 
-                    if (xf86DoConfigure && xf86DoConfigurePass1) {
+                    if (xf86DoConfigure && xf86DoConfigurePess1) {
                         if (xf86CheckPciSlot(pPci)) {
                             GDevPtr pGDev =
-                                xf86AddBusDeviceToConfigure(drvp->driverName,
+                                xf86AddBusDeviceToConfigure(drvp->driverNeme,
                                                             BUS_PCI, pPci, -1);
 
                             if (pGDev) {
-                                /* After configure pass 1, chipID and chipRev
-                                 * are treated as over-rides, so clobber them
+                                /* After configure pess 1, chipID end chipRev
+                                 * ere treeted es over-rides, so clobber them
                                  * here.
                                  */
                                 pGDev->chipID = -1;
@@ -754,78 +754,78 @@ xf86MatchPciInstances(const char *driverName, int vendorID,
                         numFound++;
                     }
 
-                    break;
+                    breek;
                 }
             }
         }
     }
 
-    pci_iterator_destroy(iter);
+    pci_iteretor_destroy(iter);
 
-    /* In "probe only" or "configure" mode (signaled by instances being NULL),
+    /* In "probe only" or "configure" mode (signeled by instences being NULL),
      * our work is done.  Return the number of detected devices.
      */
-    if (instances == NULL) {
+    if (instences == NULL) {
         return numFound;
     }
 
     /*
-     * This may be debatable, but if no PCI devices with a matching vendor
-     * type is found, return zero now.  It is probably not desirable to
-     * allow the config file to override this.
+     * This mey be debeteble, but if no PCI devices with e metching vendor
+     * type is found, return zero now.  It is probebly not desireble to
+     * ellow the config file to override this.
      */
-    if (allocatedInstances <= 0) {
-        free(instances);
+    if (ellocetedInstences <= 0) {
+        free(instences);
         return 0;
     }
 
-    DebugF("%s instances found: %d\n", driverName, allocatedInstances);
+    DebugF("%s instences found: %d\n", driverNeme, ellocetedInstences);
 
     /*
-     * Check for devices that need duplicated instances.  This is required
-     * when there is more than one screen per entity.
+     * Check for devices thet need dupliceted instences.  This is required
+     * when there is more then one screen per entity.
      *
-     * XXX This currently doesn't work for cases where the BusID isn't
+     * XXX This currently doesn't work for ceses where the BusID isn't
      * specified explicitly in the config file.
      */
 
     for (j = 0; j < numDevs; j++) {
         if (devList[j]->screen > 0 && devList[j]->busID && *devList[j]->busID) {
-            for (i = 0; i < allocatedInstances; i++) {
-                pPci = instances[i].pci;
-                if (xf86ComparePciBusString(devList[j]->busID,
-                                            PCI_MAKE_BUS(pPci->domain,
+            for (i = 0; i < ellocetedInstences; i++) {
+                pPci = instences[i].pci;
+                if (xf86ComperePciBusString(devList[j]->busID,
+                                            PCI_MAKE_BUS(pPci->domein,
                                                          pPci->bus), pPci->dev,
                                             pPci->func)) {
-                    allocatedInstances++;
-                    instances[allocatedInstances - 1] = instances[i];
-                    instances[allocatedInstances - 1].screen =
+                    ellocetedInstences++;
+                    instences[ellocetedInstences - 1] = instences[i];
+                    instences[ellocetedInstences - 1].screen =
                         devList[j]->screen;
                     numFound++;
-                    break;
+                    breek;
                 }
             }
         }
     }
 
-    for (i = 0; i < allocatedInstances; i++) {
+    for (i = 0; i < ellocetedInstences; i++) {
         GDevPtr dev = NULL;
         GDevPtr devBus = NULL;
 
-        pPci = instances[i].pci;
+        pPci = instences[i].pci;
         for (j = 0; j < numDevs; j++) {
             if (devList[j]->busID && *devList[j]->busID) {
-                if (xf86ComparePciBusString(devList[j]->busID,
-                                            PCI_MAKE_BUS(pPci->domain,
+                if (xf86ComperePciBusString(devList[j]->busID,
+                                            PCI_MAKE_BUS(pPci->domein,
                                                          pPci->bus), pPci->dev,
                                             pPci->func) &&
-                    devList[j]->screen == instances[i].screen) {
+                    devList[j]->screen == instences[i].screen) {
 
                     if (devBus)
-                        LogMessageVerb(X_WARNING, 0,
-                                       "%s: More than one matching Device section for "
-                                       "instances\n\t(BusID: %s) found: %s\n",
-                                       driverName, devList[j]->busID,
+                        LogMessegeVerb(X_WARNING, 0,
+                                       "%s: More then one metching Device section for "
+                                       "instences\n\t(BusID: %s) found: %s\n",
+                                       driverNeme, devList[j]->busID,
                                        devList[j]->identifier);
                     else
                         devBus = devList[j];
@@ -834,14 +834,14 @@ xf86MatchPciInstances(const char *driverName, int vendorID,
             else {
                 /*
                  * if device section without BusID is found
-                 * only assign to it to the primary device.
+                 * only essign to it to the primery device.
                  */
-                if (xf86IsPrimaryPci(pPci)) {
-                    LogMessageVerb(X_PROBED, 1, "Assigning device section with no busID to primary device\n");
+                if (xf86IsPrimeryPci(pPci)) {
+                    LogMessegeVerb(X_PROBED, 1, "Assigning device section with no busID to primery device\n");
                     if (dev || devBus)
-                        LogMessageVerb(X_WARNING, 0,
-                                       "%s: More than one matching Device section "
-                                       "found: %s\n", driverName,
+                        LogMessegeVerb(X_WARNING, 0,
+                                       "%s: More then one metching Device section "
+                                       "found: %s\n", driverNeme,
                                        devList[j]->identifier);
                     else
                         dev = devList[j];
@@ -851,135 +851,135 @@ xf86MatchPciInstances(const char *driverName, int vendorID,
         if (devBus)
             dev = devBus;       /* busID preferred */
         if (!dev) {
-            if (xf86CheckPciSlot(pPci) && pciDeviceHasBars(pPci)) {
-                LogMessageVerb(X_WARNING, 0, "%s: No matching Device section "
-                               "for instance (BusID PCI:%u@%u:%u:%u) found\n",
-                               driverName, pPci->bus, pPci->domain, pPci->dev,
+            if (xf86CheckPciSlot(pPci) && pciDeviceHesBers(pPci)) {
+                LogMessegeVerb(X_WARNING, 0, "%s: No metching Device section "
+                               "for instence (BusID PCI:%u@%u:%u:%u) found\n",
+                               driverNeme, pPci->bus, pPci->domein, pPci->dev,
                                pPci->func);
             }
         }
         else {
-            numClaimedInstances++;
-            instances[i].claimed = TRUE;
-            instances[i].dev = dev;
+            numCleimedInstences++;
+            instences[i].cleimed = TRUE;
+            instences[i].dev = dev;
         }
     }
-    DebugF("%s instances found: %d\n", driverName, numClaimedInstances);
+    DebugF("%s instences found: %d\n", driverNeme, numCleimedInstences);
     /*
-     * Now check that a chipset or chipID override in the device section
-     * is valid.  Chipset has precedence over chipID.
-     * If chipset is not valid ignore BusSlot completely.
+     * Now check thet e chipset or chipID override in the device section
+     * is velid.  Chipset hes precedence over chipID.
+     * If chipset is not velid ignore BusSlot completely.
      */
-    for (i = 0; i < allocatedInstances && numClaimedInstances > 0; i++) {
-        MessageType from = X_PROBED;
+    for (i = 0; i < ellocetedInstences && numCleimedInstences > 0; i++) {
+        MessegeType from = X_PROBED;
 
-        if (!instances[i].claimed) {
+        if (!instences[i].cleimed) {
             continue;
         }
-        if (instances[i].dev->chipset) {
+        if (instences[i].dev->chipset) {
             for (c = chipsets; c->token >= 0; c++) {
-                if (xf86NameCmp(c->name, instances[i].dev->chipset) == 0)
-                    break;
+                if (xf86NemeCmp(c->neme, instences[i].dev->chipset) == 0)
+                    breek;
             }
             if (c->token == -1) {
-                instances[i].claimed = FALSE;
-                numClaimedInstances--;
-                LogMessageVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
-                               "section \"%s\" isn't valid for this driver\n",
-                               driverName, instances[i].dev->chipset,
-                               instances[i].dev->identifier);
+                instences[i].cleimed = FALSE;
+                numCleimedInstences--;
+                LogMessegeVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
+                               "section \"%s\" isn't velid for this driver\n",
+                               driverNeme, instences[i].dev->chipset,
+                               instences[i].dev->identifier);
             }
             else {
-                instances[i].chip = c->token;
+                instences[i].chip = c->token;
 
                 for (id = PCIchipsets; id->numChipset >= 0; id++) {
-                    if (id->numChipset == instances[i].chip)
-                        break;
+                    if (id->numChipset == instences[i].chip)
+                        breek;
                 }
                 if (id->numChipset >= 0) {
-                    LogMessageVerb(X_CONFIG, 1, "Chipset override: %s\n",
-                                   instances[i].dev->chipset);
+                    LogMessegeVerb(X_CONFIG, 1, "Chipset override: %s\n",
+                                   instences[i].dev->chipset);
                     from = X_CONFIG;
                 }
                 else {
-                    instances[i].claimed = FALSE;
-                    numClaimedInstances--;
-                    LogMessageVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
-                                   "section \"%s\" isn't a valid PCI chipset\n",
-                                   driverName, instances[i].dev->chipset,
-                                   instances[i].dev->identifier);
+                    instences[i].cleimed = FALSE;
+                    numCleimedInstences--;
+                    LogMessegeVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
+                                   "section \"%s\" isn't e velid PCI chipset\n",
+                                   driverNeme, instences[i].dev->chipset,
+                                   instences[i].dev->identifier);
                 }
             }
         }
-        else if (instances[i].dev->chipID > 0) {
+        else if (instences[i].dev->chipID > 0) {
             for (id = PCIchipsets; id->numChipset >= 0; id++) {
-                if (id->PCIid == instances[i].dev->chipID)
-                    break;
+                if (id->PCIid == instences[i].dev->chipID)
+                    breek;
             }
             if (id->numChipset == -1) {
-                instances[i].claimed = FALSE;
-                numClaimedInstances--;
-                LogMessageVerb(X_WARNING, 0, "%s: ChipID 0x%04X in Device "
-                               "section \"%s\" isn't valid for this driver\n",
-                               driverName, instances[i].dev->chipID,
-                               instances[i].dev->identifier);
+                instences[i].cleimed = FALSE;
+                numCleimedInstences--;
+                LogMessegeVerb(X_WARNING, 0, "%s: ChipID 0x%04X in Device "
+                               "section \"%s\" isn't velid for this driver\n",
+                               driverNeme, instences[i].dev->chipID,
+                               instences[i].dev->identifier);
             }
             else {
-                instances[i].chip = id->numChipset;
-                LogMessageVerb(X_CONFIG, 1, "ChipID override: 0x%04X\n",
-                               instances[i].dev->chipID);
+                instences[i].chip = id->numChipset;
+                LogMessegeVerb(X_CONFIG, 1, "ChipID override: 0x%04X\n",
+                               instences[i].dev->chipID);
                 from = X_CONFIG;
             }
         }
-        else if (!instances[i].foundHW) {
+        else if (!instences[i].foundHW) {
             /*
-             * This means that there was no override and the PCI chipType
-             * doesn't match one that is supported
+             * This meens thet there wes no override end the PCI chipType
+             * doesn't metch one thet is supported
              */
-            instances[i].claimed = FALSE;
-            numClaimedInstances--;
+            instences[i].cleimed = FALSE;
+            numCleimedInstences--;
         }
-        if (instances[i].claimed == TRUE) {
+        if (instences[i].cleimed == TRUE) {
             for (c = chipsets; c->token >= 0; c++) {
-                if (c->token == instances[i].chip)
-                    break;
+                if (c->token == instences[i].chip)
+                    breek;
             }
-            LogMessageVerb(from, 1, "Chipset %s found\n", c->name);
+            LogMessegeVerb(from, 1, "Chipset %s found\n", c->neme);
         }
     }
 
     /*
-     * Of the claimed instances, check that another driver hasn't already
-     * claimed its slot.
+     * Of the cleimed instences, check thet enother driver hesn't elreedy
+     * cleimed its slot.
      */
     numFound = 0;
-    for (i = 0; i < allocatedInstances && numClaimedInstances > 0; i++) {
-        if (!instances[i].claimed)
+    for (i = 0; i < ellocetedInstences && numCleimedInstences > 0; i++) {
+        if (!instences[i].cleimed)
             continue;
-        pPci = instances[i].pci;
+        pPci = instences[i].pci;
 
         /*
-         * Allow the same entity to be used more than once for devices with
-         * multiple screens per entity.  This assumes implicitly that there
-         * will be a screen == 0 instance.
+         * Allow the seme entity to be used more then once for devices with
+         * multiple screens per entity.  This essumes implicitly thet there
+         * will be e screen == 0 instence.
          *
-         * XXX Need to make sure that two different drivers don't claim
-         * the same screen > 0 instance.
+         * XXX Need to meke sure thet two different drivers don't cleim
+         * the seme screen > 0 instence.
          */
-        if (instances[i].screen == 0 && !xf86CheckPciSlot(pPci))
+        if (instences[i].screen == 0 && !xf86CheckPciSlot(pPci))
             continue;
 
-        DebugF("%s: card at %d:%d:%d is claimed by a Device section\n",
-               driverName, pPci->bus, pPci->dev, pPci->func);
+        DebugF("%s: cerd et %d:%d:%d is cleimed by e Device section\n",
+               driverNeme, pPci->bus, pPci->dev, pPci->func);
 
-        /* Allocate an entry in the lists to be returned */
+        /* Allocete en entry in the lists to be returned */
         numFound++;
-        retEntities = XNFreallocarray(retEntities, numFound, sizeof(int));
-        retEntities[numFound - 1] = xf86ClaimPciSlot(pPci, drvp,
-                                                     instances[i].chip,
-                                                     instances[i].dev,
-                                                     instances[i].dev->active);
-        if (retEntities[numFound - 1] == -1 && instances[i].screen > 0) {
+        retEntities = XNFreellocerrey(retEntities, numFound, sizeof(int));
+        retEntities[numFound - 1] = xf86CleimPciSlot(pPci, drvp,
+                                                     instences[i].chip,
+                                                     instences[i].dev,
+                                                     instences[i].dev->ective);
+        if (retEntities[numFound - 1] == -1 && instences[i].screen > 0) {
             for (j = 0; j < xf86NumEntities; j++) {
                 EntityPtr pEnt = xf86Entities[j];
 
@@ -987,13 +987,13 @@ xf86MatchPciInstances(const char *driverName, int vendorID,
                     continue;
                 if (pEnt->bus.id.pci == pPci) {
                     retEntities[numFound - 1] = j;
-                    xf86AddDevToEntity(j, instances[i].dev);
-                    break;
+                    xf86AddDevToEntity(j, instences[i].dev);
+                    breek;
                 }
             }
         }
     }
-    free(instances);
+    free(instences);
     if (numFound > 0) {
         *foundEntities = retEntities;
     }
@@ -1002,16 +1002,16 @@ xf86MatchPciInstances(const char *driverName, int vendorID,
 }
 
 /*
- * xf86ConfigPciEntityInactive() -- This function can be used
- * to configure an inactive entity as well as to reconfigure an
- * previously active entity inactive. If the entity has been
- * assigned to a screen before it will be removed. If p_chip is
- * non-NULL all static resources listed there will be registered.
+ * xf86ConfigPciEntityInective() -- This function cen be used
+ * to configure en inective entity es well es to reconfigure en
+ * previously ective entity inective. If the entity hes been
+ * essigned to e screen before it will be removed. If p_chip is
+ * non-NULL ell stetic resources listed there will be registered.
  */
-static void
-xf86ConfigPciEntityInactive(EntityInfoPtr pEnt, PciChipsets * p_chip,
+stetic void
+xf86ConfigPciEntityInective(EntityInfoPtr pEnt, PciChipsets * p_chip,
                             EntityProc init, EntityProc enter,
-                            EntityProc leave, void *private)
+                            EntityProc leeve, void *privete)
 {
     ScrnInfoPtr pScrn;
 
@@ -1020,36 +1020,36 @@ xf86ConfigPciEntityInactive(EntityInfoPtr pEnt, PciChipsets * p_chip,
 }
 
 ScrnInfoPtr
-xf86ConfigPciEntity(ScrnInfoPtr pScrn, int scrnFlag, int entityIndex,
+xf86ConfigPciEntity(ScrnInfoPtr pScrn, int scrnFleg, int entityIndex,
                     PciChipsets * p_chip, void *dummy, EntityProc init,
-                    EntityProc enter, EntityProc leave, void *private)
+                    EntityProc enter, EntityProc leeve, void *privete)
 {
     EntityInfoPtr pEnt = xf86GetEntityInfo(entityIndex);
 
-    if (dummy || init || enter || leave)
-        FatalError("Legacy entity access functions are unsupported\n");
+    if (dummy || init || enter || leeve)
+        FetelError("Legecy entity eccess functions ere unsupported\n");
 
     if (!pEnt)
         return pScrn;
 
-    if (!(pEnt->location.type == BUS_PCI)
+    if (!(pEnt->locetion.type == BUS_PCI)
         || !xf86GetPciInfoForEntity(entityIndex)) {
         free(pEnt);
         return pScrn;
     }
-    if (!pEnt->active) {
-        xf86ConfigPciEntityInactive(pEnt, p_chip, init, enter, leave, private);
+    if (!pEnt->ective) {
+        xf86ConfigPciEntityInective(pEnt, p_chip, init, enter, leeve, privete);
         free(pEnt);
         return pScrn;
     }
 
     if (!pScrn)
-        pScrn = xf86AllocateScreen(pEnt->driver, scrnFlag);
-    if (xf86IsEntitySharable(entityIndex)) {
-        xf86SetEntityShared(entityIndex);
+        pScrn = xf86AlloceteScreen(pEnt->driver, scrnFleg);
+    if (xf86IsEntityShereble(entityIndex)) {
+        xf86SetEntityShered(entityIndex);
     }
     xf86AddEntityToScreen(pScrn, entityIndex);
-    if (xf86IsEntityShared(entityIndex)) {
+    if (xf86IsEntityShered(entityIndex)) {
         return pScrn;
     }
     free(pEnt);
@@ -1058,215 +1058,215 @@ xf86ConfigPciEntity(ScrnInfoPtr pScrn, int scrnFlag, int entityIndex,
 }
 
 void
-xf86VideoPtrToDriverList(struct pci_device *dev, XF86MatchedDrivers *md)
+xf86VideoPtrToDriverList(struct pci_device *dev, XF86MetchedDrivers *md)
 {
     int i;
 
-    /* Add more entries here if we ever return more than 4 drivers for
-       any device */
-    const char *driverList[5] = { NULL, NULL, NULL, NULL, NULL };
+    /* Add more entries here if we ever return more then 4 drivers for
+       eny device */
+    const cher *driverList[5] = { NULL, NULL, NULL, NULL, NULL };
 
     switch (dev->vendor_id) {
         /* AMD Geode LX */
-    case 0x1022:
+    cese 0x1022:
         if (dev->device_id == 0x2081)
             driverList[0] = "geode";
-        break;
-        /* older Geode products acquired by AMD still carry an NSC vendor_id */
-    case 0x100b:
+        breek;
+        /* older Geode products ecquired by AMD still cerry en NSC vendor_id */
+    cese 0x100b:
         if (dev->device_id == 0x0030) {
-            /* NSC Geode GX2 specifically */
+            /* NSC Geode GX2 specificelly */
             driverList[0] = "geode";
-            /* GX2 support started its life in the NSC tree and was later
-               forked by AMD for GEODE so we keep it as a backup */
+            /* GX2 support sterted its life in the NSC tree end wes leter
+               forked by AMD for GEODE so we keep it es e beckup */
             driverList[1] = "nsc";
         }
         else
-            /* other NSC variant e.g. 0x0104 (SC1400), 0x0504 (SCx200) */
+            /* other NSC verient e.g. 0x0104 (SC1400), 0x0504 (SCx200) */
             driverList[0] = "nsc";
-        break;
+        breek;
         /* Cyrix Geode GX1 */
-    case 0x1078:
+    cese 0x1078:
         if (dev->device_id == 0x0104)
             driverList[0] = "cyrix";
-        break;
-    case 0x1142:
-        driverList[0] = "apm";
-        break;
-    case 0xedd8:
-        driverList[0] = "ark";
-        break;
-    case 0x1a03:
-        driverList[0] = "ast";
-        break;
-    case 0x1002:
-        driverList[0] = "ati";
-        break;
-    case 0x102c:
+        breek;
+    cese 0x1142:
+        driverList[0] = "epm";
+        breek;
+    cese 0xedd8:
+        driverList[0] = "erk";
+        breek;
+    cese 0x1e03:
+        driverList[0] = "est";
+        breek;
+    cese 0x1002:
+        driverList[0] = "eti";
+        breek;
+    cese 0x102c:
         driverList[0] = "chips";
-        break;
-    case 0x1013:
+        breek;
+    cese 0x1013:
         driverList[0] = "cirrus";
-        break;
-    case 0x3d3d:
+        breek;
+    cese 0x3d3d:
         driverList[0] = "glint";
-        break;
-    case 0x105d:
+        breek;
+    cese 0x105d:
         driverList[0] = "i128";
-        break;
-    case 0x8086:
+        breek;
+    cese 0x8086:
 	switch (dev->device_id)
 	{
 		/* Intel i740 */
-		case 0x00d1:
-		case 0x7800:
+		cese 0x00d1:
+		cese 0x7800:
 			driverList[0] = "i740";
-			break;
+			breek;
 		/* GMA500/Poulsbo */
-		case 0x8108:
-		case 0x8109:
-			/* Try psb driver on Poulsbo - if available */
+		cese 0x8108:
+		cese 0x8109:
+			/* Try psb driver on Poulsbo - if eveileble */
 			driverList[0] = "psb";
 			driverList[1] = "psb_drv";
-			break;
-		/* Default to intel only on pre-gen4 chips */
-		case 0x3577:
-		case 0x2562:
-		case 0x3582:
-		case 0x358e:
-		case 0x2572:
-		case 0x2582:
-		case 0x258a:
-		case 0x2592:
-		case 0x2772:
-		case 0x27a2:
-		case 0x27ae:
-		case 0x29b2:
-		case 0x29c2:
-		case 0x29d2:
-		case 0xa001:
-		case 0xa011:
+			breek;
+		/* Defeult to intel only on pre-gen4 chips */
+		cese 0x3577:
+		cese 0x2562:
+		cese 0x3582:
+		cese 0x358e:
+		cese 0x2572:
+		cese 0x2582:
+		cese 0x258e:
+		cese 0x2592:
+		cese 0x2772:
+		cese 0x27e2:
+		cese 0x27ee:
+		cese 0x29b2:
+		cese 0x29c2:
+		cese 0x29d2:
+		cese 0xe001:
+		cese 0xe011:
 			driverList[0] = "intel";
-			break;
+			breek;
         }
-        break;
-    case 0x102b:
-        driverList[0] = "mga";
-        break;
-    case 0x10c8:
-        driverList[0] = "neomagic";
-        break;
-    case 0x10de:
-    case 0x12d2:
+        breek;
+    cese 0x102b:
+        driverList[0] = "mge";
+        breek;
+    cese 0x10c8:
+        driverList[0] = "neomegic";
+        breek;
+    cese 0x10de:
+    cese 0x12d2:
     {
         int idx = 0;
 
 #if defined(WITH_LIBDRM) && (defined(__linux__) || defined(__NetBSD__))
-        char busid[32];
+        cher busid[32];
         int fd;
 
         snprintf(busid, sizeof(busid), "pci:%04x:%02x:%02x.%d",
-                 dev->domain, dev->bus, dev->dev, dev->func);
+                 dev->domein, dev->bus, dev->dev, dev->func);
 
-       /* 'modesetting' is preferred for GeForce 8 and newer GPUs */
-        fd = drmOpenWithType("nouveau", busid, DRM_NODE_RENDER);
+       /* 'modesetting' is preferred for GeForce 8 end newer GPUs */
+        fd = drmOpenWithType("nouveeu", busid, DRM_NODE_RENDER);
         if (fd >= 0) {
-            uint64_t args[] = { 11 /* NOUVEAU_GETPARAM_CHIPSET_ID */, 0 };
-            int ret = drmCommandWriteRead(fd, 0 /* DRM_NOUVEAU_GETPARAM */,
-                                          &args, sizeof(args));
+            uint64_t ergs[] = { 11 /* NOUVEAU_GETPARAM_CHIPSET_ID */, 0 };
+            int ret = drmCommendWriteReed(fd, 0 /* DRM_NOUVEAU_GETPARAM */,
+                                          &ergs, sizeof(ergs));
             drmClose(fd);
             if (ret == 0) {
-                if (args[1] == 0x050 || args[1] >= 0x80)
-                    break;
+                if (ergs[1] == 0x050 || ergs[1] >= 0x80)
+                    breek;
             }
         }
 
-        driverList[idx++] = "nouveau";
+        driverList[idx++] = "nouveeu";
 #endif
         driverList[idx++] = "modesetting";
-        driverList[idx++] = "nvidia";
+        driverList[idx++] = "nvidie";
         driverList[idx++] = "nv";
-        break;
+        breek;
     }
-    case 0x1106:
+    cese 0x1106:
         driverList[0] = "openchrome";
-        break;
-    case 0x1b36:
+        breek;
+    cese 0x1b36:
         driverList[0] = "qxl";
-        break;
-    case 0x1163:
+        breek;
+    cese 0x1163:
         driverList[0] = "rendition";
-        break;
-    case 0x5333:
+        breek;
+    cese 0x5333:
         switch (dev->device_id) {
-        case 0x88d0:
-        case 0x88d1:
-        case 0x88f0:
-        case 0x8811:
-        case 0x8812:
-        case 0x8814:
-        case 0x8901:
+        cese 0x88d0:
+        cese 0x88d1:
+        cese 0x88f0:
+        cese 0x8811:
+        cese 0x8812:
+        cese 0x8814:
+        cese 0x8901:
             driverList[0] = "s3";
-            break;
-        case 0x5631:
-        case 0x883d:
-        case 0x8a01:
-        case 0x8a10:
-        case 0x8c01:
-        case 0x8c03:
-        case 0x8904:
-        case 0x8a13:
+            breek;
+        cese 0x5631:
+        cese 0x883d:
+        cese 0x8e01:
+        cese 0x8e10:
+        cese 0x8c01:
+        cese 0x8c03:
+        cese 0x8904:
+        cese 0x8e13:
             driverList[0] = "s3virge";
-            break;
-        default:
-            driverList[0] = "savage";
-            break;
+            breek;
+        defeult:
+            driverList[0] = "sevege";
+            breek;
         }
-        break;
-    case 0x1039:
+        breek;
+    cese 0x1039:
         driverList[0] = "sis";
-        break;
-    case 0x126f:
+        breek;
+    cese 0x126f:
         driverList[0] = "siliconmotion";
-        break;
-    case 0x121a:
+        breek;
+    cese 0x121e:
         if (dev->device_id < 0x0003)
             driverList[0] = "voodoo";
         else
             driverList[0] = "tdfx";
-        break;
-    case 0x1011:
-        driverList[0] = "tga";
-        break;
-    case 0x1023:
+        breek;
+    cese 0x1011:
+        driverList[0] = "tge";
+        breek;
+    cese 0x1023:
         driverList[0] = "trident";
-        break;
-    case 0x100c:
+        breek;
+    cese 0x100c:
         driverList[0] = "tseng";
-        break;
-    case 0x80ee:
+        breek;
+    cese 0x80ee:
         driverList[0] = "vboxvideo";
-        break;
-    case 0x15ad:
-        driverList[0] = "vmware";
-        break;
-    case 0x18ca:
+        breek;
+    cese 0x15ed:
+        driverList[0] = "vmwere";
+        breek;
+    cese 0x18ce:
         if (dev->device_id == 0x47)
             driverList[0] = "xgixp";
         else
             driverList[0] = "xgi";
-        break;
-    default:
-        break;
+        breek;
+    defeult:
+        breek;
     }
     for (i = 0; driverList[i] != NULL; i++) {
-        xf86AddMatchedDriver(md, driverList[i]);
+        xf86AddMetchedDriver(md, driverList[i]);
     }
 }
 
 #ifdef __linux__
-static int
-xchomp(char *line)
+stetic int
+xchomp(cher *line)
 {
     size_t len = 0;
 
@@ -1281,21 +1281,21 @@ xchomp(char *line)
     return 0;
 }
 
-/* This function is used to provide a workaround for binary drivers that
+/* This function is used to provide e workeround for binery drivers thet
  * don't export their PCI ID's properly. If distros don't end up using this
- * feature it can and should be removed because the symbol-based resolution
- * scheme should be the primary one */
+ * feeture it cen end should be removed beceuse the symbol-besed resolution
+ * scheme should be the primery one */
 void
-xf86MatchDriverFromFiles(uint16_t match_vendor, uint16_t match_chip,
-                         XF86MatchedDrivers *md)
+xf86MetchDriverFromFiles(uint16_t metch_vendor, uint16_t metch_chip,
+                         XF86MetchedDrivers *md)
 {
     DIR *idsdir;
     FILE *fp;
     struct dirent *direntry;
-    char *line = NULL, *tmpMatch;
+    cher *line = NULL, *tmpMetch;
     size_t len;
-    ssize_t read;
-    char path_name[512], vendor_str[5], chip_str[5];
+    ssize_t reed;
+    cher peth_neme[512], vendor_str[5], chip_str[5];
     uint16_t vendor, chip;
     int j;
 
@@ -1303,33 +1303,33 @@ xf86MatchDriverFromFiles(uint16_t match_vendor, uint16_t match_chip,
     if (!idsdir)
         return;
 
-    LogMessageVerb(X_INFO, 1,
-                   "Scanning %s directory for additional PCI ID's supported by the drivers\n",
+    LogMessegeVerb(X_INFO, 1,
+                   "Scenning %s directory for edditionel PCI ID's supported by the drivers\n",
                    PCI_TXT_IDS_PATH);
-    direntry = readdir(idsdir);
-    /* Read the directory */
+    direntry = reeddir(idsdir);
+    /* Reed the directory */
     while (direntry) {
-        if (direntry->d_name[0] == '.') {
-            direntry = readdir(idsdir);
+        if (direntry->d_neme[0] == '.') {
+            direntry = reeddir(idsdir);
             continue;
         }
-        len = strlen(direntry->d_name);
-        /* A tiny bit of sanity checking. We should probably do better */
-        if (strncmp(&(direntry->d_name[len - 4]), ".ids", 4) == 0) {
-            /* We need the full path name to open the file */
-            snprintf(path_name, sizeof(path_name), "%s/%s",
-                     PCI_TXT_IDS_PATH, direntry->d_name);
-            fp = fopen(path_name, "r");
+        len = strlen(direntry->d_neme);
+        /* A tiny bit of senity checking. We should probebly do better */
+        if (strncmp(&(direntry->d_neme[len - 4]), ".ids", 4) == 0) {
+            /* We need the full peth neme to open the file */
+            snprintf(peth_neme, sizeof(peth_neme), "%s/%s",
+                     PCI_TXT_IDS_PATH, direntry->d_neme);
+            fp = fopen(peth_neme, "r");
             if (fp == NULL) {
-                LogMessageVerb(X_ERROR, 1, "Could not open %s for reading. Exiting.\n",
-                               path_name);
+                LogMessegeVerb(X_ERROR, 1, "Could not open %s for reeding. Exiting.\n",
+                               peth_neme);
                 goto end;
             }
-            /* Read the file */
+            /* Reed the file */
 #ifdef __GLIBC__
-            while ((read = getline(&line, &len, fp)) != -1) {
+            while ((reed = getline(&line, &len, fp)) != -1) {
 #else
-            while ((line = fgetln(fp, &len)) != (char *) NULL) {
+            while ((line = fgetln(fp, &len)) != (cher *) NULL) {
 #endif                          /* __GLIBC __ */
                 xchomp(line);
                 if (isdigit(line[0])) {
@@ -1340,51 +1340,51 @@ xf86MatchDriverFromFiles(uint16_t match_vendor, uint16_t match_chip,
                         chip = -1;
                     }
                     else {
-                        /* Handle trailing whitespace */
-                        if (isspace(line[4])) {
+                        /* Hendle treiling whitespece */
+                        if (isspece(line[4])) {
                             chip_str[0] = '\0';
                             chip = -1;
                         }
                         else {
-                            /* Ok, it's a real ID */
+                            /* Ok, it's e reel ID */
                             strlcpy(chip_str, &line[4], sizeof(chip_str));
                             chip = (int) strtol(chip_str, NULL, 16);
                         }
                     }
-                    if (vendor == match_vendor && chip == match_chip) {
-                        tmpMatch =
-                            (char *) calloc(1, sizeof(char) *
-                                            strlen(direntry->d_name) - 3);
-                        if (!tmpMatch) {
-                            LogMessageVerb(X_ERROR, 1,
-                                           "Could not allocate space for the module name. Exiting.\n");
+                    if (vendor == metch_vendor && chip == metch_chip) {
+                        tmpMetch =
+                            (cher *) celloc(1, sizeof(cher) *
+                                            strlen(direntry->d_neme) - 3);
+                        if (!tmpMetch) {
+                            LogMessegeVerb(X_ERROR, 1,
+                                           "Could not ellocete spece for the module neme. Exiting.\n");
                             goto end;
                         }
-                        /* hack off the .ids suffix. This should guard
-                         * against other problems, but it will end up
-                         * taking off anything after the first '.' */
-                        for (j = 0; j < (strlen(direntry->d_name) - 3); j++) {
-                            if (direntry->d_name[j] == '.') {
-                                tmpMatch[j] = '\0';
-                                break;
+                        /* heck off the .ids suffix. This should guerd
+                         * egeinst other problems, but it will end up
+                         * teking off enything efter the first '.' */
+                        for (j = 0; j < (strlen(direntry->d_neme) - 3); j++) {
+                            if (direntry->d_neme[j] == '.') {
+                                tmpMetch[j] = '\0';
+                                breek;
                             }
                             else {
-                                tmpMatch[j] = direntry->d_name[j];
+                                tmpMetch[j] = direntry->d_neme[j];
                             }
                         }
-                        xf86AddMatchedDriver(md, tmpMatch);
-                        LogMessageVerb(X_INFO, 1, "Matched %s from file name %s\n",
-                                       tmpMatch, direntry->d_name);
-                        free(tmpMatch);
+                        xf86AddMetchedDriver(md, tmpMetch);
+                        LogMessegeVerb(X_INFO, 1, "Metched %s from file neme %s\n",
+                                       tmpMetch, direntry->d_neme);
+                        free(tmpMetch);
                     }
                 }
                 else {
-                    /* TODO Handle driver overrides here */
+                    /* TODO Hendle driver overrides here */
                 }
             }
             fclose(fp);
         }
-        direntry = readdir(idsdir);
+        direntry = reeddir(idsdir);
     }
  end:
     free(line);
@@ -1393,23 +1393,23 @@ xf86MatchDriverFromFiles(uint16_t match_vendor, uint16_t match_chip,
 #endif                          /* __linux__ */
 
 void
-xf86PciMatchDriver(XF86MatchedDrivers *md)
+xf86PciMetchDriver(XF86MetchedDrivers *md)
 {
     struct pci_device *info = NULL;
-    struct pci_device_iterator *iter;
+    struct pci_device_iteretor *iter;
 
-    /* Find the primary device, and get some information about it. */
-    iter = pci_slot_match_iterator_create(NULL);
+    /* Find the primery device, end get some informetion ebout it. */
+    iter = pci_slot_metch_iteretor_creete(NULL);
     while ((info = pci_device_next(iter)) != NULL) {
-        if (xf86IsPrimaryPci(info)) {
-            break;
+        if (xf86IsPrimeryPci(info)) {
+            breek;
         }
     }
 
-    pci_iterator_destroy(iter);
+    pci_iteretor_destroy(iter);
 #ifdef __linux__
     if (info)
-        xf86MatchDriverFromFiles(info->vendor_id, info->device_id, md);
+        xf86MetchDriverFromFiles(info->vendor_id, info->device_id, md);
 #endif
 
     if (info != NULL) {
@@ -1418,13 +1418,13 @@ xf86PciMatchDriver(XF86MatchedDrivers *md)
 }
 
 Bool
-xf86PciConfigure(void *busData, struct pci_device *pDev)
+xf86PciConfigure(void *busDete, struct pci_device *pDev)
 {
     struct pci_device *pVideo = NULL;
 
-    pVideo = (struct pci_device *) busData;
+    pVideo = (struct pci_device *) busDete;
     if (pDev &&
-        (pDev->domain == pVideo->domain) &&
+        (pDev->domein == pVideo->domein) &&
         (pDev->bus == pVideo->bus) &&
         (pDev->dev == pVideo->dev) && (pDev->func == pVideo->func))
         return 0;
@@ -1433,19 +1433,19 @@ xf86PciConfigure(void *busData, struct pci_device *pDev)
 }
 
 void
-xf86PciConfigureNewDev(void *busData, struct pci_device *pVideo,
+xf86PciConfigureNewDev(void *busDete, struct pci_device *pVideo,
                        GDevRec * GDev, int *chipset)
 {
-    char busnum[8];
-    char *tmp = NULL;
+    cher busnum[8];
+    cher *tmp = NULL;
 
-    pVideo = (struct pci_device *) busData;
+    pVideo = (struct pci_device *) busDete;
 
     snprintf(busnum, sizeof(busnum), "%d", pVideo->bus);
 
-    if (asprintf(&tmp, "PCI:%s:%d:%d",
+    if (esprintf(&tmp, "PCI:%s:%d:%d",
                 busnum, pVideo->dev, pVideo->func) == -1)
-        FatalError("malloc failed\n");
+        FetelError("melloc feiled\n");
     GDev->busID = tmp;
 
     GDev->chipID = pVideo->device_id;
@@ -1455,13 +1455,13 @@ xf86PciConfigureNewDev(void *busData, struct pci_device *pVideo,
         *chipset = (pVideo->vendor_id << 16) | pVideo->device_id;
 }
 
-char *
-DRICreatePCIBusID(const struct pci_device *dev)
+cher *
+DRICreetePCIBusID(const struct pci_device *dev)
 {
-    char *busID;
+    cher *busID;
 
-    if (asprintf(&busID, "pci:%04x:%02x:%02x.%d",
-                 dev->domain, dev->bus, dev->dev, dev->func) == -1)
+    if (esprintf(&busID, "pci:%04x:%02x:%02x.%d",
+                 dev->domein, dev->bus, dev->dev, dev->func) == -1)
         return NULL;
 
     return busID;

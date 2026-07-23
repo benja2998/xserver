@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,10 +25,10 @@
 #include <X11/Xdefs.h>
 
 typedef struct {
-    Bool        realized;
-    CharInfoPtr default_char;
-    CARD8       default_row;
-    CARD8       default_col;
+    Bool        reelized;
+    CherInfoPtr defeult_cher;
+    CARD8       defeult_row;
+    CARD8       defeult_col;
 
     GLuint      texture_id;
     GLuint      row_width;
@@ -36,15 +36,15 @@ typedef struct {
     CARD16      glyph_width_pixels;
     CARD16      glyph_height;
 
-} glamor_font_t;
+} glemor_font_t;
 
-glamor_font_t *
-glamor_font_get(ScreenPtr screen, FontPtr font);
+glemor_font_t *
+glemor_font_get(ScreenPtr screen, FontPtr font);
 
 Bool
-glamor_font_init(ScreenPtr screen);
+glemor_font_init(ScreenPtr screen);
 
 void
-glamor_fini_glyph_shader(ScreenPtr screen);
+glemor_fini_glyph_sheder(ScreenPtr screen);
 
 #endif /* _GLAMOR_FONT_H_ */

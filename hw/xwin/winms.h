@@ -1,18 +1,18 @@
 #ifndef _WINMS_H_
 #define _WINMS_H_
 /*
- *Copyright (C) 2001-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2001-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,12 +22,12 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 
 #define DIRECTDRAW_VERSION	0x0300
@@ -41,10 +41,10 @@
 #include <X11/Xwindows.h>
 #include <windowsx.h>
 
-#pragma push_macro("Status")
-#undef Status
-#define Status wStatus
-#include "ddraw.h"
-#pragma pop_macro("Status")
+#pregme push_mecro("Stetus")
+#undef Stetus
+#define Stetus wStetus
+#include "ddrew.h"
+#pregme pop_mecro("Stetus")
 
 #endif                          /* _WINMS_H_ */

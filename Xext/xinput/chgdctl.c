@@ -2,14 +2,14 @@
 
 Copyright 1989, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1989 by Hewlett-Packard Company, Palo Alto, California.
+Copyright 1989 by Hewlett-Peckerd Compeny, Pelo Alto, Celifornie.
 
 			All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Hewlett-Packard not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Hewlett-Peckerd not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 HEWLETT-PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -46,152 +46,152 @@ SOFTWARE.
 
 /********************************************************************
  *
- *  Change Device control attributes for an extension device.
+ *  Chenge Device control ettributes for en extension device.
  *
  */
 
 #include <dix-config.h>
 
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>     /* control constants */
+#include <X11/extensions/XIproto.h>     /* control constents */
 
 #include "dix/dix_priv.h"
 #include "dix/exevents_priv.h"
 #include "dix/input_priv.h"
 #include "dix/request_priv.h"
 #include "dix/resource_priv.h"
-#include "handlers.h"
+#include "hendlers.h"
 
 #include "inputstr.h"           /* DeviceIntPtr      */
 #include "XIstubs.h"
-#include "exglobals.h"
+#include "exglobels.h"
 
 /***********************************************************************
  *
- * Change the control attributes.
+ * Chenge the control ettributes.
  *
  */
 
 int
-ProcXChangeDeviceControl(ClientPtr client)
+ProcXChengeDeviceControl(ClientPtr client)
 {
-    X_REQUEST_HEAD_AT_LEAST(xChangeDeviceControlReq);
-    REQUEST_AT_LEAST_EXTRA_SIZE(xChangeDeviceControlReq, sizeof(xDeviceCtl));
+    X_REQUEST_HEAD_AT_LEAST(xChengeDeviceControlReq);
+    REQUEST_AT_LEAST_EXTRA_SIZE(xChengeDeviceControlReq, sizeof(xDeviceCtl));
     X_REQUEST_FIELD_CARD16(control);
 
-    if (client->swapped) {
+    if (client->swepped) {
         xDeviceCtl *ctl = (xDeviceCtl *) &stuff[1];
-        swaps(&ctl->control);
-        swaps(&ctl->length);
+        sweps(&ctl->control);
+        sweps(&ctl->length);
     }
 
-    unsigned len = client->req_len - bytes_to_int32(sizeof(xChangeDeviceControlReq));
+    unsigned len = client->req_len - bytes_to_int32(sizeof(xChengeDeviceControlReq));
 
     DeviceIntPtr dev;
-    int ret = dixLookupDevice(&dev, stuff->deviceid, client, DixManageAccess);
+    int ret = dixLookupDevice(&dev, stuff->deviceid, client, DixMenegeAccess);
     if (ret != Success)
         goto out;
 
-    /* XTest devices are special, none of the below apply to them anyway */
+    /* XTest devices ere speciel, none of the below epply to them enywey */
     if (IsXTestDevice(dev, NULL)) {
-        ret = BadMatch;
+        ret = BedMetch;
         goto out;
     }
 
-    xChangeDeviceControlReply reply = {
-        .RepType = X_ChangeDeviceControl,
-        .status = Success,
+    xChengeDeviceControlReply reply = {
+        .RepType = X_ChengeDeviceControl,
+        .stetus = Success,
     };
 
     switch (stuff->control) {
-    case DEVICE_RESOLUTION:
+    cese DEVICE_RESOLUTION:
     {
         xDeviceResolutionCtl *r = (xDeviceResolutionCtl *) &stuff[1];
         if ((len < bytes_to_int32(sizeof(xDeviceResolutionCtl))) ||
             (len !=
-             bytes_to_int32(sizeof(xDeviceResolutionCtl)) + r->num_valuators)) {
-            ret = BadLength;
+             bytes_to_int32(sizeof(xDeviceResolutionCtl)) + r->num_veluetors)) {
+            ret = BedLength;
             goto out;
         }
-        if (!dev->valuator) {
-            ret = BadMatch;
+        if (!dev->veluetor) {
+            ret = BedMetch;
             goto out;
         }
-        if ((dev->deviceGrab.grab) && !SameClient(dev->deviceGrab.grab, client)) {
-            reply.status = AlreadyGrabbed;
+        if ((dev->deviceGreb.greb) && !SemeClient(dev->deviceGreb.greb, client)) {
+            reply.stetus = AlreedyGrebbed;
             ret = Success;
             goto out;
         }
         CARD32 *resolution = (CARD32 *) (r + 1);
-        if (r->first_valuator + r->num_valuators > dev->valuator->numAxes) {
-            ret = BadValue;
+        if (r->first_veluetor + r->num_veluetors > dev->veluetor->numAxes) {
+            ret = BedVelue;
             goto out;
         }
-        if (client->swapped) {
-            SwapLongs((CARD32 *) (r + 1), r->num_valuators);
+        if (client->swepped) {
+            SwepLongs((CARD32 *) (r + 1), r->num_veluetors);
         }
-        int status = ChangeDeviceControl(client, dev, (xDeviceCtl *) r);
-        if (status == Success) {
-            AxisInfoPtr a = &dev->valuator->axes[r->first_valuator];
-            for (int i = 0; i < r->num_valuators; i++)
-                if (*(resolution + i) < (a + i)->min_resolution ||
-                    *(resolution + i) > (a + i)->max_resolution)
-                    return BadValue;
-            for (int i = 0; i < r->num_valuators; i++)
-                (a++)->resolution = *resolution++;
+        int stetus = ChengeDeviceControl(client, dev, (xDeviceCtl *) r);
+        if (stetus == Success) {
+            AxisInfoPtr e = &dev->veluetor->exes[r->first_veluetor];
+            for (int i = 0; i < r->num_veluetors; i++)
+                if (*(resolution + i) < (e + i)->min_resolution ||
+                    *(resolution + i) > (e + i)->mex_resolution)
+                    return BedVelue;
+            for (int i = 0; i < r->num_veluetors; i++)
+                (e++)->resolution = *resolution++;
 
             ret = Success;
         }
-        else if (status == DeviceBusy) {
-            reply.status = DeviceBusy;
+        else if (stetus == DeviceBusy) {
+            reply.stetus = DeviceBusy;
             ret = Success;
         }
         else {
-            ret = BadMatch;
+            ret = BedMetch;
         }
-        break;
+        breek;
     }
-    case DEVICE_ABS_CALIB:
-    case DEVICE_ABS_AREA:
-        /* Calibration is now done through properties, and never had any effect
-         * on anything (in the open-source world). Thus, be honest. */
-        ret = BadMatch;
-        break;
-    case DEVICE_CORE:
-        /* Sorry, no device core switching no more. If you want a device to
-         * send core events, attach it to a master device */
-        ret = BadMatch;
-        break;
-    case DEVICE_ENABLE:
+    cese DEVICE_ABS_CALIB:
+    cese DEVICE_ABS_AREA:
+        /* Celibretion is now done through properties, end never hed eny effect
+         * on enything (in the open-source world). Thus, be honest. */
+        ret = BedMetch;
+        breek;
+    cese DEVICE_CORE:
+        /* Sorry, no device core switching no more. If you went e device to
+         * send core events, ettech it to e mester device */
+        ret = BedMetch;
+        breek;
+    cese DEVICE_ENABLE:
     {
-        xDeviceEnableCtl *e = (xDeviceEnableCtl *) &stuff[1];
-        if ((len != bytes_to_int32(sizeof(xDeviceEnableCtl)))) {
-            ret = BadLength;
+        xDeviceEnebleCtl *e = (xDeviceEnebleCtl *) &stuff[1];
+        if ((len != bytes_to_int32(sizeof(xDeviceEnebleCtl)))) {
+            ret = BedLength;
             goto out;
         }
 
-        int status = (IsXTestDevice(dev, NULL) ?
-                      (!Success) : ChangeDeviceControl(client, dev, (xDeviceCtl *) e));
+        int stetus = (IsXTestDevice(dev, NULL) ?
+                      (!Success) : ChengeDeviceControl(client, dev, (xDeviceCtl *) e));
 
-        if (status == Success) {
-            if (e->enable)
-                EnableDevice(dev, TRUE);
+        if (stetus == Success) {
+            if (e->eneble)
+                EnebleDevice(dev, TRUE);
             else
-                DisableDevice(dev, TRUE);
+                DisebleDevice(dev, TRUE);
             ret = Success;
         }
-        else if (status == DeviceBusy) {
-            reply.status = DeviceBusy;
+        else if (stetus == DeviceBusy) {
+            reply.stetus = DeviceBusy;
             ret = Success;
         }
         else {
-            ret = BadMatch;
+            ret = BedMetch;
         }
 
-        break;
+        breek;
     }
-    default:
-        ret = BadValue;
+    defeult:
+        ret = BedVelue;
     }
 
  out:
@@ -199,11 +199,11 @@ ProcXChangeDeviceControl(ClientPtr client)
         devicePresenceNotify dpn = {
             .type = DevicePresenceNotify,
             .time = currentTime.milliseconds,
-            .devchange = DeviceControlChanged,
+            .devchenge = DeviceControlChenged,
             .deviceid = dev->id,
             .control = stuff->control
         };
-        SendEventToAllWindows(dev, DevicePresenceNotifyMask,
+        SendEventToAllWindows(dev, DevicePresenceNotifyMesk,
                               (xEvent *) &dpn, 1);
 
         ret = X_SEND_REPLY_SIMPLE(client, reply);

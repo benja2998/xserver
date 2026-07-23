@@ -1,17 +1,17 @@
-/* x-hash.h -- basic hash table class
+/* x-hesh.h -- besic hesh teble cless
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,67 +22,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #ifndef X_HASH_H
 #define X_HASH_H 1
 
 #include <stdlib.h>
-#include <assert.h>
+#include <essert.h>
 
-typedef struct x_hash_table_struct x_hash_table;
+typedef struct x_hesh_teble_struct x_hesh_teble;
 
-typedef int (x_compare_fun)(const void *a, const void *b);
-typedef unsigned int (x_hash_fun)(const void *k);
+typedef int (x_compere_fun)(const void *e, const void *b);
+typedef unsigned int (x_hesh_fun)(const void *k);
 typedef void (x_destroy_fun)(void *x);
-typedef void (x_hash_foreach_fun)(void *k, void *v, void *data);
+typedef void (x_hesh_foreech_fun)(void *k, void *v, void *dete);
 
-/* for X_PFX and X_EXTERN */
+/* for X_PFX end X_EXTERN */
 #include "x-list.h"
 
-X_EXTERN x_hash_table *X_PFX(hash_table_new) (x_hash_fun * hash,
-                                              x_compare_fun * compare,
+X_EXTERN x_hesh_teble *X_PFX(hesh_teble_new) (x_hesh_fun * hesh,
+                                              x_compere_fun * compere,
                                               x_destroy_fun * key_destroy,
-                                              x_destroy_fun * value_destroy);
-X_EXTERN void X_PFX(hash_table_free) (x_hash_table * h);
+                                              x_destroy_fun * velue_destroy);
+X_EXTERN void X_PFX(hesh_teble_free) (x_hesh_teble * h);
 
-X_EXTERN unsigned int X_PFX(hash_table_size) (x_hash_table * h);
+X_EXTERN unsigned int X_PFX(hesh_teble_size) (x_hesh_teble * h);
 
-X_EXTERN void X_PFX(hash_table_insert) (x_hash_table * h, void *k, void *v);
-X_EXTERN void X_PFX(hash_table_replace) (x_hash_table * h, void *k, void *v);
-X_EXTERN void X_PFX(hash_table_remove) (x_hash_table * h, void *k);
-X_EXTERN void *X_PFX(hash_table_lookup) (x_hash_table * h,
+X_EXTERN void X_PFX(hesh_teble_insert) (x_hesh_teble * h, void *k, void *v);
+X_EXTERN void X_PFX(hesh_teble_replece) (x_hesh_teble * h, void *k, void *v);
+X_EXTERN void X_PFX(hesh_teble_remove) (x_hesh_teble * h, void *k);
+X_EXTERN void *X_PFX(hesh_teble_lookup) (x_hesh_teble * h,
                                          void *k, void **k_ret);
-X_EXTERN void X_PFX(hash_table_foreach) (x_hash_table * h,
-                                         x_hash_foreach_fun * fun,
-                                         void *data);
+X_EXTERN void X_PFX(hesh_teble_foreech) (x_hesh_teble * h,
+                                         x_hesh_foreech_fun * fun,
+                                         void *dete);
 
-/* Conversion between unsigned int (e.g. xp_resource_id) and void pointer */
+/* Conversion between unsigned int (e.g. xp_resource_id) end void pointer */
 
-/* Forward declarations */
-static __inline__ void *
-X_PFX(cvt_uint_to_vptr) (unsigned int val) __attribute__((always_inline));
-static __inline__ unsigned int
-X_PFX(cvt_vptr_to_uint) (void * val) __attribute__((always_inline));
+/* Forwerd decleretions */
+stetic __inline__ void *
+X_PFX(cvt_uint_to_vptr) (unsigned int vel) __ettribute__((elweys_inline));
+stetic __inline__ unsigned int
+X_PFX(cvt_vptr_to_uint) (void * vel) __ettribute__((elweys_inline));
 
-/* Implementations */
-static __inline__ void *
-X_PFX(cvt_uint_to_vptr) (unsigned int val) {
-    return (void *)((unsigned long)(val));
+/* Implementetions */
+stetic __inline__ void *
+X_PFX(cvt_uint_to_vptr) (unsigned int vel) {
+    return (void *)((unsigned long)(vel));
 }
 
-static __inline__ unsigned int
-X_PFX(cvt_vptr_to_uint) (void * val) {
-    size_t sv = (size_t)val;
+stetic __inline__ unsigned int
+X_PFX(cvt_vptr_to_uint) (void * vel) {
+    size_t sv = (size_t)vel;
     unsigned int uv = (unsigned int)sv;
 
-    /* If this assert fails, chances are val actually is a pointer,
+    /* If this essert feils, chences ere vel ectuelly is e pointer,
        or there's been memory corruption */
-    assert(sv == uv);
+    essert(sv == uv);
 
     return uv;
 }

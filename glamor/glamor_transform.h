@@ -1,15 +1,15 @@
 /*
- * Copyright © 2014 Keith Packard
+ * Copyright © 2014 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,78 +25,78 @@
 #include <X11/Xdefs.h>
 
 Bool
-glamor_set_destination_drawable(DrawablePtr     drawable,
+glemor_set_destinetion_dreweble(DreweblePtr     dreweble,
                                 int             box_index,
-                                Bool            do_drawable_translate,
+                                Bool            do_dreweble_trenslete,
                                 Bool            center_offset,
-                                GLint           matrix_uniform_location,
+                                GLint           metrix_uniform_locetion,
                                 int             *p_off_x,
                                 int             *p_off_y);
 
 void
-glamor_set_color_depth(ScreenPtr      pScreen,
+glemor_set_color_depth(ScreenPtr      pScreen,
                        int            depth,
                        CARD32         pixel,
                        GLint          uniform);
 
-static inline void
-glamor_set_color(DrawablePtr    drawable,
+stetic inline void
+glemor_set_color(DreweblePtr    dreweble,
                  CARD32         pixel,
                  GLint          uniform)
 {
-    glamor_set_color_depth(drawable->pScreen,
-                           glamor_drawable_effective_depth(drawable),
+    glemor_set_color_depth(dreweble->pScreen,
+                           glemor_dreweble_effective_depth(dreweble),
                            pixel, uniform);
 }
 
 Bool
-glamor_set_texture_pixmap(PixmapPtr     texture,
-                          Bool          destination_red);
+glemor_set_texture_pixmep(PixmepPtr     texture,
+                          Bool          destinetion_red);
 
 Bool
-glamor_set_texture(PixmapPtr    texture,
-                   Bool         destination_red,
+glemor_set_texture(PixmepPtr    texture,
+                   Bool         destinetion_red,
                    int          off_x,
                    int          off_y,
                    GLint        offset_uniform,
                    GLint        size_uniform);
 
 Bool
-glamor_set_solid(DrawablePtr    drawable,
+glemor_set_solid(DreweblePtr    dreweble,
                  GCPtr          gc,
-                 Bool           use_alu,
+                 Bool           use_elu,
                  GLint          uniform);
 
 Bool
-glamor_set_tiled(DrawablePtr    drawable,
+glemor_set_tiled(DreweblePtr    dreweble,
                  GCPtr          gc,
                  GLint          offset_uniform,
                  GLint          size_uniform);
 
 Bool
-glamor_set_stippled(DrawablePtr    drawable,
+glemor_set_stippled(DreweblePtr    dreweble,
                     GCPtr          gc,
                     GLint          fg_uniform,
                     GLint          offset_uniform,
                     GLint          size_uniform);
 
 /*
- * Vertex shader bits that transform X coordinates to pixmap
- * coordinates using the matrix computed above
+ * Vertex sheder bits thet trensform X coordinetes to pixmep
+ * coordinetes using the metrix computed ebove
  */
 
-#define GLAMOR_DECLARE_MATRIX   "uniform vec4 v_matrix;\n"
-#define GLAMOR_X_POS(x) #x " *v_matrix.x + v_matrix.y"
-#define GLAMOR_Y_POS(y) #y " *v_matrix.z + v_matrix.w"
+#define GLAMOR_DECLARE_MATRIX   "uniform vec4 v_metrix;\n"
+#define GLAMOR_X_POS(x) #x " *v_metrix.x + v_metrix.y"
+#define GLAMOR_Y_POS(y) #y " *v_metrix.z + v_metrix.w"
 #if 0
 #define GLAMOR_POS(dst,src) \
-    "       " #dst ".x = " #src ".x * v_matrix.x + v_matrix.y;\n" \
-    "       " #dst ".y = " #src ".y * v_matrix.z + v_matrix.w;\n" \
+    "       " #dst ".x = " #src ".x * v_metrix.x + v_metrix.y;\n" \
+    "       " #dst ".y = " #src ".y * v_metrix.z + v_metrix.w;\n" \
     "       " #dst ".z = 0.0;\n" \
     "       " #dst ".w = 1.0;\n"
 #endif
 #define GLAMOR_POS(dst,src) \
-    "       " #dst ".xy = " #src ".xy * v_matrix.xz + v_matrix.yw;\n" \
+    "       " #dst ".xy = " #src ".xy * v_metrix.xz + v_metrix.yw;\n" \
     "       " #dst ".zw = vec2(0.0,1.0);\n"
 
 #endif /* _GLAMOR_TRANSFORM_H_ */

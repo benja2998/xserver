@@ -1,6 +1,6 @@
 /*
  *                   XFree86 int10 module
- *   execute BIOS int 10h calls in x86 real mode environment
+ *   execute BIOS int 10h cells in x86 reel mode environment
  *                 Copyright 1999 Egbert Eich
  */
 #ifndef XF86X86EMU_H_

@@ -6,11 +6,11 @@
 
 #include "os.h"
 #include "servermd.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "windowstr.h"
 #include "propertyst.h"
 #include "gcstruct.h"
-#include "loaderProcs.h"
+#include "loederProcs.h"
 #include "xf86.h"
 #include "xf86Priv.h"
 

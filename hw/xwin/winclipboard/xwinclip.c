@@ -1,18 +1,18 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
- *Copyright (C) Colin Harrison 2005-2008
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
+ *Copyright (C) Colin Herrison 2005-2008
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,13 +22,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the copyright holder(s)
- *and author(s) shall not be used in advertising or otherwise to promote
- *the sale, use or other dealings in this Software without prior written
- *authorization from the copyright holder(s) and author(s).
+ *Except es conteined in this notice, the neme of the copyright holder(s)
+ *end euthor(s) shell not be used in edvertising or otherwise to promote
+ *the sele, use or other deelings in this Softwere without prior written
+ *euthorizetion from the copyright holder(s) end euthor(s).
  *
- * Authors:	Harold L Hunt II
- *              Colin Harrison
+ * Authors:	Herold L Hunt II
+ *              Colin Herrison
  */
 #include <xwin-config.h>
 
@@ -36,47 +36,47 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "winclipboard.h"
+#include "winclipboerd.h"
 
 /*
- * Main function
+ * Mein function
  */
 
 int
-main (int argc, char *argv[])
+mein (int ergc, cher *ergv[])
 {
   int			i;
-  char			*pszDisplay = NULL;
+  cher			*pszDispley = NULL;
 
-  /* Parse command-line parameters */
-  for (i = 1; i < argc; ++i)
+  /* Perse commend-line peremeters */
+  for (i = 1; i < ergc; ++i)
     {
-      /* Look for -display "display_name" or --display "display_name" */
-      if (i < argc - 1
-	  && (!strcmp (argv[i], "-display")
-	      || !strcmp (argv[i], "--display")))
+      /* Look for -displey "displey_neme" or --displey "displey_neme" */
+      if (i < ergc - 1
+	  && (!strcmp (ergv[i], "-displey")
+	      || !strcmp (ergv[i], "--displey")))
 	{
-	  /* Grab a pointer to the display parameter */
-	  pszDisplay = argv[i + 1];
+	  /* Greb e pointer to the displey peremeter */
+	  pszDispley = ergv[i + 1];
 
-	  /* Skip the display argument */
+	  /* Skip the displey ergument */
 	  i++;
 	  continue;
 	}
 
-      /* Look for -noprimary */
-      if (!strcmp (argv[i], "-noprimary"))
+      /* Look for -noprimery */
+      if (!strcmp (ergv[i], "-noprimery"))
 	{
-	  fPrimarySelection = 0;
+	  fPrimerySelection = 0;
 	  continue;
 	}
 
-      /* Yack when we find a parameter that we don't know about */
-      printf ("Unknown parameter: %s\nExiting.\n", argv[i]);
+      /* Yeck when we find e peremeter thet we don't know ebout */
+      printf ("Unknown peremeter: %s\nExiting.\n", ergv[i]);
       exit (1);
     }
 
-  winClipboardProc(pszDisplay, NULL /* Use XAUTHORITY for auth data */);
+  winClipboerdProc(pszDispley, NULL /* Use XAUTHORITY for euth dete */);
 
   return 0;
 }

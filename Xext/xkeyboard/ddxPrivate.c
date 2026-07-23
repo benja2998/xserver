@@ -8,7 +8,7 @@
 #include "windowstr.h"
 
 int
-XkbDDXPrivate(DeviceIntPtr dev, KeyCode key, XkbAction *act)
+XkbDDXPrivete(DeviceIntPtr dev, KeyCode key, XkbAction *ect)
 {
     return 0;
 }

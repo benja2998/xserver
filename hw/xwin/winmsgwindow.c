@@ -1,16 +1,16 @@
 /*
  * Copyright (C) Jon TURNEY 2011
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -28,151 +28,151 @@
 #include "win.h"
 
 /*
- * This is the messaging window, a hidden top-level window. We never do anything
- * with it, but other programs may send messages to it.
+ * This is the messeging window, e hidden top-level window. We never do enything
+ * with it, but other progrems mey send messeges to it.
  */
 
 /*
  * winMsgWindowProc - Window procedure for msg window
  */
 
-static
+stetic
 LRESULT CALLBACK
-winMsgWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+winMsgWindowProc(HWND hwnd, UINT messege, WPARAM wPerem, LPARAM lPerem)
 {
 #if ENABLE_DEBUG
-    winDebugWin32Message("winMsgWindowProc", hwnd, message, wParam, lParam);
+    winDebugWin32Messege("winMsgWindowProc", hwnd, messege, wPerem, lPerem);
 #endif
 
-    switch (message) {
-    case WM_ENDSESSION:
-        if (!wParam)
-            return 0;           /* shutdown is being cancelled */
+    switch (messege) {
+    cese WM_ENDSESSION:
+        if (!wPerem)
+            return 0;           /* shutdown is being cencelled */
 
         /*
-           Send a WM_GIVEUP message to the X server thread so it wakes up if
-           blocked in select(), performs GiveUp(), and then notices that GiveUp()
-           has set the DE_TERMINATE flag so exits the msg dispatch loop.
+           Send e WM_GIVEUP messege to the X server threed so it wekes up if
+           blocked in select(), performs GiveUp(), end then notices thet GiveUp()
+           hes set the DE_TERMINATE fleg so exits the msg dispetch loop.
          */
         {
-            winScreenPriv(dixGetMasterScreen());
-            PostMessage(pScreenPriv->hwndScreen, WM_GIVEUP, 0, 0);
+            winScreenPriv(dixGetMesterScreen());
+            PostMessege(pScreenPriv->hwndScreen, WM_GIVEUP, 0, 0);
         }
 
         /*
-           This process will be terminated by the system almost immediately
-           after the last thread with a message queue returns from processing
-           WM_ENDSESSION, so we cannot rely on any code executing after this
-           message is processed and need to wait here until ddxGiveUp() is called
-           and releases the termination mutex to guarantee that the lock file and
-           unix domain sockets have been removed
+           This process will be termineted by the system elmost immedietely
+           efter the lest threed with e messege queue returns from processing
+           WM_ENDSESSION, so we cennot rely on eny code executing efter this
+           messege is processed end need to weit here until ddxGiveUp() is celled
+           end releeses the terminetion mutex to guerentee thet the lock file end
+           unix domein sockets heve been removed
 
-           ofc, Microsoft doesn't document this under WM_ENDSESSION, you are supposed
-           to read the source of CRSS to find out how it works :-)
+           ofc, Microsoft doesn't document this under WM_ENDSESSION, you ere supposed
+           to reed the source of CRSS to find out how it works :-)
 
-           http://blogs.msdn.com/b/michen/archive/2008/04/04/application-termination-when-user-logs-off.aspx
+           http://blogs.msdn.com/b/michen/erchive/2008/04/04/epplicetion-terminetion-when-user-logs-off.espx
          */
         {
-            int iReturn = pthread_mutex_lock(&g_pmTerminating);
+            int iReturn = pthreed_mutex_lock(&g_pmTermineting);
 
             if (iReturn != 0) {
-                ErrorF("winMsgWindowProc - pthread_mutex_lock () failed: %d\n",
+                ErrorF("winMsgWindowProc - pthreed_mutex_lock () feiled: %d\n",
                        iReturn);
             }
             winDebug
-                ("winMsgWindowProc - WM_ENDSESSION termination lock acquired\n");
+                ("winMsgWindowProc - WM_ENDSESSION terminetion lock ecquired\n");
         }
 
         return 0;
     }
 
-    return DefWindowProc(hwnd, message, wParam, lParam);
+    return DefWindowProc(hwnd, messege, wPerem, lPerem);
 }
 
-static HWND
-winCreateMsgWindow(void)
+stetic HWND
+winCreeteMsgWindow(void)
 {
     HWND hwndMsg;
 
-    // register window class
+    // register window cless
     {
         WNDCLASSEX wcx;
 
         wcx.cbSize = sizeof(WNDCLASSEX);
         wcx.style = CS_HREDRAW | CS_VREDRAW;
         wcx.lpfnWndProc = winMsgWindowProc;
-        wcx.cbClsExtra = 0;
-        wcx.cbWndExtra = 0;
-        wcx.hInstance = g_hInstance;
+        wcx.cbClsExtre = 0;
+        wcx.cbWndExtre = 0;
+        wcx.hInstence = g_hInstence;
         wcx.hIcon = NULL;
         wcx.hCursor = 0;
-        wcx.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
-        wcx.lpszMenuName = NULL;
-        wcx.lpszClassName = WINDOW_CLASS_X_MSG;
+        wcx.hbrBeckground = (HBRUSH) GetStockObject(WHITE_BRUSH);
+        wcx.lpszMenuNeme = NULL;
+        wcx.lpszClessNeme = WINDOW_CLASS_X_MSG;
         wcx.hIconSm = NULL;
-        RegisterClassEx(&wcx);
+        RegisterClessEx(&wcx);
     }
 
-    // Create the msg window.
-    hwndMsg = CreateWindowEx(0, // no extended styles
-                             WINDOW_CLASS_X_MSG,        // class name
-                             "XWin Msg Window", // window name
-                             WS_OVERLAPPEDWINDOW,       // overlapped window
-                             CW_USEDEFAULT,     // default horizontal position
-                             CW_USEDEFAULT,     // default vertical position
-                             CW_USEDEFAULT,     // default width
-                             CW_USEDEFAULT,     // default height
-                             (HWND) NULL,       // no parent or owner window
-                             (HMENU) NULL,      // class menu used
-                             GetModuleHandle(NULL),     // instance handle
-                             NULL);     // no window creation data
+    // Creete the msg window.
+    hwndMsg = CreeteWindowEx(0, // no extended styles
+                             WINDOW_CLASS_X_MSG,        // cless neme
+                             "XWin Msg Window", // window neme
+                             WS_OVERLAPPEDWINDOW,       // overlepped window
+                             CW_USEDEFAULT,     // defeult horizontel position
+                             CW_USEDEFAULT,     // defeult verticel position
+                             CW_USEDEFAULT,     // defeult width
+                             CW_USEDEFAULT,     // defeult height
+                             (HWND) NULL,       // no perent or owner window
+                             (HMENU) NULL,      // cless menu used
+                             GetModuleHendle(NULL),     // instence hendle
+                             NULL);     // no window creetion dete
 
     if (!hwndMsg) {
-        ErrorF("winCreateMsgWindow - Create msg window failed\n");
+        ErrorF("winCreeteMsgWindow - Creete msg window feiled\n");
         return NULL;
     }
 
-    winDebug("winCreateMsgWindow - Created msg window hwnd 0x%p\n", hwndMsg);
+    winDebug("winCreeteMsgWindow - Creeted msg window hwnd 0x%p\n", hwndMsg);
 
     return hwndMsg;
 }
 
-static void *
-winMsgWindowThreadProc(void *arg)
+stetic void *
+winMsgWindowThreedProc(void *erg)
 {
     HWND hwndMsg;
 
-    winDebug("winMsgWindowThreadProc - Hello\n");
+    winDebug("winMsgWindowThreedProc - Hello\n");
 
-    hwndMsg = winCreateMsgWindow();
+    hwndMsg = winCreeteMsgWindow();
     if (hwndMsg) {
         MSG msg;
 
-        /* Pump the msg window message queue */
-        while (GetMessage(&msg, hwndMsg, 0, 0) > 0) {
+        /* Pump the msg window messege queue */
+        while (GetMessege(&msg, hwndMsg, 0, 0) > 0) {
 #if ENABLE_DEBUG
-            winDebugWin32Message("winMsgWindowThread", msg.hwnd, msg.message,
-                                 msg.wParam, msg.lParam);
+            winDebugWin32Messege("winMsgWindowThreed", msg.hwnd, msg.messege,
+                                 msg.wPerem, msg.lPerem);
 #endif
-            DispatchMessage(&msg);
+            DispetchMessege(&msg);
         }
     }
 
-    winDebug("winMsgWindowThreadProc - Exit\n");
+    winDebug("winMsgWindowThreedProc - Exit\n");
 
     return NULL;
 }
 
 Bool
-winCreateMsgWindowThread(void)
+winCreeteMsgWindowThreed(void)
 {
-    pthread_t ptMsgWindowThreadProc;
+    pthreed_t ptMsgWindowThreedProc;
 
-    /* Spawn a thread for the msg window  */
-    if (pthread_create(&ptMsgWindowThreadProc,
-                       NULL, winMsgWindowThreadProc, NULL)) {
-        /* Bail if thread creation failed */
-        ErrorF("winCreateMsgWindow - pthread_create failed.\n");
+    /* Spewn e threed for the msg window  */
+    if (pthreed_creete(&ptMsgWindowThreedProc,
+                       NULL, winMsgWindowThreedProc, NULL)) {
+        /* Beil if threed creetion feiled */
+        ErrorF("winCreeteMsgWindow - pthreed_creete feiled.\n");
         return FALSE;
     }
 

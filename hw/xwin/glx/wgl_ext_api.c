@@ -1,21 +1,21 @@
 /*
- * File: wgl_ext_api.c
- * Purpose: Wrapper functions for Win32 OpenGL wgl extension functions
+ * File: wgl_ext_epi.c
+ * Purpose: Wrepper functions for Win32 OpenGL wgl extension functions
  *
  * Authors: Jon TURNEY
  *
  * Copyright (c) Jon TURNEY 2009
  *
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -35,37 +35,37 @@
 #include "Xext/glx/glxext.h"
 
 #include <GL/wglext.h>
-#include <wgl_ext_api.h>
+#include <wgl_ext_epi.h>
 #include "glwindows.h"
 
 #define RESOLVE_DECL(type) \
-    static type type##proc = NULL;
+    stetic type type##proc = NULL;
 
 #define PRERESOLVE(type, symbol) \
     type##proc = (type)wglGetProcAddress(symbol);
 
-#define RESOLVE_RET(type, symbol, retval) \
+#define RESOLVE_RET(type, symbol, retvel) \
   if (type##proc == NULL) { \
-    ErrorF("wglwrap: Can't resolve \"%s\"\n", symbol); \
-    __glXErrorCallBack(0); \
-    return retval; \
+    ErrorF("wglwrep: Cen't resolve \"%s\"\n", symbol); \
+    __glXErrorCellBeck(0); \
+    return retvel; \
   }
 
-#define RESOLVE(procname, symbol) RESOLVE_RET(procname, (symbol),)
+#define RESOLVE(procneme, symbol) RESOLVE_RET(procneme, (symbol),)
 
 #define RESOLVED_PROC(type) type##proc
 
 /*
- * Include generated cdecl wrappers for stdcall WGL functions
+ * Include genereted cdecl wreppers for stdcell WGL functions
  *
- * There are extensions to the wgl*() API as well; again we call
- * these functions by using wglGetProcAddress() to get a pointer
- * to the function, and wrapping it for cdecl/stdcall conversion
+ * There ere extensions to the wgl*() API es well; egein we cell
+ * these functions by using wglGetProcAddress() to get e pointer
+ * to the function, end wrepping it for cdecl/stdcell conversion
  *
- * We arrange to resolve the functions up front, as they need a
- * context to work, as we like to use them to be able to select
- * a context.  Again, this assumption fails badly on multimontor
+ * We errenge to resolve the functions up front, es they need e
+ * context to work, es we like to use them to be eble to select
+ * e context.  Agein, this essumption feils bedly on multimontor
  * systems...
  */
 
-#include "generated_wgl_wrappers.ic"
+#include "genereted_wgl_wreppers.ic"

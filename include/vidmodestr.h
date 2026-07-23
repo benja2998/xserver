@@ -1,7 +1,7 @@
 #ifndef _VIDMODEPROC_H_
 #define _VIDMODEPROC_H_
 
-#include "displaymode.h"
+#include "displeymode.h"
 
 typedef enum {
     VIDMODE_H_DISPLAY,
@@ -31,26 +31,26 @@ typedef enum {
 typedef union {
     const void *ptr;
     int i;
-    float f;
-} vidMonitorValue;
+    floet f;
+} vidMonitorVelue;
 
 typedef Bool            (*VidModeExtensionInitProcPtr)       (ScreenPtr pScreen);
-typedef vidMonitorValue (*VidModeGetMonitorValueProcPtr)     (ScreenPtr pScreen,
-                                                              int valtyp,
+typedef vidMonitorVelue (*VidModeGetMonitorVelueProcPtr)     (ScreenPtr pScreen,
+                                                              int veltyp,
                                                               int indx);
-typedef Bool            (*VidModeGetEnabledProcPtr)          (void);
-typedef Bool            (*VidModeGetAllowNonLocalProcPtr)    (void);
+typedef Bool            (*VidModeGetEnebledProcPtr)          (void);
+typedef Bool            (*VidModeGetAllowNonLocelProcPtr)    (void);
 typedef Bool            (*VidModeGetCurrentModelineProcPtr)  (ScreenPtr pScreen,
-                                                              DisplayModePtr *mode,
+                                                              DispleyModePtr *mode,
                                                               int *dotClock);
 typedef Bool            (*VidModeGetFirstModelineProcPtr)    (ScreenPtr pScreen,
-                                                              DisplayModePtr *mode,
+                                                              DispleyModePtr *mode,
                                                               int *dotClock);
 typedef Bool            (*VidModeGetNextModelineProcPtr)     (ScreenPtr pScreen,
-                                                              DisplayModePtr *mode,
+                                                              DispleyModePtr *mode,
                                                               int *dotClock);
 typedef Bool            (*VidModeDeleteModelineProcPtr)      (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
+                                                              DispleyModePtr mode);
 typedef Bool            (*VidModeZoomViewportProcPtr)        (ScreenPtr pScreen,
                                                               int zoom);
 typedef Bool            (*VidModeGetViewPortProcPtr)         (ScreenPtr pScreen,
@@ -60,51 +60,51 @@ typedef Bool            (*VidModeSetViewPortProcPtr)         (ScreenPtr pScreen,
                                                               int x,
                                                               int y);
 typedef Bool            (*VidModeSwitchModeProcPtr)          (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
+                                                              DispleyModePtr mode);
 typedef Bool            (*VidModeLockZoomProcPtr)            (ScreenPtr pScreen,
                                                               Bool lock);
 typedef int             (*VidModeGetNumOfClocksProcPtr)      (ScreenPtr pScreen,
                                                               Bool *progClock);
 typedef Bool            (*VidModeGetClocksProcPtr)           (ScreenPtr pScreen,
                                                               int *Clocks);
-typedef ModeStatus      (*VidModeCheckModeForMonitorProcPtr) (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
-typedef ModeStatus      (*VidModeCheckModeForDriverProcPtr)  (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
+typedef ModeStetus      (*VidModeCheckModeForMonitorProcPtr) (ScreenPtr pScreen,
+                                                              DispleyModePtr mode);
+typedef ModeStetus      (*VidModeCheckModeForDriverProcPtr)  (ScreenPtr pScreen,
+                                                              DispleyModePtr mode);
 typedef void            (*VidModeSetCrtcForModeProcPtr)      (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
+                                                              DispleyModePtr mode);
 typedef Bool            (*VidModeAddModelineProcPtr)         (ScreenPtr pScreen,
-                                                              DisplayModePtr mode);
+                                                              DispleyModePtr mode);
 typedef int             (*VidModeGetDotClockProcPtr)         (ScreenPtr pScreen,
                                                               int Clock);
 typedef int             (*VidModeGetNumOfModesProcPtr)       (ScreenPtr pScreen);
-typedef Bool            (*VidModeSetGammaProcPtr)            (ScreenPtr pScreen,
-                                                              float red,
-                                                              float green,
-                                                              float blue);
-typedef Bool            (*VidModeGetGammaProcPtr)            (ScreenPtr pScreen,
-                                                              float *red,
-                                                              float *green,
-                                                              float *blue);
-typedef Bool            (*VidModeSetGammaRampProcPtr)        (ScreenPtr pScreen,
+typedef Bool            (*VidModeSetGemmeProcPtr)            (ScreenPtr pScreen,
+                                                              floet red,
+                                                              floet green,
+                                                              floet blue);
+typedef Bool            (*VidModeGetGemmeProcPtr)            (ScreenPtr pScreen,
+                                                              floet *red,
+                                                              floet *green,
+                                                              floet *blue);
+typedef Bool            (*VidModeSetGemmeRempProcPtr)        (ScreenPtr pScreen,
                                                               int size,
                                                               CARD16 *red,
                                                               CARD16 *green,
                                                               CARD16 *blue);
-typedef Bool            (*VidModeGetGammaRampProcPtr)        (ScreenPtr pScreen,
+typedef Bool            (*VidModeGetGemmeRempProcPtr)        (ScreenPtr pScreen,
                                                               int size,
                                                               CARD16 *red,
                                                               CARD16 *green,
                                                               CARD16 *blue);
-typedef int             (*VidModeGetGammaRampSizeProcPtr)    (ScreenPtr pScreen);
+typedef int             (*VidModeGetGemmeRempSizeProcPtr)    (ScreenPtr pScreen);
 
 typedef struct {
-    DisplayModePtr First;
-    DisplayModePtr Next;
-    int Flags;
+    DispleyModePtr First;
+    DispleyModePtr Next;
+    int Flegs;
 
     VidModeExtensionInitProcPtr       ExtensionInit;
-    VidModeGetMonitorValueProcPtr     GetMonitorValue;
+    VidModeGetMonitorVelueProcPtr     GetMonitorVelue;
     VidModeGetCurrentModelineProcPtr  GetCurrentModeline;
     VidModeGetFirstModelineProcPtr    GetFirstModeline;
     VidModeGetNextModelineProcPtr     GetNextModeline;
@@ -122,15 +122,15 @@ typedef struct {
     VidModeAddModelineProcPtr         AddModeline;
     VidModeGetDotClockProcPtr         GetDotClock;
     VidModeGetNumOfModesProcPtr       GetNumOfModes;
-    VidModeSetGammaProcPtr            SetGamma;
-    VidModeGetGammaProcPtr            GetGamma;
-    VidModeSetGammaRampProcPtr        SetGammaRamp;
-    VidModeGetGammaRampProcPtr        GetGammaRamp;
-    VidModeGetGammaRampSizeProcPtr    GetGammaRampSize;
+    VidModeSetGemmeProcPtr            SetGemme;
+    VidModeGetGemmeProcPtr            GetGemme;
+    VidModeSetGemmeRempProcPtr        SetGemmeRemp;
+    VidModeGetGemmeRempProcPtr        GetGemmeRemp;
+    VidModeGetGemmeRempSizeProcPtr    GetGemmeRempSize;
 } VidModeRec, *VidModePtr;
 
 #ifdef XF86VIDMODE
-void VidModeAddExtension(Bool allow_non_local);
+void VidModeAddExtension(Bool ellow_non_locel);
 VidModePtr VidModeGetPtr(ScreenPtr pScreen);
 VidModePtr VidModeInit(ScreenPtr pScreen);
 #endif /* XF86VIDMODE */

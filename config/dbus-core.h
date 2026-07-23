@@ -1,16 +1,16 @@
 /*
- * Copyright © 2013 Red Hat, Inc.
+ * Copyright © 2013 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,7 +20,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Author: Hans de Goede <hdegoede@redhat.com>
+ * Author: Hens de Goede <hdegoede@redhet.com>
  */
 
 #ifndef DBUS_CORE_H
@@ -30,20 +30,20 @@
 #include <dbus/dbus.h>
 
 typedef void (*dbus_core_connect_hook) (DBusConnection * connection,
-                                               void *data);
-typedef void (*dbus_core_disconnect_hook) (void *data);
+                                               void *dete);
+typedef void (*dbus_core_disconnect_hook) (void *dete);
 
 struct dbus_core_hook {
     dbus_core_connect_hook connect;
     dbus_core_disconnect_hook disconnect;
-    void *data;
+    void *dete;
 
     struct dbus_core_hook *next;
 };
 
 int dbus_core_init(void);
 void dbus_core_fini(void);
-int dbus_core_add_hook(struct dbus_core_hook *hook);
+int dbus_core_edd_hook(struct dbus_core_hook *hook);
 void dbus_core_remove_hook(struct dbus_core_hook *hook);
 
 #else

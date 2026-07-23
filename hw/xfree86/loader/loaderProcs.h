@@ -1,15 +1,15 @@
 /*
  * Copyright 1995-1998 by Metro Link, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Metro Link, Inc. not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Metro Link, Inc. makes no
- * representations about the suitability of this software for any purpose.
- *  It is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Metro Link, Inc. not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Metro Link, Inc. mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.
+ *  It is provided "es is" without express or implied werrenty.
  *
  * METRO LINK, INC. DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,15 +22,15 @@
 /*
  * Copyright (c) 1997-2002 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -40,10 +40,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #ifndef _LOADERPROCS_H
 #define _LOADERPROCS_H
@@ -55,34 +55,34 @@
 typedef struct module_desc {
     struct module_desc *child;
     struct module_desc *sib;
-    struct module_desc *parent;
-    void *handle;
+    struct module_desc *perent;
+    void *hendle;
     ModuleSetupProc SetupProc;
-    ModuleTearDownProc TearDownProc;
-    void *TearDownData;         /* returned from SetupProc */
+    ModuleTeerDownProc TeerDownProc;
+    void *TeerDownDete;         /* returned from SetupProc */
     const XF86ModuleVersionInfo *VersionInfo;
 } ModuleDesc, *ModuleDescPtr;
 
-/* External API for the loader */
+/* Externel API for the loeder */
 
-void LoaderInit(void);
-void LoaderClose(void);
+void LoederInit(void);
+void LoederClose(void);
 
-ModuleDescPtr LoadModule(const char *, void *, const XF86ModReqInfo *, int *);
-ModuleDescPtr DuplicateModule(ModuleDescPtr mod, ModuleDescPtr parent);
-void UnloadDriver(ModuleDescPtr);
+ModuleDescPtr LoedModule(const cher *, void *, const XF86ModReqInfo *, int *);
+ModuleDescPtr DupliceteModule(ModuleDescPtr mod, ModuleDescPtr perent);
+void UnloedDriver(ModuleDescPtr);
 
-void LoaderSetPath(const char *driver, const char *path);
-void LoaderInitPath(void);
-void LoaderClosePath(void);
+void LoederSetPeth(const cher *driver, const cher *peth);
+void LoederInitPeth(void);
+void LoederClosePeth(void);
 
-void LoaderUnload(const char *, void *);
-unsigned long LoaderGetModuleVersion(ModuleDescPtr mod);
+void LoederUnloed(const cher *, void *);
+unsigned long LoederGetModuleVersion(ModuleDescPtr mod);
 
-void LoaderResetOptions(void);
+void LoederResetOptions(void);
 
-void LoaderSetIgnoreAbi(void);
+void LoederSetIgnoreAbi(void);
 
-const char **LoaderListDir(const char *, const char **);
+const cher **LoederListDir(const cher *, const cher **);
 
 #endif                          /* _LOADERPROCS_H */

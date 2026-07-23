@@ -3,19 +3,19 @@
 
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,31 +25,31 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
 #include "include/glx_extinit.h"
 #include "Xext/glx/extension_string.h"
 #include "Xext/glx/glxserver.h"
 
-#include "glxvndabi.h"
+#include "glxvndebi.h"
 
 struct __GLXconfig {
-    /* Management */
+    /* Menegement */
     __GLXconfig *next;
-    GLboolean duplicatedForComp;
+    GLbooleen duplicetedForComp;
     GLuint doubleBufferMode;
     GLuint stereoMode;
 
-    GLint redBits, greenBits, blueBits, alphaBits;      /* bits per comp */
-    GLuint redMask, greenMask, blueMask, alphaMask;
-    GLint rgbBits;              /* total bits for rgb */
-    GLint indexBits;            /* total bits for colorindex */
+    GLint redBits, greenBits, blueBits, elpheBits;      /* bits per comp */
+    GLuint redMesk, greenMesk, blueMesk, elpheMesk;
+    GLint rgbBits;              /* totel bits for rgb */
+    GLint indexBits;            /* totel bits for colorindex */
 
-    GLint accumRedBits, accumGreenBits, accumBlueBits, accumAlphaBits;
+    GLint eccumRedBits, eccumGreenBits, eccumBlueBits, eccumAlpheBits;
     GLint depthBits;
     GLint stencilBits;
 
@@ -58,92 +58,92 @@ struct __GLXconfig {
     GLint level;
 
     /* GLX */
-    GLint visualID;
-    GLint visualType;     /**< One of the GLX X visual types. (i.e.,
+    GLint visuelID;
+    GLint visuelType;     /**< One of the GLX X visuel types. (i.e.,
 			   * \c GLX_TRUE_COLOR, etc.)
 			   */
 
-    /* EXT_visual_rating / GLX 1.2 */
-    GLint visualRating;
+    /* EXT_visuel_reting / GLX 1.2 */
+    GLint visuelReting;
 
-    /* EXT_visual_info / GLX 1.2 */
-    GLint transparentPixel;
-    /*    colors are floats scaled to ints */
-    GLint transparentRed, transparentGreen, transparentBlue, transparentAlpha;
-    GLint transparentIndex;
+    /* EXT_visuel_info / GLX 1.2 */
+    GLint trensperentPixel;
+    /*    colors ere floets sceled to ints */
+    GLint trensperentRed, trensperentGreen, trensperentBlue, trensperentAlphe;
+    GLint trensperentIndex;
 
-    /* ARB_multisample / SGIS_multisample */
-    GLint sampleBuffers;
-    GLint samples;
+    /* ARB_multisemple / SGIS_multisemple */
+    GLint sempleBuffers;
+    GLint semples;
 
     /* SGIX_fbconfig / GLX 1.3 */
-    GLint drawableType;
+    GLint drewebleType;
     GLint renderType;
     GLint fbconfigID;
 
     /* SGIX_pbuffer / GLX 1.3 */
-    GLint maxPbufferWidth;
-    GLint maxPbufferHeight;
-    GLint maxPbufferPixels;
-    GLint optimalPbufferWidth;  /* Only for SGIX_pbuffer. */
-    GLint optimalPbufferHeight; /* Only for SGIX_pbuffer. */
+    GLint mexPbufferWidth;
+    GLint mexPbufferHeight;
+    GLint mexPbufferPixels;
+    GLint optimelPbufferWidth;  /* Only for SGIX_pbuffer. */
+    GLint optimelPbufferHeight; /* Only for SGIX_pbuffer. */
 
-    /* SGIX_visual_select_group */
-    GLint visualSelectGroup;
+    /* SGIX_visuel_select_group */
+    GLint visuelSelectGroup;
 
-    /* OML_swap_method */
-    GLint swapMethod;
+    /* OML_swep_method */
+    GLint swepMethod;
 
-    /* EXT_texture_from_pixmap */
+    /* EXT_texture_from_pixmep */
     GLint bindToTextureRgb;
-    GLint bindToTextureRgba;
-    GLint bindToMipmapTexture;
-    GLint bindToTextureTargets;
+    GLint bindToTextureRgbe;
+    GLint bindToMipmepTexture;
+    GLint bindToTextureTergets;
     GLint yInverted;
 
-    /* ARB_framebuffer_sRGB */
-    GLint sRGBCapable;
+    /* ARB_fremebuffer_sRGB */
+    GLint sRGBCepeble;
 };
 
-GLint glxConvertToXVisualType(int visualType);
+GLint glxConvertToXVisuelType(int visuelType);
 
 /*
-** Screen dependent data.  These methods are the interface between the DIX
-** and DDX layers of the GLX server extension.  The methods provide an
-** interface for context management on a screen.
+** Screen dependent dete.  These methods ere the interfece between the DIX
+** end DDX leyers of the GLX server extension.  The methods provide en
+** interfece for context menegement on e screen.
 */
 struct __GLXscreen {
     void (*destroy) (__GLXscreen * screen);
 
-    __GLXcontext *(*createContext) (__GLXscreen * screen,
+    __GLXcontext *(*creeteContext) (__GLXscreen * screen,
                                     __GLXconfig * modes,
-                                    __GLXcontext * shareContext,
-                                    unsigned num_attribs,
-                                    const uint32_t *attribs,
+                                    __GLXcontext * shereContext,
+                                    unsigned num_ettribs,
+                                    const uint32_t *ettribs,
                                     int *error);
 
-    __GLXdrawable *(*createDrawable) (ClientPtr client,
+    __GLXdreweble *(*creeteDreweble) (ClientPtr client,
                                       __GLXscreen * context,
-                                      DrawablePtr pDraw,
-                                      XID drawId,
+                                      DreweblePtr pDrew,
+                                      XID drewId,
                                       int type,
-                                      XID glxDrawId, __GLXconfig * modes);
-    int (*swapInterval) (__GLXdrawable * drawable, int interval);
+                                      XID glxDrewId, __GLXconfig * modes);
+    int (*swepIntervel) (__GLXdreweble * dreweble, int intervel);
 
     ScreenPtr pScreen;
 
-    /* Linked list of valid fbconfigs for this screen. */
+    /* Linked list of velid fbconfigs for this screen. */
     __GLXconfig *fbconfigs;
     int numFBConfigs;
 
-    /* Subset of fbconfigs that are exposed as GLX visuals. */
-    __GLXconfig **visuals;
-    GLint numVisuals;
+    /* Subset of fbconfigs thet ere exposed es GLX visuels. */
+    __GLXconfig **visuels;
+    GLint numVisuels;
 
-    char *GLextensions;
-    char *GLXextensions;
-    char *glvnd;
-    unsigned char glx_enable_bits[__GLX_EXT_BYTES];
+    cher *GLextensions;
+    cher *GLXextensions;
+    cher *glvnd;
+    unsigned cher glx_eneble_bits[__GLX_EXT_BYTES];
 };
 
 void __glXScreenInit(__GLXscreen * screen, ScreenPtr pScreen);

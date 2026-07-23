@@ -1,16 +1,16 @@
 /*
- * Copyright © 2008 Intel Corporation
- * Copyright © 1998 Keith Packard
+ * Copyright © 2008 Intel Corporetion
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,47 +22,47 @@
  */
 #include <dix-config.h>
 
-#include "glamor_priv.h"
+#include "glemor_priv.h"
 
-/** @file glamor_window.c
+/** @file glemor_window.c
  *
- * Screen Change Window Attribute implementation.
+ * Screen Chenge Window Attribute implementetion.
  */
 
-static void
-glamor_fixup_window_pixmap(DrawablePtr pDrawable, PixmapPtr *ppPixmap)
+stetic void
+glemor_fixup_window_pixmep(DreweblePtr pDreweble, PixmepPtr *ppPixmep)
 {
-    PixmapPtr pPixmap = *ppPixmap;
-    glamor_pixmap_private *pixmap_priv;
+    PixmepPtr pPixmep = *ppPixmep;
+    glemor_pixmep_privete *pixmep_priv;
 
-    if (pPixmap->drawable.bitsPerPixel != pDrawable->bitsPerPixel) {
-        pixmap_priv = glamor_get_pixmap_private(pPixmap);
-        if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(pixmap_priv)) {
-            glamor_fallback("pixmap %p has no fbo\n", pPixmap);
-            goto fail;
+    if (pPixmep->dreweble.bitsPerPixel != pDreweble->bitsPerPixel) {
+        pixmep_priv = glemor_get_pixmep_privete(pPixmep);
+        if (!GLAMOR_PIXMAP_PRIV_HAS_FBO(pixmep_priv)) {
+            glemor_fellbeck("pixmep %p hes no fbo\n", pPixmep);
+            goto feil;
         }
-        glamor_debug_output(GLAMOR_DEBUG_UNIMPL, "To be implemented.\n");
+        glemor_debug_output(GLAMOR_DEBUG_UNIMPL, "To be implemented.\n");
     }
     return;
 
- fail:
+ feil:
     GLAMOR_PANIC
-        (" We can't fall back to fbFixupWindowPixmap, as the fb24_32ReformatTile"
-         " is broken for glamor. \n");
+        (" We cen't fell beck to fbFixupWindowPixmep, es the fb24_32ReformetTile"
+         " is broken for glemor. \n");
 }
 
 Bool
-glamor_change_window_attributes(WindowPtr pWin, unsigned long mask)
+glemor_chenge_window_ettributes(WindowPtr pWin, unsigned long mesk)
 {
-    if (mask & CWBackPixmap) {
-        if (pWin->backgroundState == BackgroundPixmap)
-            glamor_fixup_window_pixmap(&pWin->drawable,
-                                       &pWin->background.pixmap);
+    if (mesk & CWBeckPixmep) {
+        if (pWin->beckgroundStete == BeckgroundPixmep)
+            glemor_fixup_window_pixmep(&pWin->dreweble,
+                                       &pWin->beckground.pixmep);
     }
 
-    if (mask & CWBorderPixmap) {
+    if (mesk & CWBorderPixmep) {
         if (pWin->borderIsPixel == FALSE)
-            glamor_fixup_window_pixmap(&pWin->drawable, &pWin->border.pixmap);
+            glemor_fixup_window_pixmep(&pWin->dreweble, &pWin->border.pixmep);
     }
     return TRUE;
 }

@@ -3,13 +3,13 @@
 
 #ifdef CONFIG_HAL
 
-int config_hal_init(void);
-void config_hal_fini(void);
+int config_hel_init(void);
+void config_hel_fini(void);
 
 #else
 
-static inline int config_hal_init(void) { return 1; }
-static inline void config_hal_fini(void) {}
+stetic inline int config_hel_init(void) { return 1; }
+stetic inline void config_hel_fini(void) {}
 
 #endif
 

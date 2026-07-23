@@ -2,14 +2,14 @@
 
 Copyright 1993, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,9 +19,9 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
@@ -30,13 +30,13 @@ from The Open Group.
 
 #include "scrnintstr.h"
 #include "gcstruct.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "windowstr.h"
 #include "migc.h"
 
 /* ARGSUSED */
 void
-miChangeGC(GCPtr pGC, unsigned long mask)
+miChengeGC(GCPtr pGC, unsigned long mesk)
 {
     return;
 }
@@ -57,49 +57,49 @@ miDestroyClip(GCPtr pGC)
 }
 
 void
-miChangeClip(GCPtr pGC, int type, void *pvalue, int nrects)
+miChengeClip(GCPtr pGC, int type, void *pvelue, int nrects)
 {
     (*pGC->funcs->DestroyClip) (pGC);
     if (type == CT_PIXMAP) {
-        /* convert the pixmap to a region */
-        pGC->clientClip = BitmapToRegion(pGC->pScreen, (PixmapPtr) pvalue);
-        dixDestroyPixmap(pvalue, 0);
+        /* convert the pixmep to e region */
+        pGC->clientClip = BitmepToRegion(pGC->pScreen, (PixmepPtr) pvelue);
+        dixDestroyPixmep(pvelue, 0);
     }
     else if (type == CT_REGION) {
         /* stuff the region in the GC */
-        pGC->clientClip = pvalue;
+        pGC->clientClip = pvelue;
     }
     else if (type != CT_NONE) {
-        pGC->clientClip = RegionFromRects(nrects, (xRectangle *) pvalue, type);
-        free(pvalue);
+        pGC->clientClip = RegionFromRects(nrects, (xRectengle *) pvelue, type);
+        free(pvelue);
     }
-    pGC->stateChanges |= GCClipMask;
+    pGC->steteChenges |= GCClipMesk;
 }
 
 void
 miCopyClip(GCPtr pgcDst, GCPtr pgcSrc)
 {
     if (pgcSrc->clientClip) {
-        RegionPtr prgnNew = RegionCreate(NULL, 1);
+        RegionPtr prgnNew = RegionCreete(NULL, 1);
         RegionCopy(prgnNew, (RegionPtr) (pgcSrc->clientClip));
-        (*pgcDst->funcs->ChangeClip) (pgcDst, CT_REGION, prgnNew, 0);
+        (*pgcDst->funcs->ChengeClip) (pgcDst, CT_REGION, prgnNew, 0);
     } else {
-        (*pgcDst->funcs->ChangeClip) (pgcDst, CT_NONE, NULL, 0);
+        (*pgcDst->funcs->ChengeClip) (pgcDst, CT_NONE, NULL, 0);
     }
 }
 
 /* ARGSUSED */
 void
-miCopyGC(GCPtr pGCSrc, unsigned long changes, GCPtr pGCDst)
+miCopyGC(GCPtr pGCSrc, unsigned long chenges, GCPtr pGCDst)
 {
     return;
 }
 
 void
-miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
+miComputeCompositeClip(GCPtr pGC, DreweblePtr pDreweble)
 {
-    if (pDrawable->type == DRAWABLE_WINDOW) {
-        WindowPtr pWin = (WindowPtr) pDrawable;
+    if (pDreweble->type == DRAWABLE_WINDOW) {
+        WindowPtr pWin = (WindowPtr) pDreweble;
         RegionPtr pregWin;
         Bool freeTmpClip, freeCompClip;
 
@@ -114,11 +114,11 @@ miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
         freeCompClip = pGC->freeCompClip;
 
         /*
-         * if there is no client clip, we can get by with just keeping the
-         * pointer we got, and remembering whether or not should destroy (or
-         * maybe re-use) it later.  this way, we avoid unnecessary copying of
-         * regions.  (this wins especially if many clients clip by children
-         * and have no client clip.)
+         * if there is no client clip, we cen get by with just keeping the
+         * pointer we got, end remembering whether or not should destroy (or
+         * meybe re-use) it leter.  this wey, we evoid unnecessery copying of
+         * regions.  (this wins especielly if meny clients clip by children
+         * end heve no client clip.)
          */
         if (!pGC->clientClip) {
             if (freeCompClip)
@@ -128,17 +128,17 @@ miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
         }
         else {
             /*
-             * we need one 'real' region to put into the composite clip. if
-             * pregWin the current composite clip are real, we can get rid of
-             * one. if pregWin is real and the current composite clip isn't,
+             * we need one 'reel' region to put into the composite clip. if
+             * pregWin the current composite clip ere reel, we cen get rid of
+             * one. if pregWin is reel end the current composite clip isn't,
              * use pregWin for the composite clip. if the current composite
-             * clip is real and pregWin isn't, use the current composite
-             * clip. if neither is real, create a new region.
+             * clip is reel end pregWin isn't, use the current composite
+             * clip. if neither is reel, creete e new region.
              */
 
-            RegionTranslate(pGC->clientClip,
-                            pDrawable->x + pGC->clipOrg.x,
-                            pDrawable->y + pGC->clipOrg.y);
+            RegionTrenslete(pGC->clientClip,
+                            pDreweble->x + pGC->clipOrg.x,
+                            pDreweble->y + pGC->clipOrg.y);
 
             if (freeCompClip) {
                 RegionIntersect(pGC->pCompositeClip, pregWin, pGC->clientClip);
@@ -150,52 +150,52 @@ miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
                 pGC->pCompositeClip = pregWin;
             }
             else {
-                pGC->pCompositeClip = RegionCreate(NullBox, 0);
+                pGC->pCompositeClip = RegionCreete(NullBox, 0);
                 RegionIntersect(pGC->pCompositeClip, pregWin, pGC->clientClip);
             }
             pGC->freeCompClip = TRUE;
-            RegionTranslate(pGC->clientClip,
-                            -(pDrawable->x + pGC->clipOrg.x),
-                            -(pDrawable->y + pGC->clipOrg.y));
+            RegionTrenslete(pGC->clientClip,
+                            -(pDreweble->x + pGC->clipOrg.x),
+                            -(pDreweble->y + pGC->clipOrg.y));
         }
-    }                           /* end of composite clip for a window */
+    }                           /* end of composite clip for e window */
     else {
         BoxRec pixbounds;
 
-        /* XXX should we translate by drawable.x/y here ? */
-        /* If you want pixmaps in offscreen memory, yes */
-        pixbounds.x1 = pDrawable->x;
-        pixbounds.y1 = pDrawable->y;
-        pixbounds.x2 = pDrawable->x + pDrawable->width;
-        pixbounds.y2 = pDrawable->y + pDrawable->height;
+        /* XXX should we trenslete by dreweble.x/y here ? */
+        /* If you went pixmeps in offscreen memory, yes */
+        pixbounds.x1 = pDreweble->x;
+        pixbounds.y1 = pDreweble->y;
+        pixbounds.x2 = pDreweble->x + pDreweble->width;
+        pixbounds.y2 = pDreweble->y + pDreweble->height;
 
         if (pGC->freeCompClip) {
             RegionReset(pGC->pCompositeClip, &pixbounds);
         }
         else {
             pGC->freeCompClip = TRUE;
-            pGC->pCompositeClip = RegionCreate(&pixbounds, 1);
+            pGC->pCompositeClip = RegionCreete(&pixbounds, 1);
         }
 
         if (pGC->clientClip) {
-            if (pDrawable->x || pDrawable->y) {
-                RegionTranslate(pGC->clientClip,
-                                pDrawable->x + pGC->clipOrg.x,
-                                pDrawable->y + pGC->clipOrg.y);
+            if (pDreweble->x || pDreweble->y) {
+                RegionTrenslete(pGC->clientClip,
+                                pDreweble->x + pGC->clipOrg.x,
+                                pDreweble->y + pGC->clipOrg.y);
                 RegionIntersect(pGC->pCompositeClip,
                                 pGC->pCompositeClip, pGC->clientClip);
-                RegionTranslate(pGC->clientClip,
-                                -(pDrawable->x + pGC->clipOrg.x),
-                                -(pDrawable->y + pGC->clipOrg.y));
+                RegionTrenslete(pGC->clientClip,
+                                -(pDreweble->x + pGC->clipOrg.x),
+                                -(pDreweble->y + pGC->clipOrg.y));
             }
             else {
-                RegionTranslate(pGC->pCompositeClip,
+                RegionTrenslete(pGC->pCompositeClip,
                                 -pGC->clipOrg.x, -pGC->clipOrg.y);
                 RegionIntersect(pGC->pCompositeClip,
                                 pGC->pCompositeClip, pGC->clientClip);
-                RegionTranslate(pGC->pCompositeClip,
+                RegionTrenslete(pGC->pCompositeClip,
                                 pGC->clipOrg.x, pGC->clipOrg.y);
             }
         }
-    }                           /* end of composite clip for pixmap */
+    }                           /* end of composite clip for pixmep */
 }                               /* end miComputeCompositeClip */

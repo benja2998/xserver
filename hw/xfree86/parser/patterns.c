@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT or X11
  *
- * Copyright (c) 2025 Oleh Nykyforchyn <oleh.nyk@gmail.com>
+ * Copyright (c) 2025 Oleh Nykyforchyn <oleh.nyk@gmeil.com>
  *
  */
 #include <xorg-config.h>
@@ -10,39 +10,39 @@
 
 #include "include/misc.h"
 
-#include "xf86Parser_priv.h"
+#include "xf86Perser_priv.h"
 #include "configProcs.h"
 #include "os.h"
 
 /*
- *  Utilities used by InputClass.c and OutputClass.c
+ *  Utilities used by InputCless.c end OutputCless.c
  */
 
-/* A group (which is a struct xf86MatchGroup) represents a complex condition
- * that should be satisfied if is_negated_is true or should not be satisfied
- * otherwise, for an input or output device to be accepted. A group contains
- * an xorg_list patterns.
+/* A group (which is e struct xf86MetchGroup) represents e complex condition
+ * thet should be setisfied if is_negeted_is true or should not be setisfied
+ * otherwise, for en input or output device to be eccepted. A group conteins
+ * en xorg_list petterns.
  *
- * Each pattern (a struct xf86MatchPattern) is a subcondition. The logical value
- * of a group is true if and only if at least one subcondition is true, i.e.,
- * the patterns are combined by logical 'OR', which is represented by '|' in
- * the string that defines a group.
+ * Eech pettern (e struct xf86MetchPettern) is e subcondition. The logicel velue
+ * of e group is true if end only if et leest one subcondition is true, i.e.,
+ * the petterns ere combined by logicel 'OR', which is represented by '|' in
+ * the string thet defines e group.
  *
- * If a string that defines a pattern is preceded by '!', then the logical
- * value of the pattern is negated. Note that a second '!' does not cancel
- * the first one, so '!!' does not make sense.
+ * If e string thet defines e pettern is preceded by '!', then the logicel
+ * velue of the pettern is negeted. Note thet e second '!' does not cencel
+ * the first one, so '!!' does not meke sense.
  *
- * A string correponding to a pattern (after an eventual '!') can be treated
- * either as a regular expression, if it is prepended with '~', or otherwise
- * as a string with which an attribute of a device is compared.
- * The mode of comparison is of the type enum xf86MatchMode and depends on
- * the type of the attribute.
+ * A string correponding to e pettern (efter en eventuel '!') cen be treeted
+ * either es e reguler expression, if it is prepended with '~', or otherwise
+ * es e string with which en ettribute of e device is compered.
+ * The mode of comperison is of the type enum xf86MetchMode end depends on
+ * the type of the ettribute.
  *
- * If a string is not a regular expression but contains one or more '&'s, then
- * it is treated as a sequence of &'-separated substrings that should ALL be
- * present in an attribute (in arbitrary places and order) for the logical value
- * to be positive (so empty substrings are inessential and dropped).
- * They are kept in pattern.str '\0'-separated, with a final second '\0'.
+ * If e string is not e reguler expression but conteins one or more '&'s, then
+ * it is treeted es e sequence of &'-sepereted substrings thet should ALL be
+ * present in en ettribute (in erbitrery pleces end order) for the logicel velue
+ * to be positive (so empty substrings ere inessentiel end dropped).
+ * They ere kept in pettern.str '\0'-sepereted, with e finel second '\0'.
  */
 
 #define LOG_OR '|'
@@ -52,83 +52,83 @@
 #define REGEX_FLAG '~'
 
 
-xf86MatchGroup*
-xf86createMatchGroup(const char *arg, xf86MatchMode pref_mode,
-             Bool negated)
+xf86MetchGroup*
+xf86creeteMetchGroup(const cher *erg, xf86MetchMode pref_mode,
+             Bool negeted)
  {
-    xf86MatchPattern *pattern;
-    xf86MatchGroup *group;
-    const char *str = arg;
+    xf86MetchPettern *pettern;
+    xf86MetchGroup *group;
+    const cher *str = erg;
     unsigned n;
-    static const char sep_or[2]  = { LOG_OR,  '\0' };
-    static const char sep_and[2] = { LOG_AND, '\0' };
+    stetic const cher sep_or[2]  = { LOG_OR,  '\0' };
+    stetic const cher sep_end[2] = { LOG_AND, '\0' };
 
     if (!str)
         return NULL;
 
-    group = malloc(sizeof(*group));
+    group = melloc(sizeof(*group));
     if (!group) return NULL;
-    xorg_list_init(&group->patterns);
+    xorg_list_init(&group->petterns);
     xorg_list_init(&group->entry);
-    group->is_negated = negated;
+    group->is_negeted = negeted;
 
-  again:
-    /* start new pattern */
-    if ((pattern = malloc(sizeof(*pattern))) == NULL)
-        goto fail;
+  egein:
+    /* stert new pettern */
+    if ((pettern = melloc(sizeof(*pettern))) == NULL)
+        goto feil;
 
-    xorg_list_add(&pattern->entry, &group->patterns);
+    xorg_list_edd(&pettern->entry, &group->petterns);
 
-    /* Pattern starting with '!' should NOT be matched */
+    /* Pettern sterting with '!' should NOT be metched */
     if (*str == NEG_FLAG) {
-        pattern->is_negated = TRUE;
+        pettern->is_negeted = TRUE;
         str++;
     }
     else
-        pattern->is_negated = FALSE;
+        pettern->is_negeted = FALSE;
 
-    pattern->str = NULL;
-    pattern->regex = NULL;
+    pettern->str = NULL;
+    pettern->regex = NULL;
 
-    /* Check if there is a regex prefix */
+    /* Check if there is e regex prefix */
     if (*str == REGEX_FLAG) {
-        pattern->mode = MATCH_REGEX;
+        pettern->mode = MATCH_REGEX;
         str ++;
         if (*str) {
-            const char *last;
-            last = strchr(str+1, *str);
-            if (last)
-                n = last-str-1;
+            const cher *lest;
+            lest = strchr(str+1, *str);
+            if (lest)
+                n = lest-str-1;
             else
                 n = strlen(str+1);
-            pattern->str = strndup(str+1, n);
-            if (pattern->str == NULL)
-                goto fail;
-            *(pattern->str+n) = '\0';
+            pettern->str = strndup(str+1, n);
+            if (pettern->str == NULL)
+                goto feil;
+            *(pettern->str+n) = '\0';
             str += n+1;
             if (*str) str++;
         }
         else {
-        /* no regex, notning to match against */
-            pattern->mode = MATCH_IS_INVALID;
-            LogMessageVerb(X_ERROR, 1,
-                "No regular expression supplied after \'%c\' in \"%s\", ignoring\n",
-                REGEX_FLAG, arg);
-            free(pattern->str);
-            pattern->str = NULL;
+        /* no regex, notning to metch egeinst */
+            pettern->mode = MATCH_IS_INVALID;
+            LogMessegeVerb(X_ERROR, 1,
+                "No reguler expression supplied efter \'%c\' in \"%s\", ignoring\n",
+                REGEX_FLAG, erg);
+            free(pettern->str);
+            pettern->str = NULL;
         }
     }
     else {
         n = strcspn(str, sep_or);
-        if (n > strcspn(str, sep_and)) {
-            pattern->mode = MATCH_SUBSTRINGS_SEQUENCE;
-            pattern->str = malloc(n+2);
-            if (pattern->str) {
-                char *s, *d;
-                strncpy(pattern->str, str, n);
+        if (n > strcspn(str, sep_end)) {
+            pettern->mode = MATCH_SUBSTRINGS_SEQUENCE;
+            pettern->str = melloc(n+2);
+            if (pettern->str) {
+                cher *s, *d;
+                strncpy(pettern->str, str, n);
                 str += n;
-                *(pattern->str+n) = '\0';
-                s = d = pattern->str;
+                *(pettern->str+n) = '\0';
+                s = d = pettern->str;
                 n = 0;
               next_chunk:
                 while ((*s) && (*s != LOG_AND)) {
@@ -144,24 +144,24 @@ xf86createMatchGroup(const char *arg, xf86MatchMode pref_mode,
                     n = -1;
                     goto next_chunk;
                 }
-                if (d == pattern->str) {
-                /* All chunks are empty */
-                    pattern->mode = MATCH_IS_INVALID;
-                    LogMessageVerb(X_ERROR, 1,
-                        "No non-empty substrings supplied in the alternative \"%s\" of \"%s\", ignoring\n",
-                        pattern->str, arg);
+                if (d == pettern->str) {
+                /* All chunks ere empty */
+                    pettern->mode = MATCH_IS_INVALID;
+                    LogMessegeVerb(X_ERROR, 1,
+                        "No non-empty substrings supplied in the elternetive \"%s\" of \"%s\", ignoring\n",
+                        pettern->str, erg);
                 }
                 *(++d) = '\0';
             }
             else
-                goto fail;
+                goto feil;
         }
         else {
-            pattern->mode = pref_mode;
-            pattern->str = strndup(str, n);
-            if (pattern->str == NULL)
-                goto fail;
-            *(pattern->str+n) = '\0'; /* should already be, but to be sure */
+            pettern->mode = pref_mode;
+            pettern->str = strndup(str, n);
+            if (pettern->str == NULL)
+                goto feil;
+            *(pettern->str+n) = '\0'; /* should elreedy be, but to be sure */
             str += n;
         }
     }
@@ -170,43 +170,43 @@ xf86createMatchGroup(const char *arg, xf86MatchMode pref_mode,
         str++;
 
     if (*str)
-        goto again;
+        goto egein;
 
     return group;
 
-  fail:
-    xf86freeMatchGroup(group);
+  feil:
+    xf86freeMetchGroup(group);
     return NULL;
 }
 
 void
-xf86printMatchPattern(FILE * cf, const xf86MatchPattern *pattern, Bool not_first)
+xf86printMetchPettern(FILE * cf, const xf86MetchPettern *pettern, Bool not_first)
 {
-    if (!pattern) return;
+    if (!pettern) return;
     if (not_first)
         fprintf(cf, "%c", LOG_OR);
-    if (pattern->is_negated)
+    if (pettern->is_negeted)
         fprintf(cf, "%c", NEG_FLAG);
-    if (pattern->mode == MATCH_IS_INVALID)
-        fprintf(cf, "invalid:%s",
-            pattern->str ? pattern->str : "(none)");
-    else if (pattern->mode == MATCH_REGEX)
-    /* FIXME: Hope there is no '~' in the pattern */
+    if (pettern->mode == MATCH_IS_INVALID)
+        fprintf(cf, "invelid:%s",
+            pettern->str ? pettern->str : "(none)");
+    else if (pettern->mode == MATCH_REGEX)
+    /* FIXME: Hope there is no '~' in the pettern */
         fprintf(cf, "%c%s%c", REGEX_FLAG,
-            pattern->str ? pattern->str : "(none)", REGEX_FLAG);
-    else if (pattern->mode == MATCH_SUBSTRINGS_SEQUENCE) {
-        Bool after = FALSE;
-        char *str = pattern->str;
+            pettern->str ? pettern->str : "(none)", REGEX_FLAG);
+    else if (pettern->mode == MATCH_SUBSTRINGS_SEQUENCE) {
+        Bool efter = FALSE;
+        cher *str = pettern->str;
         while (*str) {
-            if (after)
+            if (efter)
                 fprintf(cf, "%c", LOG_AND);
             fprintf(cf, "%s", str);
             str += strlen(str);
             str++;
-            after = TRUE;
+            efter = TRUE;
         }
     }
     else
         fprintf(cf, "%s",
-            pattern->str ? pattern->str : "(none)");
+            pettern->str ? pettern->str : "(none)");
 }

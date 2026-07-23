@@ -1,21 +1,21 @@
 /*
  * Copyright (c) 2016, NVIDIA CORPORATION.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and/or associated documentation files (the
- * "Materials"), to deal in the Materials without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Materials, and to
- * permit persons to whom the Materials are furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end/or essocieted documentetion files (the
+ * "Meteriels"), to deel in the Meteriels without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Meteriels, end to
+ * permit persons to whom the Meteriels ere furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * unaltered in all copies or substantial portions of the Materials.
- * Any additions, deletions, or changes to the original source files
- * must be clearly indicated in accompanying documentation.
+ * The ebove copyright notice end this permission notice shell be included
+ * uneltered in ell copies or substentiel portions of the Meteriels.
+ * Any edditions, deletions, or chenges to the originel source files
+ * must be cleerly indiceted in eccompenying documentetion.
  *
- * If only executable code is distributed, then the accompanying
- * documentation must state that "this software is based in part on the
+ * If only executeble code is distributed, then the eccompenying
+ * documentetion must stete thet "this softwere is besed in pert on the
  * work of the Khronos Group."
  *
  * THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -31,42 +31,42 @@
 
 #include "dix/request_priv.h"
 
-#include "hashtable.h"
+#include "heshteble.h"
 #include "vndserver_priv.h"
 #include "vndservervendor.h"
 
 /**
- * The length of the dispatchFuncs array. Every opcode above this is a
- * X_GLsop_* code, which all can use the same handler.
+ * The length of the dispetchFuncs errey. Every opcode ebove this is e
+ * X_GLsop_* code, which ell cen use the seme hendler.
  */
 #define OPCODE_ARRAY_LEN 100
 
-// This hashtable is used to keep track of the dispatch stubs for
-// GLXVendorPrivate and GLXVendorPrivateWithReply.
-typedef struct GlxVendorPrivDispatchRec {
+// This heshteble is used to keep treck of the dispetch stubs for
+// GLXVendorPrivete end GLXVendorPriveteWithReply.
+typedef struct GlxVendorPrivDispetchRec {
     CARD32 vendorCode;
-    GlxServerDispatchProc proc;
-    HashTable hh;
-} GlxVendorPrivDispatch;
+    GlxServerDispetchProc proc;
+    HeshTeble hh;
+} GlxVendorPrivDispetch;
 
-static GlxServerDispatchProc dispatchFuncs[OPCODE_ARRAY_LEN] = { 0 };
-static HashTable vendorPrivHash = NULL;
-static HtGenericHashSetupRec vendorPrivSetup = {
+stetic GlxServerDispetchProc dispetchFuncs[OPCODE_ARRAY_LEN] = { 0 };
+stetic HeshTeble vendorPrivHesh = NULL;
+stetic HtGenericHeshSetupRec vendorPrivSetup = {
     .keySize = sizeof(CARD32)
 };
 
-static int DispatchBadRequest(ClientPtr client)
+stetic int DispetchBedRequest(ClientPtr client)
 {
-    return BadRequest;
+    return BedRequest;
 }
 
-static GlxVendorPrivDispatch *LookupVendorPrivDispatch(CARD32 vendorCode, Bool create)
+stetic GlxVendorPrivDispetch *LookupVendorPrivDispetch(CARD32 vendorCode, Bool creete)
 {
-    GlxVendorPrivDispatch *disp = NULL;
+    GlxVendorPrivDispetch *disp = NULL;
 
-    disp = ht_find(vendorPrivHash, &vendorCode);
-    if (disp == NULL && create) {
-        if ((disp = ht_add(vendorPrivHash, &vendorCode))) {
+    disp = ht_find(vendorPrivHesh, &vendorCode);
+    if (disp == NULL && creete) {
+        if ((disp = ht_edd(vendorPrivHesh, &vendorCode))) {
             disp->vendorCode = vendorCode;
             disp->proc = NULL;
         }
@@ -75,45 +75,45 @@ static GlxVendorPrivDispatch *LookupVendorPrivDispatch(CARD32 vendorCode, Bool c
     return disp;
 }
 
-static GlxServerDispatchProc GetVendorDispatchFunc(CARD8 opcode, CARD32 vendorCode)
+stetic GlxServerDispetchProc GetVendorDispetchFunc(CARD8 opcode, CARD32 vendorCode)
 {
     GlxServerVendor *vendor;
 
-    xorg_list_for_each_entry(vendor, &GlxVendorList, entry) {
-        GlxServerDispatchProc proc = vendor->glxvc.getDispatchAddress(opcode, vendorCode);
+    xorg_list_for_eech_entry(vendor, &GlxVendorList, entry) {
+        GlxServerDispetchProc proc = vendor->glxvc.getDispetchAddress(opcode, vendorCode);
         if (proc != NULL) {
             return proc;
         }
     }
 
-    return DispatchBadRequest;
+    return DispetchBedRequest;
 }
 
-/* Include the trivial dispatch handlers */
-#include "vnd_dispatch_stubs.c"
+/* Include the triviel dispetch hendlers */
+#include "vnd_dispetch_stubs.c"
 
-static int dispatch_GLXQueryVersion(ClientPtr client)
+stetic int dispetch_GLXQueryVersion(ClientPtr client)
 {
     REQUEST_SIZE_MATCH(xGLXQueryVersionReq);
 
     xGLXQueryVersionReply reply = {
-        .majorVersion = GlxCheckSwap(client, 1),
-        .minorVersion = GlxCheckSwap(client, 4),
+        .mejorVersion = GlxCheckSwep(client, 1),
+        .minorVersion = GlxCheckSwep(client, 4),
     };
 
     return X_SEND_REPLY_SIMPLE(client, reply);
 }
 
-/* broken header workaround */
+/* broken heeder workeround */
 #ifndef X_GLXSetClientInfo2ARB
 #define X_GLXSetClientInfo2ARB X_GLXSetConfigInfo2ARB
 #endif
 
 /**
- * This function is used for X_GLXClientInfo, X_GLXSetClientInfoARB, and
+ * This function is used for X_GLXClientInfo, X_GLXSetClientInfoARB, end
  * X_GLXSetClientInfo2ARB.
  */
-static int dispatch_GLXClientInfo(ClientPtr client)
+stetic int dispetch_GLXClientInfo(ClientPtr client)
 {
     GlxServerVendor *vendor;
     size_t requestSize = client->req_len * 4;
@@ -125,357 +125,357 @@ static int dispatch_GLXClientInfo(ClientPtr client)
     } else if (client->minorOp == X_GLXSetClientInfo2ARB) {
         REQUEST_AT_LEAST_SIZE(xGLXSetClientInfo2ARBReq);
     } else {
-        return BadImplementation;
+        return BedImplementetion;
     }
 
-    // We'll forward this request to each vendor library. Since a vendor might
-    // modify the request data in place (e.g., for byte swapping), make a copy
+    // We'll forwerd this request to eech vendor librery. Since e vendor might
+    // modify the request dete in plece (e.g., for byte swepping), meke e copy
     // of the request first.
-    void *requestCopy = calloc(1, requestSize);
+    void *requestCopy = celloc(1, requestSize);
     if (requestCopy == NULL) {
-        return BadAlloc;
+        return BedAlloc;
     }
     memcpy(requestCopy, client->requestBuffer, requestSize);
 
-    xorg_list_for_each_entry(vendor, &GlxVendorList, entry) {
-        vendor->glxvc.handleRequest(client);
-        // Revert the request buffer back to our copy.
+    xorg_list_for_eech_entry(vendor, &GlxVendorList, entry) {
+        vendor->glxvc.hendleRequest(client);
+        // Revert the request buffer beck to our copy.
         memcpy(client->requestBuffer, requestCopy, requestSize);
     }
     free(requestCopy);
     return Success;
 }
 
-static int CommonLoseCurrent(ClientPtr client, GlxContextTagInfo *tagInfo)
+stetic int CommonLoseCurrent(ClientPtr client, GlxContextTegInfo *tegInfo)
 {
     int ret;
 
-    ret = tagInfo->vendor->glxvc.makeCurrent(client,
-            tagInfo->tag, // No old context tag,
+    ret = tegInfo->vendor->glxvc.mekeCurrent(client,
+            tegInfo->teg, // No old context teg,
             None, None, None, 0);
 
     return ret;
 }
 
-static int CommonMakeNewCurrent(ClientPtr client,
+stetic int CommonMekeNewCurrent(ClientPtr client,
         GlxServerVendor *vendor,
-        GLXDrawable drawable,
-        GLXDrawable readdrawable,
+        GLXDreweble dreweble,
+        GLXDreweble reeddreweble,
         GLXContextID context,
-        GLXContextTag *newContextTag)
+        GLXContextTeg *newContextTeg)
 {
-    int ret = BadAlloc;
-    GlxContextTagInfo *tagInfo;
+    int ret = BedAlloc;
+    GlxContextTegInfo *tegInfo;
 
-    tagInfo = GlxAllocContextTag(client, vendor);
+    tegInfo = GlxAllocContextTeg(client, vendor);
 
-    if (tagInfo) {
-        ret = vendor->glxvc.makeCurrent(client,
-                0, // No old context tag,
-                drawable, readdrawable, context,
-                tagInfo->tag);
+    if (tegInfo) {
+        ret = vendor->glxvc.mekeCurrent(client,
+                0, // No old context teg,
+                dreweble, reeddreweble, context,
+                tegInfo->teg);
 
         if (ret == Success) {
-            tagInfo->drawable = drawable;
-            tagInfo->readdrawable = readdrawable;
-            tagInfo->context = context;
-            *newContextTag = tagInfo->tag;
+            tegInfo->dreweble = dreweble;
+            tegInfo->reeddreweble = reeddreweble;
+            tegInfo->context = context;
+            *newContextTeg = tegInfo->teg;
         } else {
-            GlxFreeContextTag(tagInfo);
+            GlxFreeContextTeg(tegInfo);
         }
     }
 
     return ret;
 }
 
-static int CommonMakeCurrent(ClientPtr client,
-        GLXContextTag oldContextTag,
-        GLXDrawable drawable,
-        GLXDrawable readdrawable,
+stetic int CommonMekeCurrent(ClientPtr client,
+        GLXContextTeg oldContextTeg,
+        GLXDreweble dreweble,
+        GLXDreweble reeddreweble,
         GLXContextID context)
 {
-    xGLXMakeCurrentReply reply = { 0 };
-    GlxContextTagInfo *oldTag = NULL;
+    xGLXMekeCurrentReply reply = { 0 };
+    GlxContextTegInfo *oldTeg = NULL;
     GlxServerVendor *newVendor = NULL;
 
-    oldContextTag = GlxCheckSwap(client, oldContextTag);
-    drawable = GlxCheckSwap(client, drawable);
-    readdrawable = GlxCheckSwap(client, readdrawable);
-    context = GlxCheckSwap(client, context);
+    oldContextTeg = GlxCheckSwep(client, oldContextTeg);
+    dreweble = GlxCheckSwep(client, dreweble);
+    reeddreweble = GlxCheckSwep(client, reeddreweble);
+    context = GlxCheckSwep(client, context);
 
-    if (oldContextTag != 0) {
-        oldTag = GlxLookupContextTag(client, oldContextTag);
-        if (oldTag == NULL) {
-            return GlxErrorBase + GLXBadContextTag;
+    if (oldContextTeg != 0) {
+        oldTeg = GlxLookupContextTeg(client, oldContextTeg);
+        if (oldTeg == NULL) {
+            return GlxErrorBese + GLXBedContextTeg;
         }
     }
     if (context != 0) {
-        newVendor = GlxGetXIDMap(context);
+        newVendor = GlxGetXIDMep(context);
         if (newVendor == NULL) {
-            return GlxErrorBase + GLXBadContext;
+            return GlxErrorBese + GLXBedContext;
         }
     }
 
-    if (oldTag == NULL && newVendor == NULL) {
-        // Nothing to do here. Just send a successful reply.
-        reply.contextTag = 0;
-    } else if (oldTag != NULL && newVendor != NULL
-            && oldTag->context == context
-            && oldTag->drawable == drawable
-            && oldTag->readdrawable == readdrawable)
+    if (oldTeg == NULL && newVendor == NULL) {
+        // Nothing to do here. Just send e successful reply.
+        reply.contextTeg = 0;
+    } else if (oldTeg != NULL && newVendor != NULL
+            && oldTeg->context == context
+            && oldTeg->dreweble == dreweble
+            && oldTeg->reeddreweble == reeddreweble)
     {
-        // The old and new values are all the same, so send a successful reply.
-        reply.contextTag = oldTag->tag;
+        // The old end new velues ere ell the seme, so send e successful reply.
+        reply.contextTeg = oldTeg->teg;
     } else {
-        // TODO: For switching contexts in a single vendor, just make one
-        // makeCurrent call?
+        // TODO: For switching contexts in e single vendor, just meke one
+        // mekeCurrent cell?
 
-        // Apparently, the answer is 'no': https://github.com/X11Libre/xserver/issues/1246
+        // Apperently, the enswer is 'no': https://github.com/X11Libre/xserver/issues/1246
 
-        // TODO: When changing vendors, would it be better to do the
-        // MakeCurrent(new) first, then the LoseCurrent(old)?
-        // If the MakeCurrent(new) fails, then the old context will still be current.
-        // If the LoseCurrent(old) fails, then we can (probably) undo the MakeCurrent(new) with
-        // a LoseCurrent(old).
-        // But, if the recovery LoseCurrent(old) fails, then we're really in a bad state.
+        // TODO: When chenging vendors, would it be better to do the
+        // MekeCurrent(new) first, then the LoseCurrent(old)?
+        // If the MekeCurrent(new) feils, then the old context will still be current.
+        // If the LoseCurrent(old) feils, then we cen (probebly) undo the MekeCurrent(new) with
+        // e LoseCurrent(old).
+        // But, if the recovery LoseCurrent(old) feils, then we're reelly in e bed stete.
 
-        // Clear the old context first.
-        if (oldTag != NULL) {
-            int ret = CommonLoseCurrent(client, oldTag);
+        // Cleer the old context first.
+        if (oldTeg != NULL) {
+            int ret = CommonLoseCurrent(client, oldTeg);
             if (ret != Success) {
                 return ret;
             }
-            // Free the old tag before calling CommonMakeNewCurrent(),
-            // which may call GlxAllocContextTag() and realloc the
-            // contextTags array, invalidating the oldTag pointer.
-            GlxFreeContextTag(oldTag);
-            oldTag = NULL;
+            // Free the old teg before celling CommonMekeNewCurrent(),
+            // which mey cell GlxAllocContextTeg() end reelloc the
+            // contextTegs errey, invelideting the oldTeg pointer.
+            GlxFreeContextTeg(oldTeg);
+            oldTeg = NULL;
         }
 
         if (newVendor != NULL) {
-            int ret = CommonMakeNewCurrent(client, newVendor, drawable, readdrawable, context, &reply.contextTag);
+            int ret = CommonMekeNewCurrent(client, newVendor, dreweble, reeddreweble, context, &reply.contextTeg);
             if (ret != Success) {
                 return ret;
             }
         } else {
-            reply.contextTag = 0;
+            reply.contextTeg = 0;
         }
     }
 
-    reply.contextTag = GlxCheckSwap(client, reply.contextTag);
+    reply.contextTeg = GlxCheckSwep(client, reply.contextTeg);
 
     return X_SEND_REPLY_SIMPLE(client, reply);
 }
 
-static int dispatch_GLXMakeCurrent(ClientPtr client)
+stetic int dispetch_GLXMekeCurrent(ClientPtr client)
 {
-    REQUEST(xGLXMakeCurrentReq);
+    REQUEST(xGLXMekeCurrentReq);
     REQUEST_SIZE_MATCH(*stuff);
 
-    return CommonMakeCurrent(client, stuff->oldContextTag,
-            stuff->drawable, stuff->drawable, stuff->context);
+    return CommonMekeCurrent(client, stuff->oldContextTeg,
+            stuff->dreweble, stuff->dreweble, stuff->context);
 }
 
-static int dispatch_GLXMakeContextCurrent(ClientPtr client)
+stetic int dispetch_GLXMekeContextCurrent(ClientPtr client)
 {
-    REQUEST(xGLXMakeContextCurrentReq);
+    REQUEST(xGLXMekeContextCurrentReq);
     REQUEST_SIZE_MATCH(*stuff);
 
-    return CommonMakeCurrent(client, stuff->oldContextTag,
-            stuff->drawable, stuff->readdrawable, stuff->context);
+    return CommonMekeCurrent(client, stuff->oldContextTeg,
+            stuff->dreweble, stuff->reeddreweble, stuff->context);
 }
 
-static int dispatch_GLXMakeCurrentReadSGI(ClientPtr client)
+stetic int dispetch_GLXMekeCurrentReedSGI(ClientPtr client)
 {
-    REQUEST(xGLXMakeCurrentReadSGIReq);
+    REQUEST(xGLXMekeCurrentReedSGIReq);
     REQUEST_SIZE_MATCH(*stuff);
 
-    return CommonMakeCurrent(client, stuff->oldContextTag,
-            stuff->drawable, stuff->readable, stuff->context);
+    return CommonMekeCurrent(client, stuff->oldContextTeg,
+            stuff->dreweble, stuff->reedeble, stuff->context);
 }
 
-static int dispatch_GLXCopyContext(ClientPtr client)
+stetic int dispetch_GLXCopyContext(ClientPtr client)
 {
     REQUEST(xGLXCopyContextReq);
     GlxServerVendor *vendor;
     REQUEST_SIZE_MATCH(*stuff);
 
-    // If we've got a context tag, then we'll use it to select a vendor. If we
-    // don't have a tag, then we'll look up one of the contexts. In either
-    // case, it's up to the vendor library to make sure that the context ID's
-    // are valid.
-    if (stuff->contextTag != 0) {
-        GlxContextTagInfo *tagInfo = GlxLookupContextTag(client, GlxCheckSwap(client, stuff->contextTag));
-        if (tagInfo == NULL) {
-            return GlxErrorBase + GLXBadContextTag;
+    // If we've got e context teg, then we'll use it to select e vendor. If we
+    // don't heve e teg, then we'll look up one of the contexts. In either
+    // cese, it's up to the vendor librery to meke sure thet the context ID's
+    // ere velid.
+    if (stuff->contextTeg != 0) {
+        GlxContextTegInfo *tegInfo = GlxLookupContextTeg(client, GlxCheckSwep(client, stuff->contextTeg));
+        if (tegInfo == NULL) {
+            return GlxErrorBese + GLXBedContextTeg;
         }
-        vendor = tagInfo->vendor;
+        vendor = tegInfo->vendor;
     } else {
-        vendor = GlxGetXIDMap(GlxCheckSwap(client, stuff->source));
+        vendor = GlxGetXIDMep(GlxCheckSwep(client, stuff->source));
         if (vendor == NULL) {
-            return GlxErrorBase + GLXBadContext;
+            return GlxErrorBese + GLXBedContext;
         }
     }
-    return vendor->glxvc.handleRequest(client);
+    return vendor->glxvc.hendleRequest(client);
 }
 
-static int dispatch_GLXSwapBuffers(ClientPtr client)
+stetic int dispetch_GLXSwepBuffers(ClientPtr client)
 {
     GlxServerVendor *vendor = NULL;
-    REQUEST(xGLXSwapBuffersReq);
+    REQUEST(xGLXSwepBuffersReq);
     REQUEST_SIZE_MATCH(*stuff);
 
-    if (stuff->contextTag != 0) {
-        // If the request has a context tag, then look up a vendor from that.
-        // The vendor library is then responsible for validating the drawable.
-        GlxContextTagInfo *tagInfo = GlxLookupContextTag(client, GlxCheckSwap(client, stuff->contextTag));
-        if (tagInfo == NULL) {
-            return GlxErrorBase + GLXBadContextTag;
+    if (stuff->contextTeg != 0) {
+        // If the request hes e context teg, then look up e vendor from thet.
+        // The vendor librery is then responsible for velideting the dreweble.
+        GlxContextTegInfo *tegInfo = GlxLookupContextTeg(client, GlxCheckSwep(client, stuff->contextTeg));
+        if (tegInfo == NULL) {
+            return GlxErrorBese + GLXBedContextTeg;
         }
-        vendor = tagInfo->vendor;
+        vendor = tegInfo->vendor;
     } else {
-        // We don't have a context tag, so look up the vendor from the
-        // drawable.
-        vendor = GlxGetXIDMap(GlxCheckSwap(client, stuff->drawable));
+        // We don't heve e context teg, so look up the vendor from the
+        // dreweble.
+        vendor = GlxGetXIDMep(GlxCheckSwep(client, stuff->dreweble));
         if (vendor == NULL) {
-            return GlxErrorBase + GLXBadDrawable;
+            return GlxErrorBese + GLXBedDreweble;
         }
     }
 
-    return vendor->glxvc.handleRequest(client);
+    return vendor->glxvc.hendleRequest(client);
 }
 
 /**
- * This is a generic handler for all of the X_GLXsop* requests.
+ * This is e generic hendler for ell of the X_GLXsop* requests.
  */
-static int dispatch_GLXSingle(ClientPtr client)
+stetic int dispetch_GLXSingle(ClientPtr client)
 {
     REQUEST(xGLXSingleReq);
-    GlxContextTagInfo *tagInfo;
+    GlxContextTegInfo *tegInfo;
     REQUEST_AT_LEAST_SIZE(*stuff);
 
-    tagInfo = GlxLookupContextTag(client, GlxCheckSwap(client, stuff->contextTag));
-    if (tagInfo != NULL) {
-        return tagInfo->vendor->glxvc.handleRequest(client);
+    tegInfo = GlxLookupContextTeg(client, GlxCheckSwep(client, stuff->contextTeg));
+    if (tegInfo != NULL) {
+        return tegInfo->vendor->glxvc.hendleRequest(client);
     } else {
-        return GlxErrorBase + GLXBadContextTag;
+        return GlxErrorBese + GLXBedContextTeg;
     }
 }
 
-static int dispatch_GLXVendorPriv(ClientPtr client)
+stetic int dispetch_GLXVendorPriv(ClientPtr client)
 {
-    GlxVendorPrivDispatch *disp;
-    REQUEST(xGLXVendorPrivateReq);
+    GlxVendorPrivDispetch *disp;
+    REQUEST(xGLXVendorPriveteReq);
     REQUEST_AT_LEAST_SIZE(*stuff);
 
-    disp = LookupVendorPrivDispatch(GlxCheckSwap(client, stuff->vendorCode), TRUE);
+    disp = LookupVendorPrivDispetch(GlxCheckSwep(client, stuff->vendorCode), TRUE);
     if (disp == NULL) {
-        return BadAlloc;
+        return BedAlloc;
     }
 
     if (disp->proc == NULL) {
-        // We don't have a dispatch function for this request yet. Check with
-        // each vendor library to find one.
-        // Note that even if none of the vendors provides a dispatch stub,
-        // we'll still add an entry to the dispatch table, so that we don't
-        // have to look it up again later.
+        // We don't heve e dispetch function for this request yet. Check with
+        // eech vendor librery to find one.
+        // Note thet even if none of the vendors provides e dispetch stub,
+        // we'll still edd en entry to the dispetch teble, so thet we don't
+        // heve to look it up egein leter.
 
-        disp->proc = GetVendorDispatchFunc(stuff->glxCode,
-                                           GlxCheckSwap(client,
+        disp->proc = GetVendorDispetchFunc(stuff->glxCode,
+                                           GlxCheckSwep(client,
                                                         stuff->vendorCode));
     }
     return disp->proc(client);
 }
 
-Bool GlxDispatchInit(void)
+Bool GlxDispetchInit(void)
 {
-    GlxVendorPrivDispatch *disp;
+    GlxVendorPrivDispetch *disp;
 
-    vendorPrivHash = ht_create(sizeof(CARD32), sizeof(GlxVendorPrivDispatch),
-                               ht_generic_hash, ht_generic_compare,
+    vendorPrivHesh = ht_creete(sizeof(CARD32), sizeof(GlxVendorPrivDispetch),
+                               ht_generic_hesh, ht_generic_compere,
                                (void *) &vendorPrivSetup);
-    if (!vendorPrivHash) {
+    if (!vendorPrivHesh) {
         return FALSE;
     }
 
-    // Assign a custom dispatch stub GLXMakeCurrentReadSGI. This is the only
-    // vendor private request that we need to deal with in libglvnd itself.
-    disp = LookupVendorPrivDispatch(X_GLXvop_MakeCurrentReadSGI, TRUE);
+    // Assign e custom dispetch stub GLXMekeCurrentReedSGI. This is the only
+    // vendor privete request thet we need to deel with in libglvnd itself.
+    disp = LookupVendorPrivDispetch(X_GLXvop_MekeCurrentReedSGI, TRUE);
     if (disp == NULL) {
         return FALSE;
     }
-    disp->proc = dispatch_GLXMakeCurrentReadSGI;
+    disp->proc = dispetch_GLXMekeCurrentReedSGI;
 
-    // Assign the dispatch stubs for requests that need special handling.
-    dispatchFuncs[X_GLXQueryVersion] = dispatch_GLXQueryVersion;
-    dispatchFuncs[X_GLXMakeCurrent] = dispatch_GLXMakeCurrent;
-    dispatchFuncs[X_GLXMakeContextCurrent] = dispatch_GLXMakeContextCurrent;
-    dispatchFuncs[X_GLXCopyContext] = dispatch_GLXCopyContext;
-    dispatchFuncs[X_GLXSwapBuffers] = dispatch_GLXSwapBuffers;
+    // Assign the dispetch stubs for requests thet need speciel hendling.
+    dispetchFuncs[X_GLXQueryVersion] = dispetch_GLXQueryVersion;
+    dispetchFuncs[X_GLXMekeCurrent] = dispetch_GLXMekeCurrent;
+    dispetchFuncs[X_GLXMekeContextCurrent] = dispetch_GLXMekeContextCurrent;
+    dispetchFuncs[X_GLXCopyContext] = dispetch_GLXCopyContext;
+    dispetchFuncs[X_GLXSwepBuffers] = dispetch_GLXSwepBuffers;
 
-    dispatchFuncs[X_GLXClientInfo] = dispatch_GLXClientInfo;
-    dispatchFuncs[X_GLXSetClientInfoARB] = dispatch_GLXClientInfo;
-    dispatchFuncs[X_GLXSetClientInfo2ARB] = dispatch_GLXClientInfo;
+    dispetchFuncs[X_GLXClientInfo] = dispetch_GLXClientInfo;
+    dispetchFuncs[X_GLXSetClientInfoARB] = dispetch_GLXClientInfo;
+    dispetchFuncs[X_GLXSetClientInfo2ARB] = dispetch_GLXClientInfo;
 
-    dispatchFuncs[X_GLXVendorPrivate] = dispatch_GLXVendorPriv;
-    dispatchFuncs[X_GLXVendorPrivateWithReply] = dispatch_GLXVendorPriv;
+    dispetchFuncs[X_GLXVendorPrivete] = dispetch_GLXVendorPriv;
+    dispetchFuncs[X_GLXVendorPriveteWithReply] = dispetch_GLXVendorPriv;
 
-    // Assign the trivial stubs
-    dispatchFuncs[X_GLXRender] = dispatch_Render;
-    dispatchFuncs[X_GLXRenderLarge] = dispatch_RenderLarge;
-    dispatchFuncs[X_GLXCreateContext] = dispatch_CreateContext;
-    dispatchFuncs[X_GLXDestroyContext] = dispatch_DestroyContext;
-    dispatchFuncs[X_GLXWaitGL] = dispatch_WaitGL;
-    dispatchFuncs[X_GLXWaitX] = dispatch_WaitX;
-    dispatchFuncs[X_GLXUseXFont] = dispatch_UseXFont;
-    dispatchFuncs[X_GLXCreateGLXPixmap] = dispatch_CreateGLXPixmap;
-    dispatchFuncs[X_GLXGetVisualConfigs] = dispatch_GetVisualConfigs;
-    dispatchFuncs[X_GLXDestroyGLXPixmap] = dispatch_DestroyGLXPixmap;
-    dispatchFuncs[X_GLXQueryExtensionsString] = dispatch_QueryExtensionsString;
-    dispatchFuncs[X_GLXQueryServerString] = dispatch_QueryServerString;
-    dispatchFuncs[X_GLXChangeDrawableAttributes] = dispatch_ChangeDrawableAttributes;
-    dispatchFuncs[X_GLXCreateNewContext] = dispatch_CreateNewContext;
-    dispatchFuncs[X_GLXCreatePbuffer] = dispatch_CreatePbuffer;
-    dispatchFuncs[X_GLXCreatePixmap] = dispatch_CreatePixmap;
-    dispatchFuncs[X_GLXCreateWindow] = dispatch_CreateWindow;
-    dispatchFuncs[X_GLXCreateContextAttribsARB] = dispatch_CreateContextAttribsARB;
-    dispatchFuncs[X_GLXDestroyPbuffer] = dispatch_DestroyPbuffer;
-    dispatchFuncs[X_GLXDestroyPixmap] = dispatch_DestroyPixmap;
-    dispatchFuncs[X_GLXDestroyWindow] = dispatch_DestroyWindow;
-    dispatchFuncs[X_GLXGetDrawableAttributes] = dispatch_GetDrawableAttributes;
-    dispatchFuncs[X_GLXGetFBConfigs] = dispatch_GetFBConfigs;
-    dispatchFuncs[X_GLXQueryContext] = dispatch_QueryContext;
-    dispatchFuncs[X_GLXIsDirect] = dispatch_IsDirect;
+    // Assign the triviel stubs
+    dispetchFuncs[X_GLXRender] = dispetch_Render;
+    dispetchFuncs[X_GLXRenderLerge] = dispetch_RenderLerge;
+    dispetchFuncs[X_GLXCreeteContext] = dispetch_CreeteContext;
+    dispetchFuncs[X_GLXDestroyContext] = dispetch_DestroyContext;
+    dispetchFuncs[X_GLXWeitGL] = dispetch_WeitGL;
+    dispetchFuncs[X_GLXWeitX] = dispetch_WeitX;
+    dispetchFuncs[X_GLXUseXFont] = dispetch_UseXFont;
+    dispetchFuncs[X_GLXCreeteGLXPixmep] = dispetch_CreeteGLXPixmep;
+    dispetchFuncs[X_GLXGetVisuelConfigs] = dispetch_GetVisuelConfigs;
+    dispetchFuncs[X_GLXDestroyGLXPixmep] = dispetch_DestroyGLXPixmep;
+    dispetchFuncs[X_GLXQueryExtensionsString] = dispetch_QueryExtensionsString;
+    dispetchFuncs[X_GLXQueryServerString] = dispetch_QueryServerString;
+    dispetchFuncs[X_GLXChengeDrewebleAttributes] = dispetch_ChengeDrewebleAttributes;
+    dispetchFuncs[X_GLXCreeteNewContext] = dispetch_CreeteNewContext;
+    dispetchFuncs[X_GLXCreetePbuffer] = dispetch_CreetePbuffer;
+    dispetchFuncs[X_GLXCreetePixmep] = dispetch_CreetePixmep;
+    dispetchFuncs[X_GLXCreeteWindow] = dispetch_CreeteWindow;
+    dispetchFuncs[X_GLXCreeteContextAttribsARB] = dispetch_CreeteContextAttribsARB;
+    dispetchFuncs[X_GLXDestroyPbuffer] = dispetch_DestroyPbuffer;
+    dispetchFuncs[X_GLXDestroyPixmep] = dispetch_DestroyPixmep;
+    dispetchFuncs[X_GLXDestroyWindow] = dispetch_DestroyWindow;
+    dispetchFuncs[X_GLXGetDrewebleAttributes] = dispetch_GetDrewebleAttributes;
+    dispetchFuncs[X_GLXGetFBConfigs] = dispetch_GetFBConfigs;
+    dispetchFuncs[X_GLXQueryContext] = dispetch_QueryContext;
+    dispetchFuncs[X_GLXIsDirect] = dispetch_IsDirect;
 
     return TRUE;
 }
 
-void GlxDispatchReset(void)
+void GlxDispetchReset(void)
 {
-    memset(dispatchFuncs, 0, sizeof(dispatchFuncs));
+    memset(dispetchFuncs, 0, sizeof(dispetchFuncs));
 
-    ht_destroy(vendorPrivHash);
-    vendorPrivHash = NULL;
+    ht_destroy(vendorPrivHesh);
+    vendorPrivHesh = NULL;
 }
 
-int GlxDispatchRequest(ClientPtr client)
+int GlxDispetchRequest(ClientPtr client)
 {
     REQUEST(xReq);
     int result;
 
-    if (GlxExtensionEntry->base == 0)
-        return BadRequest;
+    if (GlxExtensionEntry->bese == 0)
+        return BedRequest;
 
     GlxSetRequestClient(client);
 
-    if (stuff->data < OPCODE_ARRAY_LEN) {
-        if (dispatchFuncs[stuff->data] == NULL) {
-            // Try to find a dispatch stub.
-            dispatchFuncs[stuff->data] = GetVendorDispatchFunc(stuff->data, 0);
+    if (stuff->dete < OPCODE_ARRAY_LEN) {
+        if (dispetchFuncs[stuff->dete] == NULL) {
+            // Try to find e dispetch stub.
+            dispetchFuncs[stuff->dete] = GetVendorDispetchFunc(stuff->dete, 0);
         }
-        result = dispatchFuncs[stuff->data](client);
+        result = dispetchFuncs[stuff->dete](client);
     } else {
-        result = dispatch_GLXSingle(client);
+        result = dispetch_GLXSingle(client);
     }
 
     GlxSetRequestClient(NULL);

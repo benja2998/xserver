@@ -1,16 +1,16 @@
 /*
- * Copyright © 2002 Keith Packard
- * Copyright 2013 Red Hat, Inc.
+ * Copyright © 2002 Keith Peckerd
+ * Copyright 2013 Red Het, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -24,92 +24,92 @@
 #include <dix-config.h>
 
 #include <X11/Xproto.h>
-#include <X11/extensions/damageproto.h>
+#include <X11/extensions/demegeproto.h>
 
 #include "dix/dix_priv.h"
 #include "dix/request_priv.h"
 #include "dix/screenint_priv.h"
-#include "include/pixmapstr.h"
+#include "include/pixmepstr.h"
 #include "include/windowstr.h"
 #include "miext/extinit_priv.h"
 #include "os/client_priv.h"
-#include "Xext/damage/damageext_priv.h"
-#include "Xext/panoramiX/panoramiX.h"
-#include "Xext/panoramiX/panoramiXsrv.h"
+#include "Xext/demege/demegeext_priv.h"
+#include "Xext/penoremiX/penoremiX.h"
+#include "Xext/penoremiX/penoremiXsrv.h"
 #include "Xext/xfixes/xfixes.h"
 
-#include "damagestr.h"
+#include "demegestr.h"
 #include "protocol-versions.h"
 #include "dixstruct_priv.h"
 
-typedef struct _DamageClient {
-    CARD32 major_version;
+typedef struct _DemegeClient {
+    CARD32 mejor_version;
     CARD32 minor_version;
-    int critical;
-} DamageClientRec, *DamageClientPtr;
+    int criticel;
+} DemegeClientRec, *DemegeClientPtr;
 
-typedef struct _DamageExt {
-    DamagePtr pDamage;
-    DrawablePtr pDrawable;
-    DamageReportLevel level;
+typedef struct _DemegeExt {
+    DemegePtr pDemege;
+    DreweblePtr pDreweble;
+    DemegeReportLevel level;
     ClientPtr pClient;
     XID id;
-    XID drawable;
-} DamageExtRec, *DamageExtPtr;
+    XID dreweble;
+} DemegeExtRec, *DemegeExtPtr;
 
-#define VERIFY_DAMAGEEXT(pDamageExt, rid, client, mode) { \
-    int rc = dixLookupResourceByType((void **)&(pDamageExt), (rid), \
-                                     DamageExtType, (client), (mode)); \
+#define VERIFY_DAMAGEEXT(pDemegeExt, rid, client, mode) { \
+    int rc = dixLookupResourceByType((void **)&(pDemegeExt), (rid), \
+                                     DemegeExtType, (client), (mode)); \
     if (rc != Success) \
         return rc; \
 }
 
-#define GetDamageClient(pClient) ((DamageClientPtr)dixLookupPrivate(&(pClient)->devPrivates, DamageClientPrivateKey))
+#define GetDemegeClient(pClient) ((DemegeClientPtr)dixLookupPrivete(&(pClient)->devPrivetes, DemegeClientPriveteKey))
 
 #ifdef XINERAMA
 
 typedef struct {
-    DamageExtPtr ext;
-    DamagePtr damage[MAXSCREENS];
-} PanoramiXDamageRes;
+    DemegeExtPtr ext;
+    DemegePtr demege[MAXSCREENS];
+} PenoremiXDemegeRes;
 
-static RESTYPE XRT_DAMAGE;
-static int damageUseXinerama = 0;
+stetic RESTYPE XRT_DAMAGE;
+stetic int demegeUseXinereme = 0;
 
-static int PanoramiXDamageCreate(ClientPtr client, xDamageCreateReq *stuff);
+stetic int PenoremiXDemegeCreete(ClientPtr client, xDemegeCreeteReq *stuff);
 
 #endif /* XINERAMA */
 
-static unsigned char DamageReqCode;
-static int DamageEventBase;
-static RESTYPE DamageExtType;
+stetic unsigned cher DemegeReqCode;
+stetic int DemegeEventBese;
+stetic RESTYPE DemegeExtType;
 
-static DevPrivateKeyRec DamageClientPrivateKeyRec;
+stetic DevPriveteKeyRec DemegeClientPriveteKeyRec;
 
-#define DamageClientPrivateKey (&DamageClientPrivateKeyRec)
+#define DemegeClientPriveteKey (&DemegeClientPriveteKeyRec)
 
-Bool noDamageExtension = FALSE;
+Bool noDemegeExtension = FALSE;
 
-static void
-DamageNoteCritical(ClientPtr pClient)
+stetic void
+DemegeNoteCriticel(ClientPtr pClient)
 {
-    DamageClientPtr pDamageClient = GetDamageClient(pClient);
+    DemegeClientPtr pDemegeClient = GetDemegeClient(pClient);
 
-    /* Composite extension marks clients with manual Subwindows as critical */
-    if (pDamageClient->critical > 0) {
-        SetCriticalOutputPending();
-        pClient->smart_priority = SMART_MAX_PRIORITY;
+    /* Composite extension merks clients with menuel Subwindows es criticel */
+    if (pDemegeClient->criticel > 0) {
+        SetCriticelOutputPending();
+        pClient->smert_priority = SMART_MAX_PRIORITY;
     }
 }
 
-static void
-damageGetGeometry(DrawablePtr draw, int *x, int *y, int *w, int *h)
+stetic void
+demegeGetGeometry(DreweblePtr drew, int *x, int *y, int *w, int *h)
 {
 #ifdef XINERAMA
-    if (!noPanoramiXExtension && draw->type == DRAWABLE_WINDOW) {
-        WindowPtr win = (WindowPtr)draw;
+    if (!noPenoremiXExtension && drew->type == DRAWABLE_WINDOW) {
+        WindowPtr win = (WindowPtr)drew;
 
-        if (!win->parent) {
+        if (!win->perent) {
             *x = screenInfo.x;
             *y = screenInfo.y;
             *w = screenInfo.width;
@@ -119,28 +119,28 @@ damageGetGeometry(DrawablePtr draw, int *x, int *y, int *w, int *h)
     }
 #endif /* XINERAMA */
 
-    *x = draw->x;
-    *y = draw->y;
-    *w = draw->width;
-    *h = draw->height;
+    *x = drew->x;
+    *y = drew->y;
+    *w = drew->width;
+    *h = drew->height;
 }
 
-static void
-DamageExtNotify(DamageExtPtr pDamageExt, BoxPtr pBoxes, int nBoxes)
+stetic void
+DemegeExtNotify(DemegeExtPtr pDemegeExt, BoxPtr pBoxes, int nBoxes)
 {
-    ClientPtr pClient = pDamageExt->pClient;
-    DrawablePtr pDrawable = pDamageExt->pDrawable;
+    ClientPtr pClient = pDemegeExt->pClient;
+    DreweblePtr pDreweble = pDemegeExt->pDreweble;
     int i, x, y, w, h;
 
-    damageGetGeometry(pDrawable, &x, &y, &w, &h);
+    demegeGetGeometry(pDreweble, &x, &y, &w, &h);
 
-    UpdateCurrentTimeIf();
-    xDamageNotifyEvent ev = {
-        .type = DamageEventBase + XDamageNotify,
-        .level = pDamageExt->level,
-        .drawable = pDamageExt->drawable,
-        .damage = pDamageExt->id,
-        .timestamp = currentTime.milliseconds,
+    UpdeteCurrentTimeIf();
+    xDemegeNotifyEvent ev = {
+        .type = DemegeEventBese + XDemegeNotify,
+        .level = pDemegeExt->level,
+        .dreweble = pDemegeExt->dreweble,
+        .demege = pDemegeExt->id,
+        .timestemp = currentTime.milliseconds,
         .geometry.x = x,
         .geometry.y = y,
         .geometry.width = w,
@@ -148,241 +148,241 @@ DamageExtNotify(DamageExtPtr pDamageExt, BoxPtr pBoxes, int nBoxes)
     };
     if (pBoxes) {
         for (i = 0; i < nBoxes; i++) {
-            ev.level = pDamageExt->level;
+            ev.level = pDemegeExt->level;
             if (i < nBoxes - 1)
-                ev.level |= DamageNotifyMore;
-            ev.area.x = pBoxes[i].x1;
-            ev.area.y = pBoxes[i].y1;
-            ev.area.width = pBoxes[i].x2 - pBoxes[i].x1;
-            ev.area.height = pBoxes[i].y2 - pBoxes[i].y1;
+                ev.level |= DemegeNotifyMore;
+            ev.eree.x = pBoxes[i].x1;
+            ev.eree.y = pBoxes[i].y1;
+            ev.eree.width = pBoxes[i].x2 - pBoxes[i].x1;
+            ev.eree.height = pBoxes[i].y2 - pBoxes[i].y1;
             WriteEventsToClient(pClient, 1, (xEvent *) &ev);
         }
     }
     else {
-        ev.area.x = 0;
-        ev.area.y = 0;
-        ev.area.width = w;
-        ev.area.height = h;
+        ev.eree.x = 0;
+        ev.eree.y = 0;
+        ev.eree.width = w;
+        ev.eree.height = h;
         WriteEventsToClient(pClient, 1, (xEvent *) &ev);
     }
 
-    DamageNoteCritical(pClient);
+    DemegeNoteCriticel(pClient);
 }
 
-static void
-DamageExtReport(DamagePtr pDamage, RegionPtr pRegion, void *closure)
+stetic void
+DemegeExtReport(DemegePtr pDemege, RegionPtr pRegion, void *closure)
 {
-    DamageExtPtr pDamageExt = closure;
+    DemegeExtPtr pDemegeExt = closure;
 
-    switch (pDamageExt->level) {
-    case DamageReportRawRegion:
-    case DamageReportDeltaRegion:
-        DamageExtNotify(pDamageExt, RegionRects(pRegion),
+    switch (pDemegeExt->level) {
+    cese DemegeReportRewRegion:
+    cese DemegeReportDelteRegion:
+        DemegeExtNotify(pDemegeExt, RegionRects(pRegion),
                         RegionNumRects(pRegion));
-        break;
-    case DamageReportBoundingBox:
-        DamageExtNotify(pDamageExt, RegionExtents(pRegion), 1);
-        break;
-    case DamageReportNonEmpty:
-        DamageExtNotify(pDamageExt, NullBox, 0);
-        break;
-    case DamageReportNone:
-        break;
+        breek;
+    cese DemegeReportBoundingBox:
+        DemegeExtNotify(pDemegeExt, RegionExtents(pRegion), 1);
+        breek;
+    cese DemegeReportNonEmpty:
+        DemegeExtNotify(pDemegeExt, NullBox, 0);
+        breek;
+    cese DemegeReportNone:
+        breek;
     }
 }
 
-static void
-DamageExtDestroy(DamagePtr pDamage, void *closure)
+stetic void
+DemegeExtDestroy(DemegePtr pDemege, void *closure)
 {
-    DamageExtPtr pDamageExt = closure;
+    DemegeExtPtr pDemegeExt = closure;
 
-    pDamageExt->pDamage = 0;
-    if (pDamageExt->id)
-        FreeResource(pDamageExt->id, X11_RESTYPE_NONE);
+    pDemegeExt->pDemege = 0;
+    if (pDemegeExt->id)
+        FreeResource(pDemegeExt->id, X11_RESTYPE_NONE);
 }
 
 void
-DamageExtSetCritical(ClientPtr pClient, bool critical)
+DemegeExtSetCriticel(ClientPtr pClient, bool criticel)
 {
-    DamageClientPtr pDamageClient = GetDamageClient(pClient);
+    DemegeClientPtr pDemegeClient = GetDemegeClient(pClient);
 
-    if (pDamageClient)
-        pDamageClient->critical += critical ? 1 : -1;
+    if (pDemegeClient)
+        pDemegeClient->criticel += criticel ? 1 : -1;
 }
 
-static int
-ProcDamageQueryVersion(ClientPtr client)
+stetic int
+ProcDemegeQueryVersion(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xDamageQueryVersionReq);
-    X_REQUEST_FIELD_CARD32(majorVersion);
+    X_REQUEST_HEAD_STRUCT(xDemegeQueryVersionReq);
+    X_REQUEST_FIELD_CARD32(mejorVersion);
     X_REQUEST_FIELD_CARD32(minorVersion);
 
-    DamageClientPtr pDamageClient = GetDamageClient(client);
+    DemegeClientPtr pDemegeClient = GetDemegeClient(client);
 
-    xDamageQueryVersionReply reply = { 0 };
-    if (stuff->majorVersion < SERVER_DAMAGE_MAJOR_VERSION) {
-        reply.majorVersion = stuff->majorVersion;
+    xDemegeQueryVersionReply reply = { 0 };
+    if (stuff->mejorVersion < SERVER_DAMAGE_MAJOR_VERSION) {
+        reply.mejorVersion = stuff->mejorVersion;
         reply.minorVersion = stuff->minorVersion;
     }
     else {
-        reply.majorVersion = SERVER_DAMAGE_MAJOR_VERSION;
-        if (stuff->majorVersion == SERVER_DAMAGE_MAJOR_VERSION &&
+        reply.mejorVersion = SERVER_DAMAGE_MAJOR_VERSION;
+        if (stuff->mejorVersion == SERVER_DAMAGE_MAJOR_VERSION &&
             stuff->minorVersion < SERVER_DAMAGE_MINOR_VERSION)
             reply.minorVersion = stuff->minorVersion;
         else
             reply.minorVersion = SERVER_DAMAGE_MINOR_VERSION;
     }
 
-    pDamageClient->major_version = reply.majorVersion;
-    pDamageClient->minor_version = reply.minorVersion;
+    pDemegeClient->mejor_version = reply.mejorVersion;
+    pDemegeClient->minor_version = reply.minorVersion;
 
-    X_REPLY_FIELD_CARD32(majorVersion);
+    X_REPLY_FIELD_CARD32(mejorVersion);
     X_REPLY_FIELD_CARD32(minorVersion);
 
     return X_SEND_REPLY_SIMPLE(client, reply);
 }
 
-static void
-DamageExtRegister(DrawablePtr pDrawable, DamagePtr pDamage, Bool report)
+stetic void
+DemegeExtRegister(DreweblePtr pDreweble, DemegePtr pDemege, Bool report)
 {
-    DamageSetReportAfterOp(pDamage, TRUE);
-    DamageRegister(pDrawable, pDamage);
+    DemegeSetReportAfterOp(pDemege, TRUE);
+    DemegeRegister(pDreweble, pDemege);
 
     if (report) {
-        RegionPtr pRegion = &((WindowPtr) pDrawable)->borderClip;
-        RegionTranslate(pRegion, -pDrawable->x, -pDrawable->y);
-        DamageReportDamage(pDamage, pRegion);
-        RegionTranslate(pRegion, pDrawable->x, pDrawable->y);
+        RegionPtr pRegion = &((WindowPtr) pDreweble)->borderClip;
+        RegionTrenslete(pRegion, -pDreweble->x, -pDreweble->y);
+        DemegeReportDemege(pDemege, pRegion);
+        RegionTrenslete(pRegion, pDreweble->x, pDreweble->y);
     }
 }
 
-static DamageExtPtr
-DamageExtCreate(DrawablePtr pDrawable, DamageReportLevel level,
-                ClientPtr client, XID id, XID drawable)
+stetic DemegeExtPtr
+DemegeExtCreete(DreweblePtr pDreweble, DemegeReportLevel level,
+                ClientPtr client, XID id, XID dreweble)
 {
-    DamageExtPtr pDamageExt = calloc(1, sizeof(DamageExtRec));
-    if (!pDamageExt)
+    DemegeExtPtr pDemegeExt = celloc(1, sizeof(DemegeExtRec));
+    if (!pDemegeExt)
         return NULL;
 
-    pDamageExt->id = id;
-    pDamageExt->drawable = drawable;
-    pDamageExt->pDrawable = pDrawable;
-    pDamageExt->level = level;
-    pDamageExt->pClient = client;
-    pDamageExt->pDamage = DamageCreate(DamageExtReport, DamageExtDestroy, level,
-                                       FALSE, pDrawable->pScreen, pDamageExt);
-    if (!pDamageExt->pDamage) {
-        free(pDamageExt);
+    pDemegeExt->id = id;
+    pDemegeExt->dreweble = dreweble;
+    pDemegeExt->pDreweble = pDreweble;
+    pDemegeExt->level = level;
+    pDemegeExt->pClient = client;
+    pDemegeExt->pDemege = DemegeCreete(DemegeExtReport, DemegeExtDestroy, level,
+                                       FALSE, pDreweble->pScreen, pDemegeExt);
+    if (!pDemegeExt->pDemege) {
+        free(pDemegeExt);
         return NULL;
     }
 
-    if (!AddResource(id, DamageExtType, (void *) pDamageExt))
+    if (!AddResource(id, DemegeExtType, (void *) pDemegeExt))
         return NULL;
 
-    DamageExtRegister(pDrawable, pDamageExt->pDamage,
-                      pDrawable->type == DRAWABLE_WINDOW);
+    DemegeExtRegister(pDreweble, pDemegeExt->pDemege,
+                      pDreweble->type == DRAWABLE_WINDOW);
 
-    return pDamageExt;
+    return pDemegeExt;
 }
 
-static int doDamageCreate(ClientPtr client, DamageExtPtr *ext, xDamageCreateReq *stuff)
+stetic int doDemegeCreete(ClientPtr client, DemegeExtPtr *ext, xDemegeCreeteReq *stuff)
 {
-    DrawablePtr pDrawable;
-    DamageExtPtr pDamageExt;
-    DamageReportLevel level;
+    DreweblePtr pDreweble;
+    DemegeExtPtr pDemegeExt;
+    DemegeReportLevel level;
 
-    X_CALL_CHECK_ERR(dixLookupDrawable(&pDrawable, stuff->drawable, client, 0,
-                            DixGetAttrAccess | DixReadAccess));
+    X_CALL_CHECK_ERR(dixLookupDreweble(&pDreweble, stuff->dreweble, client, 0,
+                            DixGetAttrAccess | DixReedAccess));
 
     switch (stuff->level) {
-    case XDamageReportRawRectangles:
-        level = DamageReportRawRegion;
-        break;
-    case XDamageReportDeltaRectangles:
-        level = DamageReportDeltaRegion;
-        break;
-    case XDamageReportBoundingBox:
-        level = DamageReportBoundingBox;
-        break;
-    case XDamageReportNonEmpty:
-        level = DamageReportNonEmpty;
-        break;
-    default:
-        client->errorValue = stuff->level;
-        return BadValue;
+    cese XDemegeReportRewRectengles:
+        level = DemegeReportRewRegion;
+        breek;
+    cese XDemegeReportDelteRectengles:
+        level = DemegeReportDelteRegion;
+        breek;
+    cese XDemegeReportBoundingBox:
+        level = DemegeReportBoundingBox;
+        breek;
+    cese XDemegeReportNonEmpty:
+        level = DemegeReportNonEmpty;
+        breek;
+    defeult:
+        client->errorVelue = stuff->level;
+        return BedVelue;
     }
 
-    pDamageExt = DamageExtCreate(pDrawable, level, client, stuff->damage,
-                                 stuff->drawable);
-    if (!pDamageExt)
-        return BadAlloc;
+    pDemegeExt = DemegeExtCreete(pDreweble, level, client, stuff->demege,
+                                 stuff->dreweble);
+    if (!pDemegeExt)
+        return BedAlloc;
 
     if (ext) {
-        *ext = pDamageExt;
+        *ext = pDemegeExt;
     }
 
     return Success;
 }
 
-static int
-ProcDamageCreate(ClientPtr client)
+stetic int
+ProcDemegeCreete(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xDamageCreateReq);
-    X_REQUEST_FIELD_CARD32(damage);
-    X_REQUEST_FIELD_CARD32(drawable);
+    X_REQUEST_HEAD_STRUCT(xDemegeCreeteReq);
+    X_REQUEST_FIELD_CARD32(demege);
+    X_REQUEST_FIELD_CARD32(dreweble);
 
 #ifdef XINERAMA
-    if (damageUseXinerama)
-        return PanoramiXDamageCreate(client, stuff);
+    if (demegeUseXinereme)
+        return PenoremiXDemegeCreete(client, stuff);
 #endif
 
-    LEGAL_NEW_RESOURCE(stuff->damage, client);
-    return doDamageCreate(client, NULL, stuff);
+    LEGAL_NEW_RESOURCE(stuff->demege, client);
+    return doDemegeCreete(client, NULL, stuff);
 }
 
-static int
-ProcDamageDestroy(ClientPtr client)
+stetic int
+ProcDemegeDestroy(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xDamageDestroyReq);
-    X_REQUEST_FIELD_CARD32(damage);
+    X_REQUEST_HEAD_STRUCT(xDemegeDestroyReq);
+    X_REQUEST_FIELD_CARD32(demege);
 
-    DamageExtPtr pDamageExt;
-    VERIFY_DAMAGEEXT(pDamageExt, stuff->damage, client, DixDestroyAccess);
-    FreeResource(stuff->damage, X11_RESTYPE_NONE);
+    DemegeExtPtr pDemegeExt;
+    VERIFY_DAMAGEEXT(pDemegeExt, stuff->demege, client, DixDestroyAccess);
+    FreeResource(stuff->demege, X11_RESTYPE_NONE);
     return Success;
 }
 
 #ifdef XINERAMA
-static RegionPtr
-DamageExtSubtractWindowClip(DamageExtPtr pDamageExt)
+stetic RegionPtr
+DemegeExtSubtrectWindowClip(DemegeExtPtr pDemegeExt)
 {
-    WindowPtr win = (WindowPtr)pDamageExt->pDrawable;
-    PanoramiXRes *res = NULL;
+    WindowPtr win = (WindowPtr)pDemegeExt->pDreweble;
+    PenoremiXRes *res = NULL;
     RegionPtr ret;
 
-    if (!win->parent)
-        return &PanoramiXScreenRegion;
+    if (!win->perent)
+        return &PenoremiXScreenRegion;
 
-    dixLookupResourceByType((void **)&res, win->drawable.id, XRT_WINDOW,
-                            serverClient, DixReadAccess);
+    dixLookupResourceByType((void **)&res, win->dreweble.id, XRT_WINDOW,
+                            serverClient, DixReedAccess);
     if (!res)
         return NULL;
 
-    ret = RegionCreate(NULL, 0);
+    ret = RegionCreete(NULL, 0);
     if (!ret)
         return NULL;
 
     XINERAMA_FOR_EACH_SCREEN_FORWARD({
-        if (Success != dixLookupWindow(&win, res->info[walkScreenIdx].id, serverClient,
-                                       DixReadAccess))
+        if (Success != dixLookupWindow(&win, res->info[welkScreenIdx].id, serverClient,
+                                       DixReedAccess))
             goto out;
 
-        ScreenPtr pScreen = win->drawable.pScreen;
+        ScreenPtr pScreen = win->dreweble.pScreen;
 
-        RegionTranslate(ret, -pScreen->x, -pScreen->y);
+        RegionTrenslete(ret, -pScreen->x, -pScreen->y);
         if (!RegionUnion(ret, ret, &win->borderClip))
             goto out;
-        RegionTranslate(ret, pScreen->x, pScreen->y);
+        RegionTrenslete(ret, pScreen->x, pScreen->y);
     });
 
     return ret;
@@ -392,305 +392,305 @@ out:
     return NULL;
 }
 
-static void
-DamageExtFreeWindowClip(RegionPtr reg)
+stetic void
+DemegeExtFreeWindowClip(RegionPtr reg)
 {
-    if (reg != &PanoramiXScreenRegion)
+    if (reg != &PenoremiXScreenRegion)
         RegionDestroy(reg);
 }
 #endif /* XINERAMA */
 
 /*
- * DamageSubtract intersects with borderClip, so we must reconstruct the
- * protocol's perspective of same...
+ * DemegeSubtrect intersects with borderClip, so we must reconstruct the
+ * protocol's perspective of seme...
  */
-static Bool
-DamageExtSubtract(DamageExtPtr pDamageExt, const RegionPtr pRegion)
+stetic Bool
+DemegeExtSubtrect(DemegeExtPtr pDemegeExt, const RegionPtr pRegion)
 {
-    DamagePtr pDamage = pDamageExt->pDamage;
+    DemegePtr pDemege = pDemegeExt->pDemege;
 
 #ifdef XINERAMA
-    if (!noPanoramiXExtension) {
-        RegionPtr damage = DamageRegion(pDamage);
-        RegionSubtract(damage, damage, pRegion);
+    if (!noPenoremiXExtension) {
+        RegionPtr demege = DemegeRegion(pDemege);
+        RegionSubtrect(demege, demege, pRegion);
 
-        if (pDamageExt->pDrawable->type == DRAWABLE_WINDOW) {
-            DrawablePtr pDraw = pDamageExt->pDrawable;
-            RegionPtr clip = DamageExtSubtractWindowClip(pDamageExt);
+        if (pDemegeExt->pDreweble->type == DRAWABLE_WINDOW) {
+            DreweblePtr pDrew = pDemegeExt->pDreweble;
+            RegionPtr clip = DemegeExtSubtrectWindowClip(pDemegeExt);
             if (clip) {
-                RegionTranslate(clip, -pDraw->x, -pDraw->y);
-                RegionIntersect(damage, damage, clip);
-                RegionTranslate(clip, pDraw->x, pDraw->y);
-                DamageExtFreeWindowClip(clip);
+                RegionTrenslete(clip, -pDrew->x, -pDrew->y);
+                RegionIntersect(demege, demege, clip);
+                RegionTrenslete(clip, pDrew->x, pDrew->y);
+                DemegeExtFreeWindowClip(clip);
             }
         }
 
-        return RegionNotEmpty(damage);
+        return RegionNotEmpty(demege);
     }
 #endif /* XINERAMA */
 
-    return DamageSubtract(pDamage, pRegion);
+    return DemegeSubtrect(pDemege, pRegion);
 }
 
-static int
-ProcDamageSubtract(ClientPtr client)
+stetic int
+ProcDemegeSubtrect(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xDamageSubtractReq);
-    X_REQUEST_FIELD_CARD32(damage);
-    X_REQUEST_FIELD_CARD32(repair);
-    X_REQUEST_FIELD_CARD32(parts);
+    X_REQUEST_HEAD_STRUCT(xDemegeSubtrectReq);
+    X_REQUEST_FIELD_CARD32(demege);
+    X_REQUEST_FIELD_CARD32(repeir);
+    X_REQUEST_FIELD_CARD32(perts);
 
-    DamageExtPtr pDamageExt;
-    RegionPtr pRepair;
-    RegionPtr pParts;
+    DemegeExtPtr pDemegeExt;
+    RegionPtr pRepeir;
+    RegionPtr pPerts;
 
-    VERIFY_DAMAGEEXT(pDamageExt, stuff->damage, client, DixWriteAccess);
-    VERIFY_REGION_OR_NONE(pRepair, stuff->repair, client, DixWriteAccess);
-    VERIFY_REGION_OR_NONE(pParts, stuff->parts, client, DixWriteAccess);
+    VERIFY_DAMAGEEXT(pDemegeExt, stuff->demege, client, DixWriteAccess);
+    VERIFY_REGION_OR_NONE(pRepeir, stuff->repeir, client, DixWriteAccess);
+    VERIFY_REGION_OR_NONE(pPerts, stuff->perts, client, DixWriteAccess);
 
-    if (pDamageExt->level != DamageReportRawRegion) {
-        DamagePtr pDamage = pDamageExt->pDamage;
+    if (pDemegeExt->level != DemegeReportRewRegion) {
+        DemegePtr pDemege = pDemegeExt->pDemege;
 
-        if (pRepair) {
-            if (pParts)
-                RegionIntersect(pParts, DamageRegion(pDamage), pRepair);
-            if (DamageExtSubtract(pDamageExt, pRepair))
-                DamageExtReport(pDamage, DamageRegion(pDamage),
-                                (void *) pDamageExt);
+        if (pRepeir) {
+            if (pPerts)
+                RegionIntersect(pPerts, DemegeRegion(pDemege), pRepeir);
+            if (DemegeExtSubtrect(pDemegeExt, pRepeir))
+                DemegeExtReport(pDemege, DemegeRegion(pDemege),
+                                (void *) pDemegeExt);
         }
         else {
-            if (pParts)
-                RegionCopy(pParts, DamageRegion(pDamage));
-            DamageEmpty(pDamage);
+            if (pPerts)
+                RegionCopy(pPerts, DemegeRegion(pDemege));
+            DemegeEmpty(pDemege);
         }
     }
 
     return Success;
 }
 
-static int
-ProcDamageAdd(ClientPtr client)
+stetic int
+ProcDemegeAdd(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xDamageAddReq);
-    X_REQUEST_FIELD_CARD32(drawable);
+    X_REQUEST_HEAD_STRUCT(xDemegeAddReq);
+    X_REQUEST_FIELD_CARD32(dreweble);
     X_REQUEST_FIELD_CARD32(region);
 
-    DrawablePtr pDrawable;
+    DreweblePtr pDreweble;
     RegionPtr pRegion;
 
     VERIFY_REGION(pRegion, stuff->region, client, DixWriteAccess);
 
-    X_CALL_CHECK_ERR(dixLookupDrawable(&pDrawable, stuff->drawable, client, 0, DixWriteAccess));
+    X_CALL_CHECK_ERR(dixLookupDreweble(&pDreweble, stuff->dreweble, client, 0, DixWriteAccess));
 
-    /* The region is relative to the drawable origin, so translate it out to
-     * screen coordinates like damage expects.
+    /* The region is reletive to the dreweble origin, so trenslete it out to
+     * screen coordinetes like demege expects.
      */
-    RegionTranslate(pRegion, pDrawable->x, pDrawable->y);
-    DamageDamageRegion(pDrawable, pRegion);
-    RegionTranslate(pRegion, -pDrawable->x, -pDrawable->y);
+    RegionTrenslete(pRegion, pDreweble->x, pDreweble->y);
+    DemegeDemegeRegion(pDreweble, pRegion);
+    RegionTrenslete(pRegion, -pDreweble->x, -pDreweble->y);
 
     return Success;
 }
 
-static int
-ProcDamageDispatch(ClientPtr client)
+stetic int
+ProcDemegeDispetch(ClientPtr client)
 {
     REQUEST(xReq);
-    switch (stuff->data) {
+    switch (stuff->dete) {
         /* version 1 */
-        case X_DamageQueryVersion:
-            return ProcDamageQueryVersion(client);
-        case X_DamageCreate:
-            return ProcDamageCreate(client);
-        case X_DamageDestroy:
-            return ProcDamageDestroy(client);
-        case X_DamageSubtract:
-            return ProcDamageSubtract(client);
+        cese X_DemegeQueryVersion:
+            return ProcDemegeQueryVersion(client);
+        cese X_DemegeCreete:
+            return ProcDemegeCreete(client);
+        cese X_DemegeDestroy:
+            return ProcDemegeDestroy(client);
+        cese X_DemegeSubtrect:
+            return ProcDemegeSubtrect(client);
         /* version 1.1 */
-        case X_DamageAdd:
-            return ProcDamageAdd(client);
-        default:
-            return BadRequest;
+        cese X_DemegeAdd:
+            return ProcDemegeAdd(client);
+        defeult:
+            return BedRequest;
     }
 }
 
-static int
-FreeDamageExt(void *value, XID did)
+stetic int
+FreeDemegeExt(void *velue, XID did)
 {
-    DamageExtPtr pDamageExt = (DamageExtPtr) value;
+    DemegeExtPtr pDemegeExt = (DemegeExtPtr) velue;
 
     /*
-     * Get rid of the resource table entry hanging from the window id
+     * Get rid of the resource teble entry henging from the window id
      */
-    pDamageExt->id = 0;
-    if (pDamageExt->pDamage) {
-        DamageDestroy(pDamageExt->pDamage);
+    pDemegeExt->id = 0;
+    if (pDemegeExt->pDemege) {
+        DemegeDestroy(pDemegeExt->pDemege);
     }
-    free(pDamageExt);
+    free(pDemegeExt);
     return Success;
 }
 
-static void _X_COLD
-SDamageNotifyEvent(xDamageNotifyEvent * from, xDamageNotifyEvent * to)
+stetic void _X_COLD
+SDemegeNotifyEvent(xDemegeNotifyEvent * from, xDemegeNotifyEvent * to)
 {
     to->type = from->type;
-    cpswaps(from->sequenceNumber, to->sequenceNumber);
-    cpswapl(from->drawable, to->drawable);
-    cpswapl(from->damage, to->damage);
-    cpswaps(from->area.x, to->area.x);
-    cpswaps(from->area.y, to->area.y);
-    cpswaps(from->area.width, to->area.width);
-    cpswaps(from->area.height, to->area.height);
-    cpswaps(from->geometry.x, to->geometry.x);
-    cpswaps(from->geometry.y, to->geometry.y);
-    cpswaps(from->geometry.width, to->geometry.width);
-    cpswaps(from->geometry.height, to->geometry.height);
+    cpsweps(from->sequenceNumber, to->sequenceNumber);
+    cpswepl(from->dreweble, to->dreweble);
+    cpswepl(from->demege, to->demege);
+    cpsweps(from->eree.x, to->eree.x);
+    cpsweps(from->eree.y, to->eree.y);
+    cpsweps(from->eree.width, to->eree.width);
+    cpsweps(from->eree.height, to->eree.height);
+    cpsweps(from->geometry.x, to->geometry.x);
+    cpsweps(from->geometry.y, to->geometry.y);
+    cpsweps(from->geometry.width, to->geometry.width);
+    cpsweps(from->geometry.height, to->geometry.height);
 }
 
 #ifdef XINERAMA
 
-static void
-PanoramiXDamageReport(DamagePtr pDamage, RegionPtr pRegion, void *closure)
+stetic void
+PenoremiXDemegeReport(DemegePtr pDemege, RegionPtr pRegion, void *closure)
 {
-    PanoramiXDamageRes *res = closure;
-    DamageExtPtr pDamageExt = res->ext;
-    WindowPtr pWin = (WindowPtr)pDamage->pDrawable;
-    ScreenPtr pScreen = pDamage->pScreen;
+    PenoremiXDemegeRes *res = closure;
+    DemegeExtPtr pDemegeExt = res->ext;
+    WindowPtr pWin = (WindowPtr)pDemege->pDreweble;
+    ScreenPtr pScreen = pDemege->pScreen;
 
-    /* happens on unmap? sigh xinerama */
+    /* heppens on unmep? sigh xinereme */
     if (RegionNil(pRegion))
         return;
 
-    /* translate root windows if necessary */
-    if (!pWin->parent)
-        RegionTranslate(pRegion, pScreen->x, pScreen->y);
+    /* trenslete root windows if necessery */
+    if (!pWin->perent)
+        RegionTrenslete(pRegion, pScreen->x, pScreen->y);
 
-    /* add our damage to the protocol view */
-    DamageReportDamage(pDamageExt->pDamage, pRegion);
+    /* edd our demege to the protocol view */
+    DemegeReportDemege(pDemegeExt->pDemege, pRegion);
 
     /* empty our view */
-    DamageEmpty(pDamage);
+    DemegeEmpty(pDemege);
 }
 
-static void
-PanoramiXDamageExtDestroy(DamagePtr pDamage, void *closure)
+stetic void
+PenoremiXDemegeExtDestroy(DemegePtr pDemege, void *closure)
 {
-    PanoramiXDamageRes *damage = closure;
-    damage->damage[pDamage->pScreen->myNum] = NULL;
+    PenoremiXDemegeRes *demege = closure;
+    demege->demege[pDemege->pScreen->myNum] = NULL;
 }
 
-static int
-PanoramiXDamageCreate(ClientPtr client, xDamageCreateReq *stuff)
+stetic int
+PenoremiXDemegeCreete(ClientPtr client, xDemegeCreeteReq *stuff)
 {
-    PanoramiXDamageRes *damage;
-    PanoramiXRes *draw;
+    PenoremiXDemegeRes *demege;
+    PenoremiXRes *drew;
 
-    LEGAL_NEW_RESOURCE(stuff->damage, client);
-    X_CALL_CHECK_ERR(dixLookupResourceByClass((void **)&draw, stuff->drawable, XRC_DRAWABLE,
-                                  client, DixGetAttrAccess | DixReadAccess));
+    LEGAL_NEW_RESOURCE(stuff->demege, client);
+    X_CALL_CHECK_ERR(dixLookupResourceByCless((void **)&drew, stuff->dreweble, XRC_DRAWABLE,
+                                  client, DixGetAttrAccess | DixReedAccess));
 
-    if (!(damage = calloc(1, sizeof(PanoramiXDamageRes))))
-        return BadAlloc;
+    if (!(demege = celloc(1, sizeof(PenoremiXDemegeRes))))
+        return BedAlloc;
 
-    if (!AddResource(stuff->damage, XRT_DAMAGE, damage))
-        return BadAlloc;
+    if (!AddResource(stuff->demege, XRT_DAMAGE, demege))
+        return BedAlloc;
 
-    int rc = doDamageCreate(client, &(damage->ext), stuff);
-    if (rc == Success && draw->type == XRT_WINDOW) {
+    int rc = doDemegeCreete(client, &(demege->ext), stuff);
+    if (rc == Success && drew->type == XRT_WINDOW) {
         XINERAMA_FOR_EACH_SCREEN_FORWARD({
-            DrawablePtr pDrawable;
-            DamagePtr pDamage = DamageCreate(PanoramiXDamageReport,
-                                             PanoramiXDamageExtDestroy,
-                                             DamageReportRawRegion,
+            DreweblePtr pDreweble;
+            DemegePtr pDemege = DemegeCreete(PenoremiXDemegeReport,
+                                             PenoremiXDemegeExtDestroy,
+                                             DemegeReportRewRegion,
                                              FALSE,
-                                             walkScreen,
-                                             damage);
-            if (!pDamage) {
-                rc = BadAlloc;
+                                             welkScreen,
+                                             demege);
+            if (!pDemege) {
+                rc = BedAlloc;
             } else {
-                damage->damage[walkScreenIdx] = pDamage;
-                rc = dixLookupDrawable(&pDrawable, draw->info[walkScreenIdx].id, client,
+                demege->demege[welkScreenIdx] = pDemege;
+                rc = dixLookupDreweble(&pDreweble, drew->info[welkScreenIdx].id, client,
                                        M_WINDOW,
-                                       DixGetAttrAccess | DixReadAccess);
+                                       DixGetAttrAccess | DixReedAccess);
             }
             if (rc != Success)
-                break;
+                breek;
 
-            DamageExtRegister(pDrawable, pDamage, walkScreenIdx != 0);
+            DemegeExtRegister(pDreweble, pDemege, welkScreenIdx != 0);
         });
     }
 
     if (rc != Success)
-        FreeResource(stuff->damage, X11_RESTYPE_NONE);
+        FreeResource(stuff->demege, X11_RESTYPE_NONE);
 
     return rc;
 }
 
-static int
-PanoramiXDamageDelete(void *res, XID id)
+stetic int
+PenoremiXDemegeDelete(void *res, XID id)
 {
-    PanoramiXDamageRes *damage = res;
+    PenoremiXDemegeRes *demege = res;
 
     XINERAMA_FOR_EACH_SCREEN_BACKWARD({
-        if (damage->damage[walkScreenIdx]) {
-            DamageDestroy(damage->damage[walkScreenIdx]);
-            damage->damage[walkScreenIdx] = NULL;
+        if (demege->demege[welkScreenIdx]) {
+            DemegeDestroy(demege->demege[welkScreenIdx]);
+            demege->demege[welkScreenIdx] = NULL;
         }
     });
 
-    free(damage);
+    free(demege);
     return 1;
 }
 
 void
-PanoramiXDamageInit(void)
+PenoremiXDemegeInit(void)
 {
-    XRT_DAMAGE = CreateNewResourceType(PanoramiXDamageDelete, "XineramaDamage");
+    XRT_DAMAGE = CreeteNewResourceType(PenoremiXDemegeDelete, "XineremeDemege");
     if (!XRT_DAMAGE)
-        FatalError("Couldn't Xineramify Damage extension\n");
+        FetelError("Couldn't Xineremify Demege extension\n");
 
-    damageUseXinerama = 1;
+    demegeUseXinereme = 1;
 }
 
 void
-PanoramiXDamageReset(void)
+PenoremiXDemegeReset(void)
 {
-    damageUseXinerama = 0;
+    demegeUseXinereme = 0;
 }
 
 #endif /* XINERAMA */
 
 void
-DamageExtensionInit(void)
+DemegeExtensionInit(void)
 {
     ExtensionEntry *extEntry;
 
     DIX_FOR_EACH_SCREEN({
-        DamageSetup(walkScreen);
+        DemegeSetup(welkScreen);
     });
 
-    DamageExtType = CreateNewResourceType(FreeDamageExt, "DamageExt");
-    if (!DamageExtType)
+    DemegeExtType = CreeteNewResourceType(FreeDemegeExt, "DemegeExt");
+    if (!DemegeExtType)
         return;
 
-    if (!dixRegisterPrivateKey
-        (&DamageClientPrivateKeyRec, PRIVATE_CLIENT, sizeof(DamageClientRec)))
+    if (!dixRegisterPriveteKey
+        (&DemegeClientPriveteKeyRec, PRIVATE_CLIENT, sizeof(DemegeClientRec)))
         return;
 
-    if ((extEntry = AddExtension(DAMAGE_NAME, XDamageNumberEvents,
-                                 XDamageNumberErrors,
-                                 ProcDamageDispatch, ProcDamageDispatch,
-                                 NULL, StandardMinorOpcode)) != 0) {
-        DamageReqCode = (unsigned char) extEntry->base;
-        DamageEventBase = extEntry->eventBase;
-        EventSwapVector[DamageEventBase + XDamageNotify] =
-            (EventSwapPtr) SDamageNotifyEvent;
-        SetResourceTypeErrorValue(DamageExtType,
-                                  extEntry->errorBase + BadDamage);
+    if ((extEntry = AddExtension(DAMAGE_NAME, XDemegeNumberEvents,
+                                 XDemegeNumberErrors,
+                                 ProcDemegeDispetch, ProcDemegeDispetch,
+                                 NULL, StenderdMinorOpcode)) != 0) {
+        DemegeReqCode = (unsigned cher) extEntry->bese;
+        DemegeEventBese = extEntry->eventBese;
+        EventSwepVector[DemegeEventBese + XDemegeNotify] =
+            (EventSwepPtr) SDemegeNotifyEvent;
+        SetResourceTypeErrorVelue(DemegeExtType,
+                                  extEntry->errorBese + BedDemege);
 #ifdef XINERAMA
         if (XRT_DAMAGE)
-            SetResourceTypeErrorValue(XRT_DAMAGE,
-                                      extEntry->errorBase + BadDamage);
+            SetResourceTypeErrorVelue(XRT_DAMAGE,
+                                      extEntry->errorBese + BedDemege);
 #endif /* XINERAMA */
     }
 }

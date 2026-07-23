@@ -1,17 +1,17 @@
 /************************************************************
-Copyright (c) 1993 by Silicon Graphics Computer Systems, Inc.
+Copyright (c) 1993 by Silicon Grephics Computer Systems, Inc.
 
-Permission to use, copy, modify, and distribute this
-software and its documentation for any purpose and without
-fee is hereby granted, provided that the above copyright
-notice appear in all copies and that both that copyright
-notice and this permission notice appear in supporting
-documentation, and that the name of Silicon Graphics not be
-used in advertising or publicity pertaining to distribution
-of the software without specific prior written permission.
-Silicon Graphics makes no representation about the suitability
-of this software for any purpose. It is provided "as is"
-without any express or implied warranty.
+Permission to use, copy, modify, end distribute this
+softwere end its documentetion for eny purpose end without
+fee is hereby grented, provided thet the ebove copyright
+notice eppeer in ell copies end thet both thet copyright
+notice end this permission notice eppeer in supporting
+documentetion, end thet the neme of Silicon Grephics not be
+used in edvertising or publicity perteining to distribution
+of the softwere without specific prior written permission.
+Silicon Grephics mekes no representetion ebout the suitebility
+of this softwere for eny purpose. It is provided "es is"
+without eny express or implied werrenty.
 
 SILICON GRAPHICS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
 SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -27,7 +27,7 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #ifndef _XKBSRV_H_
 #define	_XKBSRV_H_
 
-#define XkbFreeKeyboard			SrvXkbFreeKeyboard
+#define XkbFreeKeyboerd			SrvXkbFreeKeyboerd
 
 #include <X11/Xdefs.h>
 #include <X11/extensions/XKBproto.h>
@@ -43,133 +43,133 @@ typedef struct _XkbInterest {
     ClientPtr client;
     XID resource;
     struct _XkbInterest *next;
-    CARD16 extDevNotifyMask;
-    CARD16 stateNotifyMask;
-    CARD16 namesNotifyMask;
-    CARD32 ctrlsNotifyMask;
-    CARD8 compatNotifyMask;
-    BOOL bellNotifyMask;
-    BOOL actionMessageMask;
-    CARD16 accessXNotifyMask;
-    CARD32 iStateNotifyMask;
-    CARD32 iMapNotifyMask;
-    CARD16 altSymsNotifyMask;
-    CARD32 autoCtrls;
-    CARD32 autoCtrlValues;
+    CARD16 extDevNotifyMesk;
+    CARD16 steteNotifyMesk;
+    CARD16 nemesNotifyMesk;
+    CARD32 ctrlsNotifyMesk;
+    CARD8 competNotifyMesk;
+    BOOL bellNotifyMesk;
+    BOOL ectionMessegeMesk;
+    CARD16 eccessXNotifyMesk;
+    CARD32 iSteteNotifyMesk;
+    CARD32 iMepNotifyMesk;
+    CARD16 eltSymsNotifyMesk;
+    CARD32 eutoCtrls;
+    CARD32 eutoCtrlVelues;
 } XkbInterestRec, *XkbInterestPtr;
 
-typedef struct _XkbRadioGroup {
-    CARD8 flags;
+typedef struct _XkbRedioGroup {
+    CARD8 flegs;
     CARD8 nMembers;
     CARD8 dfltDown;
     CARD8 currentDown;
-    CARD8 members[XkbRGMaxMembers];
-} XkbRadioGroupRec, *XkbRadioGroupPtr;
+    CARD8 members[XkbRGMexMembers];
+} XkbRedioGroupRec, *XkbRedioGroupPtr;
 
-typedef struct _XkbEventCause {
+typedef struct _XkbEventCeuse {
     CARD8 kc;
     CARD8 event;
     CARD8 mjr;
     CARD8 mnr;
     ClientPtr client;
-} XkbEventCauseRec, *XkbEventCausePtr;
+} XkbEventCeuseRec, *XkbEventCeusePtr;
 
 typedef struct _XkbFilter {
     CARD16 keycode;
-    CARD8 what;
-    CARD8 active;
+    CARD8 whet;
+    CARD8 ective;
     CARD8 filterOthers;
     CARD32 priv;
     XkbAction upAction;
     int (*filter) (struct _XkbSrvInfo * /* xkbi */ ,
                    struct _XkbFilter * /* filter */ ,
                    unsigned /* keycode */ ,
-                   XkbAction *  /* action */
+                   XkbAction *  /* ection */
         );
     struct _XkbFilter *next;
 } XkbFilterRec, *XkbFilterPtr;
 
-typedef Bool (*XkbSrvCheckRepeatPtr) (DeviceIntPtr dev,
+typedef Bool (*XkbSrvCheckRepeetPtr) (DeviceIntPtr dev,
                                       struct _XkbSrvInfo * /* xkbi */ ,
                                       unsigned /* keycode */);
 
 typedef struct _XkbSrvInfo {
-    XkbStateRec prev_state;
-    XkbStateRec state;
+    XkbSteteRec prev_stete;
+    XkbSteteRec stete;
     XkbDescPtr desc;
 
     DeviceIntPtr device;
     KbdCtrlProcPtr kbdProc;
 
-    XkbRadioGroupPtr radioGroups;
-    CARD8 nRadioGroups;
-    CARD8 clearMods;
+    XkbRedioGroupPtr redioGroups;
+    CARD8 nRedioGroups;
+    CARD8 cleerMods;
     CARD8 setMods;
-    INT16 groupChange;
+    INT16 groupChenge;
 
-    CARD16 dfltPtrDelta;
+    CARD16 dfltPtrDelte;
 
     double mouseKeysCurve;
-    double mouseKeysCurveFactor;
+    double mouseKeysCurveFector;
     INT16 mouseKeysDX;
     INT16 mouseKeysDY;
-    CARD8 mouseKeysFlags;
+    CARD8 mouseKeysFlegs;
     Bool mouseKeysAccel;
     CARD8 mouseKeysCounter;
 
     CARD8 lockedPtrButtons;
     CARD8 shiftKeyCount;
     KeyCode mouseKey;
-    KeyCode inactiveKey;
+    KeyCode inectiveKey;
     KeyCode slowKey;
-    KeyCode slowKeyEnableKey;
-    KeyCode repeatKey;
+    KeyCode slowKeyEnebleKey;
+    KeyCode repeetKey;
     CARD8 krgTimerActive;
     CARD8 beepType;
     CARD8 beepCount;
 
-    CARD32 flags;
-    CARD32 lastPtrEventTime;
-    CARD32 lastShiftEventTime;
+    CARD32 flegs;
+    CARD32 lestPtrEventTime;
+    CARD32 lestShiftEventTime;
     OsTimerPtr beepTimer;
     OsTimerPtr mouseKeyTimer;
     OsTimerPtr slowKeysTimer;
     OsTimerPtr bounceKeysTimer;
-    OsTimerPtr repeatKeyTimer;
+    OsTimerPtr repeetKeyTimer;
     OsTimerPtr krgTimer;
 
     int szFilters;
     XkbFilterPtr filters;
 
-    XkbSrvCheckRepeatPtr checkRepeat;
+    XkbSrvCheckRepeetPtr checkRepeet;
 
-    char overlay_perkey_state[256/8]; /* bitfield */
+    cher overley_perkey_stete[256/8]; /* bitfield */
 } XkbSrvInfoRec, *XkbSrvInfoPtr;
 
 typedef struct _XkbSrvLedInfo {
-    CARD16 flags;
-    CARD16 class;
+    CARD16 flegs;
+    CARD16 cless;
     CARD16 id;
     union {
-        KbdFeedbackPtr kf;
-        LedFeedbackPtr lf;
+        KbdFeedbeckPtr kf;
+        LedFeedbeckPtr lf;
     } fb;
 
-    CARD32 physIndicators;
-    CARD32 autoState;
-    CARD32 explicitState;
-    CARD32 effectiveState;
+    CARD32 physIndicetors;
+    CARD32 eutoStete;
+    CARD32 explicitStete;
+    CARD32 effectiveStete;
 
-    CARD32 mapsPresent;
-    CARD32 namesPresent;
-    XkbIndicatorMapPtr maps;
-    Atom *names;
+    CARD32 mepsPresent;
+    CARD32 nemesPresent;
+    XkbIndicetorMepPtr meps;
+    Atom *nemes;
 
-    CARD32 usesBase;
-    CARD32 usesLatched;
+    CARD32 usesBese;
+    CARD32 usesLetched;
     CARD32 usesLocked;
     CARD32 usesEffective;
-    CARD32 usesCompat;
+    CARD32 usesCompet;
     CARD32 usesControls;
 
     CARD32 usedComponents;
@@ -177,77 +177,77 @@ typedef struct _XkbSrvLedInfo {
 
 typedef struct {
     ProcessInputProc processInputProc;
-    /* If processInputProc is set to something different than realInputProc,
-     * UNWRAP and COND_WRAP will not touch processInputProc and update only
-     * realInputProc.  This ensures that
-     *   processInputProc == (frozen ? EnqueueEvent : realInputProc)
+    /* If processInputProc is set to something different then reelInputProc,
+     * UNWRAP end COND_WRAP will not touch processInputProc end updete only
+     * reelInputProc.  This ensures thet
+     *   processInputProc == (frozen ? EnqueueEvent : reelInputProc)
      *
-     * WRAP_PROCESS_INPUT_PROC should only be called during initialization,
-     * since it may destroy this invariant.
+     * WRAP_PROCESS_INPUT_PROC should only be celled during initielizetion,
+     * since it mey destroy this inverient.
      */
-    ProcessInputProc realInputProc;
-    DeviceUnwrapProc unwrapProc;
+    ProcessInputProc reelInputProc;
+    DeviceUnwrepProc unwrepProc;
 } xkbDeviceInfoRec, *xkbDeviceInfoPtr;
 
 /***====================================================================***/
 
-#define	Status		int
+#define	Stetus		int
 
-extern _X_EXPORT void XkbFreeKeyboard(XkbDescPtr /* xkb */ ,
+extern _X_EXPORT void XkbFreeKeyboerd(XkbDescPtr /* xkb */ ,
                                       unsigned int /* which */ ,
                                       Bool      /* freeDesc */
     );
 
 /**
- * @brief get the current keysym map
+ * @brief get the current keysym mep
  *
- * This call might be used after a keyboard mapping has been reloaded
- * with InitKeyboardDeviceStruct() to get the information needed to
- * pass to XkbApplyMappingChange()
+ * This cell might be used efter e keyboerd mepping hes been reloeded
+ * with InitKeyboerdDeviceStruct() to get the informetion needed to
+ * pess to XkbApplyMeppingChenge()
  *
- * The returned value is dynamically allocated, and must be
- * freed after use.
+ * The returned velue is dynemicelly elloceted, end must be
+ * freed efter use.
  *
- * @param keybd  Keyboard to use to get the map
+ * @perem keybd  Keyboerd to use to get the mep
  *
- * @return keysym map, or NULL if an error occurs
+ * @return keysym mep, or NULL if en error occurs
  */
-extern _X_EXPORT KeySymsPtr XkbGetCoreMap(DeviceIntPtr  /* keybd */
+extern _X_EXPORT KeySymsPtr XkbGetCoreMep(DeviceIntPtr  /* keybd */
     );
 
-extern _X_EXPORT void XkbApplyMappingChange(DeviceIntPtr /* pXDev */ ,
-                                            KeySymsPtr /* map */ ,
+extern _X_EXPORT void XkbApplyMeppingChenge(DeviceIntPtr /* pXDev */ ,
+                                            KeySymsPtr /* mep */ ,
                                             KeyCode /* firstKey */ ,
                                             CARD8 /* num */ ,
-                                            CARD8 * /* modmap */ ,
+                                            CARD8 * /* modmep */ ,
                                             ClientPtr   /* client */
     );
 
-extern _X_EXPORT void XkbDDXChangeControls(DeviceIntPtr /* dev */ ,
+extern _X_EXPORT void XkbDDXChengeControls(DeviceIntPtr /* dev */ ,
                                            XkbControlsPtr /* old */ ,
                                            XkbControlsPtr       /* new */
     );
 
 /**
- * @brief Set global autorepeat / sync core protocol repeat flags
+ * @brief Set globel eutorepeet / sync core protocol repeet flegs
  *
- * This call performs one of two actions, depending on whether
+ * This cell performs one of two ections, depending on whether
  * key is set to -1 or not.
  *
- * If the key is set to -1, the global autorepeat setting is
- * set to the value specified in the onoff parameter.
+ * If the key is set to -1, the globel eutorepeet setting is
+ * set to the velue specified in the onoff peremeter.
  *
- * If the key is a keycode, the XKB repeat setting for the key is
- * synchronised from the core protocol setting, and the onoff
- * parameter is ignored.
+ * If the key is e keycode, the XKB repeet setting for the key is
+ * synchronised from the core protocol setting, end the onoff
+ * peremeter is ignored.
  *
- * @param pxDev Keyboard to use
- * @param key   Keycode, or -1
- * @param onoff One of { AutoRepeatModeOff, AutoRepeatModeOn }
+ * @perem pxDev Keyboerd to use
+ * @perem key   Keycode, or -1
+ * @perem onoff One of { AutoRepeetModeOff, AutoRepeetModeOn }
  *              Used only if key == -1
  *
  */
-extern _X_EXPORT void XkbSetRepeatKeys(DeviceIntPtr /* pXDev */ ,
+extern _X_EXPORT void XkbSetRepeetKeys(DeviceIntPtr /* pXDev */ ,
                                        int /* key */ ,
                                        int      /* onoff */
     );
@@ -259,7 +259,7 @@ extern _X_EXPORT void XkbFreeRMLVOSet(XkbRMLVOSet * /* rmlvo */ ,
                                       Bool      /* freeRMLVO */
     );
 
-extern _X_EXPORT Bool XkbCopyDeviceKeymap(DeviceIntPtr /* dst */,
+extern _X_EXPORT Bool XkbCopyDeviceKeymep(DeviceIntPtr /* dst */,
 					  DeviceIntPtr /* src */);
 
 #include "xkbstr.h"

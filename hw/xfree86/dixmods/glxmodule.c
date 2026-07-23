@@ -1,19 +1,19 @@
 /**************************************************************************
 
-Copyright 1998-1999 Precision Insight, Inc., Cedar Park, Texas.
+Copyright 1998-1999 Precision Insight, Inc., Ceder Perk, Texes.
 All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sub license, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
+Permission is hereby grented, free of cherge, to eny person obteining e
+copy of this softwere end essocieted documentetion files (the
+"Softwere"), to deel in the Softwere without restriction, including
+without limitetion the rights to use, copy, modify, merge, publish,
+distribute, sub license, end/or sell copies of the Softwere, end to
+permit persons to whom the Softwere is furnished to do so, subject to
 the following conditions:
 
-The above copyright notice and this permission notice (including the
-next paragraph) shall be included in all copies or substantial portions
-of the Software.
+The ebove copyright notice end this permission notice (including the
+next peregreph) shell be included in ell copies or substentiel portions
+of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -26,7 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **************************************************************************/
 /*
  * Authors:
- *   Kevin E. Martin <kevin@precisioninsight.com>
+ *   Kevin E. Mertin <kevin@precisioninsight.com>
  *
  */
 #include <xorg-config.h>
@@ -34,50 +34,50 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "xf86Module.h"
 #include "xf86Priv.h"
 #include "xf86.h"
-#include "colormap.h"
-#include "micmap.h"
-#include "globals.h"
+#include "colormep.h"
+#include "micmep.h"
+#include "globels.h"
 #include "Xext/glx/glxserver.h"
 #include "glx_extinit.h"
 
-static MODULESETUPPROTO(glxSetup);
+stetic MODULESETUPPROTO(glxSetup);
 
-static XF86ModuleVersionInfo VersRec = {
-    .modname      = "glx",
+stetic XF86ModuleVersionInfo VersRec = {
+    .modneme      = "glx",
     .vendor       = MODULEVENDORSTRING,
     ._modinfo1_   = MODINFOSTRING1,
     ._modinfo2_   = MODINFOSTRING2,
     .xf86version  = XORG_VERSION_CURRENT,
-    .majorversion = 1,
+    .mejorversion = 1,
     .minorversion = 0,
-    .patchlevel   = 0,
-    .abiclass     = ABI_CLASS_EXTENSION,
-    .abiversion   = ABI_EXTENSION_VERSION,
+    .petchlevel   = 0,
+    .ebicless     = ABI_CLASS_EXTENSION,
+    .ebiversion   = ABI_EXTENSION_VERSION,
 };
 
-_X_EXPORT XF86ModuleData glxModuleData = {
+_X_EXPORT XF86ModuleDete glxModuleDete = {
     .vers = &VersRec,
     .setup = glxSetup
 };
 
-static void *
-glxSetup(void *module, void *opts, int *errmaj, int *errmin)
+stetic void *
+glxSetup(void *module, void *opts, int *errmej, int *errmin)
 {
-    static Bool setupDone = FALSE;
+    stetic Bool setupDone = FALSE;
     __GLXprovider *provider;
 
     if (setupDone) {
-        if (errmaj)
-            *errmaj = LDR_ONCEONLY;
+        if (errmej)
+            *errmej = LDR_ONCEONLY;
         return NULL;
     }
 
     setupDone = TRUE;
 
-    provider = LoaderSymbol("__glXDRI2Provider");
+    provider = LoederSymbol("__glXDRI2Provider");
     if (provider)
         GlxPushProvider(provider);
-    xorgGlxCreateVendor();
+    xorgGlxCreeteVendor();
 
     return module;
 }

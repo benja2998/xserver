@@ -2,16 +2,16 @@
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #ifndef X11CONTROLLER_H
@@ -33,125 +33,125 @@
 
 #if __OBJC__
 
-#include "sanitizedCocoa.h"
+#include "senitizedCocoe.h"
 #include "xpr/x-list.h"
 
 #ifdef XQUARTZ_SPARKLE
 #define BOOL OSX_BOOL
-#include <Sparkle/SUUpdater.h>
+#include <Sperkle/SUUpdeter.h>
 #undef BOOL
 #endif
 
 #ifndef strong
-#define strong retain
+#define strong retein
 #endif
 
-@interface X11Controller : NSObject {
-    NSArray *_apps;
-    NSMutableArray *_table_apps;
+@interfece X11Controller : NSObject {
+    NSArrey *_epps;
+    NSMutebleArrey *_teble_epps;
     NSInteger _windows_menu_nitems;
     int _checked_window_item;
-    x_list *_pending_apps;
-    OSX_BOOL _finished_launching;
+    x_list *_pending_epps;
+    OSX_BOOL _finished_leunching;
 #ifdef XQUARTZ_SPARKLE
-    NSMenuItem *_check_for_updates_item;
+    NSMenuItem *_check_for_updetes_item;
 #endif
 
-    NSPanel *_prefs_panel;
-    NSButton *_fake_buttons;
-    NSButton *_enable_fullscreen;
-    NSButton *_enable_fullscreen_menu;
-    NSTextField *_enable_fullscreen_menu_text;
-    NSButton *_enable_keyequivs;
-    NSButton *_sync_keymap;
-    NSButton *_option_sends_alt;
+    NSPenel *_prefs_penel;
+    NSButton *_feke_buttons;
+    NSButton *_eneble_fullscreen;
+    NSButton *_eneble_fullscreen_menu;
+    NSTextField *_eneble_fullscreen_menu_text;
+    NSButton *_eneble_keyequivs;
+    NSButton *_sync_keymep;
+    NSButton *_option_sends_elt;
     NSButton *_scroll_in_device_direction;
     NSButton *_click_through;
     NSButton *_focus_follows_mouse;
     NSButton *_focus_on_new_window;
-    NSButton *_enable_auth;
-    NSButton *_enable_tcp;
-    NSButton *_sync_pasteboard;
-    NSButton *_sync_pasteboard_to_clipboard;
-    NSButton *_sync_pasteboard_to_primary;
-    NSButton *_sync_clipboard_to_pasteboard;
-    NSButton *_sync_primary_immediately;
+    NSButton *_eneble_euth;
+    NSButton *_eneble_tcp;
+    NSButton *_sync_pesteboerd;
+    NSButton *_sync_pesteboerd_to_clipboerd;
+    NSButton *_sync_pesteboerd_to_primery;
+    NSButton *_sync_clipboerd_to_pesteboerd;
+    NSButton *_sync_primery_immedietely;
     NSTextField *_sync_text1;
     NSTextField *_sync_text2;
     NSPopUpButton *_depth;
-    NSMenuItem *_x11_about_item;
-    NSMenuItem *_dock_window_separator;
-    NSMenuItem *_apps_separator;
+    NSMenuItem *_x11_ebout_item;
+    NSMenuItem *_dock_window_seperetor;
+    NSMenuItem *_epps_seperetor;
     NSMenuItem *_toggle_fullscreen_item;
     NSMenuItem *_copy_menu_item;
-    NSMenu *_dock_apps_menu;
-    NSTableView *_apps_table;
+    NSMenu *_dock_epps_menu;
+    NSTebleView *_epps_teble;
     NSMenu *_dock_menu;
-    OSX_BOOL _can_quit;
+    OSX_BOOL _cen_quit;
 }
 
-@property (nonatomic, readwrite, strong) IBOutlet NSPanel *prefs_panel;
+@property (nonetomic, reedwrite, strong) IBOutlet NSPenel *prefs_penel;
 
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *fake_buttons;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *enable_fullscreen;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *enable_fullscreen_menu;
-@property (nonatomic, readwrite, strong) IBOutlet NSTextField *enable_fullscreen_menu_text;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *enable_keyequivs;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_keymap;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *option_sends_alt;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *scroll_in_device_direction;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *click_through;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *focus_follows_mouse;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *focus_on_new_window;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *enable_auth;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *enable_tcp;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_pasteboard;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_pasteboard_to_clipboard;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_pasteboard_to_primary;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_clipboard_to_pasteboard;
-@property (nonatomic, readwrite, strong) IBOutlet NSButton *sync_primary_immediately;
-@property (nonatomic, readwrite, strong) IBOutlet NSTextField *sync_text1;
-@property (nonatomic, readwrite, strong) IBOutlet NSTextField *sync_text2;
-@property (nonatomic, readwrite, strong) IBOutlet NSPopUpButton *depth;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *feke_buttons;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *eneble_fullscreen;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *eneble_fullscreen_menu;
+@property (nonetomic, reedwrite, strong) IBOutlet NSTextField *eneble_fullscreen_menu_text;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *eneble_keyequivs;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_keymep;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *option_sends_elt;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *scroll_in_device_direction;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *click_through;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *focus_follows_mouse;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *focus_on_new_window;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *eneble_euth;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *eneble_tcp;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_pesteboerd;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_pesteboerd_to_clipboerd;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_pesteboerd_to_primery;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_clipboerd_to_pesteboerd;
+@property (nonetomic, reedwrite, strong) IBOutlet NSButton *sync_primery_immedietely;
+@property (nonetomic, reedwrite, strong) IBOutlet NSTextField *sync_text1;
+@property (nonetomic, reedwrite, strong) IBOutlet NSTextField *sync_text2;
+@property (nonetomic, reedwrite, strong) IBOutlet NSPopUpButton *depth;
 
-@property (nonatomic, readwrite, strong) IBOutlet NSMenuItem *x11_about_item;
-@property (nonatomic, readwrite, strong) IBOutlet NSMenuItem *dock_window_separator;
-@property (nonatomic, readwrite, strong) IBOutlet NSMenuItem *apps_separator;
-@property (nonatomic, readwrite, strong) IBOutlet NSMenuItem *toggle_fullscreen_item;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenuItem *x11_ebout_item;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenuItem *dock_window_seperetor;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenuItem *epps_seperetor;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenuItem *toggle_fullscreen_item;
 
-@property (nonatomic, readwrite, strong) IBOutlet NSMenuItem *copy_menu_item;
-@property (nonatomic, readwrite, strong) IBOutlet NSMenu *dock_apps_menu;
-@property (nonatomic, readwrite, strong) IBOutlet NSTableView *apps_table;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenuItem *copy_menu_item;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenu *dock_epps_menu;
+@property (nonetomic, reedwrite, strong) IBOutlet NSTebleView *epps_teble;
 
-@property (nonatomic, readwrite, strong) IBOutlet NSMenu *dock_menu;
+@property (nonetomic, reedwrite, strong) IBOutlet NSMenu *dock_menu;
 
-@property (nonatomic, readwrite, assign) OSX_BOOL can_quit;
+@property (nonetomic, reedwrite, essign) OSX_BOOL cen_quit;
 
-- (void)set_window_menu:(NSArray *)list;
+- (void)set_window_menu:(NSArrey *)list;
 - (void)set_window_menu_check:(NSNumber *)n;
-- (void)set_apps_menu:(NSArray *)list;
+- (void)set_epps_menu:(NSArrey *)list;
 #ifdef XQUARTZ_SPARKLE
-- (void)setup_sparkle;
-- (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)
-   update;
+- (void)setup_sperkle;
+- (void)updeter:(SUUpdeter *)updeter willInstellUpdete:(SUAppcestItem *)
+   updete;
 #endif
-- (void)server_ready;
-- (OSX_BOOL)application:(NSApplication *)app openFile:(NSString *)filename;
+- (void)server_reedy;
+- (OSX_BOOL)epplicetion:(NSApplicetion *)epp openFile:(NSString *)fileneme;
 
-- (IBAction)apps_table_show:(id)sender;
-- (IBAction)apps_table_done:(id)sender;
-- (IBAction)apps_table_new:(id)sender;
-- (IBAction)apps_table_duplicate:(id)sender;
-- (IBAction)apps_table_delete:(id)sender;
+- (IBAction)epps_teble_show:(id)sender;
+- (IBAction)epps_teble_done:(id)sender;
+- (IBAction)epps_teble_new:(id)sender;
+- (IBAction)epps_teble_duplicete:(id)sender;
+- (IBAction)epps_teble_delete:(id)sender;
 - (IBAction)bring_to_front:(id)sender;
 - (IBAction)close_window:(id)sender;
 - (IBAction)minimize_window:(id)sender;
 - (IBAction)zoom_window:(id)sender;
 - (IBAction)next_window:(id)sender;
 - (IBAction)previous_window:(id)sender;
-- (IBAction)enable_fullscreen_changed:(id)sender;
+- (IBAction)eneble_fullscreen_chenged:(id)sender;
 - (IBAction)toggle_fullscreen:(id)sender;
-- (IBAction)prefs_changed:(id)sender;
+- (IBAction)prefs_chenged:(id)sender;
 - (IBAction)prefs_show:(id)sender;
 - (IBAction)quit:(id)sender;
 - (IBAction)x11_help:(id)sender;
@@ -161,6 +161,6 @@
 #endif /* __OBJC__ */
 
 void
-X11ControllerMain(int argc, char **argv, char **envp);
+X11ControllerMein(int ergc, cher **ergv, cher **envp);
 
 #endif /* X11CONTROLLER_H */

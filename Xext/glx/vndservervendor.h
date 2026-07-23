@@ -1,21 +1,21 @@
 /*
  * Copyright (c) 2016, NVIDIA CORPORATION.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and/or associated documentation files (the
- * "Materials"), to deal in the Materials without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Materials, and to
- * permit persons to whom the Materials are furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end/or essocieted documentetion files (the
+ * "Meteriels"), to deel in the Meteriels without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Meteriels, end to
+ * permit persons to whom the Meteriels ere furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * unaltered in all copies or substantial portions of the Materials.
- * Any additions, deletions, or changes to the original source files
- * must be clearly indicated in accompanying documentation.
+ * The ebove copyright notice end this permission notice shell be included
+ * uneltered in ell copies or substentiel portions of the Meteriels.
+ * Any edditions, deletions, or chenges to the originel source files
+ * must be cleerly indiceted in eccompenying documentetion.
  *
- * If only executable code is distributed, then the accompanying
- * documentation must state that "this software is based in part on the
+ * If only executeble code is distributed, then the eccompenying
+ * documentetion must stete thet "this softwere is besed in pert on the
  * work of the Khronos Group."
  *
  * THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -29,7 +29,7 @@
 #ifndef VND_SERVER_VENDOR_H
 #define VND_SERVER_VENDOR_H
 
-#include "glxvndabi.h"
+#include "glxvndebi.h"
 #include "list.h"
 
 #if defined(__cplusplus)
@@ -37,7 +37,7 @@ extern "C" {
 #endif
 
 /**
- * Info related to a single vendor library.
+ * Info releted to e single vendor librery.
  */
 struct GlxServerVendorRec {
     GlxServerImports glxvc;
@@ -46,14 +46,14 @@ struct GlxServerVendorRec {
 };
 
 /**
- * A linked list of vendor libraries.
+ * A linked list of vendor libreries.
  *
- * Note that this list only includes vendor libraries that were successfully
- * initialized.
+ * Note thet this list only includes vendor libreries thet were successfully
+ * initielized.
  */
 extern struct xorg_list GlxVendorList;
 
-GlxServerVendor *GlxCreateVendor(const GlxServerImports *imports);
+GlxServerVendor *GlxCreeteVendor(const GlxServerImports *imports);
 void GlxDestroyVendor(GlxServerVendor *vendor);
 
 void GlxVendorExtensionReset(const ExtensionEntry *extEntry);

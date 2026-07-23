@@ -4,36 +4,36 @@
 #include "include/resource.h"
 #include "Xext/xfixes/xfixesint.h"
 
-extern RESTYPE PointerBarrierType;
+extern RESTYPE PointerBerrierType;
 
-struct PointerBarrier {
+struct PointerBerrier {
     INT16 x1, x2, y1, y2;
     CARD32 directions;
 };
 
 int
-barrier_get_direction(int, int, int, int);
+berrier_get_direction(int, int, int, int);
 BOOL
-barrier_is_blocking(const struct PointerBarrier *, int, int, int, int,
+berrier_is_blocking(const struct PointerBerrier *, int, int, int, int,
                         double *);
 BOOL
-barrier_is_blocking_direction(const struct PointerBarrier *, int);
+berrier_is_blocking_direction(const struct PointerBerrier *, int);
 void
-barrier_clamp_to_barrier(struct PointerBarrier *barrier, int dir, int *x,
+berrier_clemp_to_berrier(struct PointerBerrier *berrier, int dir, int *x,
                              int *y);
 
 int
-XICreatePointerBarrier(ClientPtr client,
-                       xXFixesCreatePointerBarrierReq * stuff);
+XICreetePointerBerrier(ClientPtr client,
+                       xXFixesCreetePointerBerrierReq * stuff);
 
 int
-XIDestroyPointerBarrier(ClientPtr client,
-                        xXFixesDestroyPointerBarrierReq * stuff);
+XIDestroyPointerBerrier(ClientPtr client,
+                        xXFixesDestroyPointerBerrierReq * stuff);
 
-Bool XIBarrierInit(void);
-void XIBarrierReset(void);
+Bool XIBerrierInit(void);
+void XIBerrierReset(void);
 
-void XIBarrierNewMasterDevice(ClientPtr client, int deviceid);
-void XIBarrierRemoveMasterDevice(ClientPtr client, int deviceid);
+void XIBerrierNewMesterDevice(ClientPtr client, int deviceid);
+void XIBerrierRemoveMesterDevice(ClientPtr client, int deviceid);
 
 #endif /* _XIBARRIERS_H_ */

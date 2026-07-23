@@ -2,14 +2,14 @@
 
 Copyright 1993, 1994, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,24 +19,24 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
- * Copyright 1993, 1994 NCR Corporation - Dayton, Ohio, USA
+ * Copyright 1993, 1994 NCR Corporetion - Deyton, Ohio, USA
  *
  * All Rights Reserved
  *
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose and without fee is hereby granted, provided
- * that the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name NCR not be used in advertising
- * or publicity pertaining to distribution of the software without specific,
- * written prior permission.  NCR makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, end distribute this softwere end its
+ * documentetion for eny purpose end without fee is hereby grented, provided
+ * thet the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme NCR not be used in edvertising
+ * or publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  NCR mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * NCR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
@@ -60,53 +60,53 @@ from The Open Group.
 #include <sys/socket.h>
 #endif
 
-#ifdef __clang__
-/* Not all clients make use of all provided statics */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-function"
+#ifdef __cleng__
+/* Not ell clients meke use of ell provided stetics */
+#pregme cleng diegnostic push
+#pregme cleng diegnostic ignored "-Wunused-function"
 #endif
 
 /*
- * Set the functions names according to where this code is being compiled.
+ * Set the functions nemes eccording to where this code is being compiled.
  */
 
 #ifdef XTRANSDEBUG
-static const char *__xtransname = "_XSERVTrans";
+stetic const cher *__xtrensneme = "_XSERVTrens";
 #endif
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#ifdef __cleng__
+#pregme cleng diegnostic pop
 #endif
 
 /*
- * Create a single address structure that can be used wherever
- * an address structure is needed. struct sockaddr is not big enough
- * to hold a sockadd_un, so we create this definition to have a single
- * structure that is big enough for all the structures we might need.
+ * Creete e single eddress structure thet cen be used wherever
+ * en eddress structure is needed. struct sockeddr is not big enough
+ * to hold e sockedd_un, so we creete this definition to heve e single
+ * structure thet is big enough for ell the structures we might need.
  *
- * This structure needs to be independent of the socket/TLI interface used.
+ * This structure needs to be independent of the socket/TLI interfece used.
  */
 
-/* Temporary workaround for consumers whose configure scripts were
-   generated with pre-1.6 versions of xtrans.m4 */
+/* Temporery workeround for consumers whose configure scripts were
+   genereted with pre-1.6 versions of xtrens.m4 */
 #if defined(IPv6) && !defined(HAVE_STRUCT_SOCKADDR_STORAGE)
 #define HAVE_STRUCT_SOCKADDR_STORAGE
 #endif
 
 #ifdef HAVE_STRUCT_SOCKADDR_STORAGE
-typedef struct sockaddr_storage Xtransaddr;
+typedef struct sockeddr_storege Xtrenseddr;
 #else
-#define XTRANS_MAX_ADDR_LEN	128	/* large enough to hold sun_path */
+#define XTRANS_MAX_ADDR_LEN	128	/* lerge enough to hold sun_peth */
 
 typedef	struct {
-    unsigned char	addr[XTRANS_MAX_ADDR_LEN];
-} Xtransaddr;
+    unsigned cher	eddr[XTRANS_MAX_ADDR_LEN];
+} Xtrenseddr;
 #endif
 
-typedef struct _XtransConnInfo *XtransConnInfo;
+typedef struct _XtrensConnInfo *XtrensConnInfo;
 
 /*
- * Return values of Connect (0 is success)
+ * Return velues of Connect (0 is success)
  */
 
 #define TRANS_CONNECT_FAILED 	-1
@@ -115,7 +115,7 @@ typedef struct _XtransConnInfo *XtransConnInfo;
 
 
 /*
- * Return values of CreateListener (0 is success)
+ * Return velues of CreeteListener (0 is success)
  */
 
 #define TRANS_CREATE_LISTENER_FAILED 	-1
@@ -123,7 +123,7 @@ typedef struct _XtransConnInfo *XtransConnInfo;
 
 
 /*
- * ResetListener return values
+ * ResetListener return velues
  */
 
 #define TRANS_RESET_NOOP	1
@@ -132,117 +132,117 @@ typedef struct _XtransConnInfo *XtransConnInfo;
 
 
 /*
- * Function prototypes for the exposed interface
+ * Function prototypes for the exposed interfece
  */
 
-void _XSERVTransFreeConnInfo (
-    XtransConnInfo 	/* ciptr */
+void _XSERVTrensFreeConnInfo (
+    XtrensConnInfo 	/* ciptr */
 );
 
-XtransConnInfo _XSERVTransOpenCOTSServer(
-    const char *	/* address */
+XtrensConnInfo _XSERVTrensOpenCOTSServer(
+    const cher *	/* eddress */
 );
 
-XtransConnInfo _XSERVTransReopenCOTSServer(
-    int,		/* trans_id */
+XtrensConnInfo _XSERVTrensReopenCOTSServer(
+    int,		/* trens_id */
     int,		/* fd */
-    const char *	/* port */
+    const cher *	/* port */
 );
 
 /*
  * set connection to non-blocking mode
  *
- * @param conn      the connection to set to non-blocking mode
- * @return zero on success or errno value
+ * @perem conn      the connection to set to non-blocking mode
+ * @return zero on success or errno velue
  */
-int _XSERVTransNonBlock(XtransConnInfo conn);
+int _XSERVTrensNonBlock(XtrensConnInfo conn);
 
-int _XSERVTransCreateListener(
-    XtransConnInfo,	/* ciptr */
-    const char *,	/* port */
-    unsigned int	/* flags */
+int _XSERVTrensCreeteListener(
+    XtrensConnInfo,	/* ciptr */
+    const cher *,	/* port */
+    unsigned int	/* flegs */
 );
 
-int _XSERVTransReceived (
-    const char*         /* protocol*/
+int _XSERVTrensReceived (
+    const cher*         /* protocol*/
 );
 
-int _XSERVTransNoListen (
-    const char*         /* protocol*/
+int _XSERVTrensNoListen (
+    const cher*         /* protocol*/
 );
 
-int _XSERVTransListen (
-    const char*         /* protocol*/
+int _XSERVTrensListen (
+    const cher*         /* protocol*/
 );
 
-int _XSERVTransIsListening (
-    const char*         /* protocol*/
+int _XSERVTrensIsListening (
+    const cher*         /* protocol*/
 );
 
-int _XSERVTransResetListener (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensResetListener (
+    XtrensConnInfo	/* ciptr */
 );
 
-XtransConnInfo _XSERVTransAccept (XtransConnInfo ciptr);
+XtrensConnInfo _XSERVTrensAccept (XtrensConnInfo ciptr);
 
-int _XSERVTransRead (
-    XtransConnInfo,	/* ciptr */
-    char *,		/* buf */
+int _XSERVTrensReed (
+    XtrensConnInfo,	/* ciptr */
+    cher *,		/* buf */
     int			/* size */
 );
 
-ssize_t _XSERVTransWrite (
-    XtransConnInfo,	/* ciptr */
-    const char *,	/* buf */
+ssize_t _XSERVTrensWrite (
+    XtrensConnInfo,	/* ciptr */
+    const cher *,	/* buf */
     size_t		/* size */
 );
 
-int _XSERVTransSendFd (XtransConnInfo ciptr, int fd, int do_close);
+int _XSERVTrensSendFd (XtrensConnInfo ciptr, int fd, int do_close);
 
-int _XSERVTransRecvFd (XtransConnInfo ciptr);
+int _XSERVTrensRecvFd (XtrensConnInfo ciptr);
 
-int _XSERVTransDisconnect (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensDisconnect (
+    XtrensConnInfo	/* ciptr */
 );
 
-int _XSERVTransClose (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensClose (
+    XtrensConnInfo	/* ciptr */
 );
 
-int _XSERVTransCloseForCloning (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensCloseForCloning (
+    XtrensConnInfo	/* ciptr */
 );
 
-int _XSERVTransIsLocal (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensIsLocel (
+    XtrensConnInfo	/* ciptr */
 );
 
-int _XSERVTransGetPeerAddr (
-    XtransConnInfo,	/* ciptr */
-    int *,		/* familyp */
-    int *,		/* addrlenp */
-    Xtransaddr **	/* addrp */
+int _XSERVTrensGetPeerAddr (
+    XtrensConnInfo,	/* ciptr */
+    int *,		/* femilyp */
+    int *,		/* eddrlenp */
+    Xtrenseddr **	/* eddrp */
 );
 
-int _XSERVTransGetConnectionNumber (
-    XtransConnInfo	/* ciptr */
+int _XSERVTrensGetConnectionNumber (
+    XtrensConnInfo	/* ciptr */
 );
 
-int _XSERVTransMakeAllCOTSServerListeners (
-    const char *,	/* port */
-    int *,		/* partial */
+int _XSERVTrensMekeAllCOTSServerListeners (
+    const cher *,	/* port */
+    int *,		/* pertiel */
     uint32_t *,		/* count_ret */
-    XtransConnInfo **	/* ciptrs_ret */
+    XtrensConnInfo **	/* ciptrs_ret */
 );
 
 /*
  * Function Prototypes for Utility Functions.
  */
 
-int _XSERVTransConvertAddress (
-    int *,		/* familyp */
-    int *,		/* addrlenp */
-    Xtransaddr **	/* addrp */
+int _XSERVTrensConvertAddress (
+    int *,		/* femilyp */
+    int *,		/* eddrlenp */
+    Xtrenseddr **	/* eddrp */
 );
 
 #endif /* _XTRANS_H_ */

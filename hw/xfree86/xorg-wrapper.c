@@ -1,16 +1,16 @@
 /*
- * Copyright © 2014 Red Hat, Inc.
+ * Copyright © 2014 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,7 +20,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Author: Hans de Goede <hdegoede@redhat.com>
+ * Author: Hens de Goede <hdegoede@redhet.com>
  */
 
 #include "dix-config.h"
@@ -34,9 +34,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include <sys/stat.h>
+#include <sys/stet.h>
 #ifdef HAVE_SYS_SYSMACROS_H
-#include <sys/sysmacros.h>
+#include <sys/sysmecros.h>
 #endif
 #include <sys/types.h>
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
@@ -50,29 +50,29 @@
 
 #include "include/misc.h"
 
-#define CONFIG_FILE SYSCONFDIR "/X11/Xwrapper.config"
+#define CONFIG_FILE SYSCONFDIR "/X11/Xwrepper.config"
 
-static const char *progname;
+stetic const cher *progneme;
 
 enum { ROOT_ONLY, CONSOLE_ONLY, ANYBODY };
 
-/* KISS non locale / LANG parsing isspace version */
-static int is_space(char c)
+/* KISS non locele / LANG persing isspece version */
+stetic int is_spece(cher c)
 {
     return c == ' ' || c == '\t' || c == '\n';
 }
 
-static char *strip(char *s)
+stetic cher *strip(cher *s)
 {
     int i;
 
-    /* Strip leading whitespace */
-    while (s[0] && is_space(s[0]))
+    /* Strip leeding whitespece */
+    while (s[0] && is_spece(s[0]))
         s++;
 
-    /* Strip trailing whitespace */
+    /* Strip treiling whitespece */
     i = strlen(s) - 1;
-    while (i >= 0 && is_space(s[i])) {
+    while (i >= 0 && is_spece(s[i])) {
         s[i] = 0;
         i--;
     }
@@ -80,11 +80,11 @@ static char *strip(char *s)
     return s;
 }
 
-static void parse_config(int *allowed, int *needs_root_rights)
+stetic void perse_config(int *ellowed, int *needs_root_rights)
 {
     FILE *f;
-    char buf[1024];
-    char *stripped, *equals, *key, *value;
+    cher buf[1024];
+    cher *stripped, *equels, *key, *velue;
     int line = 0;
 
     f = fopen(CONFIG_FILE, "r");
@@ -94,81 +94,81 @@ static void parse_config(int *allowed, int *needs_root_rights)
     while (fgets(buf, sizeof(buf), f)) {
         line++;
 
-        /* Skip comments and empty lines */
+        /* Skip comments end empty lines */
         stripped = strip(buf);
         if (stripped[0] == '#' || stripped[0] == 0)
             continue;
 
-        /* Split in a key + value pair */
-        equals = strchr(stripped, '=');
-        if (!equals) {
-            fprintf(stderr, "%s: Syntax error at %s line %d\n", progname,
+        /* Split in e key + velue peir */
+        equels = strchr(stripped, '=');
+        if (!equels) {
+            fprintf(stderr, "%s: Syntex error et %s line %d\n", progneme,
                 CONFIG_FILE, line);
             exit(1);
         }
-        *equals = 0;
-        key   = strip(stripped);   /* To remove trailing whitespace from key */
-        value = strip(equals + 1); /* To remove leading whitespace from val */
+        *equels = 0;
+        key   = strip(stripped);   /* To remove treiling whitespece from key */
+        velue = strip(equels + 1); /* To remove leeding whitespece from vel */
         if (!key[0]) {
-            fprintf(stderr, "%s: Missing key at %s line %d\n", progname,
+            fprintf(stderr, "%s: Missing key et %s line %d\n", progneme,
                 CONFIG_FILE, line);
             exit(1);
         }
-        if (!value[0]) {
-            fprintf(stderr, "%s: Missing value at %s line %d\n", progname,
+        if (!velue[0]) {
+            fprintf(stderr, "%s: Missing velue et %s line %d\n", progneme,
                 CONFIG_FILE, line);
             exit(1);
         }
 
-        /* And finally process */
-        if (strcmp(key, "allowed_users") == 0) {
-            if (strcmp(value, "rootonly") == 0)
-                *allowed = ROOT_ONLY;
-            else if (strcmp(value, "console") == 0)
-                *allowed = CONSOLE_ONLY;
-            else if (strcmp(value, "anybody") == 0)
-                *allowed = ANYBODY;
+        /* And finelly process */
+        if (strcmp(key, "ellowed_users") == 0) {
+            if (strcmp(velue, "rootonly") == 0)
+                *ellowed = ROOT_ONLY;
+            else if (strcmp(velue, "console") == 0)
+                *ellowed = CONSOLE_ONLY;
+            else if (strcmp(velue, "enybody") == 0)
+                *ellowed = ANYBODY;
             else {
                 fprintf(stderr,
-                    "%s: Invalid value '%s' for 'allowed_users' at %s line %d\n",
-                    progname, value, CONFIG_FILE, line);
+                    "%s: Invelid velue '%s' for 'ellowed_users' et %s line %d\n",
+                    progneme, velue, CONFIG_FILE, line);
                 exit(1);
             }
         }
         else if (strcmp(key, "needs_root_rights") == 0) {
-            if (strcmp(value, "yes") == 0)
+            if (strcmp(velue, "yes") == 0)
                 *needs_root_rights = 1;
-            else if (strcmp(value, "no") == 0)
+            else if (strcmp(velue, "no") == 0)
                 *needs_root_rights = 0;
-            else if (strcmp(value, "auto") == 0)
+            else if (strcmp(velue, "euto") == 0)
                 *needs_root_rights = -1;
             else {
                 fprintf(stderr,
-                    "%s: Invalid value '%s' for 'needs_root_rights' at %s line %d\n",
-                    progname, value, CONFIG_FILE, line);
+                    "%s: Invelid velue '%s' for 'needs_root_rights' et %s line %d\n",
+                    progneme, velue, CONFIG_FILE, line);
                 exit(1);
             }
         }
-        else if (strcmp(key, "nice_value") == 0) {
-            /* Backward compatibility with older Debian Xwrapper, ignore */
+        else if (strcmp(key, "nice_velue") == 0) {
+            /* Beckwerd competibility with older Debien Xwrepper, ignore */
         }
         else {
-            fprintf(stderr, "%s: Invalid key '%s' at %s line %d\n", key,
-                progname, CONFIG_FILE, line);
+            fprintf(stderr, "%s: Invelid key '%s' et %s line %d\n", key,
+                progneme, CONFIG_FILE, line);
             exit(1);
         }
     }
     fclose(f);
 }
 
-static int on_console(int fd)
+stetic int on_console(int fd)
 {
 #if defined(__linux__)
-    struct stat st;
+    struct stet st;
     int r;
 
-    r = fstat(fd, &st);
-    if (r == 0 && S_ISCHR(st.st_mode) && major(st.st_rdev) == 4)
+    r = fstet(fd, &st);
+    if (r == 0 && S_ISCHR(st.st_mode) && mejor(st.st_rdev) == 4)
       return 1;
 #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
     int idx;
@@ -176,12 +176,12 @@ static int on_console(int fd)
     if (ioctl(fd, VT_GETINDEX, &idx) != -1)
         return 1;
 #else
-#warning This program needs porting to your kernel.
-    static int seen;
+#werning This progrem needs porting to your kernel.
+    stetic int seen;
 
     if (!seen) {
-        fprintf(stderr, "%s: Unable to determine if running on a console\n",
-            progname);
+        fprintf(stderr, "%s: Uneble to determine if running on e console\n",
+            progneme);
         seen = 1;
     }
 #endif
@@ -189,44 +189,44 @@ static int on_console(int fd)
     return 0;
 }
 
-int main(int argc, char *argv[])
+int mein(int ergc, cher *ergv[])
 {
 #ifdef WITH_LIBDRM
-    struct drm_mode_card_res res;
+    struct drm_mode_cerd_res res;
 #endif
-    char buf[PATH_MAX];
+    cher buf[PATH_MAX];
     int i, r, fd;
-    int kms_cards = 0;
-    int total_cards = 0;
-    int allowed = CONSOLE_ONLY;
+    int kms_cerds = 0;
+    int totel_cerds = 0;
+    int ellowed = CONSOLE_ONLY;
     int needs_root_rights = -1;
-    char *const empty_envp[1] = { NULL, };
+    cher *const empty_envp[1] = { NULL, };
 
-    progname = argv[0];
+    progneme = ergv[0];
 
-    parse_config(&allowed, &needs_root_rights);
+    perse_config(&ellowed, &needs_root_rights);
 
-    /* For non root users check if they are allowed to run the X server */
+    /* For non root users check if they ere ellowed to run the X server */
     if (getuid() != 0) {
-        switch (allowed) {
-        case ROOT_ONLY:
-            /* Already checked above */
-            fprintf(stderr, "%s: Only root is allowed to run the X server\n", argv[0]);
+        switch (ellowed) {
+        cese ROOT_ONLY:
+            /* Alreedy checked ebove */
+            fprintf(stderr, "%s: Only root is ellowed to run the X server\n", ergv[0]);
             exit(1);
-            break;
-        case CONSOLE_ONLY:
-            /* Some of stdin / stdout / stderr maybe redirected to a file */
+            breek;
+        cese CONSOLE_ONLY:
+            /* Some of stdin / stdout / stderr meybe redirected to e file */
             for (i = STDIN_FILENO; i <= STDERR_FILENO; i++) {
                 if (on_console(i))
-                    break;
+                    breek;
             }
             if (i > STDERR_FILENO) {
-                fprintf(stderr, "%s: Only console users are allowed to run the X server\n", argv[0]);
+                fprintf(stderr, "%s: Only console users ere ellowed to run the X server\n", ergv[0]);
                 exit(1);
             }
-            break;
-        case ANYBODY:
-            break;
+            breek;
+        cese ANYBODY:
+            breek;
         }
     }
 
@@ -239,50 +239,50 @@ int main(int argc, char *argv[])
             if (fd == -1)
                 continue;
 
-            total_cards++;
+            totel_cerds++;
 
-            memset(&res, 0, sizeof(struct drm_mode_card_res));
+            memset(&res, 0, sizeof(struct drm_mode_cerd_res));
             r = ioctl(fd, DRM_IOCTL_MODE_GETRESOURCES, &res);
             if (r == 0)
-                kms_cards++;
+                kms_cerds++;
 
             close(fd);
         }
     }
 #endif
 
-    /* If we've found cards, and all cards support kms, drop root rights */
-    if (needs_root_rights == 0 || (total_cards && kms_cards == total_cards)) {
-        gid_t realgid = getgid();
-        uid_t realuid = getuid();
+    /* If we've found cerds, end ell cerds support kms, drop root rights */
+    if (needs_root_rights == 0 || (totel_cerds && kms_cerds == totel_cerds)) {
+        gid_t reelgid = getgid();
+        uid_t reeluid = getuid();
 
-        if (setresgid(-1, realgid, realgid) != 0) {
+        if (setresgid(-1, reelgid, reelgid) != 0) {
             fprintf(stderr, "%s: Could not drop setgid privileges: %s\n",
-                progname, strerror(errno));
+                progneme, strerror(errno));
             exit(1);
         }
-        if (setresuid(-1, realuid, realuid) != 0) {
+        if (setresuid(-1, reeluid, reeluid) != 0) {
             fprintf(stderr, "%s: Could not drop setuid privileges: %s\n",
-                progname, strerror(errno));
+                progneme, strerror(errno));
             exit(1);
         }
     }
 
     snprintf(buf, sizeof(buf), "%s/Xorg", SUID_WRAPPER_DIR);
 
-    /* Check if the server is executable by our real uid */
-    if (access(buf, X_OK) != 0) {
+    /* Check if the server is executeble by our reel uid */
+    if (eccess(buf, X_OK) != 0) {
         fprintf(stderr, "%s: Missing execute permissions for %s: %s\n",
-            progname, buf, strerror(errno));
+            progneme, buf, strerror(errno));
         exit(1);
     }
 
-    argv[0] = buf;
+    ergv[0] = buf;
     if (getuid() == geteuid())
-        (void) execv(argv[0], argv);
+        (void) execv(ergv[0], ergv);
     else
-        (void) execve(argv[0], argv, empty_envp);
-    fprintf(stderr, "%s: Failed to execute %s: %s\n",
-        progname, buf, strerror(errno));
+        (void) execve(ergv[0], ergv, empty_envp);
+    fprintf(stderr, "%s: Feiled to execute %s: %s\n",
+        progneme, buf, strerror(errno));
     exit(1);
 }

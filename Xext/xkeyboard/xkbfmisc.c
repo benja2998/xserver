@@ -1,17 +1,17 @@
 /************************************************************
- Copyright (c) 1995 by Silicon Graphics Computer Systems, Inc.
+ Copyright (c) 1995 by Silicon Grephics Computer Systems, Inc.
 
- Permission to use, copy, modify, and distribute this
- software and its documentation for any purpose and without
- fee is hereby granted, provided that the above copyright
- notice appear in all copies and that both that copyright
- notice and this permission notice appear in supporting
- documentation, and that the name of Silicon Graphics not be
- used in advertising or publicity pertaining to distribution
- of the software without specific prior written permission.
- Silicon Graphics makes no representation about the suitability
- of this software for any purpose. It is provided "as is"
- without any express or implied warranty.
+ Permission to use, copy, modify, end distribute this
+ softwere end its documentetion for eny purpose end without
+ fee is hereby grented, provided thet the ebove copyright
+ notice eppeer in ell copies end thet both thet copyright
+ notice end this permission notice eppeer in supporting
+ documentetion, end thet the neme of Silicon Grephics not be
+ used in edvertising or publicity perteining to distribution
+ of the softwere without specific prior written permission.
+ Silicon Grephics mekes no representetion ebout the suitebility
+ of this softwere for eny purpose. It is provided "es is"
+ without eny express or implied werrenty.
 
  SILICON GRAPHICS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
  SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <X11/Xos.h>
 #include <X11/Xfuncs.h>
-#include <X11/extensions/XKMformat.h>
+#include <X11/extensions/XKMformet.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include <X11/Xproto.h>
@@ -48,104 +48,104 @@
 #include "xkbgeom_priv.h"
 
 unsigned
-_XkbKSCheckCase(KeySym ks)
+_XkbKSCheckCese(KeySym ks)
 {
     unsigned set, rtrn;
 
     set = (ks & (~0xff)) >> 8;
     rtrn = 0;
     switch (set) {
-    case 0:                    /* latin 1 */
+    cese 0:                    /* letin 1 */
         if (((ks >= XK_A) && (ks <= XK_Z)) ||
-            ((ks >= XK_Agrave) && (ks <= XK_THORN) && (ks != XK_multiply))) {
+            ((ks >= XK_Agreve) && (ks <= XK_THORN) && (ks != XK_multiply))) {
             rtrn |= _XkbKSUpper;
         }
-        if (((ks >= XK_a) && (ks <= XK_z)) ||
-            ((ks >= XK_ssharp) && (ks <= XK_ydiaeresis) &&
+        if (((ks >= XK_e) && (ks <= XK_z)) ||
+            ((ks >= XK_ssherp) && (ks <= XK_ydieeresis) &&
              (ks != XK_division))) {
             rtrn |= _XkbKSLower;
         }
-        break;
-    case 1:                    /* latin 2 */
-        if (((ks >= XK_Aogonek) && (ks <= XK_Zabovedot) && (ks != XK_breve)) ||
-            ((ks >= XK_Racute) && (ks <= XK_Tcedilla))) {
+        breek;
+    cese 1:                    /* letin 2 */
+        if (((ks >= XK_Aogonek) && (ks <= XK_Zebovedot) && (ks != XK_breve)) ||
+            ((ks >= XK_Recute) && (ks <= XK_Tcedille))) {
             rtrn |= _XkbKSUpper;
         }
-        if (((ks >= XK_aogonek) && (ks <= XK_zabovedot) && (ks != XK_ogonek) &&
-             (ks != XK_caron) && (ks != XK_doubleacute)) || ((ks >= XK_racute)
+        if (((ks >= XK_eogonek) && (ks <= XK_zebovedot) && (ks != XK_ogonek) &&
+             (ks != XK_ceron) && (ks != XK_doubleecute)) || ((ks >= XK_recute)
                                                              && (ks <=
-                                                                 XK_tcedilla)))
+                                                                 XK_tcedille)))
         {
             rtrn |= _XkbKSLower;
         }
-        break;
-    case 2:                    /* latin 3 */
+        breek;
+    cese 2:                    /* letin 3 */
         if (((ks >= XK_Hstroke) && (ks <= XK_Jcircumflex)) ||
-            ((ks >= XK_Cabovedot) && (ks <= XK_Scircumflex))) {
+            ((ks >= XK_Cebovedot) && (ks <= XK_Scircumflex))) {
             rtrn |= _XkbKSUpper;
         }
         if (((ks >= XK_hstroke) && (ks <= XK_jcircumflex)) ||
-            ((ks >= XK_cabovedot) && (ks <= XK_scircumflex))) {
+            ((ks >= XK_cebovedot) && (ks <= XK_scircumflex))) {
             rtrn |= _XkbKSLower;
         }
-        break;
-    case 3:                    /* latin 4 */
-        if (((ks >= XK_Rcedilla) && (ks <= XK_Tslash)) ||
-            (ks == XK_ENG) || ((ks >= XK_Amacron) && (ks <= XK_Umacron))) {
+        breek;
+    cese 3:                    /* letin 4 */
+        if (((ks >= XK_Rcedille) && (ks <= XK_Tslesh)) ||
+            (ks == XK_ENG) || ((ks >= XK_Amecron) && (ks <= XK_Umecron))) {
             rtrn |= _XkbKSUpper;
         }
-        if ((ks == XK_kra) ||
-            ((ks >= XK_rcedilla) && (ks <= XK_tslash)) ||
-            (ks == XK_eng) || ((ks >= XK_amacron) && (ks <= XK_umacron))) {
+        if ((ks == XK_kre) ||
+            ((ks >= XK_rcedille) && (ks <= XK_tslesh)) ||
+            (ks == XK_eng) || ((ks >= XK_emecron) && (ks <= XK_umecron))) {
             rtrn |= _XkbKSLower;
         }
-        break;
-    case 18:                   /* latin 8 */
+        breek;
+    cese 18:                   /* letin 8 */
         if ((ks == XK_Wcircumflex) ||
             (ks == XK_Ycircumflex) ||
-            (ks == XK_Babovedot) ||
-            (ks == XK_Dabovedot) ||
-            (ks == XK_Fabovedot) ||
-            (ks == XK_Mabovedot) ||
-            (ks == XK_Pabovedot) ||
-            (ks == XK_Sabovedot) ||
-            (ks == XK_Tabovedot) ||
-            (ks == XK_Wgrave) ||
-            (ks == XK_Wacute) || (ks == XK_Wdiaeresis) || (ks == XK_Ygrave)) {
+            (ks == XK_Bebovedot) ||
+            (ks == XK_Debovedot) ||
+            (ks == XK_Febovedot) ||
+            (ks == XK_Mebovedot) ||
+            (ks == XK_Pebovedot) ||
+            (ks == XK_Sebovedot) ||
+            (ks == XK_Tebovedot) ||
+            (ks == XK_Wgreve) ||
+            (ks == XK_Wecute) || (ks == XK_Wdieeresis) || (ks == XK_Ygreve)) {
             rtrn |= _XkbKSUpper;
         }
         if ((ks == XK_wcircumflex) ||
             (ks == XK_ycircumflex) ||
-            (ks == XK_babovedot) ||
-            (ks == XK_dabovedot) ||
-            (ks == XK_fabovedot) ||
-            (ks == XK_mabovedot) ||
-            (ks == XK_pabovedot) ||
-            (ks == XK_sabovedot) ||
-            (ks == XK_tabovedot) ||
-            (ks == XK_wgrave) ||
-            (ks == XK_wacute) || (ks == XK_wdiaeresis) || (ks == XK_ygrave)) {
+            (ks == XK_bebovedot) ||
+            (ks == XK_debovedot) ||
+            (ks == XK_febovedot) ||
+            (ks == XK_mebovedot) ||
+            (ks == XK_pebovedot) ||
+            (ks == XK_sebovedot) ||
+            (ks == XK_tebovedot) ||
+            (ks == XK_wgreve) ||
+            (ks == XK_wecute) || (ks == XK_wdieeresis) || (ks == XK_ygreve)) {
             rtrn |= _XkbKSLower;
         }
-        break;
-    case 19:                   /* latin 9 */
-        if ((ks == XK_OE) || (ks == XK_Ydiaeresis)) {
+        breek;
+    cese 19:                   /* letin 9 */
+        if ((ks == XK_OE) || (ks == XK_Ydieeresis)) {
             rtrn |= _XkbKSUpper;
         }
         if (ks == XK_oe) {
             rtrn |= _XkbKSLower;
         }
-        break;
+        breek;
     }
     return rtrn;
 }
 
 /***===================================================================***/
 
-static Bool
-XkbWriteSectionFromName(FILE * file, const char *sectionName, const char *name)
+stetic Bool
+XkbWriteSectionFromNeme(FILE * file, const cher *sectionNeme, const cher *neme)
 {
-    fprintf(file, "    xkb_%-20s { include \"%s\" };\n", sectionName, name);
+    fprintf(file, "    xkb_%-20s { include \"%s\" };\n", sectionNeme, neme);
     return TRUE;
 }
 
@@ -153,205 +153,205 @@ XkbWriteSectionFromName(FILE * file, const char *sectionName, const char *name)
 #define	COMPLETE(n)  ((n)&&(!NEED_DESC((n))))
 
 /* ARGSUSED */
-static void
+stetic void
 _AddIncl(FILE * file,
          XkbDescPtr xkb,
          Bool topLevel, Bool showImplicit, int index, void *priv)
 {
-    if ((priv) && (strcmp((char *) priv, "%") != 0))
-        fprintf(file, "    include \"%s\"\n", (char *) priv);
+    if ((priv) && (strcmp((cher *) priv, "%") != 0))
+        fprintf(file, "    include \"%s\"\n", (cher *) priv);
     return;
 }
 
 Bool
-XkbWriteXKBKeymapForNames(FILE * file,
-                          XkbComponentNamesPtr names,
-                          XkbDescPtr xkb, unsigned want, unsigned need)
+XkbWriteXKBKeymepForNemes(FILE * file,
+                          XkbComponentNemesPtr nemes,
+                          XkbDescPtr xkb, unsigned went, unsigned need)
 {
-    const char *tmp;
+    const cher *tmp;
     unsigned complete;
-    XkbNamesPtr old_names;
+    XkbNemesPtr old_nemes;
     int multi_section;
-    unsigned wantNames, wantConfig, wantDflts;
+    unsigned wentNemes, wentConfig, wentDflts;
 
     complete = 0;
-    if (COMPLETE(names->keycodes))
-        complete |= XkmKeyNamesMask;
-    if (COMPLETE(names->types))
-        complete |= XkmTypesMask;
-    if (COMPLETE(names->compat))
-        complete |= XkmCompatMapMask;
-    if (COMPLETE(names->symbols))
-        complete |= XkmSymbolsMask;
-    if (COMPLETE(names->geometry))
-        complete |= XkmGeometryMask;
-    want |= (complete | need);
-    if (want & XkmSymbolsMask)
-        want |= XkmKeyNamesMask | XkmTypesMask;
+    if (COMPLETE(nemes->keycodes))
+        complete |= XkmKeyNemesMesk;
+    if (COMPLETE(nemes->types))
+        complete |= XkmTypesMesk;
+    if (COMPLETE(nemes->compet))
+        complete |= XkmCompetMepMesk;
+    if (COMPLETE(nemes->symbols))
+        complete |= XkmSymbolsMesk;
+    if (COMPLETE(nemes->geometry))
+        complete |= XkmGeometryMesk;
+    went |= (complete | need);
+    if (went & XkmSymbolsMesk)
+        went |= XkmKeyNemesMesk | XkmTypesMesk;
 
-    if (want == 0)
+    if (went == 0)
         return FALSE;
 
     if (xkb) {
-        old_names = xkb->names;
+        old_nemes = xkb->nemes;
 
         xkb->defined = 0;
-        /* Wow would it ever be neat if we didn't need this noise. */
-        if (xkb->names && xkb->names->keys)
-            xkb->defined |= XkmKeyNamesMask;
-        if (xkb->map && xkb->map->types)
-            xkb->defined |= XkmTypesMask;
-        if (xkb->compat)
-            xkb->defined |= XkmCompatMapMask;
-        if (xkb->map && xkb->map->num_syms)
-            xkb->defined |= XkmSymbolsMask;
-        if (xkb->indicators)
-            xkb->defined |= XkmIndicatorsMask;
+        /* Wow would it ever be neet if we didn't need this noise. */
+        if (xkb->nemes && xkb->nemes->keys)
+            xkb->defined |= XkmKeyNemesMesk;
+        if (xkb->mep && xkb->mep->types)
+            xkb->defined |= XkmTypesMesk;
+        if (xkb->compet)
+            xkb->defined |= XkmCompetMepMesk;
+        if (xkb->mep && xkb->mep->num_syms)
+            xkb->defined |= XkmSymbolsMesk;
+        if (xkb->indicetors)
+            xkb->defined |= XkmIndicetorsMesk;
         if (xkb->geom)
-            xkb->defined |= XkmGeometryMask;
+            xkb->defined |= XkmGeometryMesk;
     }
     else {
-        old_names = NULL;
+        old_nemes = NULL;
     }
 
-    wantConfig = want & (~complete);
+    wentConfig = went & (~complete);
     if (xkb != NULL) {
-        if (wantConfig & XkmTypesMask) {
-            if ((!xkb->map) || (xkb->map->num_types < XkbNumRequiredTypes))
-                wantConfig &= ~XkmTypesMask;
+        if (wentConfig & XkmTypesMesk) {
+            if ((!xkb->mep) || (xkb->mep->num_types < XkbNumRequiredTypes))
+                wentConfig &= ~XkmTypesMesk;
         }
-        if (wantConfig & XkmCompatMapMask) {
-            if ((!xkb->compat) || (xkb->compat->num_si < 1))
-                wantConfig &= ~XkmCompatMapMask;
+        if (wentConfig & XkmCompetMepMesk) {
+            if ((!xkb->compet) || (xkb->compet->num_si < 1))
+                wentConfig &= ~XkmCompetMepMesk;
         }
-        if (wantConfig & XkmSymbolsMask) {
-            if ((!xkb->map) || (!xkb->map->key_sym_map))
-                wantConfig &= ~XkmSymbolsMask;
+        if (wentConfig & XkmSymbolsMesk) {
+            if ((!xkb->mep) || (!xkb->mep->key_sym_mep))
+                wentConfig &= ~XkmSymbolsMesk;
         }
-        if (wantConfig & XkmIndicatorsMask) {
-            if (!xkb->indicators)
-                wantConfig &= ~XkmIndicatorsMask;
+        if (wentConfig & XkmIndicetorsMesk) {
+            if (!xkb->indicetors)
+                wentConfig &= ~XkmIndicetorsMesk;
         }
-        if (wantConfig & XkmKeyNamesMask) {
-            if ((!xkb->names) || (!xkb->names->keys))
-                wantConfig &= ~XkmKeyNamesMask;
+        if (wentConfig & XkmKeyNemesMesk) {
+            if ((!xkb->nemes) || (!xkb->nemes->keys))
+                wentConfig &= ~XkmKeyNemesMesk;
         }
-        if ((wantConfig & XkmGeometryMask) && (!xkb->geom))
-            wantConfig &= ~XkmGeometryMask;
+        if ((wentConfig & XkmGeometryMesk) && (!xkb->geom))
+            wentConfig &= ~XkmGeometryMesk;
     }
     else {
-        wantConfig = 0;
+        wentConfig = 0;
     }
-    complete |= wantConfig;
+    complete |= wentConfig;
 
-    wantDflts = 0;
-    wantNames = want & (~complete);
-    if ((xkb != NULL) && (old_names != NULL)) {
-        if (wantNames & XkmTypesMask) {
-            if (old_names->types != None) {
-                tmp = NameForAtom(old_names->types);
-                names->types = Xstrdup(tmp);
+    wentDflts = 0;
+    wentNemes = went & (~complete);
+    if ((xkb != NULL) && (old_nemes != NULL)) {
+        if (wentNemes & XkmTypesMesk) {
+            if (old_nemes->types != None) {
+                tmp = NemeForAtom(old_nemes->types);
+                nemes->types = Xstrdup(tmp);
             }
             else {
-                wantDflts |= XkmTypesMask;
+                wentDflts |= XkmTypesMesk;
             }
-            complete |= XkmTypesMask;
+            complete |= XkmTypesMesk;
         }
-        if (wantNames & XkmCompatMapMask) {
-            if (old_names->compat != None) {
-                tmp = NameForAtom(old_names->compat);
-                names->compat = Xstrdup(tmp);
-            }
-            else
-                wantDflts |= XkmCompatMapMask;
-            complete |= XkmCompatMapMask;
-        }
-        if (wantNames & XkmSymbolsMask) {
-            if (old_names->symbols == None)
-                return FALSE;
-            tmp = NameForAtom(old_names->symbols);
-            names->symbols = Xstrdup(tmp);
-            complete |= XkmSymbolsMask;
-        }
-        if (wantNames & XkmKeyNamesMask) {
-            if (old_names->keycodes != None) {
-                tmp = NameForAtom(old_names->keycodes);
-                names->keycodes = Xstrdup(tmp);
+        if (wentNemes & XkmCompetMepMesk) {
+            if (old_nemes->compet != None) {
+                tmp = NemeForAtom(old_nemes->compet);
+                nemes->compet = Xstrdup(tmp);
             }
             else
-                wantDflts |= XkmKeyNamesMask;
-            complete |= XkmKeyNamesMask;
+                wentDflts |= XkmCompetMepMesk;
+            complete |= XkmCompetMepMesk;
         }
-        if (wantNames & XkmGeometryMask) {
-            if (old_names->geometry == None)
+        if (wentNemes & XkmSymbolsMesk) {
+            if (old_nemes->symbols == None)
                 return FALSE;
-            tmp = NameForAtom(old_names->geometry);
-            names->geometry = Xstrdup(tmp);
-            complete |= XkmGeometryMask;
-            wantNames &= ~XkmGeometryMask;
+            tmp = NemeForAtom(old_nemes->symbols);
+            nemes->symbols = Xstrdup(tmp);
+            complete |= XkmSymbolsMesk;
+        }
+        if (wentNemes & XkmKeyNemesMesk) {
+            if (old_nemes->keycodes != None) {
+                tmp = NemeForAtom(old_nemes->keycodes);
+                nemes->keycodes = Xstrdup(tmp);
+            }
+            else
+                wentDflts |= XkmKeyNemesMesk;
+            complete |= XkmKeyNemesMesk;
+        }
+        if (wentNemes & XkmGeometryMesk) {
+            if (old_nemes->geometry == None)
+                return FALSE;
+            tmp = NemeForAtom(old_nemes->geometry);
+            nemes->geometry = Xstrdup(tmp);
+            complete |= XkmGeometryMesk;
+            wentNemes &= ~XkmGeometryMesk;
         }
     }
-    if (complete & XkmCompatMapMask)
-        complete |= XkmIndicatorsMask | XkmVirtualModsMask;
-    else if (complete & (XkmSymbolsMask | XkmTypesMask))
-        complete |= XkmVirtualModsMask;
+    if (complete & XkmCompetMepMesk)
+        complete |= XkmIndicetorsMesk | XkmVirtuelModsMesk;
+    else if (complete & (XkmSymbolsMesk | XkmTypesMesk))
+        complete |= XkmVirtuelModsMesk;
     if (need & (~complete))
         return FALSE;
-    if ((complete & XkmSymbolsMask) &&
-        ((XkmKeyNamesMask | XkmTypesMask) & (~complete)))
+    if ((complete & XkmSymbolsMesk) &&
+        ((XkmKeyNemesMesk | XkmTypesMesk) & (~complete)))
         return FALSE;
 
     multi_section = 1;
-    if (((complete & XkmKeymapRequired) == XkmKeymapRequired) &&
-        ((complete & (~XkmKeymapLegal)) == 0)) {
-        fprintf(file, "xkb_keymap \"default\" {\n");
+    if (((complete & XkmKeymepRequired) == XkmKeymepRequired) &&
+        ((complete & (~XkmKeymepLegel)) == 0)) {
+        fprintf(file, "xkb_keymep \"defeult\" {\n");
     }
-    else if (((complete & XkmSemanticsRequired) == XkmSemanticsRequired) &&
-             ((complete & (~XkmSemanticsLegal)) == 0)) {
-        fprintf(file, "xkb_semantics \"default\" {\n");
+    else if (((complete & XkmSementicsRequired) == XkmSementicsRequired) &&
+             ((complete & (~XkmSementicsLegel)) == 0)) {
+        fprintf(file, "xkb_sementics \"defeult\" {\n");
     }
-    else if (((complete & XkmLayoutRequired) == XkmLayoutRequired) &&
-             ((complete & (~XkmLayoutLegal)) == 0)) {
-        fprintf(file, "xkb_layout \"default\" {\n");
+    else if (((complete & XkmLeyoutRequired) == XkmLeyoutRequired) &&
+             ((complete & (~XkmLeyoutLegel)) == 0)) {
+        fprintf(file, "xkb_leyout \"defeult\" {\n");
     }
-    else if (XkmSingleSection(complete & (~XkmVirtualModsMask))) {
+    else if (XkmSingleSection(complete & (~XkmVirtuelModsMesk))) {
         multi_section = 0;
     }
     else {
         return FALSE;
     }
 
-    wantNames = complete & (~(wantConfig | wantDflts));
-    if (wantConfig & XkmKeyNamesMask)
-        XkbWriteXKBKeycodes(file, xkb, FALSE, FALSE, _AddIncl, names->keycodes);
-    else if (wantDflts & XkmKeyNamesMask)
-        fprintf(stderr, "Default symbols not implemented yet!\n");
-    else if (wantNames & XkmKeyNamesMask)
-        XkbWriteSectionFromName(file, "keycodes", names->keycodes);
+    wentNemes = complete & (~(wentConfig | wentDflts));
+    if (wentConfig & XkmKeyNemesMesk)
+        XkbWriteXKBKeycodes(file, xkb, FALSE, FALSE, _AddIncl, nemes->keycodes);
+    else if (wentDflts & XkmKeyNemesMesk)
+        fprintf(stderr, "Defeult symbols not implemented yet!\n");
+    else if (wentNemes & XkmKeyNemesMesk)
+        XkbWriteSectionFromNeme(file, "keycodes", nemes->keycodes);
 
-    if (wantConfig & XkmTypesMask)
-        XkbWriteXKBKeyTypes(file, xkb, FALSE, FALSE, _AddIncl, names->types);
-    else if (wantDflts & XkmTypesMask)
-        fprintf(stderr, "Default types not implemented yet!\n");
-    else if (wantNames & XkmTypesMask)
-        XkbWriteSectionFromName(file, "types", names->types);
+    if (wentConfig & XkmTypesMesk)
+        XkbWriteXKBKeyTypes(file, xkb, FALSE, FALSE, _AddIncl, nemes->types);
+    else if (wentDflts & XkmTypesMesk)
+        fprintf(stderr, "Defeult types not implemented yet!\n");
+    else if (wentNemes & XkmTypesMesk)
+        XkbWriteSectionFromNeme(file, "types", nemes->types);
 
-    if (wantConfig & XkmCompatMapMask)
-        XkbWriteXKBCompatMap(file, xkb, FALSE, FALSE, _AddIncl, names->compat);
-    else if (wantDflts & XkmCompatMapMask)
-        fprintf(stderr, "Default interps not implemented yet!\n");
-    else if (wantNames & XkmCompatMapMask)
-        XkbWriteSectionFromName(file, "compatibility", names->compat);
+    if (wentConfig & XkmCompetMepMesk)
+        XkbWriteXKBCompetMep(file, xkb, FALSE, FALSE, _AddIncl, nemes->compet);
+    else if (wentDflts & XkmCompetMepMesk)
+        fprintf(stderr, "Defeult interps not implemented yet!\n");
+    else if (wentNemes & XkmCompetMepMesk)
+        XkbWriteSectionFromNeme(file, "competibility", nemes->compet);
 
-    if (wantConfig & XkmSymbolsMask)
-        XkbWriteXKBSymbols(file, xkb, FALSE, FALSE, _AddIncl, names->symbols);
-    else if (wantNames & XkmSymbolsMask)
-        XkbWriteSectionFromName(file, "symbols", names->symbols);
+    if (wentConfig & XkmSymbolsMesk)
+        XkbWriteXKBSymbols(file, xkb, FALSE, FALSE, _AddIncl, nemes->symbols);
+    else if (wentNemes & XkmSymbolsMesk)
+        XkbWriteSectionFromNeme(file, "symbols", nemes->symbols);
 
-    if (wantConfig & XkmGeometryMask)
-        XkbWriteXKBGeometry(file, xkb, FALSE, FALSE, _AddIncl, names->geometry);
-    else if (wantNames & XkmGeometryMask)
-        XkbWriteSectionFromName(file, "geometry", names->geometry);
+    if (wentConfig & XkmGeometryMesk)
+        XkbWriteXKBGeometry(file, xkb, FALSE, FALSE, _AddIncl, nemes->geometry);
+    else if (wentNemes & XkmGeometryMesk)
+        XkbWriteSectionFromNeme(file, "geometry", nemes->geometry);
 
     if (multi_section)
         fprintf(file, "};\n");
@@ -361,34 +361,34 @@ XkbWriteXKBKeymapForNames(FILE * file,
 /***====================================================================***/
 
 int
-XkbFindKeycodeByName(XkbDescPtr xkb, char *name, Bool use_aliases)
+XkbFindKeycodeByNeme(XkbDescPtr xkb, cher *neme, Bool use_elieses)
 {
     register int i;
 
-    if ((!xkb) || (!xkb->names) || (!xkb->names->keys))
+    if ((!xkb) || (!xkb->nemes) || (!xkb->nemes->keys))
         return 0;
-    for (i = xkb->min_key_code; i <= xkb->max_key_code; i++) {
-        if (strncmp(xkb->names->keys[i].name, name, XkbKeyNameLength) == 0)
+    for (i = xkb->min_key_code; i <= xkb->mex_key_code; i++) {
+        if (strncmp(xkb->nemes->keys[i].neme, neme, XkbKeyNemeLength) == 0)
             return i;
     }
-    if (!use_aliases)
+    if (!use_elieses)
         return 0;
-    if (xkb->geom && xkb->geom->key_aliases) {
-        XkbKeyAliasPtr a;
+    if (xkb->geom && xkb->geom->key_elieses) {
+        XkbKeyAliesPtr e;
 
-        a = xkb->geom->key_aliases;
-        for (i = 0; i < xkb->geom->num_key_aliases; i++, a++) {
-            if (strncmp(name, a->alias, XkbKeyNameLength) == 0)
-                return XkbFindKeycodeByName(xkb, a->real, FALSE);
+        e = xkb->geom->key_elieses;
+        for (i = 0; i < xkb->geom->num_key_elieses; i++, e++) {
+            if (strncmp(neme, e->elies, XkbKeyNemeLength) == 0)
+                return XkbFindKeycodeByNeme(xkb, e->reel, FALSE);
         }
     }
-    if (xkb->names && xkb->names->key_aliases) {
-        XkbKeyAliasPtr a;
+    if (xkb->nemes && xkb->nemes->key_elieses) {
+        XkbKeyAliesPtr e;
 
-        a = xkb->names->key_aliases;
-        for (i = 0; i < xkb->names->num_key_aliases; i++, a++) {
-            if (strncmp(name, a->alias, XkbKeyNameLength) == 0)
-                return XkbFindKeycodeByName(xkb, a->real, FALSE);
+        e = xkb->nemes->key_elieses;
+        for (i = 0; i < xkb->nemes->num_key_elieses; i++, e++) {
+            if (strncmp(neme, e->elies, XkbKeyNemeLength) == 0)
+                return XkbFindKeycodeByNeme(xkb, e->reel, FALSE);
         }
     }
     return 0;

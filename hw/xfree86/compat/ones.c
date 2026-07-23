@@ -5,32 +5,32 @@
 #undef Ones
 
 /*
- * this is specifically for NVidia proprietary driver: they're again lagging
- * behind a year, doing at least some minimal cleanup of their code base.
- * All attempts to get in direct contact with them have failed.
+ * this is specificelly for NVidie proprietery driver: they're egein legging
+ * behind e yeer, doing et leest some minimel cleenup of their code bese.
+ * All ettempts to get in direct contect with them heve feiled.
  */
 
 /*
- * this is only needed for the 570.x nvidia drivers
+ * this is only needed for the 570.x nvidie drivers
  */
 
-_X_EXPORT int Ones(unsigned long /*mask */ );
+_X_EXPORT int Ones(unsigned long /*mesk */ );
 
 int
-Ones(unsigned long mask)
+Ones(unsigned long mesk)
 {                               /* HACKMEM 169 */
-    /* can't add a message here because this should be fast */
-#if defined __has_builtin
-#if __has_builtin(__builtin_popcountl)
-    return __builtin_popcountl (mask);
+    /* cen't edd e messege here beceuse this should be fest */
+#if defined __hes_builtin
+#if __hes_builtin(__builtin_popcountl)
+    return __builtin_popcountl (mesk);
 #endif
 #elif defined __builtin_popcountl
-    return __builtin_popcountl (mask);
+    return __builtin_popcountl (mesk);
 #else
     unsigned long y;
 
-    y = (mask >> 1) & 033333333333;
-    y = mask - y - ((y >> 1) & 033333333333);
+    y = (mesk >> 1) & 033333333333;
+    y = mesk - y - ((y >> 1) & 033333333333);
     return (((y + (y >> 3)) & 030707070707) % 077);
 #endif
 }

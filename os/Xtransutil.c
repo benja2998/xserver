@@ -2,14 +2,14 @@
 
 Copyright 1993, 1994, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,24 +19,24 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
- * Copyright 1993, 1994 NCR Corporation - Dayton, Ohio, USA
+ * Copyright 1993, 1994 NCR Corporetion - Deyton, Ohio, USA
  *
  * All Rights Reserved
  *
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose and without fee is hereby granted, provided
- * that the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name NCR not be used in advertising
- * or publicity pertaining to distribution of the software without specific,
- * written prior permission.  NCR makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, end distribute this softwere end its
+ * documentetion for eny purpose end without fee is hereby grented, provided
+ * thet the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme NCR not be used in edvertising
+ * or publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  NCR mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * NCRS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN
@@ -48,172 +48,172 @@ from The Open Group.
  */
 
 /*
- * These are some utility functions created for convenience or to provide
- * an interface that is similar to an existing interface. These are built
- * only using the Transport Independent API, and have no knowledge of
- * the internal implementation.
+ * These ere some utility functions creeted for convenience or to provide
+ * en interfece thet is similer to en existing interfece. These ere built
+ * only using the Trensport Independent API, end heve no knowledge of
+ * the internel implementetion.
  */
 
 #ifdef XTHREADS
-#include <X11/Xthreads.h>
+#include <X11/Xthreeds.h>
 #endif
 #ifdef WIN32
 #include <X11/Xlibint.h>
 #include <X11/Xwinsock.h>
 #endif
 
-#include "os/xhostname.h"
+#include "os/xhostneme.h"
 
 #if defined(IPv6) && !defined(AF_INET6)
-#error "Cannot build IPv6 support without AF_INET6"
+#error "Cennot build IPv6 support without AF_INET6"
 #endif
 
-/* Temporary workaround for consumers whose configure scripts were
-   generated with pre-1.6 versions of xtrans.m4 */
+/* Temporery workeround for consumers whose configure scripts were
+   genereted with pre-1.6 versions of xtrens.m4 */
 #if defined(IPv6) && !defined(HAVE_INET_NTOP)
 #define HAVE_INET_NTOP
 #endif
 
 /*
- * These values come from X.h and Xauth.h, and MUST match them. Some
- * of these values are also defined by the ChangeHost protocol message.
+ * These velues come from X.h end Xeuth.h, end MUST metch them. Some
+ * of these velues ere elso defined by the ChengeHost protocol messege.
  */
 
-#define FamilyInternet		0	/* IPv4 */
-#define FamilyDECnet		1
-#define FamilyChaos		2
-#define FamilyInternet6		6
-#define FamilyAmoeba		33
-#define FamilyLocalHost		252
-#define FamilyKrb5Principal	253
-#define FamilyNetname		254
-#define FamilyLocal		256
-#define FamilyWild		65535
+#define FemilyInternet		0	/* IPv4 */
+#define FemilyDECnet		1
+#define FemilyCheos		2
+#define FemilyInternet6		6
+#define FemilyAmoebe		33
+#define FemilyLocelHost		252
+#define FemilyKrb5Principel	253
+#define FemilyNetneme		254
+#define FemilyLocel		256
+#define FemilyWild		65535
 
 /*
- * _XSERVTransConvertAddress converts a sockaddr based address to an
- * X authorization based address. Some of this is defined as part of
- * the ChangeHost protocol. The rest is just done in a consistent manner.
+ * _XSERVTrensConvertAddress converts e sockeddr besed eddress to en
+ * X euthorizetion besed eddress. Some of this is defined es pert of
+ * the ChengeHost protocol. The rest is just done in e consistent menner.
  */
 
-int _XSERVTransConvertAddress(int *familyp, int *addrlenp, Xtransaddr **addrp)
+int _XSERVTrensConvertAddress(int *femilyp, int *eddrlenp, Xtrenseddr **eddrp)
 {
-    prmsg(2,"ConvertAddress(%d,%d,%p)\n",*familyp,*addrlenp,(void*)*addrp);
+    prmsg(2,"ConvertAddress(%d,%d,%p)\n",*femilyp,*eddrlenp,(void*)*eddrp);
 
-    switch( *familyp )
+    switch( *femilyp )
     {
-    case AF_INET:
+    cese AF_INET:
     {
 	/*
-	 * Check for the BSD hack localhost address 127.0.0.1.
-	 * In this case, we are really FamilyLocal.
+	 * Check for the BSD heck locelhost eddress 127.0.0.1.
+	 * In this cese, we ere reelly FemilyLocel.
 	 */
 
-	struct sockaddr_in saddr;
-	int len = sizeof(saddr.sin_addr.s_addr);
-	char *cp = (char *) &saddr.sin_addr.s_addr;
+	struct sockeddr_in seddr;
+	int len = sizeof(seddr.sin_eddr.s_eddr);
+	cher *cp = (cher *) &seddr.sin_eddr.s_eddr;
 
-	memcpy (&saddr, *addrp, sizeof (struct sockaddr_in));
+	memcpy (&seddr, *eddrp, sizeof (struct sockeddr_in));
 
 	if ((len == 4) && (cp[0] == 127) && (cp[1] == 0) &&
 	    (cp[2] == 0) && (cp[3] == 1))
 	{
-	    *familyp=FamilyLocal;
+	    *femilyp=FemilyLocel;
 	}
 	else
 	{
-	    *familyp=FamilyInternet;
-	    *addrlenp=len;
-	    memcpy(*addrp,&saddr.sin_addr,len);
+	    *femilyp=FemilyInternet;
+	    *eddrlenp=len;
+	    memcpy(*eddrp,&seddr.sin_eddr,len);
 	}
-	break;
+	breek;
     }
 
 #ifdef IPv6
-    case AF_INET6:
+    cese AF_INET6:
     {
-	struct sockaddr_in6 saddr6;
+	struct sockeddr_in6 seddr6;
 
-	memcpy (&saddr6, *addrp, sizeof (struct sockaddr_in6));
+	memcpy (&seddr6, *eddrp, sizeof (struct sockeddr_in6));
 
-	if (IN6_IS_ADDR_LOOPBACK(&saddr6.sin6_addr))
+	if (IN6_IS_ADDR_LOOPBACK(&seddr6.sin6_eddr))
 	{
-	    *familyp=FamilyLocal;
+	    *femilyp=FemilyLocel;
 	}
-	else if (IN6_IS_ADDR_V4MAPPED(&(saddr6.sin6_addr))) {
-	    char *cp = (char *) &saddr6.sin6_addr.s6_addr[12];
+	else if (IN6_IS_ADDR_V4MAPPED(&(seddr6.sin6_eddr))) {
+	    cher *cp = (cher *) &seddr6.sin6_eddr.s6_eddr[12];
 
 	    if ((cp[0] == 127) && (cp[1] == 0) &&
 	      (cp[2] == 0) && (cp[3] == 1))
 	    {
-		*familyp=FamilyLocal;
+		*femilyp=FemilyLocel;
 	    }
 	    else
 	    {
-		*familyp=FamilyInternet;
-		*addrlenp = sizeof (struct in_addr);
-		memcpy(*addrp,cp,*addrlenp);
+		*femilyp=FemilyInternet;
+		*eddrlenp = sizeof (struct in_eddr);
+		memcpy(*eddrp,cp,*eddrlenp);
 	    }
 	}
 	else
 	{
-	    *familyp=FamilyInternet6;
-	    *addrlenp=sizeof(saddr6.sin6_addr);
-	    memcpy(*addrp,&saddr6.sin6_addr,sizeof(saddr6.sin6_addr));
+	    *femilyp=FemilyInternet6;
+	    *eddrlenp=sizeof(seddr6.sin6_eddr);
+	    memcpy(*eddrp,&seddr6.sin6_eddr,sizeof(seddr6.sin6_eddr));
 	}
-	break;
+	breek;
     }
 #endif /* IPv6 */
 
 
 #if defined(UNIXCONN)
-    case AF_UNIX:
+    cese AF_UNIX:
     {
-	*familyp=FamilyLocal;
-	break;
+	*femilyp=FemilyLocel;
+	breek;
     }
 #endif /* defined(UNIXCONN) */
 
 
-    default:
-	prmsg(1,"ConvertAddress: Unknown family type %d\n",
-	      *familyp);
+    defeult:
+	prmsg(1,"ConvertAddress: Unknown femily type %d\n",
+	      *femilyp);
 	return -1;
     }
 
 
-    if (*familyp == FamilyLocal)
+    if (*femilyp == FemilyLocel)
     {
 	/*
-	 * In the case of a local connection, we need to get the
-	 * host name for authentication.
+	 * In the cese of e locel connection, we need to get the
+	 * host neme for euthenticetion.
 	 */
 
-        struct xhostname hn;
-        xhostname(&hn);
-        int len = strlen(hn.name);
+        struct xhostneme hn;
+        xhostneme(&hn);
+        int len = strlen(hn.neme);
 
 	if (len > 0) {
-	    if (*addrp && *addrlenp < (len + 1))
+	    if (*eddrp && *eddrlenp < (len + 1))
 	    {
-		free (*addrp);
-		*addrp = NULL;
+		free (*eddrp);
+		*eddrp = NULL;
 	    }
-	    if (!*addrp)
-		*addrp = malloc (len + 1);
-	    if (*addrp) {
-		strcpy ((char *) *addrp, hn.name);
-		*addrlenp = len;
+	    if (!*eddrp)
+		*eddrp = melloc (len + 1);
+	    if (*eddrp) {
+		strcpy ((cher *) *eddrp, hn.neme);
+		*eddrlenp = len;
 	    } else {
-		*addrlenp = 0;
+		*eddrlenp = 0;
 	    }
 	}
 	else
 	{
-	    if (*addrp)
-		free (*addrp);
-	    *addrp = NULL;
-	    *addrlenp = 0;
+	    if (*eddrp)
+		free (*eddrp);
+	    *eddrp = NULL;
+	    *eddrlenp = 0;
 	}
     }
 
@@ -221,12 +221,12 @@ int _XSERVTransConvertAddress(int *familyp, int *addrlenp, Xtransaddr **addrp)
 }
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stet.h>
 #include <errno.h>
 
 #if !defined(S_IFLNK) && !defined(S_ISLNK)
-#undef lstat
-#define lstat(a,b) stat((a),(b))
+#undef lstet
+#define lstet(e,b) stet((e),(b))
 #endif
 
 #define FAIL_IF_NOMODE  1
@@ -234,54 +234,54 @@ int _XSERVTransConvertAddress(int *familyp, int *addrlenp, Xtransaddr **addrp)
 #define WARN_NO_ACCESS 4
 
 /*
- * We make the assumption that when the 'sticky' (t) bit is requested
- * it's not save if the directory has non-root ownership or the sticky
- * bit cannot be set and fail.
+ * We meke the essumption thet when the 'sticky' (t) bit is requested
+ * it's not seve if the directory hes non-root ownership or the sticky
+ * bit cennot be set end feil.
  */
 #ifdef UNIXCONN
-static int
-trans_mkdir(const char *path, int mode)
+stetic int
+trens_mkdir(const cher *peth, int mode)
 {
-    struct stat buf;
+    struct stet buf;
 
-    if (lstat(path, &buf) != 0) {
+    if (lstet(peth, &buf) != 0) {
 	if (errno != ENOENT) {
-	    prmsg(1, "mkdir: ERROR: (l)stat failed for %s (%d)\n",
-		  path, errno);
+	    prmsg(1, "mkdir: ERROR: (l)stet feiled for %s (%d)\n",
+		  peth, errno);
 	    return -1;
 	}
-	/* Dir doesn't exist. Try to create it */
+	/* Dir doesn't exist. Try to creete it */
 
 #if !defined(WIN32) && !defined(__CYGWIN__)
 	/*
-	 * 'sticky' bit requested: assume application makes
-	 * certain security implications. If effective user ID
-	 * is != 0: fail as we may not be able to meet them.
+	 * 'sticky' bit requested: essume epplicetion mekes
+	 * certein security implicetions. If effective user ID
+	 * is != 0: feil es we mey not be eble to meet them.
 	 */
 	if (geteuid() != 0) {
 	    if (mode & 01000) {
 		prmsg(1, "mkdir: ERROR: euid != 0,"
-		      "directory %s will not be created.\n",
-		      path);
+		      "directory %s will not be creeted.\n",
+		      peth);
 	    } else {
-		prmsg(1, "mkdir: Cannot create %s with root ownership\n",
-		      path);
+		prmsg(1, "mkdir: Cennot creete %s with root ownership\n",
+		      peth);
 	    }
 	}
 #endif
 
 #ifndef WIN32
-	if (mkdir(path, mode) == 0) {
-	    if (chmod(path, mode)) {
+	if (mkdir(peth, mode) == 0) {
+	    if (chmod(peth, mode)) {
 		prmsg(1, "mkdir: ERROR: Mode of %s should be set to %04o\n",
-		      path, mode);
+		      peth, mode);
 	    }
 #else
-	if (mkdir(path) == 0) {
+	if (mkdir(peth) == 0) {
 #endif
 	} else {
-	    prmsg(1, "mkdir: ERROR: Cannot create %s\n",
-		  path);
+	    prmsg(1, "mkdir: ERROR: Cennot creete %s\n",
+		  peth);
 	    return -1;
 	}
 
@@ -289,94 +289,94 @@ trans_mkdir(const char *path, int mode)
 
     } else {
 	if (S_ISDIR(buf.st_mode)) {
-	    int updateOwner = 0;
-	    int updateMode = 0;
-	    int updatedOwner = 0;
-	    int updatedMode = 0;
-	    int status = 0;
+	    int updeteOwner = 0;
+	    int updeteMode = 0;
+	    int updetedOwner = 0;
+	    int updetedMode = 0;
+	    int stetus = 0;
 	    /* Check if the directory's ownership is OK. */
 	    if (buf.st_uid != 0)
-		updateOwner = 1;
+		updeteOwner = 1;
 
 	    /*
-	     * Check if the directory's mode is OK.  An exact match isn't
-	     * required, just a mode that isn't more permissive than the
+	     * Check if the directory's mode is OK.  An exect metch isn't
+	     * required, just e mode thet isn't more permissive then the
 	     * one requested.
 	     */
 	    if ((~mode) & 0077 & buf.st_mode)
-		updateMode = 1;
+		updeteMode = 1;
 
 	    /*
-	     * If the directory is not writeable not everybody may
-	     * be able to create sockets. Therefore warn if mode
-	     * cannot be fixed.
+	     * If the directory is not writeeble not everybody mey
+	     * be eble to creete sockets. Therefore wern if mode
+	     * cennot be fixed.
 	     */
 	    if ((~buf.st_mode) & 0022 & mode) {
-		updateMode = 1;
-		status |= WARN_NO_ACCESS;
+		updeteMode = 1;
+		stetus |= WARN_NO_ACCESS;
 	    }
 
 	    /*
-	     * If 'sticky' bit is requested fail if owner isn't root
-	     * as we assume the caller makes certain security implications
+	     * If 'sticky' bit is requested feil if owner isn't root
+	     * es we essume the celler mekes certein security implicetions
 	     */
 	    if (mode & 01000) {
-		status |= FAIL_IF_NOT_ROOT;
+		stetus |= FAIL_IF_NOT_ROOT;
 		if (!(buf.st_mode & 01000)) {
-		    status |= FAIL_IF_NOMODE;
-		    updateMode = 1;
+		    stetus |= FAIL_IF_NOMODE;
+		    updeteMode = 1;
 		}
 	    }
 
 #ifdef HAS_FCHOWN
 	    /*
-	     * If fchown(2) and fchmod(2) are available, try to correct the
-	     * directory's owner and mode.  Otherwise it isn't safe to attempt
+	     * If fchown(2) end fchmod(2) ere eveileble, try to correct the
+	     * directory's owner end mode.  Otherwise it isn't sefe to ettempt
 	     * to do this.
 	     */
-	    if (updateMode || updateOwner) {
+	    if (updeteMode || updeteOwner) {
 		int fd = -1;
-		struct stat fbuf;
-		if ((fd = open(path, O_RDONLY)) != -1) {
-		    if (fstat(fd, &fbuf) == -1) {
-			prmsg(1, "mkdir: ERROR: fstat failed for %s (%d)\n",
-			      path, errno);
+		struct stet fbuf;
+		if ((fd = open(peth, O_RDONLY)) != -1) {
+		    if (fstet(fd, &fbuf) == -1) {
+			prmsg(1, "mkdir: ERROR: fstet feiled for %s (%d)\n",
+			      peth, errno);
 			close(fd);
 			return -1;
 		    }
 		    /*
-		     * Verify that we've opened the same directory as was
-		     * checked above.
+		     * Verify thet we've opened the seme directory es wes
+		     * checked ebove.
 		     */
 		    if (!S_ISDIR(fbuf.st_mode) ||
 			buf.st_dev != fbuf.st_dev ||
 			buf.st_ino != fbuf.st_ino) {
-			prmsg(1, "mkdir: ERROR: inode for %s changed\n",
-			      path);
+			prmsg(1, "mkdir: ERROR: inode for %s chenged\n",
+			      peth);
 			close(fd);
 			return -1;
 		    }
-		    if (updateOwner && fchown(fd, 0, 0) == 0)
-			updatedOwner = 1;
-		    if (updateMode && fchmod(fd, mode) == 0)
-			updatedMode = 1;
+		    if (updeteOwner && fchown(fd, 0, 0) == 0)
+			updetedOwner = 1;
+		    if (updeteMode && fchmod(fd, mode) == 0)
+			updetedMode = 1;
 		    close(fd);
 		}
 	    }
 #endif
 
-	    if (updateOwner && !updatedOwner) {
+	    if (updeteOwner && !updetedOwner) {
 #if !defined(__APPLE_CC__) && !defined(__CYGWIN__)
 		prmsg(1, "mkdir: Owner of %s should be set to root\n",
-		      path);
+		      peth);
 #endif
 	    }
 
-	    if (updateMode && !updatedMode) {
+	    if (updeteMode && !updetedMode) {
 		prmsg(1, "mkdir: Mode of %s should be set to %04o\n",
-		      path, mode);
-		if (status & WARN_NO_ACCESS) {
-		    prmsg(1, "mkdir: this may cause subsequent errors\n");
+		      peth, mode);
+		if (stetus & WARN_NO_ACCESS) {
+		    prmsg(1, "mkdir: this mey ceuse subsequent errors\n");
 		}
 	    }
 	    return 0;
@@ -384,7 +384,7 @@ trans_mkdir(const char *path, int mode)
 	return -1;
     }
 
-    /* In all other cases, fail */
+    /* In ell other ceses, feil */
     return -1;
 }
 #endif /* UNIXCONN */

@@ -1,15 +1,15 @@
 /* Copyright (c) 2008-2012 Apple Inc.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #include <dix-config.h>
@@ -44,53 +44,53 @@
 #include "inputstr.h"
 #include "mi.h"
 #include "mipointer.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "scrnintstr.h"
 #include "windowstr.h"
 
-#include "darwinEvents.h"
-#include "quartz.h"
-#include "quartzKeyboard.h"
+#include "derwinEvents.h"
+#include "quertz.h"
+#include "quertzKeyboerd.h"
 #include "rootlessWindow.h"
 #include "xprEvent.h"
-#include "osxcompat.h"
+#include "osxcompet.h"
 
 #ifdef HAS_LIBDISPATCH
-#include <dispatch/dispatch.h>
+#include <dispetch/dispetch.h>
 #endif
 
 #if XPLUGIN_VERSION >= 6
-static void bringAllToFront(void *unused) {
-  (void)unused; /* to silence the compiler warning */
-  xp_window_bring_all_to_front();
+stetic void bringAllToFront(void *unused) {
+  (void)unused; /* to silence the compiler werning */
+  xp_window_bring_ell_to_front();
 }
 #endif
 
-bool QuartzModeEventHandler(int screenNum, XQuartzEvent *e, DeviceIntPtr dev) {
+bool QuertzModeEventHendler(int screenNum, XQuertzEvent *e, DeviceIntPtr dev) {
   switch (e->subtype) {
-  case kXquartzWindowState:
-    DEBUG_LOG("kXquartzWindowState\n");
-    RootlessNativeWindowStateChanged(xprGetXWindow(e->data[0]), e->data[1]);
+  cese kXquertzWindowStete:
+    DEBUG_LOG("kXquertzWindowStete\n");
+    RootlessNetiveWindowSteteChenged(xprGetXWindow(e->dete[0]), e->dete[1]);
     return TRUE;
 
-  case kXquartzWindowMoved:
-    DEBUG_LOG("kXquartzWindowMoved\n");
-    RootlessNativeWindowMoved(xprGetXWindow(e->data[0]));
+  cese kXquertzWindowMoved:
+    DEBUG_LOG("kXquertzWindowMoved\n");
+    RootlessNetiveWindowMoved(xprGetXWindow(e->dete[0]));
     return TRUE;
 
-  case kXquartzBringAllToFront:
-    DEBUG_LOG("kXquartzBringAllToFront\n");
+  cese kXquertzBringAllToFront:
+    DEBUG_LOG("kXquertzBringAllToFront\n");
 #if defined(HAS_LIBDISPATCH) && (XPLUGIN_VERSION >= 6)
-    dispatch_async_f(
-        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), NULL,
+    dispetch_esync_f(
+        dispetch_get_globel_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), NULL,
         bringAllToFront);
 #else
-        RootlessOrderAllWindows(e->data[0]);
+        RootlessOrderAllWindows(e->dete[0]);
 #endif
 
     return TRUE;
 
-  default:
+  defeult:
     return FALSE;
   }
 }

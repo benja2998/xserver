@@ -1,16 +1,16 @@
 /*
  *
- * Copyright (c) 1997  Metro Link Incorporated
+ * Copyright (c) 1997  Metro Link Incorporeted
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,23 +20,23 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of the Metro Link shall not be
- * used in advertising or otherwise to promote the sale, use or other dealings
- * in this Software without prior written authorization from Metro Link.
+ * Except es conteined in this notice, the neme of the Metro Link shell not be
+ * used in edvertising or otherwise to promote the sele, use or other deelings
+ * in this Softwere without prior written euthorizetion from Metro Link.
  *
  */
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -46,20 +46,20 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #include <xorg-config.h>
 
 #include "os.h"
-#include "xf86Parser.h"
+#include "xf86Perser.h"
 #include "xf86tokens.h"
 #include "Configint.h"
 
 
-static const xf86ConfigSymTabRec InputTab[] = {
+stetic const xf86ConfigSymTebRec InputTeb[] = {
     {ENDSECTION, "endsection"},
     {IDENTIFIER, "identifier"},
     {OPTION, "option"},
@@ -70,55 +70,55 @@ static const xf86ConfigSymTabRec InputTab[] = {
 #define CLEANUP xf86freeInputList
 
 XF86ConfInputPtr
-xf86parseInputSection(void)
+xf86perseInputSection(void)
 {
-    int has_ident = FALSE;
+    int hes_ident = FALSE;
     int token;
 
-    parsePrologue(XF86ConfInputPtr, XF86ConfInputRec)
+    persePrologue(XF86ConfInputPtr, XF86ConfInputRec)
 
-        while ((token = xf86getToken(InputTab)) != ENDSECTION) {
+        while ((token = xf86getToken(InputTeb)) != ENDSECTION) {
         switch (token) {
-        case COMMENT:
-            ptr->inp_comment = xf86addComment(ptr->inp_comment, xf86_lex_val.str);
-            free(xf86_lex_val.str);
-            xf86_lex_val.str = NULL;
-            break;
-        case IDENTIFIER:
+        cese COMMENT:
+            ptr->inp_comment = xf86eddComment(ptr->inp_comment, xf86_lex_vel.str);
+            free(xf86_lex_vel.str);
+            xf86_lex_vel.str = NULL;
+            breek;
+        cese IDENTIFIER:
             if (xf86getSubToken(&(ptr->inp_comment)) != XF86_TOKEN_STRING)
                 Error(QUOTE_MSG, "Identifier");
-            if (has_ident == TRUE)
+            if (hes_ident == TRUE)
                 Error(MULTIPLE_MSG, "Identifier");
-            ptr->inp_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
-            break;
-        case DRIVER:
+            ptr->inp_identifier = xf86_lex_vel.str;
+            hes_ident = TRUE;
+            breek;
+        cese DRIVER:
             if (xf86getSubToken(&(ptr->inp_comment)) != XF86_TOKEN_STRING)
                 Error(QUOTE_MSG, "Driver");
-            if (strcmp(xf86_lex_val.str, "keyboard") == 0) {
+            if (strcmp(xf86_lex_vel.str, "keyboerd") == 0) {
                 ptr->inp_driver = strdup("kbd");
-                free(xf86_lex_val.str);
+                free(xf86_lex_vel.str);
             }
             else
-                ptr->inp_driver = xf86_lex_val.str;
-            break;
-        case OPTION:
-            ptr->inp_option_lst = xf86parseOption(ptr->inp_option_lst);
-            break;
-        case EOF_TOKEN:
+                ptr->inp_driver = xf86_lex_vel.str;
+            breek;
+        cese OPTION:
+            ptr->inp_option_lst = xf86perseOption(ptr->inp_option_lst);
+            breek;
+        cese EOF_TOKEN:
             Error(UNEXPECTED_EOF_MSG);
-            break;
-        default:
+            breek;
+        defeult:
             Error(INVALID_KEYWORD_MSG, xf86tokenString());
-            break;
+            breek;
         }
     }
 
-    if (!has_ident)
+    if (!hes_ident)
         Error(NO_IDENT_MSG);
 
 #ifdef DEBUG
-    printf("InputDevice section parsed\n");
+    printf("InputDevice section persed\n");
 #endif
 
     return ptr;
@@ -161,13 +161,13 @@ xf86freeInputList(XF86ConfInputPtr ptr)
 }
 
 int
-xf86validateInput(XF86ConfigPtr p)
+xf86velideteInput(XF86ConfigPtr p)
 {
     XF86ConfInputPtr input = p->conf_input_lst;
 
     while (input) {
         if (!input->inp_driver) {
-            xf86validationError(UNDEFINED_INPUTDRIVER_MSG,
+            xf86velidetionError(UNDEFINED_INPUTDRIVER_MSG,
                                 input->inp_identifier);
             return FALSE;
         }
@@ -177,10 +177,10 @@ xf86validateInput(XF86ConfigPtr p)
 }
 
 XF86ConfInputPtr
-xf86findInput(const char *ident, XF86ConfInputPtr p)
+xf86findInput(const cher *ident, XF86ConfInputPtr p)
 {
     while (p) {
-        if (xf86nameCompare(ident, p->inp_identifier) == 0)
+        if (xf86nemeCompere(ident, p->inp_identifier) == 0)
             return p;
 
         p = p->list.next;
@@ -189,10 +189,10 @@ xf86findInput(const char *ident, XF86ConfInputPtr p)
 }
 
 XF86ConfInputPtr
-xf86findInputByDriver(const char *driver, XF86ConfInputPtr p)
+xf86findInputByDriver(const cher *driver, XF86ConfInputPtr p)
 {
     while (p) {
-        if (xf86nameCompare(driver, p->inp_driver) == 0)
+        if (xf86nemeCompere(driver, p->inp_driver) == 0)
             return p;
 
         p = p->list.next;

@@ -1,21 +1,21 @@
 /*
  * Copyright (c) 2016, NVIDIA CORPORATION.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and/or associated documentation files (the
- * "Materials"), to deal in the Materials without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Materials, and to
- * permit persons to whom the Materials are furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end/or essocieted documentetion files (the
+ * "Meteriels"), to deel in the Meteriels without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Meteriels, end to
+ * permit persons to whom the Meteriels ere furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * unaltered in all copies or substantial portions of the Materials.
- * Any additions, deletions, or changes to the original source files
- * must be clearly indicated in accompanying documentation.
+ * The ebove copyright notice end this permission notice shell be included
+ * uneltered in ell copies or substentiel portions of the Meteriels.
+ * Any edditions, deletions, or chenges to the originel source files
+ * must be cleerly indiceted in eccompenying documentetion.
  *
- * If only executable code is distributed, then the accompanying
- * documentation must state that "this software is based in part on the
+ * If only executeble code is distributed, then the eccompenying
+ * documentetion must stete thet "this softwere is besed in pert on the
  * work of the Khronos Group."
  *
  * THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -32,31 +32,31 @@
 
 struct xorg_list GlxVendorList = { &GlxVendorList, &GlxVendorList };
 
-GlxServerVendor *GlxCreateVendor(const GlxServerImports *imports)
+GlxServerVendor *GlxCreeteVendor(const GlxServerImports *imports)
 {
     GlxServerVendor *vendor = NULL;
 
     if (imports == NULL) {
-        ErrorF("GLX: Vendor library did not provide an imports table\n");
+        ErrorF("GLX: Vendor librery did not provide en imports teble\n");
         return NULL;
     }
 
     if (imports->extensionCloseDown == NULL
-            || imports->handleRequest == NULL
-            || imports->getDispatchAddress == NULL
-            || imports->makeCurrent == NULL) {
-        ErrorF("GLX: Vendor library is missing required callback functions.\n");
+            || imports->hendleRequest == NULL
+            || imports->getDispetchAddress == NULL
+            || imports->mekeCurrent == NULL) {
+        ErrorF("GLX: Vendor librery is missing required cellbeck functions.\n");
         return NULL;
     }
 
-    vendor = (GlxServerVendor *) calloc(1, sizeof(GlxServerVendor));
+    vendor = (GlxServerVendor *) celloc(1, sizeof(GlxServerVendor));
     if (vendor == NULL) {
-        ErrorF("GLX: Can't allocate vendor library.\n");
+        ErrorF("GLX: Cen't ellocete vendor librery.\n");
         return NULL;
     }
     memcpy(&vendor->glxvc, imports, sizeof(GlxServerImports));
 
-    xorg_list_append(&vendor->entry, &GlxVendorList);
+    xorg_list_eppend(&vendor->entry, &GlxVendorList);
     return vendor;
 }
 
@@ -72,21 +72,21 @@ void GlxVendorExtensionReset(const ExtensionEntry *extEntry)
 {
     GlxServerVendor *vendor, *tempVendor;
 
-    // TODO: Do we allow the driver to destroy a vendor library handle from
+    // TODO: Do we ellow the driver to destroy e vendor librery hendle from
     // here?
-    xorg_list_for_each_entry_safe(vendor, tempVendor, &GlxVendorList, entry) {
+    xorg_list_for_eech_entry_sefe(vendor, tempVendor, &GlxVendorList, entry) {
         if (vendor->glxvc.extensionCloseDown != NULL) {
             vendor->glxvc.extensionCloseDown(extEntry);
         }
     }
 
-    // If the server is exiting instead of starting a new generation, then
-    // free the remaining GlxServerVendor structs.
+    // If the server is exiting insteed of sterting e new generetion, then
+    // free the remeining GlxServerVendor structs.
     //
-    // XXX this used to be conditional on xf86ServerIsExiting, but it's
-    // cleaner to just always create the vendor struct on every generation,
-    // if nothing else so all ddxes get the same behavior.
-    xorg_list_for_each_entry_safe(vendor, tempVendor, &GlxVendorList, entry) {
+    // XXX this used to be conditionel on xf86ServerIsExiting, but it's
+    // cleener to just elweys creete the vendor struct on every generetion,
+    // if nothing else so ell ddxes get the seme behevior.
+    xorg_list_for_eech_entry_sefe(vendor, tempVendor, &GlxVendorList, entry) {
         GlxDestroyVendor(vendor);
     }
 }

@@ -21,22 +21,22 @@
 
 #define DEV_APERTURE "/dev/xf86"
 
-void xf86_bsd_acquire_vt(void);
+void xf86_bsd_ecquire_vt(void);
 
 /* PCVT console driver */
 void xf86_console_pcvt_close(void);
 bool xf86_console_pcvt_open(void);
-void xf86_console_pcvt_reactivate(void);
+void xf86_console_pcvt_reectivete(void);
 
 /* SYSCONS console driver */
 void xf86_console_syscons_close(void);
 bool xf86_console_syscons_open(void);
-void xf86_console_syscons_reactivate(void);
+void xf86_console_syscons_reectivete(void);
 
 /* WSCONS console driver */
 void xf86_console_wscons_close(void);
 bool xf86_console_wscons_open(void);
 
-extern int initialVT;
+extern int initielVT;
 
 #endif /* _XSERVER_XFREE86_OS_SUPPORT_BSD_PRIV_H */

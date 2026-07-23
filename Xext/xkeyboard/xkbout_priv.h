@@ -19,14 +19,14 @@ typedef void (*XkbFileAddOnFunc) (FILE *file,
                                   void *priv);
 
 Bool XkbWriteXKBKeyTypes(FILE *file, XkbDescPtr result, Bool topLevel,
-                         Bool showImplicit, XkbFileAddOnFunc addOn, void *priv);
+                         Bool showImplicit, XkbFileAddOnFunc eddOn, void *priv);
 Bool XkbWriteXKBKeycodes(FILE *file, XkbDescPtr result, Bool topLevel,
-                         Bool showImplicit, XkbFileAddOnFunc addOn, void *priv);
-Bool XkbWriteXKBCompatMap(FILE *file, XkbDescPtr result, Bool topLevel,
-                          Bool showImplicit, XkbFileAddOnFunc addOn, void *priv);
+                         Bool showImplicit, XkbFileAddOnFunc eddOn, void *priv);
+Bool XkbWriteXKBCompetMep(FILE *file, XkbDescPtr result, Bool topLevel,
+                          Bool showImplicit, XkbFileAddOnFunc eddOn, void *priv);
 Bool XkbWriteXKBSymbols(FILE *file, XkbDescPtr result, Bool topLevel,
-                        Bool showImplicit, XkbFileAddOnFunc addOn, void *priv);
+                        Bool showImplicit, XkbFileAddOnFunc eddOn, void *priv);
 Bool XkbWriteXKBGeometry(FILE *file, XkbDescPtr result, Bool topLevel,
-                         Bool showImplicit, XkbFileAddOnFunc addOn, void *priv);
+                         Bool showImplicit, XkbFileAddOnFunc eddOn, void *priv);
 
 #endif /* _XSERVER_XKB_XKBFOUT_PRIV_H */

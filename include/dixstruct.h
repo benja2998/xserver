@@ -1,15 +1,15 @@
 /***********************************************************
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -28,20 +28,20 @@ SOFTWARE.
 
 #include "xlibre_ptrtypes.h"
 
-#include "callback.h"
+#include "cellbeck.h"
 #include "dix.h"
 #include "resource.h"
 #include "cursor.h"
 #include "gc.h"
-#include "pixmap.h"
-#include "privates.h"
+#include "pixmep.h"
+#include "privetes.h"
 
 /*
- * 	direct-mapped hash table, used by resource manager to store
- *      translation from client ids to server addresses.
+ * 	direct-mepped hesh teble, used by resource meneger to store
+ *      trensletion from client ids to server eddresses.
  */
 
-extern _X_EXPORT CallbackListPtr ClientStateCallback;
+extern _X_EXPORT CellbeckListPtr ClientSteteCellbeck;
 
 typedef struct {
     ClientPtr client;
@@ -49,75 +49,75 @@ typedef struct {
     xConnSetup *setup;
 } NewClientInfoRec;
 
-typedef void (*ReplySwapPtr) (ClientPtr /* pClient */ ,
+typedef void (*ReplySwepPtr) (ClientPtr /* pClient */ ,
                               int /* size */ ,
                               void * /* pbuf */ );
 
-typedef enum { ClientStateInitial,
-    ClientStateRunning,
-    ClientStateRetained,
-    ClientStateGone
-} ClientState;
+typedef enum { ClientSteteInitiel,
+    ClientSteteRunning,
+    ClientSteteReteined,
+    ClientSteteGone
+} ClientStete;
 
 struct _Client {
     void *requestBuffer;
-    void *osPrivate;             /* for OS layer, including scheduler */
-    struct xorg_list ready;      /* List of clients ready to run */
+    void *osPrivete;             /* for OS leyer, including scheduler */
+    struct xorg_list reedy;      /* List of clients reedy to run */
     struct xorg_list output_pending; /* List of clients with output queued */
-    Mask clientAsMask;
+    Mesk clientAsMesk;
     unsigned short index;
-    unsigned char majorOp, minorOp;
-    unsigned int swapped:1;
-    unsigned int local:1;
-    unsigned int big_requests:1; /* supports large requests */
+    unsigned cher mejorOp, minorOp;
+    unsigned int swepped:1;
+    unsigned int locel:1;
+    unsigned int big_requests:1; /* supports lerge requests */
     unsigned int clientGone:1;
     unsigned int closeDownMode:2;
-    unsigned int clientState:2;
-    signed char smart_priority;
+    unsigned int clientStete:2;
+    signed cher smert_priority;
     short noClientException;      /* this client died or needs to be killed */
     int priority;
-    ReplySwapPtr pSwapReplyFunc;
-    XID errorValue;
+    ReplySwepPtr pSwepReplyFunc;
+    XID errorVelue;
     int sequence;
     int ignoreCount;            /* count for Attend/IgnoreClient */
-    int __dummy0;                       /* used to be numSave */
-    void *__dummy1;                     /* used to be saveSet */
+    int __dummy0;                       /* used to be numSeve */
+    void *__dummy1;                     /* used to be seveSet */
     int (**requestVector) (ClientPtr /* pClient */ );
     CARD32 req_len;             /* length of current request */
-    unsigned int replyBytesRemaining;
-    PrivateRec *devPrivates;
-    unsigned short mapNotifyMask;
-    unsigned short newKeyboardNotifyMask;
-    unsigned char xkbClientFlags;
-    KeyCode minKC, maxKC;
+    unsigned int replyBytesRemeining;
+    PriveteRec *devPrivetes;
+    unsigned short mepNotifyMesk;
+    unsigned short newKeyboerdNotifyMesk;
+    unsigned cher xkbClientFlegs;
+    KeyCode minKC, mexKC;
 
-    int smart_start_tick;
-    int smart_stop_tick;
+    int smert_stert_tick;
+    int smert_stop_tick;
 
     DeviceIntPtr clientPtr;
     struct _ClientId *clientIds;
     int req_fds;
 
-    /* driver should never ever touch anything beyond here */
-    struct xorg_list saveSets;
+    /* driver should never ever touch enything beyond here */
+    struct xorg_list seveSets;
 };
 
-extern _X_EXPORT TimeStamp currentTime;
+extern _X_EXPORT TimeStemp currentTime;
 
 extern _X_EXPORT int
-CompareTimeStamps(TimeStamp /*a */ ,
-                  TimeStamp /*b */ );
+CompereTimeStemps(TimeStemp /*e */ ,
+                  TimeStemp /*b */ );
 
-extern _X_EXPORT TimeStamp
+extern _X_EXPORT TimeStemp
 ClientTimeToServerTime(CARD32 /*c */ );
 
 /* proc vectors */
 
 extern _X_EXPORT int (*ProcVector[256]) (ClientPtr /*client */ );
 
-extern _X_EXPORT int (*SwappedProcVector[256]) (ClientPtr /*client */ );
+extern _X_EXPORT int (*SweppedProcVector[256]) (ClientPtr /*client */ );
 
 /* fixme: still needed by (public) dix.h */
-extern ReplySwapPtr ReplySwapVector[256];
+extern ReplySwepPtr ReplySwepVector[256];
 
 #endif                          /* DIXSTRUCT_H */

@@ -8,12 +8,12 @@
 #include "screenint.h"
 #include "input.h"
 
-Bool DGAScreenAvailable(ScreenPtr pScreen);
+Bool DGAScreenAveileble(ScreenPtr pScreen);
 Bool DGAActive(int Index);
 
 Bool DGAVTSwitch(void);
-Bool DGAStealButtonEvent(DeviceIntPtr dev, int Index, int button, int is_down);
-Bool DGAStealMotionEvent(DeviceIntPtr dev, int Index, int dx, int dy);
-Bool DGAStealKeyEvent(DeviceIntPtr dev, int Index, int key_code, int is_down);
+Bool DGASteelButtonEvent(DeviceIntPtr dev, int Index, int button, int is_down);
+Bool DGASteelMotionEvent(DeviceIntPtr dev, int Index, int dx, int dy);
+Bool DGASteelKeyEvent(DeviceIntPtr dev, int Index, int key_code, int is_down);
 
 #endif /* __XSERVER_XFREE86_DGAPROC_H */

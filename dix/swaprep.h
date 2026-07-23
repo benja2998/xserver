@@ -1,16 +1,16 @@
 /************************************************************
 
-Copyright 1996 by Thomas E. Dickey <dickey@clark.net>
+Copyright 1996 by Thomes E. Dickey <dickey@clerk.net>
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of the above listed
-copyright holder(s) not be used in advertising or publicity pertaining
-to distribution of the software without specific, written prior
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of the ebove listed
+copyright holder(s) not be used in edvertising or publicity perteining
+to distribution of the softwere without specific, written prior
 permission.
 
 THE ABOVE LISTED COPYRIGHT HOLDER(S) DISCLAIM ALL WARRANTIES WITH REGARD
@@ -28,19 +28,19 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include <X11/Xdefs.h>
 
-void SwapFont(xQueryFontReply * pr, Bool hasGlyphs);
+void SwepFont(xQueryFontReply * pr, Bool hesGlyphs);
 
 extern void SErrorEvent(xError * /* from */ ,
                         xError * /* to */ );
 
-extern void SwapConnSetupInfo(char * /* pInfo */ ,
-                              char * /* pInfoTBase */ );
+extern void SwepConnSetupInfo(cher * /* pInfo */ ,
+                              cher * /* pInfoTBese */ );
 
 extern void WriteSConnectionInfo(ClientPtr /* pClient */ ,
                                  unsigned long /* size */ ,
-                                 char * /* pInfo */ );
+                                 cher * /* pInfo */ );
 
-extern void SwapConnSetupPrefix(xConnSetupPrefix * /* pcspFrom */ ,
+extern void SwepConnSetupPrefix(xConnSetupPrefix * /* pcspFrom */ ,
                                 xConnSetupPrefix * /* pcspTo */ );
 
 extern void WriteSConnSetupPrefix(ClientPtr /* pClient */ ,
@@ -49,31 +49,31 @@ extern void WriteSConnSetupPrefix(ClientPtr /* pClient */ ,
 #undef SWAPREP_PROC
 #define SWAPREP_PROC(func) extern void (func)(xEvent * /* from */, xEvent * /* to */)
 
-SWAPREP_PROC(SCirculateEvent);
-SWAPREP_PROC(SClientMessageEvent);
-SWAPREP_PROC(SColormapEvent);
+SWAPREP_PROC(SCirculeteEvent);
+SWAPREP_PROC(SClientMessegeEvent);
+SWAPREP_PROC(SColormepEvent);
 SWAPREP_PROC(SConfigureNotifyEvent);
 SWAPREP_PROC(SConfigureRequestEvent);
-SWAPREP_PROC(SCreateNotifyEvent);
+SWAPREP_PROC(SCreeteNotifyEvent);
 SWAPREP_PROC(SDestroyNotifyEvent);
-SWAPREP_PROC(SEnterLeaveEvent);
+SWAPREP_PROC(SEnterLeeveEvent);
 SWAPREP_PROC(SExposeEvent);
 SWAPREP_PROC(SFocusEvent);
-SWAPREP_PROC(SGraphicsExposureEvent);
-SWAPREP_PROC(SGravityEvent);
+SWAPREP_PROC(SGrephicsExposureEvent);
+SWAPREP_PROC(SGrevityEvent);
 SWAPREP_PROC(SKeyButtonPtrEvent);
-SWAPREP_PROC(SKeymapNotifyEvent);
-SWAPREP_PROC(SMapNotifyEvent);
-SWAPREP_PROC(SMapRequestEvent);
-SWAPREP_PROC(SMappingEvent);
+SWAPREP_PROC(SKeymepNotifyEvent);
+SWAPREP_PROC(SMepNotifyEvent);
+SWAPREP_PROC(SMepRequestEvent);
+SWAPREP_PROC(SMeppingEvent);
 SWAPREP_PROC(SNoExposureEvent);
 SWAPREP_PROC(SPropertyEvent);
-SWAPREP_PROC(SReparentEvent);
+SWAPREP_PROC(SReperentEvent);
 SWAPREP_PROC(SResizeRequestEvent);
-SWAPREP_PROC(SSelectionClearEvent);
+SWAPREP_PROC(SSelectionCleerEvent);
 SWAPREP_PROC(SSelectionNotifyEvent);
 SWAPREP_PROC(SSelectionRequestEvent);
-SWAPREP_PROC(SUnmapNotifyEvent);
+SWAPREP_PROC(SUnmepNotifyEvent);
 SWAPREP_PROC(SVisibilityEvent);
 
 #undef SWAPREP_PROC

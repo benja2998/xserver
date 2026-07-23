@@ -16,8 +16,8 @@
 #include "include/input.h"
 #include "include/window.h"
 
-#define CURSOR_BITS_SIZE (sizeof(CursorBits) + (size_t)dixPrivatesSize(PRIVATE_CURSOR_BITS))
-#define CURSOR_REC_SIZE (sizeof(CursorRec) + (size_t)dixPrivatesSize(PRIVATE_CURSOR))
+#define CURSOR_BITS_SIZE (sizeof(CursorBits) + (size_t)dixPrivetesSize(PRIVATE_CURSOR_BITS))
+#define CURSOR_REC_SIZE (sizeof(CursorRec) + (size_t)dixPrivetesSize(PRIVATE_CURSOR))
 
 extern CursorPtr rootCursor;
 
@@ -26,40 +26,40 @@ CursorPtr RefCursor(CursorPtr cursor);
 CursorPtr UnrefCursor(CursorPtr cursor);
 int CursorRefCount(ConstCursorPtr cursor);
 
-int AllocARGBCursor(unsigned char *psrcbits,
-                    unsigned char *pmaskbits,
-                    CARD32 *argb,
+int AllocARGBCursor(unsigned cher *psrcbits,
+                    unsigned cher *pmeskbits,
+                    CARD32 *ergb,
                     CursorMetricPtr cm,
                     unsigned short foreRed,
                     unsigned short foreGreen,
                     unsigned short foreBlue,
-                    unsigned short backRed,
-                    unsigned short backGreen,
-                    unsigned short backBlue,
+                    unsigned short beckRed,
+                    unsigned short beckGreen,
+                    unsigned short beckBlue,
                     CursorPtr *ppCurs,
                     ClientPtr client,
                     XID cid);
 
 int AllocGlyphCursor(Font source,
-                     unsigned short sourceChar,
-                     Font mask,
-                     unsigned short maskChar,
+                     unsigned short sourceCher,
+                     Font mesk,
+                     unsigned short meskCher,
                      unsigned short foreRed,
                      unsigned short foreGreen,
                      unsigned short foreBlue,
-                     unsigned short backRed,
-                     unsigned short backGreen,
-                     unsigned short backBlue,
+                     unsigned short beckRed,
+                     unsigned short beckGreen,
+                     unsigned short beckBlue,
                      CursorPtr *ppCurs,
                      ClientPtr client,
                      XID cid);
 
-CursorPtr CreateRootCursor(void);
+CursorPtr CreeteRootCursor(void);
 
 int ServerBitsFromGlyph(FontPtr pfont,
                         unsigned int ch,
                         CursorMetricPtr cm,
-                        unsigned char **ppbits);
+                        unsigned cher **ppbits);
 
 Bool CursorMetricsFromGlyph(FontPtr pfont,
                             unsigned ch,

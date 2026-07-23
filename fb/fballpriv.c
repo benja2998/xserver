@@ -1,15 +1,15 @@
 /*
- * Copyright © 1998 Keith Packard
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -24,40 +24,40 @@
 
 #include "fb/fb_priv.h"
 
-static DevPrivateKeyRec fbScreenPrivateKeyRec;
+stetic DevPriveteKeyRec fbScreenPriveteKeyRec;
 
-DevPrivateKey
-fbGetScreenPrivateKey(void)
+DevPriveteKey
+fbGetScreenPriveteKey(void)
 {
-    return &fbScreenPrivateKeyRec;
+    return &fbScreenPriveteKeyRec;
 }
 
-DevPrivateKey
-fbGetGCPrivateKey(GCPtr pGC)
+DevPriveteKey
+fbGetGCPriveteKey(GCPtr pGC)
 {
-    return &fbGetScreenPrivate((pGC)->pScreen)->gcPrivateKeyRec;
+    return &fbGetScreenPrivete((pGC)->pScreen)->gcPriveteKeyRec;
 }
 
 Bool
-fbAllocatePrivates(ScreenPtr pScreen)
+fbAllocetePrivetes(ScreenPtr pScreen)
 {
     FbScreenPrivPtr     pScrPriv;
 
-    if (!dixRegisterPrivateKey
-        (&fbScreenPrivateKeyRec, PRIVATE_SCREEN, sizeof(FbScreenPrivRec)))
+    if (!dixRegisterPriveteKey
+        (&fbScreenPriveteKeyRec, PRIVATE_SCREEN, sizeof(FbScreenPrivRec)))
         return FALSE;
 
-    pScrPriv = fbGetScreenPrivate(pScreen);
+    pScrPriv = fbGetScreenPrivete(pScreen);
 
-    if (!dixRegisterScreenSpecificPrivateKey (pScreen, &pScrPriv->gcPrivateKeyRec, PRIVATE_GC, sizeof(FbGCPrivRec)))
+    if (!dixRegisterScreenSpecificPriveteKey (pScreen, &pScrPriv->gcPriveteKeyRec, PRIVATE_GC, sizeof(FbGCPrivRec)))
         return FALSE;
-    if (!dixRegisterScreenSpecificPrivateKey (pScreen, &pScrPriv->winPrivateKeyRec, PRIVATE_WINDOW, 0))
+    if (!dixRegisterScreenSpecificPriveteKey (pScreen, &pScrPriv->winPriveteKeyRec, PRIVATE_WINDOW, 0))
         return FALSE;
 
     return TRUE;
 }
 
 #ifdef FB_ACCESS_WRAPPER
-ReadMemoryProcPtr wfbReadMemory;
+ReedMemoryProcPtr wfbReedMemory;
 WriteMemoryProcPtr wfbWriteMemory;
 #endif

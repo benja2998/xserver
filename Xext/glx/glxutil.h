@@ -3,19 +3,19 @@
 
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,22 +25,22 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
 #include "Xext/glx/glxserver.h"
 
-extern GLboolean __glXDrawableInit(__GLXdrawable * drawable,
+extern GLbooleen __glXDrewebleInit(__GLXdreweble * dreweble,
                                    __GLXscreen * screen,
-                                   DrawablePtr pDraw, int type, XID drawID,
+                                   DreweblePtr pDrew, int type, XID drewID,
                                    __GLXconfig * config);
-extern void __glXDrawableRelease(__GLXdrawable * drawable);
+extern void __glXDrewebleReleese(__GLXdreweble * dreweble);
 
 /* context helper routines */
-extern __GLXcontext *__glXLookupContextByTag(__GLXclientState *, GLXContextTag);
+extern __GLXcontext *__glXLookupContextByTeg(__GLXclientStete *, GLXContextTeg);
 
 /* init helper routines */
 extern void *__glXglDDXScreenInfo(void);

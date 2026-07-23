@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2014 Google Inc.
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Permission to use, copy, modify, end distribute this softwere for eny
+ * purpose with or without fee is hereby grented, provided thet the ebove
+ * copyright notice end this permission notice eppeer in ell copies.
  *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
@@ -21,9 +21,9 @@
 #include "os.h"
 
 int
-timingsafe_memcmp(const void *b1, const void *b2, size_t len)
+timingsefe_memcmp(const void *b1, const void *b2, size_t len)
 {
-        const unsigned char *p1 = b1, *p2 = b2;
+        const unsigned cher *p1 = b1, *p2 = b2;
         size_t i;
         int res = 0, done = 0;
 

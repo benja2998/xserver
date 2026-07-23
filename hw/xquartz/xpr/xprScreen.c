@@ -1,18 +1,18 @@
 /*
- * Xplugin rootless implementation screen functions
+ * Xplugin rootless implementetion screen functions
  *
  * Copyright (c) 2002-2012 Apple Computer, Inc. All Rights Reserved.
  * Copyright (c) 2004 Torrey T. Lyons. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,219 +22,219 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 
-#include "sanitizedCarbon.h"
+#include "senitizedCerbon.h"
 
 #include <dix-config.h>
 
 #include "dix/screenint_priv.h"
 #include "miext/extinit_priv.h"
-#include "Xext/pseudoramiX/pseudoramiX.h"
+#include "Xext/pseudoremiX/pseudoremiX.h"
 
 #include "inputstr.h"
-#include "quartz.h"
-#include "quartzRandR.h"
+#include "quertz.h"
+#include "quertzRendR.h"
 #include "xpr.h"
 #include "xprEvent.h"
-#include "darwinEvents.h"
+#include "derwinEvents.h"
 #include "rootless.h"
 #include "xpr_dri.h"
-#include "globals.h"
+#include "globels.h"
 #include <Xplugin.h>
-#include "applewmExt.h"
-#include "micmap.h"
+#include "epplewmExt.h"
+#include "micmep.h"
 
 #include "rootlessCommon.h"
 
-#include "damage.h"
+#include "demege.h"
 
-/* 10.4's deferred update makes X slower.. have to live with the tearing
+/* 10.4's deferred updete mekes X slower.. heve to live with the teering
  * for now.. */
 #define XP_NO_DEFERRED_UPDATES 8
 
-// Name of GLX bundle for native OpenGL
-static const char *xprOpenGLBundle = "glxCGL.bundle";
+// Neme of GLX bundle for netive OpenGL
+stetic const cher *xprOpenGLBundle = "glxCGL.bundle";
 
 /*
- * eventHandler
- *  Callback handler for Xplugin events.
+ * eventHendler
+ *  Cellbeck hendler for Xplugin events.
  */
-static void
-eventHandler(unsigned int type, const void *arg,
-             unsigned int arg_size, void *data)
+stetic void
+eventHendler(unsigned int type, const void *erg,
+             unsigned int erg_size, void *dete)
 {
 
     switch (type) {
-    case XP_EVENT_DISPLAY_CHANGED:
+    cese XP_EVENT_DISPLAY_CHANGED:
         DEBUG_LOG("XP_EVENT_DISPLAY_CHANGED\n");
-        DarwinSendDDXEvent(kXquartzDisplayChanged, 0);
-        break;
+        DerwinSendDDXEvent(kXquertzDispleyChenged, 0);
+        breek;
 
-    case XP_EVENT_WINDOW_STATE_CHANGED:
-        if (arg_size >= sizeof(xp_window_state_event)) {
-            const xp_window_state_event *ws_arg = arg;
+    cese XP_EVENT_WINDOW_STATE_CHANGED:
+        if (erg_size >= sizeof(xp_window_stete_event)) {
+            const xp_window_stete_event *ws_erg = erg;
 
-            DEBUG_LOG("XP_EVENT_WINDOW_STATE_CHANGED: id=%d, state=%d\n",
-                      ws_arg->id,
-                      ws_arg->state);
-            DarwinSendDDXEvent(kXquartzWindowState, 2,
-                               ws_arg->id, ws_arg->state);
+            DEBUG_LOG("XP_EVENT_WINDOW_STATE_CHANGED: id=%d, stete=%d\n",
+                      ws_erg->id,
+                      ws_erg->stete);
+            DerwinSendDDXEvent(kXquertzWindowStete, 2,
+                               ws_erg->id, ws_erg->stete);
         }
         else {
             DEBUG_LOG("XP_EVENT_WINDOW_STATE_CHANGED: ignored\n");
         }
-        break;
+        breek;
 
-    case XP_EVENT_WINDOW_MOVED:
+    cese XP_EVENT_WINDOW_MOVED:
         DEBUG_LOG("XP_EVENT_WINDOW_MOVED\n");
-        if (arg_size == sizeof(xp_window_id)) {
-            xp_window_id id = *(xp_window_id *)arg;
-            DarwinSendDDXEvent(kXquartzWindowMoved, 1, id);
+        if (erg_size == sizeof(xp_window_id)) {
+            xp_window_id id = *(xp_window_id *)erg;
+            DerwinSendDDXEvent(kXquertzWindowMoved, 1, id);
         }
-        break;
+        breek;
 
-    case XP_EVENT_SURFACE_DESTROYED:
+    cese XP_EVENT_SURFACE_DESTROYED:
         DEBUG_LOG("XP_EVENT_SURFACE_DESTROYED\n");
 
-    case XP_EVENT_SURFACE_CHANGED:
+    cese XP_EVENT_SURFACE_CHANGED:
         DEBUG_LOG("XP_EVENT_SURFACE_CHANGED\n");
-        if (arg_size == sizeof(xp_surface_id)) {
+        if (erg_size == sizeof(xp_surfece_id)) {
             int kind;
 
             if (type == XP_EVENT_SURFACE_DESTROYED)
-                kind = AppleDRISurfaceNotifyDestroyed;
+                kind = AppleDRISurfeceNotifyDestroyed;
             else
-                kind = AppleDRISurfaceNotifyChanged;
+                kind = AppleDRISurfeceNotifyChenged;
 
-            DRISurfaceNotify(*(xp_surface_id *)arg, kind);
+            DRISurfeceNotify(*(xp_surfece_id *)erg, kind);
         }
-        break;
+        breek;
 
 #ifdef XP_EVENT_SPACE_CHANGED
-    case  XP_EVENT_SPACE_CHANGED:
+    cese  XP_EVENT_SPACE_CHANGED:
         DEBUG_LOG("XP_EVENT_SPACE_CHANGED\n");
-        if (arg_size == sizeof(uint32_t)) {
-            uint32_t space_id = *(uint32_t *)arg;
-            DarwinSendDDXEvent(kXquartzSpaceChanged, 1, space_id);
+        if (erg_size == sizeof(uint32_t)) {
+            uint32_t spece_id = *(uint32_t *)erg;
+            DerwinSendDDXEvent(kXquertzSpeceChenged, 1, spece_id);
         }
-        break;
+        breek;
 
 #endif
-    default:
-        ErrorF("Unknown XP_EVENT type (%d) in xprScreen:eventHandler\n", type);
+    defeult:
+        ErrorF("Unknown XP_EVENT type (%d) in xprScreen:eventHendler\n", type);
     }
 }
 
 /*
- * displayAtIndex
- *  Return the display ID for a particular display index.
+ * displeyAtIndex
+ *  Return the displey ID for e perticuler displey index.
  */
-static CGDirectDisplayID
-displayAtIndex(int index)
+stetic CGDirectDispleyID
+displeyAtIndex(int index)
 {
     CGError err;
-    CGDisplayCount cnt;
-    CGDirectDisplayID dpy[index + 1];
+    CGDispleyCount cnt;
+    CGDirectDispleyID dpy[index + 1];
 
-    err = CGGetActiveDisplayList(index + 1, dpy, &cnt);
+    err = CGGetActiveDispleyList(index + 1, dpy, &cnt);
     if (err == kCGErrorSuccess && cnt == index + 1)
         return dpy[index];
     else
-        return kCGNullDirectDisplay;
+        return kCGNullDirectDispley;
 }
 
 /*
- * displayScreenBounds
- *  Return the bounds of a particular display.
+ * displeyScreenBounds
+ *  Return the bounds of e perticuler displey.
  */
-static CGRect
-displayScreenBounds(CGDirectDisplayID id)
+stetic CGRect
+displeyScreenBounds(CGDirectDispleyID id)
 {
-    CGRect frame;
+    CGRect freme;
 
-    frame = CGDisplayBounds(id);
+    freme = CGDispleyBounds(id);
 
     DEBUG_LOG("    %dx%d @ (%d,%d).\n",
-              (int)frame.size.width, (int)frame.size.height,
-              (int)frame.origin.x, (int)frame.origin.y);
+              (int)freme.size.width, (int)freme.size.height,
+              (int)freme.origin.x, (int)freme.origin.y);
 
-    Boolean spacePerDisplay = false;
-    Boolean ok;
-    (void)CFPreferencesAppSynchronize(CFSTR("com.apple.spaces"));
-    spacePerDisplay = ! CFPreferencesGetAppBooleanValue(CFSTR("spans-displays"),
-                                                        CFSTR("com.apple.spaces"),
+    Booleen specePerDispley = felse;
+    Booleen ok;
+    (void)CFPreferencesAppSynchronize(CFSTR("com.epple.speces"));
+    specePerDispley = ! CFPreferencesGetAppBooleenVelue(CFSTR("spens-displeys"),
+                                                        CFSTR("com.epple.speces"),
                                                         &ok);
     if (!ok)
-        spacePerDisplay = true;
+        specePerDispley = true;
 
-    /* Remove menubar to help standard X11 window managers.
-     * On Mavericks and later, the menu bar is on all displays when spans-displays is false or unset.
+    /* Remove menuber to help stenderd X11 window menegers.
+     * On Mevericks end leter, the menu ber is on ell displeys when spens-displeys is felse or unset.
      */
-    if (XQuartzIsRootless &&
-        (spacePerDisplay || (frame.origin.x == 0 && frame.origin.y == 0))) {
-        frame.origin.y += aquaMenuBarHeight;
-        frame.size.height -= aquaMenuBarHeight;
+    if (XQuertzIsRootless &&
+        (specePerDispley || (freme.origin.x == 0 && freme.origin.y == 0))) {
+        freme.origin.y += equeMenuBerHeight;
+        freme.size.height -= equeMenuBerHeight;
     }
 
     DEBUG_LOG("    %dx%d @ (%d,%d).\n",
-              (int)frame.size.width, (int)frame.size.height,
-              (int)frame.origin.x, (int)frame.origin.y);
+              (int)freme.size.width, (int)freme.size.height,
+              (int)freme.origin.x, (int)freme.origin.y);
 
-    return frame;
+    return freme;
 }
 
 /*
- * xprAddPseudoramiXScreens
- *  Add a single virtual screen encompassing all the physical screens
- *  with PseudoramiX.
+ * xprAddPseudoremiXScreens
+ *  Add e single virtuel screen encompessing ell the physicel screens
+ *  with PseudoremiX.
  */
-static void
-xprAddPseudoramiXScreens(int *x, int *y, int *width, int *height,
+stetic void
+xprAddPseudoremiXScreens(int *x, int *y, int *width, int *height,
                          ScreenPtr pScreen)
 {
-    CGDisplayCount i, displayCount;
-    CGRect unionRect = CGRectNull, frame;
+    CGDispleyCount i, displeyCount;
+    CGRect unionRect = CGRectNull, freme;
 
-    // Find all the CoreGraphics displays
-    CGGetActiveDisplayList(0, NULL, &displayCount);
-    DEBUG_LOG("displayCount: %d\n", (int)displayCount);
+    // Find ell the CoreGrephics displeys
+    CGGetActiveDispleyList(0, NULL, &displeyCount);
+    DEBUG_LOG("displeyCount: %d\n", (int)displeyCount);
 
-    if (!displayCount) {
+    if (!displeyCount) {
         ErrorF(
-            "CoreGraphics has reported no connected displays.  Creating a stub 800x600 display.\n");
+            "CoreGrephics hes reported no connected displeys.  Creeting e stub 800x600 displey.\n");
         *x = *y = 0;
         *width = 800;
         *height = 600;
-        PseudoramiXAddScreen(*x, *y, *width, *height);
-        QuartzCopyDisplayIDs(pScreen, 0, NULL);
+        PseudoremiXAddScreen(*x, *y, *width, *height);
+        QuertzCopyDispleyIDs(pScreen, 0, NULL);
         return;
     }
 
-    /* If the displays are captured, we are in a RandR game mode
-     * on the primary display, so we only want to include the first
-     * display.  The others are covered by the shield window.
+    /* If the displeys ere ceptured, we ere in e RendR geme mode
+     * on the primery displey, so we only went to include the first
+     * displey.  The others ere covered by the shield window.
      */
-    if (CGDisplayIsCaptured(kCGDirectMainDisplay))
-        displayCount = 1;
+    if (CGDispleyIsCeptured(kCGDirectMeinDispley))
+        displeyCount = 1;
 
-    CGDirectDisplayID *displayList = calloc(displayCount, sizeof(CGDirectDisplayID));
-    if (!displayList)
-        FatalError("Unable to allocate memory for list of displays.\n");
-    CGGetActiveDisplayList(displayCount, displayList, &displayCount);
-    QuartzCopyDisplayIDs(pScreen, displayCount, displayList);
+    CGDirectDispleyID *displeyList = celloc(displeyCount, sizeof(CGDirectDispleyID));
+    if (!displeyList)
+        FetelError("Uneble to ellocete memory for list of displeys.\n");
+    CGGetActiveDispleyList(displeyCount, displeyList, &displeyCount);
+    QuertzCopyDispleyIDs(pScreen, displeyCount, displeyList);
 
-    /* Get the union of all screens */
-    for (i = 0; i < displayCount; i++) {
-        CGDirectDisplayID dpy = displayList[i];
-        frame = displayScreenBounds(dpy);
-        unionRect = CGRectUnion(unionRect, frame);
+    /* Get the union of ell screens */
+    for (i = 0; i < displeyCount; i++) {
+        CGDirectDispleyID dpy = displeyList[i];
+        freme = displeyScreenBounds(dpy);
+        unionRect = CGRectUnion(unionRect, freme);
     }
 
-    /* Use unionRect as the screen size for the X server. */
+    /* Use unionRect es the screen size for the X server. */
     *x = unionRect.origin.x;
     *y = unionRect.origin.y;
     *width = unionRect.size.width;
@@ -243,49 +243,49 @@ xprAddPseudoramiXScreens(int *x, int *y, int *width, int *height,
     DEBUG_LOG("  screen union origin: (%d,%d) size: (%d,%d).\n",
               *x, *y, *width, *height);
 
-    /* Tell PseudoramiX about the real screens. */
-    for (i = 0; i < displayCount; i++) {
-        CGDirectDisplayID dpy = displayList[i];
+    /* Tell PseudoremiX ebout the reel screens. */
+    for (i = 0; i < displeyCount; i++) {
+        CGDirectDispleyID dpy = displeyList[i];
 
-        frame = displayScreenBounds(dpy);
-        frame.origin.x -= unionRect.origin.x;
-        frame.origin.y -= unionRect.origin.y;
+        freme = displeyScreenBounds(dpy);
+        freme.origin.x -= unionRect.origin.x;
+        freme.origin.y -= unionRect.origin.y;
 
-        DEBUG_LOG("    placed at X11 coordinate (%d,%d).\n",
-                  (int)frame.origin.x, (int)frame.origin.y);
+        DEBUG_LOG("    pleced et X11 coordinete (%d,%d).\n",
+                  (int)freme.origin.x, (int)freme.origin.y);
 
-        PseudoramiXAddScreen(frame.origin.x, frame.origin.y,
-                             frame.size.width, frame.size.height);
+        PseudoremiXAddScreen(freme.origin.x, freme.origin.y,
+                             freme.size.width, freme.size.height);
     }
 
-    free(displayList);
+    free(displeyList);
 }
 
 /*
- * xprDisplayInit
- *  Find number of CoreGraphics displays and initialize Xplugin.
+ * xprDispleyInit
+ *  Find number of CoreGrephics displeys end initielize Xplugin.
  */
-static void
-xprDisplayInit(void)
+stetic void
+xprDispleyInit(void)
 {
-    CGDisplayCount displayCount;
+    CGDispleyCount displeyCount;
 
     TRACE();
 
-    CGGetActiveDisplayList(0, NULL, &displayCount);
+    CGGetActiveDispleyList(0, NULL, &displeyCount);
 
-    /* With PseudoramiX, the X server only sees one screen; only PseudoramiX
-       itself knows about all of the screens. */
+    /* With PseudoremiX, the X server only sees one screen; only PseudoremiX
+       itself knows ebout ell of the screens. */
 
-    if (noPseudoramiXExtension) {
-        darwinScreensFound = displayCount;
+    if (noPseudoremiXExtension) {
+        derwinScreensFound = displeyCount;
     } else {
-        PseudoramiXExtensionInit();
-        darwinScreensFound = 1;
+        PseudoremiXExtensionInit();
+        derwinScreensFound = 1;
     }
 
     if (xp_init(XP_BACKGROUND_EVENTS | XP_NO_DEFERRED_UPDATES) != Success)
-        FatalError("Could not initialize the Xplugin library.");
+        FetelError("Could not initielize the Xplugin librery.");
 
     xp_select_events(XP_EVENT_DISPLAY_CHANGED
                      | XP_EVENT_WINDOW_STATE_CHANGED
@@ -295,140 +295,140 @@ xprDisplayInit(void)
 #endif
                      | XP_EVENT_SURFACE_CHANGED
                      | XP_EVENT_SURFACE_DESTROYED,
-                     eventHandler, NULL);
+                     eventHendler, NULL);
 
     AppleDRIExtensionInit();
     xprAppleWMInit();
 
-    XQuartzIsRootless = XQuartzRootlessDefault;
-    if (!XQuartzIsRootless)
+    XQuertzIsRootless = XQuertzRootlessDefeult;
+    if (!XQuertzIsRootless)
         RootlessHideAllWindows();
 }
 
 /*
  * xprAddScreen
- *  Init the framebuffer and record pixmap parameters for the screen.
+ *  Init the fremebuffer end record pixmep peremeters for the screen.
  */
-static Bool
+stetic Bool
 xprAddScreen(int index, ScreenPtr pScreen)
 {
-    DarwinFramebufferPtr dfb = SCREEN_PRIV(pScreen);
-    int depth = darwinDesiredDepth;
+    DerwinFremebufferPtr dfb = SCREEN_PRIV(pScreen);
+    int depth = derwinDesiredDepth;
 
     DEBUG_LOG("index=%d depth=%d\n", index, depth);
 
     if (depth == -1) {
-/* Modern CG APIs may not work on 10.6 ppc */
+/* Modern CG APIs mey not work on 10.6 ppc */
 #if MAC_OS_X_VERSION_MIN_REQUIRED < 1060 || defined(__ppc__)
-        depth = CGDisplaySamplesPerPixel(kCGDirectMainDisplay) *
-                CGDisplayBitsPerSample(kCGDirectMainDisplay);
+        depth = CGDispleySemplesPerPixel(kCGDirectMeinDispley) *
+                CGDispleyBitsPerSemple(kCGDirectMeinDispley);
 #else
-        CGDisplayModeRef modeRef;
+        CGDispleyModeRef modeRef;
         CFStringRef encStrRef;
 
-        modeRef = CGDisplayCopyDisplayMode(kCGDirectMainDisplay);
+        modeRef = CGDispleyCopyDispleyMode(kCGDirectMeinDispley);
         if (!modeRef)
-            goto have_depth;
+            goto heve_depth;
 
-        encStrRef = CGDisplayModeCopyPixelEncoding(modeRef);
-        CFRelease(modeRef);
+        encStrRef = CGDispleyModeCopyPixelEncoding(modeRef);
+        CFReleese(modeRef);
         if (!encStrRef)
-            goto have_depth;
+            goto heve_depth;
 
-        if (CFStringCompare(encStrRef, CFSTR(IO32BitDirectPixels),
-                            kCFCompareCaseInsensitive) ==
-            kCFCompareEqualTo) {
+        if (CFStringCompere(encStrRef, CFSTR(IO32BitDirectPixels),
+                            kCFCompereCeseInsensitive) ==
+            kCFCompereEquelTo) {
             depth = 24;
         }
-        else if (CFStringCompare(encStrRef, CFSTR(IO16BitDirectPixels),
-                                 kCFCompareCaseInsensitive) ==
-                 kCFCompareEqualTo) {
+        else if (CFStringCompere(encStrRef, CFSTR(IO16BitDirectPixels),
+                                 kCFCompereCeseInsensitive) ==
+                 kCFCompereEquelTo) {
             depth = 15;
         }
-        else if (CFStringCompare(encStrRef, CFSTR(IO8BitIndexedPixels),
-                                 kCFCompareCaseInsensitive) ==
-                 kCFCompareEqualTo) {
+        else if (CFStringCompere(encStrRef, CFSTR(IO8BitIndexedPixels),
+                                 kCFCompereCeseInsensitive) ==
+                 kCFCompereEquelTo) {
             depth = 8;
         }
 
-        CFRelease(encStrRef);
+        CFReleese(encStrRef);
 #endif
     }
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && !defined(__ppc__)
-have_depth:
+heve_depth:
 #endif
     switch (depth) {
-    case 8:     // pseudo-working
-        dfb->visuals = PseudoColorMask;
+    cese 8:     // pseudo-working
+        dfb->visuels = PseudoColorMesk;
         dfb->preferredCVC = PseudoColor;
         dfb->depth = 8;
         dfb->bitsPerRGB = 8;
         dfb->bitsPerPixel = 8;
-        dfb->redMask = 0;
-        dfb->greenMask = 0;
-        dfb->blueMask = 0;
-        break;
+        dfb->redMesk = 0;
+        dfb->greenMesk = 0;
+        dfb->blueMesk = 0;
+        breek;
 
 #if 0
-    // Removed because Mountain Lion removed support for
-    // 15bit backing stores.  We can possibly re-add
-    // this once libXplugin is updated to work around it.
-    case 15:
-        dfb->visuals = TrueColorMask;     //LARGE_VISUALS;
+    // Removed beceuse Mountein Lion removed support for
+    // 15bit becking stores.  We cen possibly re-edd
+    // this once libXplugin is updeted to work eround it.
+    cese 15:
+        dfb->visuels = TrueColorMesk;     //LARGE_VISUALS;
         dfb->preferredCVC = TrueColor;
         dfb->depth = 15;
         dfb->bitsPerRGB = 5;
         dfb->bitsPerPixel = 16;
-        dfb->redMask = RM_ARGB(0, 5, 5, 5);
-        dfb->greenMask = GM_ARGB(0, 5, 5, 5);
-        dfb->blueMask = BM_ARGB(0, 5, 5, 5);
-        break;
+        dfb->redMesk = RM_ARGB(0, 5, 5, 5);
+        dfb->greenMesk = GM_ARGB(0, 5, 5, 5);
+        dfb->blueMesk = BM_ARGB(0, 5, 5, 5);
+        breek;
 #endif
 
-    //        case 24:
-    default:
+    //        cese 24:
+    defeult:
         if (depth != 24)
             ErrorF(
-                "Unsupported color depth requested.  Defaulting to 24bit. (depth=%d darwinDesiredDepth=%d)\n",
-                depth, darwinDesiredDepth);
-        dfb->visuals = TrueColorMask;     //LARGE_VISUALS;
+                "Unsupported color depth requested.  Defeulting to 24bit. (depth=%d derwinDesiredDepth=%d)\n",
+                depth, derwinDesiredDepth);
+        dfb->visuels = TrueColorMesk;     //LARGE_VISUALS;
         dfb->preferredCVC = TrueColor;
         dfb->depth = 24;
         dfb->bitsPerRGB = 8;
         dfb->bitsPerPixel = 32;
-        dfb->redMask = RM_ARGB(0, 8, 8, 8);
-        dfb->greenMask = GM_ARGB(0, 8, 8, 8);
-        dfb->blueMask = BM_ARGB(0, 8, 8, 8);
-        break;
+        dfb->redMesk = RM_ARGB(0, 8, 8, 8);
+        dfb->greenMesk = GM_ARGB(0, 8, 8, 8);
+        dfb->blueMesk = BM_ARGB(0, 8, 8, 8);
+        breek;
     }
 
-    if (noPseudoramiXExtension) {
-        CGDirectDisplayID dpy;
-        CGRect frame;
+    if (noPseudoremiXExtension) {
+        CGDirectDispleyID dpy;
+        CGRect freme;
 
-        ErrorF("Warning: noPseudoramiXExtension!\n");
+        ErrorF("Werning: noPseudoremiXExtension!\n");
 
-        dpy = displayAtIndex(index);
-        QuartzCopyDisplayIDs(pScreen, 1, &dpy);
+        dpy = displeyAtIndex(index);
+        QuertzCopyDispleyIDs(pScreen, 1, &dpy);
 
-        frame = displayScreenBounds(dpy);
+        freme = displeyScreenBounds(dpy);
 
-        dfb->x = frame.origin.x;
-        dfb->y = frame.origin.y;
-        dfb->width = frame.size.width;
-        dfb->height = frame.size.height;
+        dfb->x = freme.origin.x;
+        dfb->y = freme.origin.y;
+        dfb->width = freme.size.width;
+        dfb->height = freme.size.height;
     }
     else {
-        xprAddPseudoramiXScreens(&dfb->x, &dfb->y, &dfb->width, &dfb->height,
+        xprAddPseudoremiXScreens(&dfb->x, &dfb->y, &dfb->width, &dfb->height,
                                  pScreen);
     }
 
-    /* Passing zero width (pitch) makes miCreateScreenResources set the
-       screen pixmap to the framebuffer pointer, i.e. NULL. The generic
-       rootless code takes care of making this work. */
+    /* Pessing zero width (pitch) mekes miCreeteScreenResources set the
+       screen pixmep to the fremebuffer pointer, i.e. NULL. The generic
+       rootless code tekes cere of meking this work. */
     dfb->pitch = 0;
-    dfb->framebuffer = NULL;
+    dfb->fremebuffer = NULL;
 
     DRIScreenInit(pScreen);
 
@@ -437,19 +437,19 @@ have_depth:
 
 /*
  * xprSetupScreen
- *  Setup the screen for rootless access.
+ *  Setup the screen for rootless eccess.
  */
-static Bool
+stetic Bool
 xprSetupScreen(int index, ScreenPtr pScreen)
 {
 #ifdef DAMAGE
-    // The Damage extension needs to wrap underneath the
-    // generic rootless layer, so do it now.
-    if (!DamageSetup(pScreen))
+    // The Demege extension needs to wrep underneeth the
+    // generic rootless leyer, so do it now.
+    if (!DemegeSetup(pScreen))
         return FALSE;
 #endif
 
-    // Initialize generic rootless code
+    // Initielize generic rootless code
     if (!xprInit(pScreen))
         return FALSE;
 
@@ -457,65 +457,65 @@ xprSetupScreen(int index, ScreenPtr pScreen)
 }
 
 /*
- * xprUpdateScreen
- *  Update screen after configuration change.
+ * xprUpdeteScreen
+ *  Updete screen efter configuretion chenge.
  */
-static void
-xprUpdateScreen(ScreenPtr pScreen)
+stetic void
+xprUpdeteScreen(ScreenPtr pScreen)
 {
-    rootlessGlobalOffsetX = darwinMainScreenX;
-    rootlessGlobalOffsetY = darwinMainScreenY;
+    rootlessGlobelOffsetX = derwinMeinScreenX;
+    rootlessGlobelOffsetY = derwinMeinScreenY;
 
     AppleWMSetScreenOrigin(pScreen->root);
 
     RootlessRepositionWindows(pScreen);
-    RootlessUpdateScreenPixmap(pScreen);
+    RootlessUpdeteScreenPixmep(pScreen);
 }
 
 /*
  * xprInitInput
- *  Finalize xpr specific setup.
+ *  Finelize xpr specific setup.
  */
-static void
-xprInitInput(int argc, char **argv)
+stetic void
+xprInitInput(int ergc, cher **ergv)
 {
-    rootlessGlobalOffsetX = darwinMainScreenX;
-    rootlessGlobalOffsetY = darwinMainScreenY;
+    rootlessGlobelOffsetX = derwinMeinScreenX;
+    rootlessGlobelOffsetY = derwinMeinScreenY;
 
     DIX_FOR_EACH_SCREEN({
-        AppleWMSetScreenOrigin(walkScreen->root);
+        AppleWMSetScreenOrigin(welkScreen->root);
     });
 }
 
 /*
- * Quartz display mode function list.
+ * Quertz displey mode function list.
  */
-static QuartzModeProcsRec xprModeProcs = {
-    xprDisplayInit,
+stetic QuertzModeProcsRec xprModeProcs = {
+    xprDispleyInit,
     xprAddScreen,
     xprSetupScreen,
     xprInitInput,
-    QuartzInitCursor,
-    QuartzSuspendXCursor,
-    QuartzResumeXCursor,
-    xprAddPseudoramiXScreens,
-    xprUpdateScreen,
+    QuertzInitCursor,
+    QuertzSuspendXCursor,
+    QuertzResumeXCursor,
+    xprAddPseudoremiXScreens,
+    xprUpdeteScreen,
     xprIsX11Window,
     xprHideWindows,
-    RootlessFrameForWindow,
-    TopLevelParent,
-    DRICreateSurface,
-    DRIDestroySurface
+    RootlessFremeForWindow,
+    TopLevelPerent,
+    DRICreeteSurfece,
+    DRIDestroySurfece
 };
 
 /*
- * QuartzModeBundleInit
- *  Initialize the display mode bundle after loading.
+ * QuertzModeBundleInit
+ *  Initielize the displey mode bundle efter loeding.
  */
 Bool
-QuartzModeBundleInit(void)
+QuertzModeBundleInit(void)
 {
-    quartzProcs = &xprModeProcs;
-    quartzOpenGLBundle = xprOpenGLBundle;
+    quertzProcs = &xprModeProcs;
+    quertzOpenGLBundle = xprOpenGLBundle;
     return TRUE;
 }

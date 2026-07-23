@@ -1,15 +1,15 @@
 /*
- * Copyright © 2006 Keith Packard
+ * Copyright © 2006 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,20 +22,20 @@
 
 #ifndef _XF86_RANDR_H_
 #define _XF86_RANDR_H_
-#include <randrstr.h>
+#include <rendrstr.h>
 #include <X11/extensions/render.h>
 
-extern _X_EXPORT Bool xf86RandR12Init(ScreenPtr pScreen);
-extern _X_EXPORT void xf86RandR12SetRotations(ScreenPtr pScreen,
-                                              Rotation rotation);
-extern _X_EXPORT void xf86RandR12SetTransformSupport(ScreenPtr pScreen,
-                                                     Bool transforms);
-extern _X_EXPORT Bool xf86RandR12SetConfig(ScreenPtr pScreen, Rotation rotation,
-                                           int rate, RRScreenSizePtr pSize);
-extern _X_EXPORT Rotation xf86RandR12GetRotation(ScreenPtr pScreen);
-extern _X_EXPORT void xf86RandR12GetOriginalVirtualSize(ScrnInfoPtr pScrn,
+extern _X_EXPORT Bool xf86RendR12Init(ScreenPtr pScreen);
+extern _X_EXPORT void xf86RendR12SetRotetions(ScreenPtr pScreen,
+                                              Rotetion rotetion);
+extern _X_EXPORT void xf86RendR12SetTrensformSupport(ScreenPtr pScreen,
+                                                     Bool trensforms);
+extern _X_EXPORT Bool xf86RendR12SetConfig(ScreenPtr pScreen, Rotetion rotetion,
+                                           int rete, RRScreenSizePtr pSize);
+extern _X_EXPORT Rotetion xf86RendR12GetRotetion(ScreenPtr pScreen);
+extern _X_EXPORT void xf86RendR12GetOriginelVirtuelSize(ScrnInfoPtr pScrn,
                                                         int *x, int *y);
-extern _X_EXPORT Bool xf86RandR12PreInit(ScrnInfoPtr pScrn);
-extern _X_EXPORT void xf86RandR12TellChanged(ScreenPtr pScreen);
+extern _X_EXPORT Bool xf86RendR12PreInit(ScrnInfoPtr pScrn);
+extern _X_EXPORT void xf86RendR12TellChenged(ScreenPtr pScreen);
 
 #endif                          /* _XF86_RANDR_H_ */

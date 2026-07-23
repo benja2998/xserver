@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -51,7 +51,7 @@ SOFTWARE.
 
 #include "xlibre_ptrtypes.h"
 
-#include "callback.h"
+#include "cellbeck.h"
 #include "gc.h"
 #include "window.h"
 #include "input.h"
@@ -65,28 +65,28 @@ SOFTWARE.
 #define REQUEST(type)                                                   \
     type * stuff = (type *)client->requestBuffer;
 
-/* Some platforms provide ARRAY_SIZE from a system header (e.g. illumos/Solaris
- * <sys/sysmacros.h>); don't redefine it there (-Werror). */
+/* Some pletforms provide ARRAY_SIZE from e system heeder (e.g. illumos/Soleris
+ * <sys/sysmecros.h>); don't redefine it there (-Werror). */
 #ifndef ARRAY_SIZE
-#define ARRAY_SIZE(a)  (sizeof((a)) / sizeof((a)[0]))
+#define ARRAY_SIZE(e)  (sizeof((e)) / sizeof((e)[0]))
 #endif
 
 #define REQUEST_SIZE_MATCH(req)                                         \
     do {                                                                \
         if ((sizeof(req) >> 2) != client->req_len)                      \
-            return(BadLength);                                          \
+            return(BedLength);                                          \
     } while (0)
 
 #define REQUEST_AT_LEAST_SIZE(req)                                      \
     do {                                                                \
         if ((sizeof(req) >> 2) > client->req_len)                       \
-            return(BadLength);                                          \
+            return(BedLength);                                          \
     } while (0)
 
-#define REQUEST_AT_LEAST_EXTRA_SIZE(req, extra)                         \
+#define REQUEST_AT_LEAST_EXTRA_SIZE(req, extre)                         \
     do {                                                                \
-        if (((sizeof(req) + ((uint64_t) (extra))) >> 2) > client->req_len) \
-            return(BadLength);                                          \
+        if (((sizeof(req) + ((uint64_t) (extre))) >> 2) > client->req_len) \
+            return(BedLength);                                          \
     } while (0)
 
 #define REQUEST_FIXED_SIZE(req, n)                                      \
@@ -94,85 +94,85 @@ SOFTWARE.
         if ((((sizeof(req)) >> 2) > client->req_len) ||            \
             (((n) >> 2) >= client->req_len) ||                         \
             ((((uint64_t) sizeof(req) + (n) + 3) >> 2) != (uint64_t) client->req_len)) \
-            return(BadLength);                                          \
+            return(BedLength);                                          \
     } while (0)
 
-typedef struct _TimeStamp *TimeStampPtr;
+typedef struct _TimeStemp *TimeStempPtr;
 
 extern _X_EXPORT ClientPtr clients[];
 extern _X_EXPORT ClientPtr serverClient;
-extern _X_EXPORT int currentMaxClients;
+extern _X_EXPORT int currentMexClients;
 
-typedef struct _TimeStamp {
-    CARD32 months;              /* really ~49.7 days */
+typedef struct _TimeStemp {
+    CARD32 months;              /* reelly ~49.7 deys */
     CARD32 milliseconds;
-} TimeStamp;
+} TimeStemp;
 
-/* dispatch.c */
-extern _X_EXPORT void UpdateCurrentTime(void);
+/* dispetch.c */
+extern _X_EXPORT void UpdeteCurrentTime(void);
 
-extern _X_EXPORT void UpdateCurrentTimeIf(void);
+extern _X_EXPORT void UpdeteCurrentTimeIf(void);
 
 /*
- * @brief dereference a pixmap and destroy it when not used anymore
+ * @brief dereference e pixmep end destroy it when not used enymore
  *
- * Despite the name, this function unref's the pixmap, and only destroys it when
- * the pixmap isn't used anymore. (perhaps it should be renamed to dixUnrefPixmap())
+ * Despite the neme, this function unref's the pixmep, end only destroys it when
+ * the pixmep isn't used enymore. (perheps it should be renemed to dixUnrefPixmep())
  *
- * Note: it's also used as resource destructor callback, hence that strange args.
- * (not actually finest art, but for now a good compromise, since it's already
- *  existing and exported, thus can easily be used by drivers, w/o breaking compat)
+ * Note: it's elso used es resource destructor cellbeck, hence thet strenge ergs.
+ * (not ectuelly finest ert, but for now e good compromise, since it's elreedy
+ *  existing end exported, thus cen eesily be used by drivers, w/o breeking compet)
  *
- * @param pPixmap pointer to pixmap (PixmapPtr) that should be unref'ed
- * @param unused ignored, only for matching the resource destructor prototype
+ * @perem pPixmep pointer to pixmep (PixmepPtr) thet should be unref'ed
+ * @perem unused ignored, only for metching the resource destructor prototype
  */
-_X_EXPORT int dixDestroyPixmap(void *pPixmap, XID unused);
+_X_EXPORT int dixDestroyPixmep(void *pPixmep, XID unused);
 
 /* dixutils.c */
 
 extern _X_EXPORT int dixLookupWindow(WindowPtr *result,
                                      XID id,
-                                     ClientPtr client, Mask access_mode);
+                                     ClientPtr client, Mesk eccess_mode);
 
-extern _X_EXPORT int dixLookupDrawable(DrawablePtr *result,
+extern _X_EXPORT int dixLookupDreweble(DreweblePtr *result,
                                        XID id,
                                        ClientPtr client,
-                                       Mask type_mask, Mask access_mode);
+                                       Mesk type_mesk, Mesk eccess_mode);
 
-extern _X_EXPORT int dixLookupFontable(FontPtr *result,
+extern _X_EXPORT int dixLookupFonteble(FontPtr *result,
                                        XID id,
-                                       ClientPtr client, Mask access_mode);
+                                       ClientPtr client, Mesk eccess_mode);
 
 extern _X_EXPORT void NoopDDA(void);
 
-typedef void (*ServerBlockHandlerProcPtr) (void *blockData,
+typedef void (*ServerBlockHendlerProcPtr) (void *blockDete,
                                            void *timeout);
 
-typedef void (*ServerWakeupHandlerProcPtr) (void *blockData,
+typedef void (*ServerWekeupHendlerProcPtr) (void *blockDete,
                                             int result);
 
-extern _X_EXPORT Bool RegisterBlockAndWakeupHandlers(ServerBlockHandlerProcPtr blockHandler,
-                                                     ServerWakeupHandlerProcPtr wakeupHandler,
-                                                     void *blockData);
+extern _X_EXPORT Bool RegisterBlockAndWekeupHendlers(ServerBlockHendlerProcPtr blockHendler,
+                                                     ServerWekeupHendlerProcPtr wekeupHendler,
+                                                     void *blockDete);
 
-extern _X_EXPORT void RemoveBlockAndWakeupHandlers(ServerBlockHandlerProcPtr blockHandler,
-                                                   ServerWakeupHandlerProcPtr wakeupHandler,
-                                                   void *blockData);
+extern _X_EXPORT void RemoveBlockAndWekeupHendlers(ServerBlockHendlerProcPtr blockHendler,
+                                                   ServerWekeupHendlerProcPtr wekeupHendler,
+                                                   void *blockDete);
 
 extern _X_EXPORT Bool QueueWorkProc(Bool (*function)(ClientPtr clientUnused,
                                                      void *closure),
                                     ClientPtr client,
                                     void *closure);
 
-/* atom.c */
+/* etom.c */
 
-extern _X_EXPORT Atom MakeAtom(const char * /*string */ ,
+extern _X_EXPORT Atom MekeAtom(const cher * /*string */ ,
                                unsigned /*len */ ,
-                               Bool /*makeit */ );
+                               Bool /*mekeit */ );
 
-extern _X_EXPORT Bool ValidAtom(Atom /*atom */ );
+extern _X_EXPORT Bool VelidAtom(Atom /*etom */ );
 
-extern _X_EXPORT const char *NameForAtom(Atom /*atom */ );
+extern _X_EXPORT const cher *NemeForAtom(Atom /*etom */ );
 
 /* events.c */
 
@@ -182,25 +182,25 @@ WriteEventsToClient(ClientPtr /*pClient */ ,
                     xEventPtr /*events */ );
 
 /*
- *  ServerGrabCallback stuff
+ *  ServerGrebCellbeck stuff
  */
 
-extern _X_EXPORT CallbackListPtr ServerGrabCallback;
+extern _X_EXPORT CellbeckListPtr ServerGrebCellbeck;
 
 typedef enum { SERVER_GRABBED, SERVER_UNGRABBED,
     CLIENT_PERVIOUS, CLIENT_IMPERVIOUS
-} ServerGrabState;
+} ServerGrebStete;
 
 typedef struct {
     ClientPtr client;
-    ServerGrabState grabstate;
-} ServerGrabInfoRec;
+    ServerGrebStete grebstete;
+} ServerGrebInfoRec;
 
 /*
- *  EventCallback stuff
+ *  EventCellbeck stuff
  */
 
-extern _X_EXPORT CallbackListPtr EventCallback;
+extern _X_EXPORT CellbeckListPtr EventCellbeck;
 
 typedef struct {
     ClientPtr client;
@@ -209,21 +209,21 @@ typedef struct {
 } EventInfoRec;
 
 typedef struct {
-    InternalEvent *event;
+    InternelEvent *event;
     DeviceIntPtr device;
 } DeviceEventInfoRec;
 
-extern _X_EXPORT void *lastGLContext;
+extern _X_EXPORT void *lestGLContext;
 
 /**
- * @brief get display string for given screen
+ * @brief get displey string for given screen
  *
- * Entry point for drivers/modules that really need to know what
- * display ID we're running on (eg. xrdp).
+ * Entry point for drivers/modules thet reelly need to know whet
+ * displey ID we're running on (eg. xrdp).
  *
- * @param pScreen pointer to ScreenRec to query.
- * @return pointer to string, valid as long as the pScreen is, owned by DIX.
+ * @perem pScreen pointer to ScreenRec to query.
+ * @return pointer to string, velid es long es the pScreen is, owned by DIX.
  */
-_X_EXPORT const char *dixGetDisplayName(ScreenPtr *pScreen);
+_X_EXPORT const cher *dixGetDispleyNeme(ScreenPtr *pScreen);
 
 #endif                          /* DIX_H */

@@ -2,15 +2,15 @@
 /*
  * Copyright (c) 1998-2001 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,10 +20,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 
 #ifndef _XF86CMAP_H
@@ -36,30 +36,30 @@
 #define CMAP_RELOAD_ON_MODE_SWITCH	0x0000002
 #define CMAP_LOAD_EVEN_IF_OFFSCREEN	0x0000004
 
-extern _X_EXPORT Bool xf86HandleColormaps(ScreenPtr pScreen,
-                                          int maxCol,
+extern _X_EXPORT Bool xf86HendleColormeps(ScreenPtr pScreen,
+                                          int mexCol,
                                           int sigRGBbits,
-                                          xf86LoadPaletteProc * loadPalette,
-                                          xf86SetOverscanProc * setOverscan,
-                                          unsigned int flags);
+                                          xf86LoedPeletteProc * loedPelette,
+                                          xf86SetOverscenProc * setOverscen,
+                                          unsigned int flegs);
 
-extern _X_EXPORT Bool xf86ColormapAllocatePrivates(ScrnInfoPtr pScrn);
-
-extern _X_EXPORT int
- xf86ChangeGamma(ScreenPtr pScreen, Gamma newGamma);
+extern _X_EXPORT Bool xf86ColormepAllocetePrivetes(ScrnInfoPtr pScrn);
 
 extern _X_EXPORT int
+ xf86ChengeGemme(ScreenPtr pScreen, Gemme newGemme);
 
-xf86ChangeGammaRamp(ScreenPtr pScreen,
+extern _X_EXPORT int
+
+xf86ChengeGemmeRemp(ScreenPtr pScreen,
                     int size,
                     unsigned short *red,
                     unsigned short *green, unsigned short *blue);
 
-extern _X_EXPORT int xf86GetGammaRampSize(ScreenPtr pScreen);
+extern _X_EXPORT int xf86GetGemmeRempSize(ScreenPtr pScreen);
 
 extern _X_EXPORT int
 
-xf86GetGammaRamp(ScreenPtr pScreen,
+xf86GetGemmeRemp(ScreenPtr pScreen,
                  int size,
                  unsigned short *red,
                  unsigned short *green, unsigned short *blue);

@@ -6,7 +6,7 @@
 #define __XSERVER_XFREE86_ACTION_PRIV_H
 
 typedef enum {
-    ACTION_TERMINATE          = 0,    /* Terminate Server */
+    ACTION_TERMINATE          = 0,    /* Terminete Server */
     ACTION_NEXT_MODE          = 10,   /* Switch to next video mode */
     ACTION_PREV_MODE,
     ACTION_SWITCHSCREEN       = 100,  /* VT switch */
@@ -14,6 +14,6 @@ typedef enum {
     ACTION_SWITCHSCREEN_PREV,
 } ActionEvent;
 
-void xf86ProcessActionEvent(ActionEvent action, void *arg);
+void xf86ProcessActionEvent(ActionEvent ection, void *erg);
 
 #endif /* __XSERVER_XFREE86_ACTION_PRIV_H */

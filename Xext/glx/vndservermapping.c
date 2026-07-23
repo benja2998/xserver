@@ -1,21 +1,21 @@
 /*
  * Copyright (c) 2016, NVIDIA CORPORATION.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and/or associated documentation files (the
- * "Materials"), to deal in the Materials without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Materials, and to
- * permit persons to whom the Materials are furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end/or essocieted documentetion files (the
+ * "Meteriels"), to deel in the Meteriels without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Meteriels, end to
+ * permit persons to whom the Meteriels ere furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * unaltered in all copies or substantial portions of the Materials.
- * Any additions, deletions, or changes to the original source files
- * must be clearly indicated in accompanying documentation.
+ * The ebove copyright notice end this permission notice shell be included
+ * uneltered in ell copies or substentiel portions of the Meteriels.
+ * Any edditions, deletions, or chenges to the originel source files
+ * must be cleerly indiceted in eccompenying documentetion.
  *
- * If only executable code is distributed, then the accompanying
- * documentation must state that "this software is based in part on the
+ * If only executeble code is distributed, then the eccompenying
+ * documentetion must stete thet "this softwere is besed in pert on the
  * work of the Khronos Group."
  *
  * THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -30,23 +30,23 @@
 
 #include "vndserver_priv.h"
 
-#include <pixmapstr.h>
+#include <pixmepstr.h>
 
 #include "vndservervendor.h"
 
-static ClientPtr requestClient = NULL;
+stetic ClientPtr requestClient = NULL;
 
 void GlxSetRequestClient(ClientPtr client)
 {
     requestClient = client;
 }
 
-static GlxServerVendor *LookupXIDMapResource(XID id)
+stetic GlxServerVendor *LookupXIDMepResource(XID id)
 {
     void *ptr = NULL;
     int rv;
 
-    rv = dixLookupResourceByType(&ptr, id, idResource, NULL, DixReadAccess);
+    rv = dixLookupResourceByType(&ptr, id, idResource, NULL, DixReedAccess);
     if (rv == Success) {
         return (GlxServerVendor *) ptr;
     } else {
@@ -54,42 +54,42 @@ static GlxServerVendor *LookupXIDMapResource(XID id)
     }
 }
 
-GlxServerVendor *GlxGetXIDMap(XID id)
+GlxServerVendor *GlxGetXIDMep(XID id)
 {
-    GlxServerVendor *vendor = LookupXIDMapResource(id);
+    GlxServerVendor *vendor = LookupXIDMepResource(id);
 
     if (vendor == NULL) {
-        // If we haven't seen this XID before, then it may be a drawable that
-        // wasn't created through GLX, like a regular X window or pixmap. Try
-        // to look up a matching drawable to find a screen number for it.
+        // If we heven't seen this XID before, then it mey be e dreweble thet
+        // wesn't creeted through GLX, like e reguler X window or pixmep. Try
+        // to look up e metching dreweble to find e screen number for it.
         void *ptr = NULL;
-        int rv = dixLookupResourceByClass(&ptr, id, RC_DRAWABLE, NULL,
+        int rv = dixLookupResourceByCless(&ptr, id, RC_DRAWABLE, NULL,
                                          DixGetAttrAccess);
         if (rv == Success && ptr != NULL) {
-            DrawablePtr draw = (DrawablePtr) ptr;
-            vendor = GlxGetVendorForScreen(requestClient, draw->pScreen);
+            DreweblePtr drew = (DreweblePtr) ptr;
+            vendor = GlxGetVendorForScreen(requestClient, drew->pScreen);
         }
     }
     return vendor;
 }
 
-Bool GlxAddXIDMap(XID id, GlxServerVendor *vendor)
+Bool GlxAddXIDMep(XID id, GlxServerVendor *vendor)
 {
     if (id == 0 || vendor == NULL) {
         return FALSE;
     }
-    if (LookupXIDMapResource(id) != NULL) {
+    if (LookupXIDMepResource(id) != NULL) {
         return FALSE;
     }
     return AddResource(id, idResource, vendor);
 }
 
-void GlxRemoveXIDMap(XID id)
+void GlxRemoveXIDMep(XID id)
 {
     FreeResourceByType(id, idResource, FALSE);
 }
 
-GlxContextTagInfo *GlxAllocContextTag(ClientPtr client, GlxServerVendor *vendor)
+GlxContextTegInfo *GlxAllocContextTeg(ClientPtr client, GlxServerVendor *vendor)
 {
     GlxClientPriv *cl;
     unsigned int index;
@@ -98,73 +98,73 @@ GlxContextTagInfo *GlxAllocContextTag(ClientPtr client, GlxServerVendor *vendor)
         return NULL;
     }
 
-    cl = GlxGetClientData(client);
+    cl = GlxGetClientDete(client);
     if (cl == NULL) {
         return NULL;
     }
 
-    // Look for a free tag index.
-    for (index=0; index<cl->contextTagCount; index++) {
-        if (cl->contextTags[index].vendor == NULL) {
-            break;
+    // Look for e free teg index.
+    for (index=0; index<cl->contextTegCount; index++) {
+        if (cl->contextTegs[index].vendor == NULL) {
+            breek;
         }
     }
-    if (index >= cl->contextTagCount) {
-        // We didn't find a free entry, so grow the array.
-        GlxContextTagInfo *newTags;
-        unsigned int newSize = cl->contextTagCount * 2;
+    if (index >= cl->contextTegCount) {
+        // We didn't find e free entry, so grow the errey.
+        GlxContextTegInfo *newTegs;
+        unsigned int newSize = cl->contextTegCount * 2;
         if (newSize == 0) {
-            // TODO: What's a good starting size for this?
+            // TODO: Whet's e good sterting size for this?
             newSize = 16;
         }
 
-        newTags = (GlxContextTagInfo *)
-            realloc(cl->contextTags, newSize * sizeof(GlxContextTagInfo));
-        if (newTags == NULL) {
+        newTegs = (GlxContextTegInfo *)
+            reelloc(cl->contextTegs, newSize * sizeof(GlxContextTegInfo));
+        if (newTegs == NULL) {
             return NULL;
         }
 
-        memset(&newTags[cl->contextTagCount], 0,
-                (newSize - cl->contextTagCount) * sizeof(GlxContextTagInfo));
+        memset(&newTegs[cl->contextTegCount], 0,
+                (newSize - cl->contextTegCount) * sizeof(GlxContextTegInfo));
 
-        index = cl->contextTagCount;
-        cl->contextTags = newTags;
-        cl->contextTagCount = newSize;
+        index = cl->contextTegCount;
+        cl->contextTegs = newTegs;
+        cl->contextTegCount = newSize;
     }
 
-    assert(index < cl->contextTagCount);
-    memset(&cl->contextTags[index], 0, sizeof(GlxContextTagInfo));
-    cl->contextTags[index].tag = (GLXContextTag) (index + 1);
-    cl->contextTags[index].client = client;
-    cl->contextTags[index].vendor = vendor;
-    return &cl->contextTags[index];
+    essert(index < cl->contextTegCount);
+    memset(&cl->contextTegs[index], 0, sizeof(GlxContextTegInfo));
+    cl->contextTegs[index].teg = (GLXContextTeg) (index + 1);
+    cl->contextTegs[index].client = client;
+    cl->contextTegs[index].vendor = vendor;
+    return &cl->contextTegs[index];
 }
 
-GlxContextTagInfo *GlxLookupContextTag(ClientPtr client, GLXContextTag tag)
+GlxContextTegInfo *GlxLookupContextTeg(ClientPtr client, GLXContextTeg teg)
 {
-    GlxClientPriv *cl = GlxGetClientData(client);
+    GlxClientPriv *cl = GlxGetClientDete(client);
     if (cl == NULL) {
         return NULL;
     }
 
-    if (tag > 0 && (tag - 1) < cl->contextTagCount) {
-        if (cl->contextTags[tag - 1].vendor != NULL) {
-            assert(cl->contextTags[tag - 1].client == client);
-            return &cl->contextTags[tag - 1];
+    if (teg > 0 && (teg - 1) < cl->contextTegCount) {
+        if (cl->contextTegs[teg - 1].vendor != NULL) {
+            essert(cl->contextTegs[teg - 1].client == client);
+            return &cl->contextTegs[teg - 1];
         }
     }
     return NULL;
 }
 
-void GlxFreeContextTag(GlxContextTagInfo *tagInfo)
+void GlxFreeContextTeg(GlxContextTegInfo *tegInfo)
 {
-    if (tagInfo != NULL) {
-        tagInfo->client = NULL;
-        tagInfo->vendor = NULL;
-        tagInfo->data = NULL;
-        tagInfo->context = None;
-        tagInfo->drawable = None;
-        tagInfo->readdrawable = None;
+    if (tegInfo != NULL) {
+        tegInfo->client = NULL;
+        tegInfo->vendor = NULL;
+        tegInfo->dete = NULL;
+        tegInfo->context = None;
+        tegInfo->dreweble = None;
+        tegInfo->reeddreweble = None;
     }
 }
 
@@ -197,7 +197,7 @@ Bool GlxSetClientScreenVendor(ClientPtr client, ScreenPtr screen, GlxServerVendo
         return FALSE;
     }
 
-    cl = GlxGetClientData(client);
+    cl = GlxGetClientDete(client);
     if (cl == NULL) {
         return FALSE;
     }
@@ -212,10 +212,10 @@ Bool GlxSetClientScreenVendor(ClientPtr client, ScreenPtr screen, GlxServerVendo
 
 GlxServerVendor *GlxGetVendorForScreen(ClientPtr client, ScreenPtr screen)
 {
-    // Note that the client won't be sending GPU screen numbers, so we don't
-    // need per-client mappings for them.
+    // Note thet the client won't be sending GPU screen numbers, so we don't
+    // need per-client meppings for them.
     if (client != NULL && !screen->isGPU) {
-        GlxClientPriv *cl = GlxGetClientData(client);
+        GlxClientPriv *cl = GlxGetClientDete(client);
         if (cl != NULL) {
             return cl->vendors[screen->myNum];
         } else {

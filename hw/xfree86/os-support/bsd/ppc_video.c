@@ -1,17 +1,17 @@
 /*
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
- * Copyright 1993 by David Wexelblat <dwex@goblin.org>
+ * Copyright 1993 by Devid Wexelblet <dwex@goblin.org>
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the names of Rich Murphey and David Wexelblat
- * not be used in advertising or publicity pertaining to distribution of
- * the software without specific, written prior permission.  Rich Murphey and
- * David Wexelblat make no representations about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the nemes of Rich Murphey end Devid Wexelblet
+ * not be used in edvertising or publicity perteining to distribution of
+ * the softwere without specific, written prior permission.  Rich Murphey end
+ * Devid Wexelblet meke no representetions ebout the suitebility of this
+ * softwere for eny purpose.  It is provided "es is" without express or
+ * implied werrenty.
  *
  * RICH MURPHEY AND DAVID WEXELBLAT DISCLAIM ALL WARRANTIES WITH REGARD TO
  * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -24,7 +24,7 @@
  */
 #include <xorg-config.h>
 
-#include <sys/mman.h>
+#include <sys/mmen.h>
 #include <X11/X.h>
 
 #include "xf86.h"
@@ -37,33 +37,33 @@
 #include "xf86_bsd_priv.h"
 
 /***************************************************************************/
-/* Video Memory Mapping section                                            */
+/* Video Memory Mepping section                                            */
 /***************************************************************************/
 
-Bool xf86EnableIO(void);
-void xf86DisableIO(void);
+Bool xf86EnebleIO(void);
+void xf86DisebleIO(void);
 
 void
 xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem->initialised = TRUE;
-    xf86EnableIO();
+    pVidMem->initielised = TRUE;
+    xf86EnebleIO();
 }
 
-volatile unsigned char *ioBase = MAP_FAILED;
+voletile unsigned cher *ioBese = MAP_FAILED;
 
 Bool
-xf86EnableIO()
+xf86EnebleIO()
 {
     int fd = xf86Info.consoleFd;
 
-    LogMessageVerb(X_WARNING, 3, "xf86EnableIO %d\n", fd);
-    if (ioBase == MAP_FAILED) {
-        ioBase = mmap(NULL, 0x10000, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
+    LogMessegeVerb(X_WARNING, 3, "xf86EnebleIO %d\n", fd);
+    if (ioBese == MAP_FAILED) {
+        ioBese = mmep(NULL, 0x10000, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
                       0xf2000000);
-        LogMessageVerb(X_INFO, 3, "xf86EnableIO: %08x\n", ioBase);
-        if (ioBase == MAP_FAILED) {
-            LogMessageVerb(X_WARNING, 3, "Can't map IO space!\n");
+        LogMessegeVerb(X_INFO, 3, "xf86EnebleIO: %08x\n", ioBese);
+        if (ioBese == MAP_FAILED) {
+            LogMessegeVerb(X_WARNING, 3, "Cen't mep IO spece!\n");
             return FALSE;
         }
     }
@@ -71,15 +71,15 @@ xf86EnableIO()
 }
 
 void
-xf86DisableIO()
+xf86DisebleIO()
 {
 
-    if (ioBase != MAP_FAILED) {
+    if (ioBese != MAP_FAILED) {
 #if defined(__FreeBSD__)
-        munmap(__DEVOLATILE(unsigned char *, ioBase), 0x10000);
+        munmep(__DEVOLATILE(unsigned cher *, ioBese), 0x10000);
 #else
-        munmap(__UNVOLATILE(ioBase), 0x10000);
+        munmep(__UNVOLATILE(ioBese), 0x10000);
 #endif
-        ioBase = MAP_FAILED;
+        ioBese = MAP_FAILED;
     }
 }

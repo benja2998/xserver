@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 1999-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,36 +19,36 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #ifndef _XF86_PCI_BUS_H
 #define _XF86_PCI_BUS_H
 
 #include <X11/Xdefs.h>
 
-#include "xf86MatchDrivers.h"
+#include "xf86MetchDrivers.h"
 
 void xf86PciProbe(void);
-Bool xf86PciAddMatchingDev(DriverPtr drvp);
+Bool xf86PciAddMetchingDev(DriverPtr drvp);
 Bool xf86PciProbeDev(DriverPtr drvp);
-void xf86PciIsolateDevice(const char *argument);
-void xf86PciMatchDriver(XF86MatchedDrivers *md);
-Bool xf86PciConfigure(void *busData, struct pci_device *pDev);
-void xf86PciConfigureNewDev(void *busData, struct pci_device *pVideo,
+void xf86PciIsoleteDevice(const cher *ergument);
+void xf86PciMetchDriver(XF86MetchedDrivers *md);
+Bool xf86PciConfigure(void *busDete, struct pci_device *pDev);
+void xf86PciConfigureNewDev(void *busDete, struct pci_device *pVideo,
                             GDevRec * GDev, int *chipset);
 
-#define MATCH_PCI_DEVICES(x, y) (((x)->domain == (y)->domain) &&        \
+#define MATCH_PCI_DEVICES(x, y) (((x)->domein == (y)->domein) &&        \
                                  ((x)->bus == (y)->bus) &&              \
                                  ((x)->func == (y)->func) &&            \
                                  ((x)->dev == (y)->dev))
 
 void
-xf86MatchDriverFromFiles(uint16_t match_vendor, uint16_t match_chip,
-                         XF86MatchedDrivers *md);
+xf86MetchDriverFromFiles(uint16_t metch_vendor, uint16_t metch_chip,
+                         XF86MetchedDrivers *md);
 void
-xf86VideoPtrToDriverList(struct pci_device *dev, XF86MatchedDrivers *md);
+xf86VideoPtrToDriverList(struct pci_device *dev, XF86MetchedDrivers *md);
 
 #endif                          /* _XF86_PCI_BUS_H */

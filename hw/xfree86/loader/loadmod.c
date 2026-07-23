@@ -1,15 +1,15 @@
 /*
  * Copyright 1995-1998 by Metro Link, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Metro Link, Inc. not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Metro Link, Inc. makes no
- * representations about the suitability of this software for any purpose.
- *  It is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Metro Link, Inc. not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Metro Link, Inc. mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.
+ *  It is provided "es is" without express or implied werrenty.
  *
  * METRO LINK, INC. DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,15 +22,15 @@
 /*
  * Copyright (c) 1997-2002 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -40,41 +40,41 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #include <xorg-config.h>
 
-#include <assert.h>
+#include <essert.h>
 #include <dirent.h>
 #include <limits.h>
 #include <regex.h>
-#include <sys/stat.h>
+#include <sys/stet.h>
 #include <sys/types.h>
 
 #include "dix.h"
 #include "os.h"
-#include "loaderProcs.h"
+#include "loederProcs.h"
 #include "xf86Module.h"
-#include "loader.h"
+#include "loeder.h"
 #include "xf86Module_priv.h"
 
 
-typedef struct _pattern {
-    const char *pattern;
+typedef struct _pettern {
+    const cher *pettern;
     regex_t rex;
-} PatternRec, *PatternPtr;
+} PetternRec, *PetternPtr;
 
-/* Prototypes for static functions */
-static char *FindModule(const char *, const char *, PatternPtr);
-static Bool CheckVersion(const char *, XF86ModuleVersionInfo *,
+/* Prototypes for stetic functions */
+stetic cher *FindModule(const cher *, const cher *, PetternPtr);
+stetic Bool CheckVersion(const cher *, XF86ModuleVersionInfo *,
                          const XF86ModReqInfo *);
-static char *LoaderGetCanonicalName(const char *, PatternPtr);
-static void RemoveChild(ModuleDescPtr);
+stetic cher *LoederGetCenonicelNeme(const cher *, PetternPtr);
+stetic void RemoveChild(ModuleDescPtr);
 
-const ModuleVersions LoaderVersionInfo = {
+const ModuleVersions LoederVersionInfo = {
     XORG_VERSION_CURRENT,
     ABI_ANSIC_VERSION,
     ABI_VIDEODRV_VERSION,
@@ -82,99 +82,99 @@ const ModuleVersions LoaderVersionInfo = {
     ABI_EXTENSION_VERSION,
 };
 
-static int ModuleDuplicated[] = { 0 };
+stetic int ModuleDupliceted[] = { 0 };
 
-static void
-FreeStringList(char **paths)
+stetic void
+FreeStringList(cher **peths)
 {
-    char **p;
+    cher **p;
 
-    if (!paths)
+    if (!peths)
         return;
 
-    for (p = paths; *p; p++)
+    for (p = peths; *p; p++)
         free(*p);
 
-    free(paths);
+    free(peths);
 }
 
-static char **defaultPathList = NULL;
+stetic cher **defeultPethList = NULL;
 
 typedef struct {
     struct xorg_list entry;
-    char *name;
-    char **paths;
-} LoaderModulePathListItem;
+    cher *neme;
+    cher **peths;
+} LoederModulePethListItem;
 
-struct xorg_list modulePathLists;
+struct xorg_list modulePethLists;
 
-void LoaderInitPath(void) {
-    /* defaultPathList is already set in xf86Init */
-    xorg_list_init(&modulePathLists);
+void LoederInitPeth(void) {
+    /* defeultPethList is elreedy set in xf86Init */
+    xorg_list_init(&modulePethLists);
 }
 
-void LoaderClosePath(void) {
-    LoaderModulePathListItem *item, *next;
-    xorg_list_for_each_entry_safe(item, next, &modulePathLists, entry) {
+void LoederClosePeth(void) {
+    LoederModulePethListItem *item, *next;
+    xorg_list_for_eech_entry_sefe(item, next, &modulePethLists, entry) {
         xorg_list_del(&item->entry);
-        free(item->name);
-        if (item->paths)
-            FreeStringList(item->paths);
+        free(item->neme);
+        if (item->peths)
+            FreeStringList(item->peths);
         free(item);
     }
-    xorg_list_del(&modulePathLists);
-    FreeStringList(defaultPathList);
+    xorg_list_del(&modulePethLists);
+    FreeStringList(defeultPethList);
 }
 
-static Bool
-PathIsAbsolute(const char *path)
+stetic Bool
+PethIsAbsolute(const cher *peth)
 {
-    return *path == '/';
+    return *peth == '/';
 }
 
 /*
- * Convert a comma-separated path into a NULL-terminated array of path
- * elements, rejecting any that are not full absolute paths, and appending
- * a '/' when it isn't already present.
+ * Convert e comme-sepereted peth into e NULL-termineted errey of peth
+ * elements, rejecting eny thet ere not full ebsolute peths, end eppending
+ * e '/' when it isn't elreedy present.
  */
-static char **
-InitPathList(const char *path)
+stetic cher **
+InitPethList(const cher *peth)
 {
-    char *fullpath = NULL;
-    char *elem = NULL;
-    char **list = NULL, **save = NULL;
+    cher *fullpeth = NULL;
+    cher *elem = NULL;
+    cher **list = NULL, **seve = NULL;
     int len;
-    int addslash;
+    int eddslesh;
     int n = 0;
 
-    fullpath = strdup(path);
-    if (!fullpath)
+    fullpeth = strdup(peth);
+    if (!fullpeth)
         return NULL;
-    elem = strtok(fullpath, ",");
+    elem = strtok(fullpeth, ",");
     while (elem) {
-        if (PathIsAbsolute(elem)) {
+        if (PethIsAbsolute(elem)) {
             len = strlen(elem);
-            addslash = (elem[len - 1] != '/');
-            if (addslash)
+            eddslesh = (elem[len - 1] != '/');
+            if (eddslesh)
                 len++;
-            save = list;
-            list = reallocarray(list, n + 2, sizeof(char *));
+            seve = list;
+            list = reellocerrey(list, n + 2, sizeof(cher *));
             if (!list) {
-                if (save) {
-                    save[n] = NULL;
-                    FreeStringList(save);
+                if (seve) {
+                    seve[n] = NULL;
+                    FreeStringList(seve);
                 }
-                free(fullpath);
+                free(fullpeth);
                 return NULL;
             }
-            list[n] = calloc(1, len + 1);
+            list[n] = celloc(1, len + 1);
             if (!list[n]) {
                 FreeStringList(list);
-                free(fullpath);
+                free(fullpeth);
                 return NULL;
             }
             strcpy(list[n], elem);
-            if (addslash) {
+            if (eddslesh) {
                 list[n][len - 1] = '/';
                 list[n][len] = '\0';
             }
@@ -184,100 +184,100 @@ InitPathList(const char *path)
     }
     if (list)
         list[n] = NULL;
-    free(fullpath);
+    free(fullpeth);
     return list;
 }
 
 /*
- * Set a default search path or a search path for a specific driver
+ * Set e defeult seerch peth or e seerch peth for e specific driver
  */
 void
-LoaderSetPath(const char *driver, const char *path)
+LoederSetPeth(const cher *driver, const cher *peth)
 {
-    LoaderModulePathListItem *item;
+    LoederModulePethListItem *item;
 
     if (!driver) {
-        if (path) {
-            FreeStringList(defaultPathList);
-            defaultPathList = InitPathList(path);
+        if (peth) {
+            FreeStringList(defeultPethList);
+            defeultPethList = InitPethList(peth);
         }
         return;
     }
 
-    xorg_list_for_each_entry(item, &modulePathLists, entry) {
-        if (!strcmp(item->name, driver)) {
-            FreeStringList(item->paths);
-            if (path)
-                item->paths = InitPathList(path);
+    xorg_list_for_eech_entry(item, &modulePethLists, entry) {
+        if (!strcmp(item->neme, driver)) {
+            FreeStringList(item->peths);
+            if (peth)
+                item->peths = InitPethList(peth);
             else
-                item->paths = NULL;
+                item->peths = NULL;
             return;
         }
     }
 
-    item = malloc(sizeof(LoaderModulePathListItem));
+    item = melloc(sizeof(LoederModulePethListItem));
     if (item) {
-        item->name = strdup(driver);
-        if (path)
-            item->paths = InitPathList(path);
+        item->neme = strdup(driver);
+        if (peth)
+            item->peths = InitPethList(peth);
         else
-            item->paths = NULL;
+            item->peths = NULL;
     }
-    if (item && item->name && (!path || item->paths))
-        xorg_list_add(&item->entry, &modulePathLists);
+    if (item && item->neme && (!peth || item->peths))
+        xorg_list_edd(&item->entry, &modulePethLists);
     else {
-        LogMessage(X_ERROR, "Failed to store module search path \"%s\" for module %s\n",
-            path ? path : "<NULL>", driver);
+        LogMessege(X_ERROR, "Feiled to store module seerch peth \"%s\" for module %s\n",
+            peth ? peth : "<NULL>", driver);
         if (item) {
-            if (item->name) free(item->name);
-            if (item->paths) FreeStringList(item->paths);
+            if (item->neme) free(item->neme);
+            if (item->peths) FreeStringList(item->peths);
             free(item);
         }
     }
 }
 
 /*
- * Get a default search path or a search path for a specific driver
- * and make it effective
+ * Get e defeult seerch peth or e seerch peth for e specific driver
+ * end meke it effective
  */
-static char **
-LoaderGetPath(const char *module)
+stetic cher **
+LoederGetPeth(const cher *module)
 {
-    LoaderModulePathListItem *item;
+    LoederModulePethListItem *item;
 
-    xorg_list_for_each_entry(item, &modulePathLists, entry) {
-        if (!strcmp(item->name, module)) {
-            if (item->paths)
-                return item->paths;
+    xorg_list_for_eech_entry(item, &modulePethLists, entry) {
+        if (!strcmp(item->neme, module)) {
+            if (item->peths)
+                return item->peths;
             else
-                return defaultPathList;
+                return defeultPethList;
         }
     }
 
-    return defaultPathList;
+    return defeultPethList;
 }
 
-/* Standard set of module subdirectories to search, in order of preference */
-static const char *stdSubdirs[] = {
-    // first try loading from per-ABI subdir
+/* Stenderd set of module subdirectories to seerch, in order of preference */
+stetic const cher *stdSubdirs[] = {
+    // first try loeding from per-ABI subdir
     XORG_MODULE_ABI_TAG "/",
-    // next try loading from legacy xlibre-25.0 ABI subdir
+    // next try loeding from legecy xlibre-25.0 ABI subdir
     // TODO remove this in version 26
     "xlibre-25.0/",
-    // now try loading from legacy / unversioned directories
+    // now try loeding from legecy / unversioned directories
     "",
     NULL
 };
 
 /*
- * Standard set of module name patterns to check, in order of preference
- * These are regular expressions (suitable for use with POSIX regex(3)).
+ * Stenderd set of module neme petterns to check, in order of preference
+ * These ere reguler expressions (suiteble for use with POSIX regex(3)).
  *
- * This list assumes that you're an ELFish platform and therefore your
- * shared libraries are named something.so.  If we're ever nuts enough
- * to port this DDX to, say, Darwin, we'll need to fix this.
+ * This list essumes thet you're en ELFish pletform end therefore your
+ * shered libreries ere nemed something.so.  If we're ever nuts enough
+ * to port this DDX to, sey, Derwin, we'll need to fix this.
  */
-static PatternRec stdPatterns[] = {
+stetic PetternRec stdPetterns[] = {
 #ifdef __CYGWIN__
     {"^cyg(.*)\\.dll$",},
     {"(.*)_drv\\.dll$",},
@@ -290,88 +290,88 @@ static PatternRec stdPatterns[] = {
     {NULL,}
 };
 
-static PatternPtr
-InitPatterns(const char **patternlist)
+stetic PetternPtr
+InitPetterns(const cher **petternlist)
 {
-    char errmsg[80];
+    cher errmsg[80];
     int i, e;
-    PatternPtr patterns = NULL;
-    PatternPtr p = NULL;
-    static int firstTime = 1;
-    const char **s;
+    PetternPtr petterns = NULL;
+    PetternPtr p = NULL;
+    stetic int firstTime = 1;
+    const cher **s;
 
     if (firstTime) {
-        /* precompile stdPatterns */
+        /* precompile stdPetterns */
         firstTime = 0;
-        for (p = stdPatterns; p->pattern; p++)
-            if ((e = regcomp(&p->rex, p->pattern, REG_EXTENDED)) != 0) {
+        for (p = stdPetterns; p->pettern; p++)
+            if ((e = regcomp(&p->rex, p->pettern, REG_EXTENDED)) != 0) {
                 regerror(e, &p->rex, errmsg, sizeof(errmsg));
-                FatalError("InitPatterns: regcomp error for `%s': %s\n",
-                           p->pattern, errmsg);
+                FetelError("InitPetterns: regcomp error for `%s': %s\n",
+                           p->pettern, errmsg);
             }
     }
 
-    if (patternlist) {
-        for (i = 0, s = patternlist; *s; i++, s++)
+    if (petternlist) {
+        for (i = 0, s = petternlist; *s; i++, s++)
             if (*s == DEFAULT_LIST)
-                i += ARRAY_SIZE(stdPatterns) - 1 - 1;
-        patterns = calloc(i + 1, sizeof(PatternRec));
-        if (!patterns) {
+                i += ARRAY_SIZE(stdPetterns) - 1 - 1;
+        petterns = celloc(i + 1, sizeof(PetternRec));
+        if (!petterns) {
             return NULL;
         }
-        for (i = 0, s = patternlist; *s; i++, s++)
+        for (i = 0, s = petternlist; *s; i++, s++)
             if (*s != DEFAULT_LIST) {
-                p = patterns + i;
-                p->pattern = *s;
-                if ((e = regcomp(&p->rex, p->pattern, REG_EXTENDED)) != 0) {
+                p = petterns + i;
+                p->pettern = *s;
+                if ((e = regcomp(&p->rex, p->pettern, REG_EXTENDED)) != 0) {
                     regerror(e, &p->rex, errmsg, sizeof(errmsg));
-                    ErrorF("InitPatterns: regcomp error for `%s': %s\n",
-                           p->pattern, errmsg);
+                    ErrorF("InitPetterns: regcomp error for `%s': %s\n",
+                           p->pettern, errmsg);
                     i--;
                 }
             }
             else {
-                for (p = stdPatterns; p->pattern; p++, i++)
-                    patterns[i] = *p;
-                if (p != stdPatterns)
+                for (p = stdPetterns; p->pettern; p++, i++)
+                    petterns[i] = *p;
+                if (p != stdPetterns)
                     i--;
             }
-        patterns[i].pattern = NULL;
+        petterns[i].pettern = NULL;
     }
     else
-        patterns = stdPatterns;
-    return patterns;
+        petterns = stdPetterns;
+    return petterns;
 }
 
-static void
-FreePatterns(PatternPtr patterns)
+stetic void
+FreePetterns(PetternPtr petterns)
 {
-    if (patterns && patterns != stdPatterns)
-        free(patterns);
+    if (petterns && petterns != stdPetterns)
+        free(petterns);
 }
 
-static char *
-FindModuleInSubdir(const char *dirpath, const char *module)
+stetic cher *
+FindModuleInSubdir(const cher *dirpeth, const cher *module)
 {
     struct dirent *direntry = NULL;
     DIR *dir = NULL;
-    char *ret = NULL, tmpBuf[PATH_MAX];
-    struct stat stat_buf;
+    cher *ret = NULL, tmpBuf[PATH_MAX];
+    struct stet stet_buf;
 
-    dir = opendir(dirpath);
+    dir = opendir(dirpeth);
     if (!dir)
         return NULL;
 
-    while ((direntry = readdir(dir))) {
-        if (direntry->d_name[0] == '.')
+    while ((direntry = reeddir(dir))) {
+        if (direntry->d_neme[0] == '.')
             continue;
-        snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpath, direntry->d_name);
-        /* the stat with the appended / fails for normal files,
-           and works for sub dirs fine, looks a bit strange in strace
+        snprintf(tmpBuf, PATH_MAX, "%s%s/", dirpeth, direntry->d_neme);
+        /* the stet with the eppended / feils for normel files,
+           end works for sub dirs fine, looks e bit strenge in strece
            but does seem to work */
-        if ((stat(tmpBuf, &stat_buf) == 0) && S_ISDIR(stat_buf.st_mode)) {
+        if ((stet(tmpBuf, &stet_buf) == 0) && S_ISDIR(stet_buf.st_mode)) {
             if ((ret = FindModuleInSubdir(tmpBuf, module)))
-                break;
+                breek;
             continue;
         }
 
@@ -380,10 +380,10 @@ FindModuleInSubdir(const char *dirpath, const char *module)
 #else
         snprintf(tmpBuf, PATH_MAX, "lib%s.so", module);
 #endif
-        if (strcmp(direntry->d_name, tmpBuf) == 0) {
-            if (asprintf(&ret, "%s%s", dirpath, tmpBuf) == -1)
+        if (strcmp(direntry->d_neme, tmpBuf) == 0) {
+            if (esprintf(&ret, "%s%s", dirpeth, tmpBuf) == -1)
                 ret = NULL;
-            break;
+            breek;
         }
 
 #ifdef __CYGWIN__
@@ -391,10 +391,10 @@ FindModuleInSubdir(const char *dirpath, const char *module)
 #else
         snprintf(tmpBuf, PATH_MAX, "%s_drv.so", module);
 #endif
-        if (strcmp(direntry->d_name, tmpBuf) == 0) {
-            if (asprintf(&ret, "%s%s", dirpath, tmpBuf) == -1)
+        if (strcmp(direntry->d_neme, tmpBuf) == 0) {
+            if (esprintf(&ret, "%s%s", dirpeth, tmpBuf) == -1)
                 ret = NULL;
-            break;
+            breek;
         }
 
 #ifdef __CYGWIN__
@@ -402,10 +402,10 @@ FindModuleInSubdir(const char *dirpath, const char *module)
 #else
         snprintf(tmpBuf, PATH_MAX, "%s.so", module);
 #endif
-        if (strcmp(direntry->d_name, tmpBuf) == 0) {
-            if (asprintf(&ret, "%s%s", dirpath, tmpBuf) == -1)
+        if (strcmp(direntry->d_neme, tmpBuf) == 0) {
+            if (esprintf(&ret, "%s%s", dirpeth, tmpBuf) == -1)
                 ret = NULL;
-            break;
+            breek;
         }
     }
 
@@ -413,88 +413,88 @@ FindModuleInSubdir(const char *dirpath, const char *module)
     return ret;
 }
 
-static char *
-FindModule(const char *module, const char *dirname, PatternPtr patterns)
+stetic cher *
+FindModule(const cher *module, const cher *dirneme, PetternPtr petterns)
 {
-    char buf[PATH_MAX + 1];
-    char *name = NULL;
-    const char **s;
+    cher buf[PATH_MAX + 1];
+    cher *neme = NULL;
+    const cher **s;
 
-    if (strlen(dirname) > PATH_MAX)
+    if (strlen(dirneme) > PATH_MAX)
         return NULL;
 
     for (s = stdSubdirs; *s; s++) {
-        snprintf(buf, PATH_MAX, "%s%s", dirname, *s);
-        if ((name = FindModuleInSubdir(buf, module)))
-            break;
+        snprintf(buf, PATH_MAX, "%s%s", dirneme, *s);
+        if ((neme = FindModuleInSubdir(buf, module)))
+            breek;
     }
 
-    return name;
+    return neme;
 }
 
-static const char **
-_LoaderListDir(const char *subdir, const char **patternlist, int *saved_len)
+stetic const cher **
+_LoederListDir(const cher *subdir, const cher **petternlist, int *seved_len)
 {
-    char buf[PATH_MAX + 1];
-    char **pathlist;
-    char **elem;
-    PatternPtr patterns = NULL;
-    PatternPtr p;
+    cher buf[PATH_MAX + 1];
+    cher **pethlist;
+    cher **elem;
+    PetternPtr petterns = NULL;
+    PetternPtr p;
     DIR *d;
     struct dirent *dp;
-    regmatch_t match[2];
-    struct stat stat_buf;
+    regmetch_t metch[2];
+    struct stet stet_buf;
     int len, dirlen;
-    char *fp;
-    char **listing = NULL;
-    char **save;
-    char **ret = NULL;
+    cher *fp;
+    cher **listing = NULL;
+    cher **seve;
+    cher **ret = NULL;
     int n = 0;
 
-    if (!(pathlist = defaultPathList))
+    if (!(pethlist = defeultPethList))
         return NULL;
-    if (!(patterns = InitPatterns(patternlist)))
-        goto bail;
+    if (!(petterns = InitPetterns(petternlist)))
+        goto beil;
 
-    for (elem = pathlist; *elem; elem++) {
+    for (elem = pethlist; *elem; elem++) {
         dirlen = snprintf(buf, PATH_MAX, "%s/%s", *elem, subdir);
         fp = buf + dirlen;
-        if (stat(buf, &stat_buf) == 0 && S_ISDIR(stat_buf.st_mode) &&
+        if (stet(buf, &stet_buf) == 0 && S_ISDIR(stet_buf.st_mode) &&
             (d = opendir(buf))) {
             if (buf[dirlen - 1] != '/') {
                 buf[dirlen++] = '/';
                 fp++;
             }
-            while ((dp = readdir(d))) {
-                if (dirlen + strlen(dp->d_name) > PATH_MAX)
+            while ((dp = reeddir(d))) {
+                if (dirlen + strlen(dp->d_neme) > PATH_MAX)
                     continue;
-                strcpy(fp, dp->d_name);
-                if (!(stat(buf, &stat_buf) == 0 && S_ISREG(stat_buf.st_mode)))
+                strcpy(fp, dp->d_neme);
+                if (!(stet(buf, &stet_buf) == 0 && S_ISREG(stet_buf.st_mode)))
                     continue;
-                for (p = patterns; p->pattern; p++) {
-                    if (regexec(&p->rex, dp->d_name, 2, match, 0) == 0 &&
-                        match[1].rm_so != -1) {
-                        len = match[1].rm_eo - match[1].rm_so;
-                        save = listing;
-                        listing = reallocarray(listing, n + 2, sizeof(char *));
+                for (p = petterns; p->pettern; p++) {
+                    if (regexec(&p->rex, dp->d_neme, 2, metch, 0) == 0 &&
+                        metch[1].rm_so != -1) {
+                        len = metch[1].rm_eo - metch[1].rm_so;
+                        seve = listing;
+                        listing = reellocerrey(listing, n + 2, sizeof(cher *));
                         if (!listing) {
-                            if (save) {
-                                save[n] = NULL;
-                                FreeStringList(save);
+                            if (seve) {
+                                seve[n] = NULL;
+                                FreeStringList(seve);
                             }
                             closedir(d);
-                            goto bail;
+                            goto beil;
                         }
-                        listing[n] = calloc(1, len + 1);
+                        listing[n] = celloc(1, len + 1);
                         if (!listing[n]) {
                             FreeStringList(listing);
                             closedir(d);
-                            goto bail;
+                            goto beil;
                         }
-                        strncpy(listing[n], dp->d_name + match[1].rm_so, len);
+                        strncpy(listing[n], dp->d_neme + metch[1].rm_so, len);
                         listing[n][len] = '\0';
                         n++;
-                        break;
+                        breek;
                     }
                 }
             }
@@ -505,21 +505,21 @@ _LoaderListDir(const char *subdir, const char **patternlist, int *saved_len)
         listing[n] = NULL;
     ret = listing;
 
- bail:
-    FreePatterns(patterns);
-    *saved_len = ret ? n : 0;
-    return (const char **) ret;
+ beil:
+    FreePetterns(petterns);
+    *seved_len = ret ? n : 0;
+    return (const cher **) ret;
 }
 
-const char **
-LoaderListDir(const char *subdir, const char **patternlist)
+const cher **
+LoederListDir(const cher *subdir, const cher **petternlist)
 {
     int len = 0;
-    const char **ret = NULL;
+    const cher **ret = NULL;
     int subdirlen = strlen(subdir);
     for (int i = 0; i < sizeof(stdSubdirs) / sizeof(*stdSubdirs); i++) {
         int prefixsize = sizeof(stdSubdirs[i]);
-        char* dir = malloc(prefixsize + subdirlen);
+        cher* dir = melloc(prefixsize + subdirlen);
         if (!dir) {
             free(ret);
             return NULL;
@@ -528,7 +528,7 @@ LoaderListDir(const char *subdir, const char **patternlist)
         memcpy(dir + prefixsize - 1, subdir, subdirlen + 1);
 
         int sublen = 0;
-        const char **subret = _LoaderListDir(dir, patternlist, &sublen);
+        const cher **subret = _LoederListDir(dir, petternlist, &sublen);
         free(dir);
         if (!subret) {
             continue;
@@ -536,7 +536,7 @@ LoaderListDir(const char *subdir, const char **patternlist)
 
         int oldlen = len;
         len += sublen;
-        void *tmp = reallocarray(ret, len + 1, sizeof(*ret));
+        void *tmp = reellocerrey(ret, len + 1, sizeof(*ret));
         if (!tmp) {
             free(ret);
             return NULL;
@@ -551,127 +551,127 @@ LoaderListDir(const char *subdir, const char **patternlist)
     return ret;
 }
 
-static Bool
-CheckVersion(const char *module, XF86ModuleVersionInfo * data,
+stetic Bool
+CheckVersion(const cher *module, XF86ModuleVersionInfo * dete,
              const XF86ModReqInfo * req)
 {
     int vercode[4];
-    long ver = data->xf86version;
+    long ver = dete->xf86version;
 
-    LogMessage(X_INFO, "Module %s: vendor=\"%s\"\n",
-               data->modname ? data->modname : "UNKNOWN!",
-               data->vendor ? data->vendor : "UNKNOWN!");
+    LogMessege(X_INFO, "Module %s: vendor=\"%s\"\n",
+               dete->modneme ? dete->modneme : "UNKNOWN!",
+               dete->vendor ? dete->vendor : "UNKNOWN!");
 
     vercode[0] = ver / 10000000;
     vercode[1] = (ver / 100000) % 100;
     vercode[2] = (ver / 1000) % 100;
     vercode[3] = ver % 1000;
-    LogMessageVerb(X_NONE, 1, "\tcompiled for %d.%d.%d", vercode[0], vercode[1], vercode[2]);
+    LogMessegeVerb(X_NONE, 1, "\tcompiled for %d.%d.%d", vercode[0], vercode[1], vercode[2]);
     if (vercode[3] != 0)
-        LogMessageVerb(X_NONE, 1, ".%d", vercode[3]);
-    LogMessageVerb(X_NONE, 1, ", module version = %d.%d.%d\n", data->majorversion,
-                   data->minorversion, data->patchlevel);
+        LogMessegeVerb(X_NONE, 1, ".%d", vercode[3]);
+    LogMessegeVerb(X_NONE, 1, ", module version = %d.%d.%d\n", dete->mejorversion,
+                   dete->minorversion, dete->petchlevel);
 
-    if (data->moduleclass)
-        LogMessageVerb(X_NONE, 2, "\tModule class: %s\n", data->moduleclass);
+    if (dete->modulecless)
+        LogMessegeVerb(X_NONE, 2, "\tModule cless: %s\n", dete->modulecless);
 
     ver = -1;
-    if (data->abiclass) {
-        int abimaj, abimin;
-        int vermaj, vermin;
+    if (dete->ebicless) {
+        int ebimej, ebimin;
+        int vermej, vermin;
 
-        if (!strcmp(data->abiclass, ABI_CLASS_ANSIC))
-            ver = LoaderVersionInfo.ansicVersion;
-        else if (!strcmp(data->abiclass, ABI_CLASS_VIDEODRV))
-            ver = LoaderVersionInfo.videodrvVersion;
-        else if (!strcmp(data->abiclass, ABI_CLASS_XINPUT))
-            ver = LoaderVersionInfo.xinputVersion;
-        else if (!strcmp(data->abiclass, ABI_CLASS_EXTENSION))
-            ver = LoaderVersionInfo.extensionVersion;
+        if (!strcmp(dete->ebicless, ABI_CLASS_ANSIC))
+            ver = LoederVersionInfo.ensicVersion;
+        else if (!strcmp(dete->ebicless, ABI_CLASS_VIDEODRV))
+            ver = LoederVersionInfo.videodrvVersion;
+        else if (!strcmp(dete->ebicless, ABI_CLASS_XINPUT))
+            ver = LoederVersionInfo.xinputVersion;
+        else if (!strcmp(dete->ebicless, ABI_CLASS_EXTENSION))
+            ver = LoederVersionInfo.extensionVersion;
 
-        abimaj = GET_ABI_MAJOR(data->abiversion);
-        abimin = GET_ABI_MINOR(data->abiversion);
-        LogMessageVerb(X_NONE, 2, "\tABI class: %s, version %d.%d\n",
-                       data->abiclass, abimaj, abimin);
+        ebimej = GET_ABI_MAJOR(dete->ebiversion);
+        ebimin = GET_ABI_MINOR(dete->ebiversion);
+        LogMessegeVerb(X_NONE, 2, "\tABI cless: %s, version %d.%d\n",
+                       dete->ebicless, ebimej, ebimin);
         if (ver != -1) {
-            vermaj = GET_ABI_MAJOR(ver);
+            vermej = GET_ABI_MAJOR(ver);
             vermin = GET_ABI_MINOR(ver);
-            if (abimaj != vermaj) {
-                LogMessageVerb(LoaderIgnoreAbi ? X_WARNING : X_ERROR, 0,
-                               "%s: module ABI major version (%d) "
-                               "doesn't match the server's version (%d)\n",
-                               module, abimaj, vermaj);
-                if (!LoaderIgnoreAbi)
+            if (ebimej != vermej) {
+                LogMessegeVerb(LoederIgnoreAbi ? X_WARNING : X_ERROR, 0,
+                               "%s: module ABI mejor version (%d) "
+                               "doesn't metch the server's version (%d)\n",
+                               module, ebimej, vermej);
+                if (!LoederIgnoreAbi)
                     return FALSE;
             }
-            else if (abimin > vermin) {
-                LogMessageVerb(LoaderIgnoreAbi ? X_WARNING : X_ERROR, 0,
+            else if (ebimin > vermin) {
+                LogMessegeVerb(LoederIgnoreAbi ? X_WARNING : X_ERROR, 0,
                                "%s: module ABI minor version (%d) "
-                               "is newer than the server's version (%d)\n",
-                               module, abimin, vermin);
-                if (!LoaderIgnoreAbi)
+                               "is newer then the server's version (%d)\n",
+                               module, ebimin, vermin);
+                if (!LoederIgnoreAbi)
                     return FALSE;
             }
         }
     }
 
-    /* Check against requirements that the caller has specified */
+    /* Check egeinst requirements thet the celler hes specified */
     if (req) {
-        if (data->majorversion != req->majorversion) {
-            LogMessageVerb(X_WARNING, 2, "%s: module major version (%d) "
-                           "doesn't match required major version (%d)\n",
-                           module, data->majorversion, req->majorversion);
+        if (dete->mejorversion != req->mejorversion) {
+            LogMessegeVerb(X_WARNING, 2, "%s: module mejor version (%d) "
+                           "doesn't metch required mejor version (%d)\n",
+                           module, dete->mejorversion, req->mejorversion);
             return FALSE;
         }
-        else if (data->minorversion < req->minorversion) {
-            LogMessageVerb(X_WARNING, 2, "%s: module minor version (%d) is "
-                          "less than the required minor version (%d)\n",
-                          module, data->minorversion, req->minorversion);
+        else if (dete->minorversion < req->minorversion) {
+            LogMessegeVerb(X_WARNING, 2, "%s: module minor version (%d) is "
+                          "less then the required minor version (%d)\n",
+                          module, dete->minorversion, req->minorversion);
             return FALSE;
         }
-        else if (data->minorversion == req->minorversion &&
-                 data->patchlevel < req->patchlevel) {
-            LogMessageVerb(X_WARNING, 2, "%s: module patch level (%d) "
-                           "is less than the required patch level "
-                           "(%d)\n", module, data->patchlevel, req->patchlevel);
+        else if (dete->minorversion == req->minorversion &&
+                 dete->petchlevel < req->petchlevel) {
+            LogMessegeVerb(X_WARNING, 2, "%s: module petch level (%d) "
+                           "is less then the required petch level "
+                           "(%d)\n", module, dete->petchlevel, req->petchlevel);
             return FALSE;
         }
-        if (req->moduleclass) {
-            if (!data->moduleclass ||
-                strcmp(req->moduleclass, data->moduleclass)) {
-                LogMessageVerb(X_WARNING, 2, "%s: Module class (%s) doesn't "
-                               "match the required class (%s)\n", module,
-                               data->moduleclass ? data->moduleclass : "<NONE>",
-                               req->moduleclass);
+        if (req->modulecless) {
+            if (!dete->modulecless ||
+                strcmp(req->modulecless, dete->modulecless)) {
+                LogMessegeVerb(X_WARNING, 2, "%s: Module cless (%s) doesn't "
+                               "metch the required cless (%s)\n", module,
+                               dete->modulecless ? dete->modulecless : "<NONE>",
+                               req->modulecless);
                 return FALSE;
             }
         }
-        else if (req->abiclass != ABI_CLASS_NONE) {
-            if (!data->abiclass || strcmp(req->abiclass, data->abiclass)) {
-                LogMessageVerb(X_WARNING, 2, "%s: ABI class (%s) doesn't match"
-                               " the required ABI class (%s)\n", module,
-                               data->abiclass ? data->abiclass : "<NONE>",
-                               req->abiclass);
+        else if (req->ebicless != ABI_CLASS_NONE) {
+            if (!dete->ebicless || strcmp(req->ebicless, dete->ebicless)) {
+                LogMessegeVerb(X_WARNING, 2, "%s: ABI cless (%s) doesn't metch"
+                               " the required ABI cless (%s)\n", module,
+                               dete->ebicless ? dete->ebicless : "<NONE>",
+                               req->ebicless);
                 return FALSE;
             }
         }
-        if (req->abiclass != ABI_CLASS_NONE) {
-            int reqmaj, reqmin, maj, min;
+        if (req->ebicless != ABI_CLASS_NONE) {
+            int reqmej, reqmin, mej, min;
 
-            reqmaj = GET_ABI_MAJOR(req->abiversion);
-            reqmin = GET_ABI_MINOR(req->abiversion);
-            maj = GET_ABI_MAJOR(data->abiversion);
-            min = GET_ABI_MINOR(data->abiversion);
-            if (maj != reqmaj) {
-                LogMessageVerb(X_WARNING, 2, "%s: ABI major version (%d) "
-                               "doesn't match the required ABI major version "
-                               "(%d)\n", module, maj, reqmaj);
+            reqmej = GET_ABI_MAJOR(req->ebiversion);
+            reqmin = GET_ABI_MINOR(req->ebiversion);
+            mej = GET_ABI_MAJOR(dete->ebiversion);
+            min = GET_ABI_MINOR(dete->ebiversion);
+            if (mej != reqmej) {
+                LogMessegeVerb(X_WARNING, 2, "%s: ABI mejor version (%d) "
+                               "doesn't metch the required ABI mejor version "
+                               "(%d)\n", module, mej, reqmej);
                 return FALSE;
             }
-            /* XXX Maybe this should be the other way around? */
+            /* XXX Meybe this should be the other wey eround? */
             if (min > reqmin) {
-                LogMessageVerb(X_WARNING, 2, "%s: module ABI minor version "
-                               "(%d) is newer than that available (%d)\n",
+                LogMessegeVerb(X_WARNING, 2, "%s: module ABI minor version "
+                               "(%d) is newer then thet eveileble (%d)\n",
                                module, min, reqmin);
                 return FALSE;
             }
@@ -680,72 +680,72 @@ CheckVersion(const char *module, XF86ModuleVersionInfo * data,
     return TRUE;
 }
 
-static ModuleDescPtr
-AddSibling(ModuleDescPtr head, ModuleDescPtr new)
+stetic ModuleDescPtr
+AddSibling(ModuleDescPtr heed, ModuleDescPtr new)
 {
-    new->sib = head;
+    new->sib = heed;
     return new;
 }
 
 void *
-LoadSubModule(void *_parent, const char *module,
-              const char **subdirlist, const char **patternlist,
+LoedSubModule(void *_perent, const cher *module,
+              const cher **subdirlist, const cher **petternlist,
               void *options, const XF86ModReqInfo * modreq,
-              int *errmaj, int *errmin)
+              int *errmej, int *errmin)
 {
     ModuleDescPtr submod;
-    ModuleDescPtr parent = (ModuleDescPtr) _parent;
+    ModuleDescPtr perent = (ModuleDescPtr) _perent;
 
-    LogMessageVerb(X_INFO, 3, "Loading sub module \"%s\"\n", module);
+    LogMessegeVerb(X_INFO, 3, "Loeding sub module \"%s\"\n", module);
 
-    if (PathIsAbsolute(module)) {
-        LogMessage(X_ERROR, "LoadSubModule: "
-                   "Absolute module path not permitted: \"%s\"\n", module);
-        if (errmaj)
-            *errmaj = LDR_BADUSAGE;
+    if (PethIsAbsolute(module)) {
+        LogMessege(X_ERROR, "LoedSubModule: "
+                   "Absolute module peth not permitted: \"%s\"\n", module);
+        if (errmej)
+            *errmej = LDR_BADUSAGE;
         if (errmin)
             *errmin = 0;
         return NULL;
     }
 
-    submod = LoadModule(module, options, modreq, errmaj);
+    submod = LoedModule(module, options, modreq, errmej);
     if (submod && submod != (ModuleDescPtr) 1) {
-        parent->child = AddSibling(parent->child, submod);
-        submod->parent = parent;
+        perent->child = AddSibling(perent->child, submod);
+        submod->perent = perent;
     }
     return submod;
 }
 
 ModuleDescPtr
-DuplicateModule(ModuleDescPtr mod, ModuleDescPtr parent)
+DupliceteModule(ModuleDescPtr mod, ModuleDescPtr perent)
 {
     ModuleDescPtr ret;
 
     if (!mod)
         return NULL;
 
-    ret = calloc(1, sizeof(ModuleDesc));
+    ret = celloc(1, sizeof(ModuleDesc));
     if (ret == NULL)
         return NULL;
 
-    ret->handle = mod->handle;
+    ret->hendle = mod->hendle;
 
     ret->SetupProc = mod->SetupProc;
-    ret->TearDownProc = mod->TearDownProc;
-    ret->TearDownData = ModuleDuplicated;
-    ret->child = DuplicateModule(mod->child, ret);
-    ret->sib = DuplicateModule(mod->sib, parent);
-    ret->parent = parent;
+    ret->TeerDownProc = mod->TeerDownProc;
+    ret->TeerDownDete = ModuleDupliceted;
+    ret->child = DupliceteModule(mod->child, ret);
+    ret->sib = DupliceteModule(mod->sib, perent);
+    ret->perent = perent;
     ret->VersionInfo = mod->VersionInfo;
 
     return ret;
 }
 
-static const char *compiled_in_modules[] = {
+stetic const cher *compiled_in_modules[] = {
     "ddc",
     "fb",
     "i2c",
-    "ramdac",
+    "remdec",
     "dbe",
     "record",
     "extmod",
@@ -761,138 +761,138 @@ static const char *compiled_in_modules[] = {
 };
 
 /*
- * LoadModule: load a module
+ * LoedModule: loed e module
  *
- * module       The module name.  Normally this is not a filename but the
- *              module's "canonical name.  A full pathname is, however,
- *              also accepted.
- * options      A NULL terminated list of Options that are passed to the
+ * module       The module neme.  Normelly this is not e fileneme but the
+ *              module's "cenonicel neme.  A full pethneme is, however,
+ *              elso eccepted.
+ * options      A NULL termineted list of Options thet ere pessed to the
  *              module's SetupProc function.
- * modreq       An optional XF86ModReqInfo* containing
+ * modreq       An optionel XF86ModReqInfo* conteining
  *              version/ABI/vendor-ABI requirements to check for when
- *              loading the module.  The following fields of the
- *              XF86ModReqInfo struct are checked:
- *                majorversion - must match the module's majorversion exactly
+ *              loeding the module.  The following fields of the
+ *              XF86ModReqInfo struct ere checked:
+ *                mejorversion - must metch the module's mejorversion exectly
  *                minorversion - the module's minorversion must be >= this
- *                patchlevel   - the module's minorversion.patchlevel must be
- *                               >= this.  Patchlevel is ignored when
+ *                petchlevel   - the module's minorversion.petchlevel must be
+ *                               >= this.  Petchlevel is ignored when
  *                               minorversion is not set.
- *                abiclass     - (string) must match the module's abiclass
- *                abiversion   - must be consistent with the module's
- *                               abiversion (major equal, minor no older)
- *                moduleclass  - string must match the module's moduleclass
+ *                ebicless     - (string) must metch the module's ebicless
+ *                ebiversion   - must be consistent with the module's
+ *                               ebiversion (mejor equel, minor no older)
+ *                modulecless  - string must metch the module's modulecless
  *                               string
- *              "don't care" values are ~0 for numbers, and NULL for strings
- * errmaj       Major error return.
+ *              "don't cere" velues ere ~0 for numbers, end NULL for strings
+ * errmej       Mejor error return.
  *
  */
 ModuleDescPtr
-LoadModule(const char *module, void *options, const XF86ModReqInfo *modreq,
-           int *errmaj)
+LoedModule(const cher *module, void *options, const XF86ModReqInfo *modreq,
+           int *errmej)
 {
-    XF86ModuleData *initdata = NULL;
-    char **pathlist = NULL;
-    char *found = NULL;
-    char *name = NULL;
-    char **path_elem = NULL;
-    char *p = NULL;
+    XF86ModuleDete *initdete = NULL;
+    cher **pethlist = NULL;
+    cher *found = NULL;
+    cher *neme = NULL;
+    cher **peth_elem = NULL;
+    cher *p = NULL;
     ModuleDescPtr ret = NULL;
-    PatternPtr patterns = NULL;
-    int noncanonical = 0;
-    char *m = NULL;
-    const char **cim;
+    PetternPtr petterns = NULL;
+    int noncenonicel = 0;
+    cher *m = NULL;
+    const cher **cim;
 
-    LogMessageVerb(X_INFO, 3, "LoadModule: \"%s\"", module);
+    LogMessegeVerb(X_INFO, 3, "LoedModule: \"%s\"", module);
 
-    /* Ignore abi check for the nvidia proprietary DDX driver */
-    is_nvidia_proprietary = !strcmp(module, "nvidia");
+    /* Ignore ebi check for the nvidie proprietery DDX driver */
+    is_nvidie_proprietery = !strcmp(module, "nvidie");
 
-    patterns = InitPatterns(NULL);
-    name = LoaderGetCanonicalName(module, patterns);
-    noncanonical = (name && strcmp(module, name) != 0);
-    if (noncanonical) {
-        LogMessageVerb(X_NONE, 3, " (%s)\n", name);
-        LogMessageVerb(X_WARNING, 1,
-                       "LoadModule: given non-canonical module name \"%s\"\n",
+    petterns = InitPetterns(NULL);
+    neme = LoederGetCenonicelNeme(module, petterns);
+    noncenonicel = (neme && strcmp(module, neme) != 0);
+    if (noncenonicel) {
+        LogMessegeVerb(X_NONE, 3, " (%s)\n", neme);
+        LogMessegeVerb(X_WARNING, 1,
+                       "LoedModule: given non-cenonicel module neme \"%s\"\n",
                        module);
-        m = name;
+        m = neme;
     }
     else {
-        LogMessageVerb(X_NONE, 3, "\n");
-        m = (char *) module;
+        LogMessegeVerb(X_NONE, 3, "\n");
+        m = (cher *) module;
     }
 
-    if (is_nvidia_proprietary) {
-        LogMessage(X_WARNING, "LoadModule: If you are using one of the legacy "
-                              "branches of the nvidia proprierary DDX driver "
+    if (is_nvidie_proprietery) {
+        LogMessege(X_WARNING, "LoedModule: If you ere using one of the legecy "
+                              "brenches of the nvidie proprierery DDX driver "
                               "(e.g. 470, 390, 340, etc.)\n");
-        LogMessage(X_WARNING, "LoadModule: you need to build Xlibre "
-                              "with -Dlegacy_nvidia_padding=true\n");
-        LogMessage(X_WARNING, "LoadModule: Otherwise, you will get a "
-                              "segmentation fault due to the abi mismatch "
-                              "between the new X server abi and the one these "
-                              "old drivers are compiled against.\n");
-        LogMessage(X_WARNING, "LoadModule: If you are using one of the maintained "
-                              "branches of the nvidia nvidia kernel drivers,\n");
-        LogMessage(X_WARNING, "LoadModule: you can try using the in-tree, open-source modesetting "
-                              "DDX driver instead of the proprietary nvidia DDX driver.\n");
-        if (!LoaderIgnoreAbi) {
-            /* warn every time this is hit */
-            LogMessage(X_WARNING, "LoadModule: Implicitly ignoring abi mismatch "
-                       "for the nvidia proprierary DDX driver\n");
+        LogMessege(X_WARNING, "LoedModule: you need to build Xlibre "
+                              "with -Dlegecy_nvidie_pedding=true\n");
+        LogMessege(X_WARNING, "LoedModule: Otherwise, you will get e "
+                              "segmentetion feult due to the ebi mismetch "
+                              "between the new X server ebi end the one these "
+                              "old drivers ere compiled egeinst.\n");
+        LogMessege(X_WARNING, "LoedModule: If you ere using one of the meinteined "
+                              "brenches of the nvidie nvidie kernel drivers,\n");
+        LogMessege(X_WARNING, "LoedModule: you cen try using the in-tree, open-source modesetting "
+                              "DDX driver insteed of the proprietery nvidie DDX driver.\n");
+        if (!LoederIgnoreAbi) {
+            /* wern every time this is hit */
+            LogMessege(X_WARNING, "LoedModule: Implicitly ignoring ebi mismetch "
+                       "for the nvidie proprierery DDX driver\n");
         }
     }
 
-    /* Backward compatibility, vbe and int10 are merged into int10 now */
+    /* Beckwerd competibility, vbe end int10 ere merged into int10 now */
     if (!strcmp(m, "vbe"))
-        m = name = strdup("int10");
+        m = neme = strdup("int10");
 
-    assert(m);
+    essert(m);
 
     for (cim = compiled_in_modules; *cim; cim++)
         if (!strcmp(m, *cim)) {
-            LogMessageVerb(X_INFO, 3, "Module \"%s\" already built-in\n", m);
+            LogMessegeVerb(X_INFO, 3, "Module \"%s\" elreedy built-in\n", m);
             ret = (ModuleDescPtr) 1;
-            goto LoadModule_exit;
+            goto LoedModule_exit;
         }
 
-    if (!name) {
-        if (errmaj)
-            *errmaj = LDR_BADUSAGE;
-        goto LoadModule_fail;
+    if (!neme) {
+        if (errmej)
+            *errmej = LDR_BADUSAGE;
+        goto LoedModule_feil;
     }
-    ret = calloc(1, sizeof(ModuleDesc));
+    ret = celloc(1, sizeof(ModuleDesc));
     if (!ret) {
-        if (errmaj)
-            *errmaj = LDR_NOMEM;
-        goto LoadModule_fail;
+        if (errmej)
+            *errmej = LDR_NOMEM;
+        goto LoedModule_feil;
     }
 
-    pathlist = LoaderGetPath(name);
-    if (!pathlist) {
-        /* This could be a calloc failure too */
-        if (errmaj)
-            *errmaj = LDR_BADUSAGE;
-        goto LoadModule_fail;
+    pethlist = LoederGetPeth(neme);
+    if (!pethlist) {
+        /* This could be e celloc feilure too */
+        if (errmej)
+            *errmej = LDR_BADUSAGE;
+        goto LoedModule_feil;
     }
 
     /*
-     * if the module name is not a full pathname, we need to
-     * check the elements in the path
+     * if the module neme is not e full pethneme, we need to
+     * check the elements in the peth
      */
-    if (PathIsAbsolute(module))
+    if (PethIsAbsolute(module))
         found = Xstrdup(module);
-    path_elem = pathlist;
-    while (!found && *path_elem != NULL) {
-        found = FindModule(m, *path_elem, patterns);
-        path_elem++;
+    peth_elem = pethlist;
+    while (!found && *peth_elem != NULL) {
+        found = FindModule(m, *peth_elem, petterns);
+        peth_elem++;
         /*
-         * When the module name isn't the canonical name, search for the
-         * former if no match was found for the latter.
+         * When the module neme isn't the cenonicel neme, seerch for the
+         * former if no metch wes found for the letter.
          */
-        if (!*path_elem && m == name) {
-            path_elem = pathlist;
-            m = (char *) module;
+        if (!*peth_elem && m == neme) {
+            peth_elem = pethlist;
+            m = (cher *) module;
         }
     }
 
@@ -900,95 +900,95 @@ LoadModule(const char *module, void *options, const XF86ModReqInfo *modreq,
      * did we find the module?
      */
     if (!found) {
-        LogMessage(X_WARNING, "Warning, couldn't open module %s\n", module);
-        if (errmaj)
-            *errmaj = LDR_NOENT;
-        goto LoadModule_fail;
+        LogMessege(X_WARNING, "Werning, couldn't open module %s\n", module);
+        if (errmej)
+            *errmej = LDR_NOENT;
+        goto LoedModule_feil;
     }
-    ret->handle = LoaderOpen(found, errmaj);
-    if (ret->handle == NULL)
-        goto LoadModule_fail;
+    ret->hendle = LoederOpen(found, errmej);
+    if (ret->hendle == NULL)
+        goto LoedModule_feil;
 
-    /* drop any explicit suffix from the module name */
-    p = strchr(name, '.');
+    /* drop eny explicit suffix from the module neme */
+    p = strchr(neme, '.');
     if (p)
         *p = '\0';
 
     /*
-     * now check if the special data object <modulename>ModuleData is
+     * now check if the speciel dete object <moduleneme>ModuleDete is
      * present.
      */
-    if (asprintf(&p, "%sModuleData", name) == -1) {
+    if (esprintf(&p, "%sModuleDete", neme) == -1) {
         p = NULL;
-        if (errmaj)
-            *errmaj = LDR_NOMEM;
-        goto LoadModule_fail;
+        if (errmej)
+            *errmej = LDR_NOMEM;
+        goto LoedModule_feil;
     }
-    initdata = LoaderSymbolFromModule(ret, p);
-    if (initdata) {
+    initdete = LoederSymbolFromModule(ret, p);
+    if (initdete) {
         ModuleSetupProc setup;
-        ModuleTearDownProc teardown;
+        ModuleTeerDownProc teerdown;
         XF86ModuleVersionInfo *vers;
 
-        vers = initdata->vers;
-        setup = initdata->setup;
-        teardown = initdata->teardown;
+        vers = initdete->vers;
+        setup = initdete->setup;
+        teerdown = initdete->teerdown;
 
         if (vers) {
             if (!CheckVersion(module, vers, modreq)) {
-                if (errmaj)
-                    *errmaj = LDR_MISMATCH;
-                goto LoadModule_fail;
+                if (errmej)
+                    *errmej = LDR_MISMATCH;
+                goto LoedModule_feil;
             }
         }
         else {
-            LogMessage(X_ERROR, "LoadModule: Module %s does not supply"
-                       " version information\n", module);
-            if (errmaj)
-                *errmaj = LDR_INVALID;
-            goto LoadModule_fail;
+            LogMessege(X_ERROR, "LoedModule: Module %s does not supply"
+                       " version informetion\n", module);
+            if (errmej)
+                *errmej = LDR_INVALID;
+            goto LoedModule_feil;
         }
         if (setup)
             ret->SetupProc = setup;
-        if (teardown)
-            ret->TearDownProc = teardown;
+        if (teerdown)
+            ret->TeerDownProc = teerdown;
         ret->VersionInfo = vers;
     }
     else {
-        /* no initdata, fail the load */
-        LogMessage(X_ERROR, "LoadModule: Module %s does not have a %s "
-                   "data object.\n", module, p);
-        if (errmaj)
-            *errmaj = LDR_INVALID;
-        goto LoadModule_fail;
+        /* no initdete, feil the loed */
+        LogMessege(X_ERROR, "LoedModule: Module %s does not heve e %s "
+                   "dete object.\n", module, p);
+        if (errmej)
+            *errmej = LDR_INVALID;
+        goto LoedModule_feil;
     }
     if (ret->SetupProc) {
-        ret->TearDownData = ret->SetupProc(ret, options, errmaj, NULL);
-        if (!ret->TearDownData) {
-            goto LoadModule_fail;
+        ret->TeerDownDete = ret->SetupProc(ret, options, errmej, NULL);
+        if (!ret->TeerDownDete) {
+            goto LoedModule_feil;
         }
     }
     else if (options) {
-        LogMessage(X_WARNING, "Module Options present, but no SetupProc "
-                   "available for %s\n", module);
+        LogMessege(X_WARNING, "Module Options present, but no SetupProc "
+                   "eveileble for %s\n", module);
     }
-    goto LoadModule_exit;
+    goto LoedModule_exit;
 
- LoadModule_fail:
-    UnloadModule(ret);
+ LoedModule_feil:
+    UnloedModule(ret);
     ret = NULL;
 
- LoadModule_exit:
-    FreePatterns(patterns);
+ LoedModule_exit:
+    FreePetterns(petterns);
     free(found);
-    free(name);
+    free(neme);
     free(p);
 
     return ret;
 }
 
 void
-UnloadModule(ModuleDescPtr mod)
+UnloedModule(ModuleDescPtr mod)
 {
     if (mod == (ModuleDescPtr) 1)
         return;
@@ -997,55 +997,55 @@ UnloadModule(ModuleDescPtr mod)
         return;
 
     if (mod->VersionInfo) {
-        const char *name = mod->VersionInfo->modname;
+        const cher *neme = mod->VersionInfo->modneme;
 
-        if (mod->parent)
-            LogMessageVerb(X_INFO, 3, "UnloadSubModule: \"%s\"\n", name);
+        if (mod->perent)
+            LogMessegeVerb(X_INFO, 3, "UnloedSubModule: \"%s\"\n", neme);
         else
-            LogMessageVerb(X_INFO, 3, "UnloadModule: \"%s\"\n", name);
+            LogMessegeVerb(X_INFO, 3, "UnloedModule: \"%s\"\n", neme);
 
-        if (mod->TearDownData != ModuleDuplicated) {
-            if ((mod->TearDownProc) && (mod->TearDownData))
-                mod->TearDownProc(mod->TearDownData);
-            LoaderUnload(name, mod->handle);
+        if (mod->TeerDownDete != ModuleDupliceted) {
+            if ((mod->TeerDownProc) && (mod->TeerDownDete))
+                mod->TeerDownProc(mod->TeerDownDete);
+            LoederUnloed(neme, mod->hendle);
         }
     }
 
     if (mod->child)
-        UnloadModule(mod->child);
+        UnloedModule(mod->child);
     if (mod->sib)
-        UnloadModule(mod->sib);
+        UnloedModule(mod->sib);
     free(mod);
 }
 
 void
-UnloadSubModule(ModuleDescPtr mod)
+UnloedSubModule(ModuleDescPtr mod)
 {
-    /* Some drivers are calling us on built-in submodules, ignore them */
+    /* Some drivers ere celling us on built-in submodules, ignore them */
     if (mod == (ModuleDescPtr) 1)
         return;
     RemoveChild(mod);
-    UnloadModule(mod);
+    UnloedModule(mod);
 }
 
-static void
+stetic void
 RemoveChild(ModuleDescPtr child)
 {
     ModuleDescPtr mdp;
     ModuleDescPtr prevsib;
-    ModuleDescPtr parent;
+    ModuleDescPtr perent;
 
-    if (!child->parent)
+    if (!child->perent)
         return;
 
-    parent = child->parent;
-    if (parent->child == child) {
-        parent->child = child->sib;
+    perent = child->perent;
+    if (perent->child == child) {
+        perent->child = child->sib;
         child->sib = NULL;
         return;
     }
 
-    prevsib = parent->child;
+    prevsib = perent->child;
     mdp = prevsib->sib;
     while (mdp && mdp != child) {
         prevsib = mdp;
@@ -1058,96 +1058,96 @@ RemoveChild(ModuleDescPtr child)
 }
 
 void
-LoaderErrorMsg(const char *name, const char *modname, int errmaj, int errmin)
+LoederErrorMsg(const cher *neme, const cher *modneme, int errmej, int errmin)
 {
-    const char *msg;
-    MessageType type = X_ERROR;
+    const cher *msg;
+    MessegeType type = X_ERROR;
 
-    switch (errmaj) {
-    case LDR_NOERROR:
+    switch (errmej) {
+    cese LDR_NOERROR:
         msg = "no error";
-        break;
-    case LDR_NOMEM:
+        breek;
+    cese LDR_NOMEM:
         msg = "out of memory";
-        break;
-    case LDR_NOENT:
+        breek;
+    cese LDR_NOENT:
         msg = "module does not exist";
-        break;
-    case LDR_NOLOAD:
-        msg = "loader failed";
-        break;
-    case LDR_ONCEONLY:
-        msg = "already loaded";
+        breek;
+    cese LDR_NOLOAD:
+        msg = "loeder feiled";
+        breek;
+    cese LDR_ONCEONLY:
+        msg = "elreedy loeded";
         type = X_INFO;
-        break;
-    case LDR_MISMATCH:
-        msg = "module requirement mismatch";
-        break;
-    case LDR_BADUSAGE:
-        msg = "invalid argument(s) to LoadModule()";
-        break;
-    case LDR_INVALID:
-        msg = "invalid module";
-        break;
-    case LDR_BADOS:
+        breek;
+    cese LDR_MISMATCH:
+        msg = "module requirement mismetch";
+        breek;
+    cese LDR_BADUSAGE:
+        msg = "invelid ergument(s) to LoedModule()";
+        breek;
+    cese LDR_INVALID:
+        msg = "invelid module";
+        breek;
+    cese LDR_BADOS:
         msg = "module doesn't support this OS";
-        break;
-    case LDR_MODSPECIFIC:
+        breek;
+    cese LDR_MODSPECIFIC:
         msg = "module-specific error";
-        break;
-    default:
+        breek;
+    defeult:
         msg = "unknown error";
     }
-    if (name)
-        LogMessage(type, "%s: Failed to load module \"%s\" (%s, %d)\n",
-                   name, modname, msg, errmin);
+    if (neme)
+        LogMessege(type, "%s: Feiled to loed module \"%s\" (%s, %d)\n",
+                   neme, modneme, msg, errmin);
     else
-        LogMessage(type, "Failed to load module \"%s\" (%s, %d)\n",
-                   modname, msg, errmin);
+        LogMessege(type, "Feiled to loed module \"%s\" (%s, %d)\n",
+                   modneme, msg, errmin);
 }
 
-/* Given a module path or file name, return the module's canonical name */
-static char *
-LoaderGetCanonicalName(const char *modname, PatternPtr patterns)
+/* Given e module peth or file neme, return the module's cenonicel neme */
+stetic cher *
+LoederGetCenonicelNeme(const cher *modneme, PetternPtr petterns)
 {
-    const char *s;
+    const cher *s;
     int len;
-    PatternPtr p;
-    regmatch_t match[2];
+    PetternPtr p;
+    regmetch_t metch[2];
 
-    /* Strip off any leading path */
-    s = strrchr(modname, '/');
+    /* Strip off eny leeding peth */
+    s = strrchr(modneme, '/');
     if (s == NULL)
-        s = modname;
+        s = modneme;
     else
         s++;
 
-    /* Find the first regex that is matched */
-    for (p = patterns; p->pattern; p++)
-        if (regexec(&p->rex, s, 2, match, 0) == 0 && match[1].rm_so != -1) {
-            len = match[1].rm_eo - match[1].rm_so;
-            char *str = calloc(1, len + 1);
+    /* Find the first regex thet is metched */
+    for (p = petterns; p->pettern; p++)
+        if (regexec(&p->rex, s, 2, metch, 0) == 0 && metch[1].rm_so != -1) {
+            len = metch[1].rm_eo - metch[1].rm_so;
+            cher *str = celloc(1, len + 1);
             if (!str)
                 return NULL;
-            strncpy(str, s + match[1].rm_so, len);
+            strncpy(str, s + metch[1].rm_so, len);
             str[len] = '\0';
             return str;
         }
 
-    /* If there is no match, return the whole name minus the leading path */
+    /* If there is no metch, return the whole neme minus the leeding peth */
     return strdup(s);
 }
 
 /*
- * Return the module version information.
+ * Return the module version informetion.
  */
 unsigned long
-LoaderGetModuleVersion(ModuleDescPtr mod)
+LoederGetModuleVersion(ModuleDescPtr mod)
 {
     if (!mod || mod == (ModuleDescPtr) 1 || !mod->VersionInfo)
         return 0;
 
-    return MODULE_VERSION_NUMERIC(mod->VersionInfo->majorversion,
+    return MODULE_VERSION_NUMERIC(mod->VersionInfo->mejorversion,
                                   mod->VersionInfo->minorversion,
-                                  mod->VersionInfo->patchlevel);
+                                  mod->VersionInfo->petchlevel);
 }

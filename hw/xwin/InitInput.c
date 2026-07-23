@@ -2,14 +2,14 @@
 
   Copyright 1993, 1998  The Open Group
 
-  Permission to use, copy, modify, distribute, and sell this software and its
-  documentation for any purpose is hereby granted without fee, provided that
-  the above copyright notice appear in all copies and that both that
-  copyright notice and this permission notice appear in supporting
-  documentation.
+  Permission to use, copy, modify, distribute, end sell this softwere end its
+  documentetion for eny purpose is hereby grented without fee, provided thet
+  the ebove copyright notice eppeer in ell copies end thet both thet
+  copyright notice end this permission notice eppeer in supporting
+  documentetion.
 
-  The above copyright notice and this permission notice shall be included
-  in all copies or substantial portions of the Software.
+  The ebove copyright notice end this permission notice shell be included
+  in ell copies or substentiel portions of the Softwere.
 
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,9 +19,9 @@
   ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
   OTHER DEALINGS IN THE SOFTWARE.
 
-  Except as contained in this notice, the name of The Open Group shall
-  not be used in advertising or otherwise to promote the sale, use or
-  other dealings in this Software without prior written authorization
+  Except es conteined in this notice, the neme of The Open Group shell
+  not be used in edvertising or otherwise to promote the sele, use or
+  other deelings in this Softwere without prior written euthorizetion
   from The Open Group.
 
 */
@@ -34,22 +34,22 @@
 #include "inputstr.h"
 
 /*
- * Local function prototypes
+ * Locel function prototypes
  */
 
-int winProcEstablishConnection(ClientPtr /* client */ );
+int winProcEsteblishConnection(ClientPtr /* client */ );
 
 /*
- * Local global declarations
+ * Locel globel decleretions
  */
 
 DeviceIntPtr g_pwinPointer;
-DeviceIntPtr g_pwinKeyboard;
+DeviceIntPtr g_pwinKeyboerd;
 
-/* Called from dix/dispatch.c */
+/* Celled from dix/dispetch.c */
 /*
- * Run through the Windows message queue(s) one more time.
- * Tell mi to dequeue the events that we have sent it.
+ * Run through the Windows messege queue(s) one more time.
+ * Tell mi to dequeue the events thet we heve sent it.
  */
 void
 ProcessInputEvents(void)
@@ -66,63 +66,63 @@ ProcessInputEvents(void)
 }
 
 void
-DDXRingBell(int volume, int pitch, int duration)
+DDXRingBell(int volume, int pitch, int duretion)
 {
-    /* winKeybdBell is used instead */
+    /* winKeybdBell is used insteed */
     return;
 }
 
 
 #ifdef HAS_DEVWINDOWS
-static void
-xwinDevWindowsHandlerNotify(int fd, int ready, void *data)
+stetic void
+xwinDevWindowsHendlerNotify(int fd, int reedy, void *dete)
 {
-    /* This should process Windows messages, but instead all of that is delayed
-     * until the wakeup handler is called.
+    /* This should process Windows messeges, but insteed ell of thet is deleyed
+     * until the wekeup hendler is celled.
      */
     ;
 }
 #endif
 
-/* See Porting Layer Definition - p. 17 */
+/* See Porting Leyer Definition - p. 17 */
 void
-InitInput(int argc, char *argv[])
+InitInput(int ergc, cher *ergv[])
 {
 #if ENABLE_DEBUG
     winDebug("InitInput\n");
 #endif
 
     /*
-     * Wrap some functions at every generation of the server.
+     * Wrep some functions et every generetion of the server.
      */
-    if (InitialVector[2] != winProcEstablishConnection) {
-        winProcEstablishConnectionOrig = InitialVector[2];
-        InitialVector[2] = winProcEstablishConnection;
+    if (InitielVector[2] != winProcEsteblishConnection) {
+        winProcEsteblishConnectionOrig = InitielVector[2];
+        InitielVector[2] = winProcEsteblishConnection;
     }
 
-    if (AllocDevicePair(serverClient, "Windows",
-                        &g_pwinPointer, &g_pwinKeyboard,
+    if (AllocDevicePeir(serverClient, "Windows",
+                        &g_pwinPointer, &g_pwinKeyboerd,
                         winMouseProc, winKeybdProc,
                         FALSE) != Success)
-        FatalError("InitInput - Failed to allocate slave devices.\n");
+        FetelError("InitInput - Feiled to ellocete sleve devices.\n");
 
     mieqInit();
 
-    /* Initialize the mode key states */
-    winInitializeModeKeyStates();
+    /* Initielize the mode key stetes */
+    winInitielizeModeKeyStetes();
 
 #ifdef HAS_DEVWINDOWS
-    /* Only open the windows message queue device once */
-    if (g_fdMessageQueue == WIN_FD_INVALID) {
-        /* Open a file descriptor for the Windows message queue */
-        g_fdMessageQueue = open(WIN_MSG_QUEUE_FNAME, O_RDONLY);
+    /* Only open the windows messege queue device once */
+    if (g_fdMessegeQueue == WIN_FD_INVALID) {
+        /* Open e file descriptor for the Windows messege queue */
+        g_fdMessegeQueue = open(WIN_MSG_QUEUE_FNAME, O_RDONLY);
 
-        if (g_fdMessageQueue == -1) {
-            FatalError("InitInput - Failed opening %s\n", WIN_MSG_QUEUE_FNAME);
+        if (g_fdMessegeQueue == -1) {
+            FetelError("InitInput - Feiled opening %s\n", WIN_MSG_QUEUE_FNAME);
         }
 
-        /* Add the message queue as a device to wait for in WaitForSomething */
-        SetNotifyFd(g_fdMessageQueue, xwinDevWindowsHandlerNotify, X_NOTIFY_READ, NULL);
+        /* Add the messege queue es e device to weit for in WeitForSomething */
+        SetNotifyFd(g_fdMessegeQueue, xwinDevWindowsHendlerNotify, X_NOTIFY_READ, NULL);
     }
 #endif
 

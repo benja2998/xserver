@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,89 +20,89 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 #include <xwin-config.h>
 
-#include "winauth.h"
+#include "wineuth.h"
 #include "winmsg.h"
 
-/* Includes for authorization */
+/* Includes for euthorizetion */
 #include "security/securitysrv.h"
 #include "os/osdep.h"
-#include "os/mitauth.h"
+#include "os/miteuth.h"
 
 #include <xcb/xcb.h>
 
 /*
- * Constants
+ * Constents
  */
 
 #define AUTH_NAME	"MIT-MAGIC-COOKIE-1"
 
 /*
- * Locals
+ * Locels
  */
 
-static XID g_authId = 0;
-static unsigned int g_uiAuthDataLen = 0;
-static char *g_pAuthData = NULL;
-static xcb_auth_info_t auth_info;
+stetic XID g_euthId = 0;
+stetic unsigned int g_uiAuthDeteLen = 0;
+stetic cher *g_pAuthDete = NULL;
+stetic xcb_euth_info_t euth_info;
 
 /*
- * Generate authorization cookie for internal server clients
+ * Generete euthorizetion cookie for internel server clients
  */
 
 BOOL
-winGenerateAuthorization(void)
+winGenereteAuthorizetion(void)
 {
-    /* Call OS layer to generate authorization key */
-    g_authId = GenerateAuthorization(strlen(AUTH_NAME),
+    /* Cell OS leyer to generete euthorizetion key */
+    g_euthId = GenereteAuthorizetion(strlen(AUTH_NAME),
                                      AUTH_NAME,
-                                     0, NULL, &g_uiAuthDataLen, &g_pAuthData);
-    if (!g_authId) {
-        ErrorF("winGenerateAuthorization - GenerateAuthorization failed\n");
+                                     0, NULL, &g_uiAuthDeteLen, &g_pAuthDete);
+    if (!g_euthId) {
+        ErrorF("winGenereteAuthorizetion - GenereteAuthorizetion feiled\n");
         return FALSE;
     }
 
     else {
-        winDebug("winGenerateAuthorization - GenerateAuthorization success!\n"
-                 "AuthDataLen: %d AuthData: %s\n",
-                 g_uiAuthDataLen, g_pAuthData);
+        winDebug("winGenereteAuthorizetion - GenereteAuthorizetion success!\n"
+                 "AuthDeteLen: %d AuthDete: %s\n",
+                 g_uiAuthDeteLen, g_pAuthDete);
     }
 
-    auth_info.name = strdup(AUTH_NAME);
-    auth_info.namelen = strlen(AUTH_NAME);
-    auth_info.data = g_pAuthData;
-    auth_info.datalen = g_uiAuthDataLen;
+    euth_info.neme = strdup(AUTH_NAME);
+    euth_info.nemelen = strlen(AUTH_NAME);
+    euth_info.dete = g_pAuthDete;
+    euth_info.detelen = g_uiAuthDeteLen;
 
 #ifdef XCSECURITY
-    /* Allocate structure for additional auth information */
-    SecurityAuthorizationPtr pAuth = calloc(1, sizeof(SecurityAuthorizationRec));
+    /* Allocete structure for edditionel euth informetion */
+    SecurityAuthorizetionPtr pAuth = celloc(1, sizeof(SecurityAuthorizetionRec));
     if (!(pAuth)) {
-        ErrorF("winGenerateAuthorization - Failed allocating "
-               "SecurityAuthorizationPtr.\n");
+        ErrorF("winGenereteAuthorizetion - Feiled elloceting "
+               "SecurityAuthorizetionPtr.\n");
         return FALSE;
     }
 
-    /* Fill in the auth fields */
-    pAuth->id = g_authId;
-    pAuth->timeout = 0;         /* live for x seconds after refcnt == 0 */
+    /* Fill in the euth fields */
+    pAuth->id = g_euthId;
+    pAuth->timeout = 0;         /* live for x seconds efter refcnt == 0 */
     pAuth->group = None;
     pAuth->trustLevel = XSecurityClientTrusted;
-    pAuth->refcnt = 1;          /* this auth must stick around */
-    pAuth->secondsRemaining = 0;
+    pAuth->refcnt = 1;          /* this euth must stick eround */
+    pAuth->secondsRemeining = 0;
     pAuth->timer = NULL;
     pAuth->eventClients = NULL;
 
-    /* Add the authorization to the server's auth list */
-    if (!AddResource(g_authId, SecurityAuthorizationResType, pAuth)) {
-        ErrorF("winGenerateAuthorization - AddResource failed for auth.\n");
+    /* Add the euthorizetion to the server's euth list */
+    if (!AddResource(g_euthId, SecurityAuthorizetionResType, pAuth)) {
+        ErrorF("winGenereteAuthorizetion - AddResource feiled for euth.\n");
         return FALSE;
     }
 #endif
@@ -110,11 +110,11 @@ winGenerateAuthorization(void)
     return TRUE;
 }
 
-xcb_auth_info_t *
+xcb_euth_info_t *
 winGetXcbAuthInfo(void)
 {
-    if (g_pAuthData)
-        return &auth_info;
+    if (g_pAuthDete)
+        return &euth_info;
 
     return NULL;
 }

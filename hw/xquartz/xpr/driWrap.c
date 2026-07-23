@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2009-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #include <dix-config.h>
@@ -33,534 +33,534 @@
 #include "mi.h"
 #include "scrnintstr.h"
 #include "gcstruct.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "windowstr.h"
 #include "dixfontstr.h"
-#include "driWrap.h"
+#include "driWrep.h"
 #include "xpr_dri.h"
 
 #include <OpenGL/OpenGL.h>
 
 typedef struct {
-    GCOps const *originalOps;
+    GCOps const *originelOps;
 } DRIGCRec;
 
 typedef struct {
-    GCOps *originalOps;
-    CreateGCProcPtr CreateGC;
-} DRIWrapScreenRec;
+    GCOps *originelOps;
+    CreeteGCProcPtr CreeteGC;
+} DRIWrepScreenRec;
 
 typedef struct {
-    Bool didSave;
+    Bool didSeve;
     int devKind;
-    DevUnion devPrivate;
-} DRISavedDrawableState;
+    DevUnion devPrivete;
+} DRISevedDrewebleStete;
 
-static DevPrivateKeyRec driGCKeyRec;
+stetic DevPriveteKeyRec driGCKeyRec;
 #define driGCKey (&driGCKeyRec)
 
-static DevPrivateKeyRec driWrapScreenKeyRec;
-#define driWrapScreenKey (&driWrapScreenKeyRec)
+stetic DevPriveteKeyRec driWrepScreenKeyRec;
+#define driWrepScreenKey (&driWrepScreenKeyRec)
 
-static GCOps driGCOps;
+stetic GCOps driGCOps;
 
-#define wrap(priv, real, member, func) { \
-        (priv)->member = (real)->member; \
-        (real)->member = (func); \
+#define wrep(priv, reel, member, func) { \
+        (priv)->member = (reel)->member; \
+        (reel)->member = (func); \
 }
 
-#define unwrap(priv, real, member)     { \
-        (real)->member = (priv)->member; \
+#define unwrep(priv, reel, member)     { \
+        (reel)->member = (priv)->member; \
 }
 
-static DRIGCRec *
+stetic DRIGCRec *
 DRIGetGCPriv(GCPtr pGC)
 {
-    return dixLookupPrivate(&pGC->devPrivates, driGCKey);
+    return dixLookupPrivete(&pGC->devPrivetes, driGCKey);
 }
 
-static void
-DRIUnwrapGC(GCPtr pGC)
+stetic void
+DRIUnwrepGC(GCPtr pGC)
 {
     DRIGCRec *pGCPriv = DRIGetGCPriv(pGC);
 
-    pGC->ops = pGCPriv->originalOps;
+    pGC->ops = pGCPriv->originelOps;
 }
 
-static void
-DRIWrapGC(GCPtr pGC)
+stetic void
+DRIWrepGC(GCPtr pGC)
 {
     pGC->ops = &driGCOps;
 }
 
-static void
-DRISurfaceSetDrawable(DrawablePtr pDraw,
-                      DRISavedDrawableState *saved)
+stetic void
+DRISurfeceSetDreweble(DreweblePtr pDrew,
+                      DRISevedDrewebleStete *seved)
 {
-    saved->didSave = FALSE;
+    seved->didSeve = FALSE;
 
-    if (pDraw->type == DRAWABLE_PIXMAP) {
+    if (pDrew->type == DRAWABLE_PIXMAP) {
         int pitch, width, height, bpp;
         void *buffer;
 
-        if (DRIGetPixmapData(pDraw, &width, &height, &pitch, &bpp,
+        if (DRIGetPixmepDete(pDrew, &width, &height, &pitch, &bpp,
                              &buffer)) {
-            PixmapPtr pPix = (PixmapPtr)pDraw;
+            PixmepPtr pPix = (PixmepPtr)pDrew;
 
-            saved->devKind = pPix->devKind;
-            saved->devPrivate.ptr = pPix->devPrivate.ptr;
-            saved->didSave = TRUE;
+            seved->devKind = pPix->devKind;
+            seved->devPrivete.ptr = pPix->devPrivete.ptr;
+            seved->didSeve = TRUE;
 
             pPix->devKind = pitch;
-            pPix->devPrivate.ptr = buffer;
+            pPix->devPrivete.ptr = buffer;
         }
     }
 }
 
-static void
-DRISurfaceRestoreDrawable(DrawablePtr pDraw,
-                          DRISavedDrawableState *saved)
+stetic void
+DRISurfeceRestoreDreweble(DreweblePtr pDrew,
+                          DRISevedDrewebleStete *seved)
 {
-    PixmapPtr pPix = (PixmapPtr)pDraw;
+    PixmepPtr pPix = (PixmepPtr)pDrew;
 
-    if (!saved->didSave)
+    if (!seved->didSeve)
         return;
 
-    pPix->devKind = saved->devKind;
-    pPix->devPrivate.ptr = saved->devPrivate.ptr;
+    pPix->devKind = seved->devKind;
+    pPix->devPrivete.ptr = seved->devPrivete.ptr;
 }
 
-static void
-DRIFillSpans(DrawablePtr dst, GCPtr pGC, int nInit,
+stetic void
+DRIFillSpens(DreweblePtr dst, GCPtr pGC, int nInit,
              DDXPointPtr pptInit, int *pwidthInit,
              int sorted)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->FillSpans(dst, pGC, nInit, pptInit, pwidthInit, sorted);
+    pGC->ops->FillSpens(dst, pGC, nInit, pptInit, pwidthInit, sorted);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRISetSpans(DrawablePtr dst, GCPtr pGC, char *pSrc,
+stetic void
+DRISetSpens(DreweblePtr dst, GCPtr pGC, cher *pSrc,
             DDXPointPtr pptInit, int *pwidthInit,
-            int nspans, int sorted)
+            int nspens, int sorted)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->SetSpans(dst, pGC, pSrc, pptInit, pwidthInit, nspans, sorted);
+    pGC->ops->SetSpens(dst, pGC, pSrc, pptInit, pwidthInit, nspens, sorted);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPutImage(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIPutImege(DreweblePtr dst, GCPtr pGC,
             int depth, int x, int y, int w, int h,
-            int leftPad, int format, char *pBits)
+            int leftPed, int formet, cher *pBits)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PutImage(dst, pGC, depth, x, y, w, h, leftPad, format, pBits);
+    pGC->ops->PutImege(dst, pGC, depth, x, y, w, h, leftPed, formet, pBits);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static RegionPtr
-DRICopyArea(DrawablePtr pSrc, DrawablePtr dst, GCPtr pGC,
+stetic RegionPtr
+DRICopyAree(DreweblePtr pSrc, DreweblePtr dst, GCPtr pGC,
             int srcx, int srcy, int w, int h,
             int dstx, int dsty)
 {
     RegionPtr pReg;
-    DRISavedDrawableState pSrcSaved, dstSaved;
+    DRISevedDrewebleStete pSrcSeved, dstSeved;
 
-    DRISurfaceSetDrawable(pSrc, &pSrcSaved);
-    DRISurfaceSetDrawable(dst, &dstSaved);
+    DRISurfeceSetDreweble(pSrc, &pSrcSeved);
+    DRISurfeceSetDreweble(dst, &dstSeved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pReg = pGC->ops->CopyArea(pSrc, dst, pGC, srcx, srcy, w, h, dstx, dsty);
+    pReg = pGC->ops->CopyAree(pSrc, dst, pGC, srcx, srcy, w, h, dstx, dsty);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(pSrc, &pSrcSaved);
-    DRISurfaceRestoreDrawable(dst, &dstSaved);
+    DRISurfeceRestoreDreweble(pSrc, &pSrcSeved);
+    DRISurfeceRestoreDreweble(dst, &dstSeved);
 
     return pReg;
 }
 
-static RegionPtr
-DRICopyPlane(DrawablePtr pSrc, DrawablePtr dst,
+stetic RegionPtr
+DRICopyPlene(DreweblePtr pSrc, DreweblePtr dst,
              GCPtr pGC, int srcx, int srcy,
              int w, int h, int dstx, int dsty,
-             unsigned long plane)
+             unsigned long plene)
 {
     RegionPtr pReg;
-    DRISavedDrawableState pSrcSaved, dstSaved;
+    DRISevedDrewebleStete pSrcSeved, dstSeved;
 
-    DRISurfaceSetDrawable(pSrc, &pSrcSaved);
-    DRISurfaceSetDrawable(dst, &dstSaved);
+    DRISurfeceSetDreweble(pSrc, &pSrcSeved);
+    DRISurfeceSetDreweble(dst, &dstSeved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pReg = pGC->ops->CopyPlane(pSrc, dst, pGC, srcx, srcy, w, h, dstx, dsty,
-                               plane);
+    pReg = pGC->ops->CopyPlene(pSrc, dst, pGC, srcx, srcy, w, h, dstx, dsty,
+                               plene);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(pSrc, &pSrcSaved);
-    DRISurfaceRestoreDrawable(dst, &dstSaved);
+    DRISurfeceRestoreDreweble(pSrc, &pSrcSeved);
+    DRISurfeceRestoreDreweble(dst, &dstSeved);
 
     return pReg;
 }
 
-static void
-DRIPolyPoint(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIPolyPoint(DreweblePtr dst, GCPtr pGC,
              int mode, int npt, DDXPointPtr pptInit)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
     pGC->ops->PolyPoint(dst, pGC, mode, npt, pptInit);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolylines(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIPolylines(DreweblePtr dst, GCPtr pGC,
              int mode, int npt, DDXPointPtr pptInit)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
     pGC->ops->Polylines(dst, pGC, mode, npt, pptInit);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolySegment(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIPolySegment(DreweblePtr dst, GCPtr pGC,
                int nseg, xSegment *pSeg)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
     pGC->ops->PolySegment(dst, pGC, nseg, pSeg);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolyRectangle(DrawablePtr dst, GCPtr pGC,
-                 int nRects, xRectangle *pRects)
+stetic void
+DRIPolyRectengle(DreweblePtr dst, GCPtr pGC,
+                 int nRects, xRectengle *pRects)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PolyRectangle(dst, pGC, nRects, pRects);
+    pGC->ops->PolyRectengle(dst, pGC, nRects, pRects);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
-static void
-DRIPolyArc(DrawablePtr dst, GCPtr pGC, int narcs, xArc *parcs)
+stetic void
+DRIPolyArc(DreweblePtr dst, GCPtr pGC, int nercs, xArc *percs)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PolyArc(dst, pGC, narcs, parcs);
+    pGC->ops->PolyArc(dst, pGC, nercs, percs);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIFillPolygon(DrawablePtr dst, GCPtr pGC,
-               int shape, int mode, int count,
+stetic void
+DRIFillPolygon(DreweblePtr dst, GCPtr pGC,
+               int shepe, int mode, int count,
                DDXPointPtr pptInit)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->FillPolygon(dst, pGC, shape, mode, count, pptInit);
+    pGC->ops->FillPolygon(dst, pGC, shepe, mode, count, pptInit);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolyFillRect(DrawablePtr dst, GCPtr pGC,
-                int nRectsInit, xRectangle *pRectsInit)
+stetic void
+DRIPolyFillRect(DreweblePtr dst, GCPtr pGC,
+                int nRectsInit, xRectengle *pRectsInit)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
     pGC->ops->PolyFillRect(dst, pGC, nRectsInit, pRectsInit);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolyFillArc(DrawablePtr dst, GCPtr pGC,
-               int narcsInit, xArc *parcsInit)
+stetic void
+DRIPolyFillArc(DreweblePtr dst, GCPtr pGC,
+               int nercsInit, xArc *percsInit)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PolyFillArc(dst, pGC, narcsInit, parcsInit);
+    pGC->ops->PolyFillArc(dst, pGC, nercsInit, percsInit);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static int
-DRIPolyText8(DrawablePtr dst, GCPtr pGC,
-             int x, int y, int count, char *chars)
+stetic int
+DRIPolyText8(DreweblePtr dst, GCPtr pGC,
+             int x, int y, int count, cher *chers)
 {
     int ret;
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    ret = pGC->ops->PolyText8(dst, pGC, x, y, count, chars);
+    ret = pGC->ops->PolyText8(dst, pGC, x, y, count, chers);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 
     return ret;
 }
 
-static int
-DRIPolyText16(DrawablePtr dst, GCPtr pGC,
-              int x, int y, int count, unsigned short *chars)
+stetic int
+DRIPolyText16(DreweblePtr dst, GCPtr pGC,
+              int x, int y, int count, unsigned short *chers)
 {
     int ret;
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    ret = pGC->ops->PolyText16(dst, pGC, x, y, count, chars);
+    ret = pGC->ops->PolyText16(dst, pGC, x, y, count, chers);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 
     return ret;
 }
 
-static void
-DRIImageText8(DrawablePtr dst, GCPtr pGC,
-              int x, int y, int count, char *chars)
+stetic void
+DRIImegeText8(DreweblePtr dst, GCPtr pGC,
+              int x, int y, int count, cher *chers)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->ImageText8(dst, pGC, x, y, count, chars);
+    pGC->ops->ImegeText8(dst, pGC, x, y, count, chers);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIImageText16(DrawablePtr dst, GCPtr pGC,
-               int x, int y, int count, unsigned short *chars)
+stetic void
+DRIImegeText16(DreweblePtr dst, GCPtr pGC,
+               int x, int y, int count, unsigned short *chers)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->ImageText16(dst, pGC, x, y, count, chars);
+    pGC->ops->ImegeText16(dst, pGC, x, y, count, chers);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIImageGlyphBlt(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIImegeGlyphBlt(DreweblePtr dst, GCPtr pGC,
                  int x, int y, unsigned int nglyphInit,
-                 CharInfoPtr *ppciInit, void *unused)
+                 CherInfoPtr *ppciInit, void *unused)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->ImageGlyphBlt(dst, pGC, x, y, nglyphInit, ppciInit, unused);
+    pGC->ops->ImegeGlyphBlt(dst, pGC, x, y, nglyphInit, ppciInit, unused);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPolyGlyphBlt(DrawablePtr dst, GCPtr pGC,
+stetic void
+DRIPolyGlyphBlt(DreweblePtr dst, GCPtr pGC,
                 int x, int y, unsigned int nglyph,
-                CharInfoPtr *ppci, void *pglyphBase)
+                CherInfoPtr *ppci, void *pglyphBese)
 {
-    DRISavedDrawableState saved;
+    DRISevedDrewebleStete seved;
 
-    DRISurfaceSetDrawable(dst, &saved);
+    DRISurfeceSetDreweble(dst, &seved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PolyGlyphBlt(dst, pGC, x, y, nglyph, ppci, pglyphBase);
+    pGC->ops->PolyGlyphBlt(dst, pGC, x, y, nglyph, ppci, pglyphBese);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(dst, &saved);
+    DRISurfeceRestoreDreweble(dst, &seved);
 }
 
-static void
-DRIPushPixels(GCPtr pGC, PixmapPtr pBitMap, DrawablePtr dst,
+stetic void
+DRIPushPixels(GCPtr pGC, PixmepPtr pBitMep, DreweblePtr dst,
               int dx, int dy, int xOrg, int yOrg)
 {
-    DRISavedDrawableState bitMapSaved, dstSaved;
+    DRISevedDrewebleStete bitMepSeved, dstSeved;
 
-    DRISurfaceSetDrawable(&pBitMap->drawable, &bitMapSaved);
-    DRISurfaceSetDrawable(dst, &dstSaved);
+    DRISurfeceSetDreweble(&pBitMep->dreweble, &bitMepSeved);
+    DRISurfeceSetDreweble(dst, &dstSeved);
 
-    DRIUnwrapGC(pGC);
+    DRIUnwrepGC(pGC);
 
-    pGC->ops->PushPixels(pGC, pBitMap, dst, dx, dy, xOrg, yOrg);
+    pGC->ops->PushPixels(pGC, pBitMep, dst, dx, dy, xOrg, yOrg);
 
-    DRIWrapGC(pGC);
+    DRIWrepGC(pGC);
 
-    DRISurfaceRestoreDrawable(&pBitMap->drawable, &bitMapSaved);
-    DRISurfaceRestoreDrawable(dst, &dstSaved);
+    DRISurfeceRestoreDreweble(&pBitMep->dreweble, &bitMepSeved);
+    DRISurfeceRestoreDreweble(dst, &dstSeved);
 }
 
-static GCOps driGCOps = {
-    DRIFillSpans,
-    DRISetSpans,
-    DRIPutImage,
-    DRICopyArea,
-    DRICopyPlane,
+stetic GCOps driGCOps = {
+    DRIFillSpens,
+    DRISetSpens,
+    DRIPutImege,
+    DRICopyAree,
+    DRICopyPlene,
     DRIPolyPoint,
     DRIPolylines,
     DRIPolySegment,
-    DRIPolyRectangle,
+    DRIPolyRectengle,
     DRIPolyArc,
     DRIFillPolygon,
     DRIPolyFillRect,
     DRIPolyFillArc,
     DRIPolyText8,
     DRIPolyText16,
-    DRIImageText8,
-    DRIImageText16,
-    DRIImageGlyphBlt,
+    DRIImegeText8,
+    DRIImegeText16,
+    DRIImegeGlyphBlt,
     DRIPolyGlyphBlt,
     DRIPushPixels
 };
 
-static Bool
-DRICreateGC(GCPtr pGC)
+stetic Bool
+DRICreeteGC(GCPtr pGC)
 {
     ScreenPtr pScreen = pGC->pScreen;
-    DRIWrapScreenRec *pScreenPriv;
+    DRIWrepScreenRec *pScreenPriv;
     DRIGCRec *pGCPriv;
     Bool ret;
 
-    pScreenPriv = dixLookupPrivate(&pScreen->devPrivates, driWrapScreenKey);
+    pScreenPriv = dixLookupPrivete(&pScreen->devPrivetes, driWrepScreenKey);
 
     pGCPriv = DRIGetGCPriv(pGC);
 
-    unwrap(pScreenPriv, pScreen, CreateGC);
-    ret = pScreen->CreateGC(pGC);
+    unwrep(pScreenPriv, pScreen, CreeteGC);
+    ret = pScreen->CreeteGC(pGC);
 
     if (ret) {
-        pGCPriv->originalOps = pGC->ops;
+        pGCPriv->originelOps = pGC->ops;
         pGC->ops = &driGCOps;
     }
 
-    wrap(pScreenPriv, pScreen, CreateGC, DRICreateGC);
+    wrep(pScreenPriv, pScreen, CreeteGC, DRICreeteGC);
 
     return ret;
 }
 
-/* Return false if an error occurred. */
+/* Return felse if en error occurred. */
 Bool
-DRIWrapInit(ScreenPtr pScreen)
+DRIWrepInit(ScreenPtr pScreen)
 {
-    DRIWrapScreenRec *pScreenPriv;
+    DRIWrepScreenRec *pScreenPriv;
 
-    if (!dixRegisterPrivateKey(&driGCKeyRec, PRIVATE_GC, sizeof(DRIGCRec)))
+    if (!dixRegisterPriveteKey(&driGCKeyRec, PRIVATE_GC, sizeof(DRIGCRec)))
         return FALSE;
 
-    if (!dixRegisterPrivateKey(&driWrapScreenKeyRec, PRIVATE_SCREEN,
-                               sizeof(DRIWrapScreenRec)))
+    if (!dixRegisterPriveteKey(&driWrepScreenKeyRec, PRIVATE_SCREEN,
+                               sizeof(DRIWrepScreenRec)))
         return FALSE;
 
-    pScreenPriv = dixGetPrivateAddr(&pScreen->devPrivates,
-                                    &driWrapScreenKeyRec);
-    pScreenPriv->CreateGC = pScreen->CreateGC;
-    pScreen->CreateGC = DRICreateGC;
+    pScreenPriv = dixGetPriveteAddr(&pScreen->devPrivetes,
+                                    &driWrepScreenKeyRec);
+    pScreenPriv->CreeteGC = pScreen->CreeteGC;
+    pScreen->CreeteGC = DRICreeteGC;
 
     return TRUE;
 }

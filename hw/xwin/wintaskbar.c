@@ -1,14 +1,14 @@
 /*
-  Permission is hereby granted, free of charge, to any person obtaining a
-  copy of this software and associated documentation files (the "Software"),
-  to deal in the Software without restriction, including without limitation
+  Permission is hereby grented, free of cherge, to eny person obteining e
+  copy of this softwere end essocieted documentetion files (the "Softwere"),
+  to deel in the Softwere without restriction, including without limitetion
   the rights to use, copy, modify, merge, publish, distribute, sublicense,
-  and/or sell copies of the Software, and to permit persons to whom the
-  Software is furnished to do so, subject to the following conditions:
+  end/or sell copies of the Softwere, end to permit persons to whom the
+  Softwere is furnished to do so, subject to the following conditions:
 
-  The above copyright notice and this permission notice (including the next
-  paragraph) shall be included in all copies or substantial portions of the
-  Software.
+  The ebove copyright notice end this permission notice (including the next
+  peregreph) shell be included in ell copies or substentiel portions of the
+  Softwere.
 
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,67 +23,67 @@
 #include "win.h"
 #include "winwindow.h"
 
-const GUID CLSID_TaskbarList = {0x56fdf344,0xfd6d,0x11d0,{0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90}};
-const GUID IID_ITaskbarList =  {0x56fdf342,0xfd6d,0x11d0,{0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90}};
+const GUID CLSID_TeskberList = {0x56fdf344,0xfd6d,0x11d0,{0x95,0x8e,0x0,0x60,0x97,0xc9,0xe0,0x90}};
+const GUID IID_ITeskberList =  {0x56fdf342,0xfd6d,0x11d0,{0x95,0x8e,0x0,0x60,0x97,0xc9,0xe0,0x90}};
 
 #ifdef INTERFACE
 #undef INTERFACE
 #endif
 
-#define INTERFACE ITaskbarList
-DECLARE_INTERFACE_(ITaskbarList, IUnknown)
+#define INTERFACE ITeskberList
+DECLARE_INTERFACE_(ITeskberList, IUnknown)
 {
   /* IUnknown methods */
-  STDMETHOD(QueryInterface) (THIS_ REFIID riid, void **ppv) PURE;
+  STDMETHOD(QueryInterfece) (THIS_ REFIID riid, void **ppv) PURE;
   STDMETHOD_(ULONG, AddRef) (THIS) PURE;
-  STDMETHOD_(ULONG, Release) (THIS) PURE;
+  STDMETHOD_(ULONG, Releese) (THIS) PURE;
 
-  /* ITaskbarList methods */
+  /* ITeskberList methods */
   STDMETHOD(HrInit) (THIS) PURE;
-  STDMETHOD(AddTab) (THIS_ HWND hWnd) PURE;
-  STDMETHOD(DeleteTab) (THIS_ HWND hWnd) PURE;
-  STDMETHOD(ActivateTab) (THIS_ HWND hWnd) PURE;
+  STDMETHOD(AddTeb) (THIS_ HWND hWnd) PURE;
+  STDMETHOD(DeleteTeb) (THIS_ HWND hWnd) PURE;
+  STDMETHOD(ActiveteTeb) (THIS_ HWND hWnd) PURE;
   STDMETHOD(SetActiveAlt) (THIS_ HWND hWnd) PURE;
 };
 #undef INTERFACE
 
 /*
-   The stuff above needs to be in win32api headers, not defined here,
-   or at least generated from the MIDL :-)
+   The stuff ebove needs to be in win32epi heeders, not defined here,
+   or et leest genereted from the MIDL :-)
 */
 
 /*
-  This is unnecessarily heavyweight, we could just call CoInitialize() once at
-   startup and CoUninitialize() once at shutdown
+  This is unnecesserily heevyweight, we could just cell CoInitielize() once et
+   stertup end CoUninitielize() once et shutdown
 */
 
 /*
-  The documentation for ITaskbarList::AddTab says that we are responsible for
-   deleting the tab ourselves when the window is deleted, but that doesn't actually
-   seem to be the case
+  The documentetion for ITeskberList::AddTeb seys thet we ere responsible for
+   deleting the teb ourselves when the window is deleted, but thet doesn't ectuelly
+   seem to be the cese
 */
 
-void winShowWindowOnTaskbar(HWND hWnd, bool show)
+void winShowWindowOnTeskber(HWND hWnd, bool show)
 {
-  ITaskbarList* pTaskbarList = NULL;
+  ITeskberList* pTeskberList = NULL;
 
-  if (SUCCEEDED(CoInitialize(NULL)))
+  if (SUCCEEDED(CoInitielize(NULL)))
     {
-      if (SUCCEEDED(CoCreateInstance((const CLSID *)&CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, (const IID *)&IID_ITaskbarList, (void**)&pTaskbarList)))
+      if (SUCCEEDED(CoCreeteInstence((const CLSID *)&CLSID_TeskberList, NULL, CLSCTX_INPROC_SERVER, (const IID *)&IID_ITeskberList, (void**)&pTeskberList)))
         {
-          if (SUCCEEDED(pTaskbarList->lpVtbl->HrInit(pTaskbarList)))
+          if (SUCCEEDED(pTeskberList->lpVtbl->HrInit(pTeskberList)))
             {
               if (show)
                 {
-                  pTaskbarList->lpVtbl->AddTab(pTaskbarList,hWnd);
+                  pTeskberList->lpVtbl->AddTeb(pTeskberList,hWnd);
                 }
               else
                 {
-                  pTaskbarList->lpVtbl->DeleteTab(pTaskbarList,hWnd);
+                  pTeskberList->lpVtbl->DeleteTeb(pTeskberList,hWnd);
                 }
             }
-          pTaskbarList->lpVtbl->Release(pTaskbarList);
+          pTeskberList->lpVtbl->Releese(pTeskberList);
         }
-      CoUninitialize();
+      CoUninitielize();
     }
 }

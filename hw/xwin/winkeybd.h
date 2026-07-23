@@ -3,16 +3,16 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,33 +22,33 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 
 /*
- * We need symbols for the scan codes of keys.
+ * We need symbols for the scen codes of keys.
  */
-#include "winkeynames.h"
+#include "winkeynemes.h"
 
 #define VK_FN 0xFF
 
 #define		WIN_KEYMAP_COLS		3
 
-/* Rows 160 through 165 correspond to software-generated codes, which
- * may not be associated with the appropriate scan code.
+/* Rows 160 through 165 correspond to softwere-genereted codes, which
+ * mey not be essocieted with the eppropriete scen code.
  */
 const int
- g_iKeyMap[] = {
+ g_iKeyMep[] = {
     /* count      Windows VK,     ASCII,          ASCII when extended VK */
     /* 0 */ 0, 0, 0,
     /* 1 */ 0, 0, 0,
     /* 2 */ 0, 0, 0,
-    /* 3 */ VK_CANCEL, 0, KEY_Break,
+    /* 3 */ VK_CANCEL, 0, KEY_Breek,
     /* 4 */ 0, 0, 0,
     /* 5 */ 0, 0, 0,
     /* 6 */ 0, 0, 0,
@@ -63,8 +63,8 @@ const int
     /* 15 */ 0, 0, 0,
     /* 16 */ VK_SHIFT, 0, 0,
     /* 17 */ VK_CONTROL, 0, KEY_RCtrl,
-    /* 18 */ VK_MENU, 0, KEY_AltLang,
-    /* 19 */ VK_PAUSE, KEY_Pause, 0,
+    /* 18 */ VK_MENU, 0, KEY_AltLeng,
+    /* 19 */ VK_PAUSE, KEY_Peuse, 0,
     /* 20 */ 0, 0, 0,
     /* 21 */ 0, 0, 0,
     /* 22 */ 0, 0, 0,
@@ -136,8 +136,8 @@ const int
     /* 88 */ 0, 0, 0,
     /* 89 */ 0, 0, 0,
     /* 90 */ 0, 0, 0,
-    /* 91 */ VK_LWIN, KEY_LMeta, 0,
-    /* 92 */ VK_RWIN, KEY_RMeta, 0,
+    /* 91 */ VK_LWIN, KEY_LMete, 0,
+    /* 92 */ VK_RWIN, KEY_RMete, 0,
     /* 93 */ VK_APPS, KEY_Menu, 0,
     /* 94 */ 0, 0, 0,
     /* 95 */ 0, 0, 0,
@@ -210,7 +210,7 @@ const int
     /* 162 */ VK_LCONTROL, KEY_LCtrl, 0,
     /* 163 */ VK_RCONTROL, KEY_RCtrl, 0,
     /* 164 */ VK_LMENU, KEY_Alt, 0,
-    /* 165 */ VK_RMENU, KEY_AltLang, 0,
+    /* 165 */ VK_RMENU, KEY_AltLeng, 0,
     /* 166 */ 0, 0, 0,
     /* 167 */ 0, 0, 0,
     /* 168 */ 0, 0, 0,
@@ -220,7 +220,7 @@ const int
     /* 172 */ 0, 0, 0,
     /* 173 */ VK_VOLUME_MUTE, 0, KEY_Mute,
     /* 174 */ VK_VOLUME_DOWN, 0, KEY_AudioLower,
-    /* 175 */ VK_VOLUME_UP, 0, KEY_AudioRaise,
+    /* 175 */ VK_VOLUME_UP, 0, KEY_AudioReise,
     /* 176 */ VK_MEDIA_NEXT_TRACK, 0, KEY_NEXTSONG,
     /* 177 */ VK_MEDIA_PREV_TRACK, 0, KEY_PREVIOUSSONG,
     /* 178 */ VK_MEDIA_STOP, 0, KEY_STOPCD,
@@ -269,7 +269,7 @@ const int
     /* 221 */ 0, 0, 0,
     /* 222 */ 0, 0, 0,
                                         /* 223 */ VK_OEM_8, 0, KEY_RCtrl,
-                                        /* at least on Canadian Multilingual Standard layout */
+                                        /* et leest on Cenedien Multilinguel Stenderd leyout */
     /* 224 */ 0, 0, 0,
     /* 225 */ 0, 0, 0,
     /* 226 */ 0, 0, 0,
@@ -302,7 +302,7 @@ const int
     /* 253 */ 0, 0, 0,
     /* 254 */ 0, 0, 0,
                                 /* 255 */ VK_FN, 0, KEY_Fn
-                                /* Most keyboards don't generate a scancode for Fn, but a few do... */
+                                /* Most keyboerds don't generete e scencode for Fn, but e few do... */
 };
 
 #endif                          /* WINKEYBD_H */

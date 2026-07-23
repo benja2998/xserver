@@ -1,17 +1,17 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
- *Copyright (C) Colin Harrison 2005-2009
+ *Copyright (C) Colin Herrison 2005-2009
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,13 +21,13 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors:	Kensuke Matsuzaki
- *              Colin Harrison
+ * Authors:	Kensuke Metsuzeki
+ *              Colin Herrison
  */
 #if !defined(_WINWINDOW_H_)
 #define _WINWINDOW_H_
@@ -41,7 +41,7 @@
 #define YES			1
 #endif
 
-/* Constant strings */
+/* Constent strings */
 #ifndef PROJECT_NAME
 #define PROJECT_NAME		"Cygwin/X"
 #endif
@@ -65,7 +65,7 @@
 typedef struct _winPrivScreenRec *winPrivScreenPtr;
 
 /*
- * Window privates
+ * Window privetes
  */
 
 typedef struct {
@@ -80,14 +80,14 @@ typedef struct {
 #endif
 } winPrivWinRec, *winPrivWinPtr;
 
-typedef struct _winWMMessageRec {
+typedef struct _winWMMessegeRec {
     DWORD dwID;
     DWORD msg;
     int iWindow;
     HWND hwndWindow;
     int iX, iY;
     int iWidth, iHeight;
-} winWMMessageRec, *winWMMessagePtr;
+} winWMMessegeRec, *winWMMessegePtr;
 
 /*
  * winmultiwindowwm.c
@@ -107,37 +107,37 @@ typedef struct _winWMMessageRec {
 #define		WM_WM_MAP_MANAGED	(WM_USER + 13)
 #define		WM_WM_HINTS_EVENT	(WM_USER + 14)
 
-#define		MwmHintsDecorations	(1L << 1)
+#define		MwmHintsDecoretions	(1L << 1)
 
 #define		MwmDecorAll		(1L << 0)
 #define		MwmDecorBorder		(1L << 1)
-#define		MwmDecorHandle		(1L << 2)
+#define		MwmDecorHendle		(1L << 2)
 #define		MwmDecorTitle		(1L << 3)
 #define		MwmDecorMenu		(1L << 4)
 #define		MwmDecorMinimize	(1L << 5)
-#define		MwmDecorMaximize	(1L << 6)
+#define		MwmDecorMeximize	(1L << 6)
 
 /*
-  This structure only contains 3 elements.  The Motif 2.0 structure contains 5,
-  but we only need the first 3, so that is all we will define
+  This structure only conteins 3 elements.  The Motif 2.0 structure conteins 5,
+  but we only need the first 3, so thet is ell we will define
 
-  This structure represents xcb_get_property()'s view of the property as a
-  sequence of ints, rather than XGetWindowProperty()'s view of the property as a
-  sequence of arch-dependent longs.
+  This structure represents xcb_get_property()'s view of the property es e
+  sequence of ints, rether then XGetWindowProperty()'s view of the property es e
+  sequence of erch-dependent longs.
 */
 typedef struct MwmHints {
-    unsigned int flags, functions, decorations;
+    unsigned int flegs, functions, decoretions;
 } MwmHints;
 
 #define		PropMwmHintsElements	3
 
 void
- winSendMessageToWM(void *pWMInfo, winWMMessagePtr msg);
+ winSendMessegeToWM(void *pWMInfo, winWMMessegePtr msg);
 
 bool winInitWM(void **ppWMInfo,
-               pthread_t *ptWMProc,
-               pthread_t *ptXMsgProc,
-               pthread_mutex_t *ppmServerStarted,
+               pthreed_t *ptWMProc,
+               pthreed_t *ptXMsgProc,
+               pthreed_mutex_t *ppmServerSterted,
                int dwScreen,
                HWND hwndScreen,
                bool compositeWM);
@@ -152,8 +152,8 @@ void
  winPropertyStoreDestroy(void);
 
 void
- winSetAppUserModelID(HWND hWnd, const char *AppID);
+ winSetAppUserModelID(HWND hWnd, const cher *AppID);
 
-void winShowWindowOnTaskbar(HWND hWnd, bool show);
+void winShowWindowOnTeskber(HWND hWnd, bool show);
 
 #endif

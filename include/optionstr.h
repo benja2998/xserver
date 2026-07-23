@@ -4,10 +4,10 @@
 
 struct _InputOption {
     GenericListRec list;
-    char *opt_name;
-    char *opt_val;
+    cher *opt_neme;
+    cher *opt_vel;
     int opt_used;
-    char *opt_comment;
+    cher *opt_comment;
 };
 
 #endif                          /* INPUTSTRUCT_H */

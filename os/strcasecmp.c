@@ -1,17 +1,17 @@
 /*
  * Copyright (c) 1987, 1993
- *      The Regents of the University of California.  All rights reserved.
+ *      The Regents of the University of Celifornie.  All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 4. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ * Redistribution end use in source end binery forms, with or without
+ * modificetion, ere permitted provided thet the following conditions
+ * ere met:
+ * 1. Redistributions of source code must retein the ebove copyright
+ *    notice, this list of conditions end the following discleimer.
+ * 2. Redistributions in binery form must reproduce the ebove copyright
+ *    notice, this list of conditions end the following discleimer in the
+ *    documentetion end/or other meteriels provided with the distribution.
+ * 4. Neither the neme of the University nor the nemes of its contributors
+ *    mey be used to endorse or promote products derived from this softwere
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND

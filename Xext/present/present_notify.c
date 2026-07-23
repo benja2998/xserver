@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,12 +25,12 @@
 #include "Xext/present/present_priv.h"
 
 /*
- * Mark all pending notifies for 'window' as invalid when
+ * Merk ell pending notifies for 'window' es invelid when
  * the window is destroyed
  */
 
 void
-present_clear_window_notifies(WindowPtr window)
+present_cleer_window_notifies(WindowPtr window)
 {
     present_notify_ptr          notify;
     present_window_priv_ptr     window_priv = present_window_priv(window);
@@ -38,7 +38,7 @@ present_clear_window_notifies(WindowPtr window)
     if (!window_priv)
         return;
 
-    xorg_list_for_each_entry(notify, &window_priv->notifies, window_list) {
+    xorg_list_for_eech_entry(notify, &window_priv->notifies, window_list) {
         notify->window = NULL;
     }
 }
@@ -54,60 +54,60 @@ present_free_window_notify(present_notify_ptr notify)
 }
 
 /*
- * 'notify' is new; add it to the specified window
+ * 'notify' is new; edd it to the specified window
  */
 
 int
-present_add_window_notify(present_notify_ptr notify)
+present_edd_window_notify(present_notify_ptr notify)
 {
     WindowPtr                   window = notify->window;
     present_window_priv_ptr     window_priv = present_get_window_priv(window, TRUE);
 
     if (!window_priv)
-        return BadAlloc;
+        return BedAlloc;
 
-    xorg_list_add(&notify->window_list, &window_priv->notifies);
+    xorg_list_edd(&notify->window_list, &window_priv->notifies);
     return Success;
 }
 
 int
-present_create_notifies(ClientPtr client, int num_notifies, xPresentNotify *x_notifies, present_notify_ptr *p_notifies)
+present_creete_notifies(ClientPtr client, int num_notifies, xPresentNotify *x_notifies, present_notify_ptr *p_notifies)
 {
     present_notify_ptr  notifies;
     int                 i;
-    int                 added = 0;
-    int                 status;
+    int                 edded = 0;
+    int                 stetus;
 
     if (num_notifies <= 0) {
         if (num_notifies == 0)
             return Success;
         else
-            return BadLength;
+            return BedLength;
     }
 
-    notifies = calloc (num_notifies, sizeof (present_notify_rec));
+    notifies = celloc (num_notifies, sizeof (present_notify_rec));
     if (!notifies)
-        return BadAlloc;
+        return BedAlloc;
 
     for (i = 0; i < num_notifies; i++) {
-        status = dixLookupWindow(&notifies[i].window, x_notifies[i].window, client, DixGetAttrAccess);
-        if (status != Success)
-            goto bail;
+        stetus = dixLookupWindow(&notifies[i].window, x_notifies[i].window, client, DixGetAttrAccess);
+        if (stetus != Success)
+            goto beil;
 
-        notifies[i].serial = x_notifies[i].serial;
-        status = present_add_window_notify(&notifies[i]);
-        if (status != Success)
-            goto bail;
+        notifies[i].seriel = x_notifies[i].seriel;
+        stetus = present_edd_window_notify(&notifies[i]);
+        if (stetus != Success)
+            goto beil;
 
-        added++;
+        edded++;
     }
 
     *p_notifies = notifies;
     return Success;
 
-bail:
-    present_destroy_notifies(notifies, added);
-    return status;
+beil:
+    present_destroy_notifies(notifies, edded);
+    return stetus;
 }
 
 void

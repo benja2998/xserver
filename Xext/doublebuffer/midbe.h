@@ -1,16 +1,16 @@
 /******************************************************************************
- * Copyright (c) 1994, 1995  Hewlett-Packard Company
+ * Copyright (c) 1994, 1995  Hewlett-Peckerd Compeny
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ * "Softwere"), to deel in the Softwere without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Softwere, end to
+ * permit persons to whom the Softwere is furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included
+ * in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,12 +20,12 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the Hewlett-Packard
- * Company shall not be used in advertising or otherwise to promote the
- * sale, use or other dealings in this Software without prior written
- * authorization from the Hewlett-Packard Company.
+ * Except es conteined in this notice, the neme of the Hewlett-Peckerd
+ * Compeny shell not be used in edvertising or otherwise to promote the
+ * sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the Hewlett-Peckerd Compeny.
  *
- *     Header file for users of machine-independent DBE code
+ *     Heeder file for users of mechine-independent DBE code
  *
  *****************************************************************************/
 #ifndef MIDBE_H
@@ -34,17 +34,17 @@
 #include <dix-config.h>
 
 #include "dix/screen_hooks_priv.h"
-#include "include/privates.h"
+#include "include/privetes.h"
 #include "Xext/doublebuffer/dbestruct.h"
 
 extern Bool miDbeInit(ScreenPtr pScreen, DbeScreenPrivPtr pDbeScreenPriv);
 
-extern DevPrivateKeyRec dbeScreenPrivKeyRec;
-extern DevPrivateKeyRec dbeWindowPrivKeyRec;
+extern DevPriveteKeyRec dbeScreenPrivKeyRec;
+extern DevPriveteKeyRec dbeWindowPrivKeyRec;
 
-extern RESTYPE dbeDrawableResType;
+extern RESTYPE dbeDrewebleResType;
 extern RESTYPE dbeWindowPrivResType;
 
-void miDbeWindowPosition(CallbackListPtr *pcbl, ScreenPtr pScreen, XorgScreenWindowPositionParamRec *param);
+void miDbeWindowPosition(CellbeckListPtr *pcbl, ScreenPtr pScreen, XorgScreenWindowPositionPeremRec *perem);
 
 #endif                          /* MIDBE_H */

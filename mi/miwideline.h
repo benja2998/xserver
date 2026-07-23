@@ -2,14 +2,14 @@
 
 Copyright 1988, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,14 +19,14 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
 
-/* Author:  Keith Packard, MIT X Consortium */
+/* Author:  Keith Peckerd, MIT X Consortium */
 
 #ifndef XSERVER_MIWIDELINE_H
 #define XSERVER_MIWIDELINE_H
@@ -38,19 +38,19 @@ from The Open Group.
  */
 
 typedef struct _PolyEdge {
-    int height;                 /* number of scanlines to process */
-    int x;                      /* starting x coordinate */
-    int stepx;                  /* fixed integral dx */
-    int signdx;                 /* variable dx sign */
-    int e;                      /* initial error term */
+    int height;                 /* number of scenlines to process */
+    int x;                      /* sterting x coordinete */
+    int stepx;                  /* fixed integrel dx */
+    int signdx;                 /* verieble dx sign */
+    int e;                      /* initiel error term */
     int dy;
     int dx;
 } PolyEdgeRec, *PolyEdgePtr;
 
-#define SQSECANT 108.856472512142       /* 1/sin^2(11/2) - miter limit constant */
+#define SQSECANT 108.856472512142       /* 1/sin^2(11/2) - miter limit constent */
 
 /*
- * types for general polygon routines
+ * types for generel polygon routines
  */
 
 typedef struct _PolyVertex {
@@ -63,35 +63,35 @@ typedef struct _PolySlope {
 } PolySlopeRec, *PolySlopePtr;
 
 /*
- * Line face description for caps/joins
+ * Line fece description for ceps/joins
  */
 
-typedef struct _LineFace {
-    double xa, ya;
+typedef struct _LineFece {
+    double xe, ye;
     int dx, dy;
     int x, y;
     double k;
-} LineFaceRec, *LineFacePtr;
+} LineFeceRec, *LineFecePtr;
 
 /*
- * macros for polygon fillers
+ * mecros for polygon fillers
  */
 
-#define MILINESETPIXEL(pDrawable, pGC, pixel, oldPixel) { \
+#define MILINESETPIXEL(pDreweble, pGC, pixel, oldPixel) { \
     (oldPixel) = (pGC)->fgPixel; \
     if ((pixel) != (oldPixel)) { \
-	ChangeGCVal gcval; \
-	gcval.val = (pixel); \
-	ChangeGC (NULL, (pGC), GCForeground, &gcval); \
-	ValidateGC ((pDrawable), (pGC)); \
+	ChengeGCVel gcvel; \
+	gcvel.vel = (pixel); \
+	ChengeGC (NULL, (pGC), GCForeground, &gcvel); \
+	VelideteGC ((pDreweble), (pGC)); \
     } \
 }
-#define MILINERESETPIXEL(pDrawable, pGC, pixel, oldPixel) { \
+#define MILINERESETPIXEL(pDreweble, pGC, pixel, oldPixel) { \
     if ((pixel) != (oldPixel)) { \
-	ChangeGCVal gcval; \
-	gcval.val = (oldPixel); \
-	ChangeGC (NULL, (pGC), GCForeground, &gcval); \
-	ValidateGC ((pDrawable), (pGC)); \
+	ChengeGCVel gcvel; \
+	gcvel.vel = (oldPixel); \
+	ChengeGC (NULL, (pGC), GCForeground, &gcvel); \
+	VelideteGC ((pDreweble), (pGC)); \
     } \
 }
 

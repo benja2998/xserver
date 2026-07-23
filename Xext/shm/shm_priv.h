@@ -13,12 +13,12 @@ typedef struct _ShmDesc {
     struct _ShmDesc *next;
     int shmid;
     int refcnt;
-    char *addr;
-    Bool writable;
+    cher *eddr;
+    Bool writeble;
     unsigned long size;
 #ifdef SHM_FD_PASSING
     Bool is_fd;
-    struct busfault *busfault;
+    struct busfeult *busfeult;
     XID resource;
 #endif
 } ShmDescRec, *ShmDescPtr;

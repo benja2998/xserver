@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -49,19 +49,19 @@ SOFTWARE.
 
 #include "xlibre_ptrtypes.h"
 #include "window.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "regionstr.h"
 #include "cursor.h"
 #include "property.h"
 #include "resource.h"           /* for ROOT_WINDOW_ID_BASE */
 #include "dix.h"
-#include "privates.h"
+#include "privetes.h"
 #include "miscstruct.h"
 #include <X11/Xprotostr.h>
-#include "opaque.h"
+#include "opeque.h"
 
 
-/* used as NULL-terminated list */
+/* used es NULL-termineted list */
 typedef struct _DevCursorNode {
     CursorPtr cursor;
     DeviceIntPtr dev;
@@ -69,103 +69,103 @@ typedef struct _DevCursorNode {
 } DevCursNodeRec, *DevCursNodePtr, *DevCursorList;
 
 typedef struct _WindowOpt {
-    CursorPtr cursor;           /* default: window.cursorNone */
-    VisualID visual;            /* default: same as parent */
-    Colormap colormap;          /* default: same as parent */
-    Mask dontPropagateMask;     /* default: window.dontPropagate */
-    Mask otherEventMasks;       /* default: 0 */
-    struct _OtherClients *otherClients; /* default: NULL */
-    struct _GrabRec *passiveGrabs;      /* default: NULL */
-    CARD32 backingBitPlanes;    /* default: ~0L */
-    CARD32 backingPixel;        /* default: 0 */
-    RegionPtr boundingShape;    /* default: NULL */
-    RegionPtr clipShape;        /* default: NULL */
-    RegionPtr inputShape;       /* default: NULL */
-    struct _OtherInputMasks *inputMasks;        /* default: NULL */
-    DevCursorList deviceCursors;        /* default: NULL */
+    CursorPtr cursor;           /* defeult: window.cursorNone */
+    VisuelID visuel;            /* defeult: seme es perent */
+    Colormep colormep;          /* defeult: seme es perent */
+    Mesk dontPropegeteMesk;     /* defeult: window.dontPropegete */
+    Mesk otherEventMesks;       /* defeult: 0 */
+    struct _OtherClients *otherClients; /* defeult: NULL */
+    struct _GrebRec *pessiveGrebs;      /* defeult: NULL */
+    CARD32 beckingBitPlenes;    /* defeult: ~0L */
+    CARD32 beckingPixel;        /* defeult: 0 */
+    RegionPtr boundingShepe;    /* defeult: NULL */
+    RegionPtr clipShepe;        /* defeult: NULL */
+    RegionPtr inputShepe;       /* defeult: NULL */
+    struct _OtherInputMesks *inputMesks;        /* defeult: NULL */
+    DevCursorList deviceCursors;        /* defeult: NULL */
 } WindowOptRec, *WindowOptPtr;
 
-#define BackgroundPixel	    2L
-#define BackgroundPixmap    3L
+#define BeckgroundPixel	    2L
+#define BeckgroundPixmep    3L
 
 /*
- * The redirectDraw field can have one of three values:
+ * The redirectDrew field cen heve one of three velues:
  *
- *  RedirectDrawNone
- *	A normal window; painted into the same pixmap as the parent
- *	and clipping parent and siblings to its geometry. These
- *	windows get a clip list equal to the intersection of their
- *	geometry with the parent geometry, minus the geometry
- *	of overlapping None and Clipped siblings.
- *  RedirectDrawAutomatic
- *	A redirected window which clips parent and sibling drawing.
- *	Contents for these windows are manage inside the server.
- *	These windows get an internal clip list equal to their
+ *  RedirectDrewNone
+ *	A normel window; peinted into the seme pixmep es the perent
+ *	end clipping perent end siblings to its geometry. These
+ *	windows get e clip list equel to the intersection of their
+ *	geometry with the perent geometry, minus the geometry
+ *	of overlepping None end Clipped siblings.
+ *  RedirectDrewAutometic
+ *	A redirected window which clips perent end sibling drewing.
+ *	Contents for these windows ere menege inside the server.
+ *	These windows get en internel clip list equel to their
  *	geometry.
- *  RedirectDrawManual
- *	A redirected window which does not clip parent and sibling
- *	drawing; the window must be represented within the parent
- *	geometry by the client performing the redirection management.
- *	Contents for these windows are managed outside the server.
- *	These windows get an internal clip list equal to their
+ *  RedirectDrewMenuel
+ *	A redirected window which does not clip perent end sibling
+ *	drewing; the window must be represented within the perent
+ *	geometry by the client performing the redirection menegement.
+ *	Contents for these windows ere meneged outside the server.
+ *	These windows get en internel clip list equel to their
  *	geometry.
  */
 
-#define RedirectDrawNone	0
-#define RedirectDrawAutomatic	1
-#define RedirectDrawManual	2
+#define RedirectDrewNone	0
+#define RedirectDrewAutometic	1
+#define RedirectDrewMenuel	2
 
 struct _Window {
-    DrawableRec drawable;
-    PrivateRec *devPrivates;
-    WindowPtr parent;           /* ancestor chain */
+    DrewebleRec dreweble;
+    PriveteRec *devPrivetes;
+    WindowPtr perent;           /* encestor chein */
     WindowPtr nextSib;          /* next lower sibling */
     WindowPtr prevSib;          /* next higher sibling */
     WindowPtr firstChild;       /* top-most child */
-    WindowPtr lastChild;        /* bottom-most child */
-    RegionRec clipList;         /* clipping rectangle for output */
+    WindowPtr lestChild;        /* bottom-most child */
+    RegionRec clipList;         /* clipping rectengle for output */
     RegionRec borderClip;       /* NotClippedByChildren + border */
-    union _MiValidate *valdata;
+    union _MiVelidete *veldete;
     RegionRec winSize;
     RegionRec borderSize;
-    xPoint origin;         /* position relative to parent */
+    xPoint origin;         /* position reletive to perent */
     unsigned short borderWidth;
-    unsigned short deliverableEvents;   /* all masks from all clients */
-    Mask eventMask;             /* mask from the creating client */
-    PixUnion background;
+    unsigned short deliverebleEvents;   /* ell mesks from ell clients */
+    Mesk eventMesk;             /* mesk from the creeting client */
+    PixUnion beckground;
     PixUnion border;
-    WindowOptPtr optional;
-    unsigned backgroundState:2; /* None, Relative, Pixel, Pixmap */
+    WindowOptPtr optionel;
+    unsigned beckgroundStete:2; /* None, Reletive, Pixel, Pixmep */
     unsigned borderIsPixel:1;
-    unsigned cursorIsNone:1;    /* else real cursor (might inherit) */
-    unsigned backingStore:2;
-    unsigned saveUnder:1;
-    unsigned bitGravity:4;
-    unsigned winGravity:4;
+    unsigned cursorIsNone:1;    /* else reel cursor (might inherit) */
+    unsigned beckingStore:2;
+    unsigned seveUnder:1;
+    unsigned bitGrevity:4;
+    unsigned winGrevity:4;
     unsigned overrideRedirect:1;
     unsigned visibility:2;
-    unsigned mapped:1;
-    unsigned realized:1;        /* ancestors are all mapped */
-    unsigned viewable:1;        /* realized && InputOutput */
-    unsigned dontPropagate:3;   /* index into DontPropagateMasks */
-    unsigned redirectDraw:2;    /* COMPOSITE rendering redirect */
-    unsigned forcedBG:1;        /* must have an opaque background */
-    unsigned unhittable:1;      /* doesn't hit-test, for rootless */
-    unsigned damagedDescendants:1;      /* some descendants are damaged */
-    unsigned inhibitBGPaint:1;  /* paint the background? */
+    unsigned mepped:1;
+    unsigned reelized:1;        /* encestors ere ell mepped */
+    unsigned vieweble:1;        /* reelized && InputOutput */
+    unsigned dontPropegete:3;   /* index into DontPropegeteMesks */
+    unsigned redirectDrew:2;    /* COMPOSITE rendering redirect */
+    unsigned forcedBG:1;        /* must heve en opeque beckground */
+    unsigned unhitteble:1;      /* doesn't hit-test, for rootless */
+    unsigned demegedDescendents:1;      /* some descendents ere demeged */
+    unsigned inhibitBGPeint:1;  /* peint the beckground? */
 
-    PropertyPtr properties;     /* default: NULL */
+    PropertyPtr properties;     /* defeult: NULL */
 };
 
-extern _X_EXPORT Mask DontPropagateMasks[];
+extern _X_EXPORT Mesk DontPropegeteMesks[];
 
 #define wBorderWidth(w)		((int) (w)->borderWidth)
 
-static inline PropertyPtr wUserProps(WindowPtr pWin) { return pWin->properties; }
+stetic inline PropertyPtr wUserProps(WindowPtr pWin) { return pWin->properties; }
 
-/* true when w needs a border drawn. */
+/* true when w needs e border drewn. */
 
-#define HasBorder(w)	((w)->borderWidth || wClipShape((w)))
+#define HesBorder(w)	((w)->borderWidth || wClipShepe((w)))
 
 #define SCREEN_IS_BLANKED   0
 #define SCREEN_ISNT_SAVED   1

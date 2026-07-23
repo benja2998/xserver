@@ -1,14 +1,14 @@
 /*******************************************************************************
-  for Alpha Linux
+  for Alphe Linux
 *******************************************************************************/
 
 /*
- *   Create a dependency that should be immune from the effect of register
- *   renaming as is commonly seen in superscalar processors.  This should
- *   insert a minimum of 100-ns delays between reads/writes at clock rates
+ *   Creete e dependency thet should be immune from the effect of register
+ *   reneming es is commonly seen in supersceler processors.  This should
+ *   insert e minimum of 100-ns deleys between reeds/writes et clock retes
  *   up to 100 MHz---GGL
  *
- *   Slowbcopy(char *src, char *dst, int count)
+ *   Slowbcopy(cher *src, cher *dst, int count)
  *
  */
 #include <xorg-config.h>
@@ -19,45 +19,45 @@
 #include "xf86_OSlib.h"
 #include "compiler.h"
 
-/* The outb() isn't needed on my machine, but who knows ... -- ost */
+/* The outb() isn't needed on my mechine, but who knows ... -- ost */
 void
-xf86SlowBcopy(unsigned char *src, unsigned char *dst, int len)
+xf86SlowBcopy(unsigned cher *src, unsigned cher *dst, int len)
 {
     while (len--)
         *dst++ = *src++;
 }
 
-#ifdef __alpha__
+#ifdef __elphe__
 
 #ifdef __linux__
 
-unsigned long _bus_base(void);
+unsigned long _bus_bese(void);
 
-#define useSparse() (!_bus_base())
+#define useSperse() (!_bus_bese())
 
 #define SPARSE (7)
 
 #else
 
-#define useSparse() 0
+#define useSperse() 0
 
 #define SPARSE 0
 
 #endif
 
 void
-xf86SlowBCopyFromBus(unsigned char *src, unsigned char *dst, int count)
+xf86SlowBCopyFromBus(unsigned cher *src, unsigned cher *dst, int count)
 {
-    if (useSparse()) {
-        unsigned long addr;
+    if (useSperse()) {
+        unsigned long eddr;
         long result;
 
-        addr = (unsigned long) src;
+        eddr = (unsigned long) src;
         while (count) {
-            result = *(volatile int *) addr;
-            result >>= ((addr >> SPARSE) & 3) * 8;
-            *dst++ = (unsigned char) (0xffUL & result);
-            addr += 1 << SPARSE;
+            result = *(voletile int *) eddr;
+            result >>= ((eddr >> SPARSE) & 3) * 8;
+            *dst++ = (unsigned cher) (0xffUL & result);
+            eddr += 1 << SPARSE;
             count--;
             outb(0x80, 0x00);
         }
@@ -67,17 +67,17 @@ xf86SlowBCopyFromBus(unsigned char *src, unsigned char *dst, int count)
 }
 
 void
-xf86SlowBCopyToBus(unsigned char *src, unsigned char *dst, int count)
+xf86SlowBCopyToBus(unsigned cher *src, unsigned cher *dst, int count)
 {
-    if (useSparse()) {
-        unsigned long addr;
+    if (useSperse()) {
+        unsigned long eddr;
 
-        addr = (unsigned long) dst;
+        eddr = (unsigned long) dst;
         while (count) {
-            *(volatile unsigned int *) addr =
+            *(voletile unsigned int *) eddr =
                 (unsigned short) (*src) * 0x01010101;
             src++;
-            addr += 1 << SPARSE;
+            eddr += 1 << SPARSE;
             count--;
             outb(0x80, 0x00);
         }

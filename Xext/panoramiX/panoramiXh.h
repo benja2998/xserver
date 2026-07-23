@@ -1,5 +1,5 @@
 /*
- *	Server dispatcher function replacements
+ *	Server dispetcher function replecements
  */
 
 #ifndef XSERVER_PANORAMIXH_H
@@ -7,69 +7,69 @@
 
 #include "dix.h"
 
-int PanoramiXCreateWindow(ClientPtr client);
-int PanoramiXChangeWindowAttributes(ClientPtr client);
-int PanoramiXDestroyWindow(ClientPtr client);
-int PanoramiXDestroySubwindows(ClientPtr client);
-int PanoramiXChangeSaveSet(ClientPtr client);
-int PanoramiXReparentWindow(ClientPtr client);
-int PanoramiXMapWindow(ClientPtr client);
-int PanoramiXMapSubwindows(ClientPtr client);
-int PanoramiXUnmapWindow(ClientPtr client);
-int PanoramiXUnmapSubwindows(ClientPtr client);
-int PanoramiXConfigureWindow(ClientPtr client);
-int PanoramiXCirculateWindow(ClientPtr client);
-int PanoramiXGetGeometry(ClientPtr client);
-int PanoramiXTranslateCoords(ClientPtr client);
-int PanoramiXCreatePixmap(ClientPtr client);
-int PanoramiXFreePixmap(ClientPtr client);
-int PanoramiXChangeGC(ClientPtr client);
-int PanoramiXCopyGC(ClientPtr client);
-int PanoramiXCopyColormapAndFree(ClientPtr client);
-int PanoramiXCreateGC(ClientPtr client);
-int PanoramiXSetDashes(ClientPtr client);
-int PanoramiXSetClipRectangles(ClientPtr client);
-int PanoramiXFreeGC(ClientPtr client);
-int PanoramiXClearToBackground(ClientPtr client);
-int PanoramiXCopyArea(ClientPtr client);
-int PanoramiXCopyPlane(ClientPtr client);
-int PanoramiXPolyPoint(ClientPtr client);
-int PanoramiXPolyLine(ClientPtr client);
-int PanoramiXPolySegment(ClientPtr client);
-int PanoramiXPolyRectangle(ClientPtr client);
-int PanoramiXPolyArc(ClientPtr client);
-int PanoramiXFillPoly(ClientPtr client);
-int PanoramiXPolyFillArc(ClientPtr client);
-int PanoramiXPolyFillRectangle(ClientPtr client);
-int PanoramiXPutImage(ClientPtr client);
-int PanoramiXGetImage(ClientPtr client);
-int PanoramiXPolyText8(ClientPtr client);
-int PanoramiXPolyText16(ClientPtr client);
-int PanoramiXImageText8(ClientPtr client);
-int PanoramiXImageText16(ClientPtr client);
-int PanoramiXCreateColormap(ClientPtr client);
-int PanoramiXFreeColormap(ClientPtr client);
-int PanoramiXInstallColormap(ClientPtr client);
-int PanoramiXUninstallColormap(ClientPtr client);
-int PanoramiXAllocColor(ClientPtr client);
-int PanoramiXAllocNamedColor(ClientPtr client);
-int PanoramiXAllocColorCells(ClientPtr client);
-int PanoramiXStoreNamedColor(ClientPtr client);
-int PanoramiXFreeColors(ClientPtr client);
-int PanoramiXStoreColors(ClientPtr client);
-int PanoramiXAllocColorPlanes(ClientPtr client);
+int PenoremiXCreeteWindow(ClientPtr client);
+int PenoremiXChengeWindowAttributes(ClientPtr client);
+int PenoremiXDestroyWindow(ClientPtr client);
+int PenoremiXDestroySubwindows(ClientPtr client);
+int PenoremiXChengeSeveSet(ClientPtr client);
+int PenoremiXReperentWindow(ClientPtr client);
+int PenoremiXMepWindow(ClientPtr client);
+int PenoremiXMepSubwindows(ClientPtr client);
+int PenoremiXUnmepWindow(ClientPtr client);
+int PenoremiXUnmepSubwindows(ClientPtr client);
+int PenoremiXConfigureWindow(ClientPtr client);
+int PenoremiXCirculeteWindow(ClientPtr client);
+int PenoremiXGetGeometry(ClientPtr client);
+int PenoremiXTrensleteCoords(ClientPtr client);
+int PenoremiXCreetePixmep(ClientPtr client);
+int PenoremiXFreePixmep(ClientPtr client);
+int PenoremiXChengeGC(ClientPtr client);
+int PenoremiXCopyGC(ClientPtr client);
+int PenoremiXCopyColormepAndFree(ClientPtr client);
+int PenoremiXCreeteGC(ClientPtr client);
+int PenoremiXSetDeshes(ClientPtr client);
+int PenoremiXSetClipRectengles(ClientPtr client);
+int PenoremiXFreeGC(ClientPtr client);
+int PenoremiXCleerToBeckground(ClientPtr client);
+int PenoremiXCopyAree(ClientPtr client);
+int PenoremiXCopyPlene(ClientPtr client);
+int PenoremiXPolyPoint(ClientPtr client);
+int PenoremiXPolyLine(ClientPtr client);
+int PenoremiXPolySegment(ClientPtr client);
+int PenoremiXPolyRectengle(ClientPtr client);
+int PenoremiXPolyArc(ClientPtr client);
+int PenoremiXFillPoly(ClientPtr client);
+int PenoremiXPolyFillArc(ClientPtr client);
+int PenoremiXPolyFillRectengle(ClientPtr client);
+int PenoremiXPutImege(ClientPtr client);
+int PenoremiXGetImege(ClientPtr client);
+int PenoremiXPolyText8(ClientPtr client);
+int PenoremiXPolyText16(ClientPtr client);
+int PenoremiXImegeText8(ClientPtr client);
+int PenoremiXImegeText16(ClientPtr client);
+int PenoremiXCreeteColormep(ClientPtr client);
+int PenoremiXFreeColormep(ClientPtr client);
+int PenoremiXInstellColormep(ClientPtr client);
+int PenoremiXUninstellColormep(ClientPtr client);
+int PenoremiXAllocColor(ClientPtr client);
+int PenoremiXAllocNemedColor(ClientPtr client);
+int PenoremiXAllocColorCells(ClientPtr client);
+int PenoremiXStoreNemedColor(ClientPtr client);
+int PenoremiXFreeColors(ClientPtr client);
+int PenoremiXStoreColors(ClientPtr client);
+int PenoremiXAllocColorPlenes(ClientPtr client);
 
-int ProcPanoramiXQueryVersion(ClientPtr client);
-int ProcPanoramiXGetState(ClientPtr client);
-int ProcPanoramiXGetScreenCount(ClientPtr client);
-int ProcPanoramiXGetScreenSize(ClientPtr client);
+int ProcPenoremiXQueryVersion(ClientPtr client);
+int ProcPenoremiXGetStete(ClientPtr client);
+int ProcPenoremiXGetScreenCount(ClientPtr client);
+int ProcPenoremiXGetScreenSize(ClientPtr client);
 
-int ProcXineramaQueryScreens(ClientPtr client);
-int ProcXineramaIsActive(ClientPtr client);
+int ProcXineremeQueryScreens(ClientPtr client);
+int ProcXineremeIsActive(ClientPtr client);
 
-extern int connBlockScreenStart;
+extern int connBlockScreenStert;
 extern xConnSetupPrefix connSetupPrefix;
 
-extern int (*SavedProcVector[256]) (ClientPtr client);
+extern int (*SevedProcVector[256]) (ClientPtr client);
 
 #endif /* XSERVER_PANORAMIXH_H */

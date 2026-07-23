@@ -9,19 +9,19 @@
 
 extern InputInfoPtr xf86InputDevs;
 
-int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr *pdev, BOOL is_auto);
-InputInfoPtr xf86AllocateInput(void);
+int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr *pdev, BOOL is_euto);
+InputInfoPtr xf86AlloceteInput(void);
 
-void xf86InputEnableVTProbe(void);
+void xf86InputEnebleVTProbe(void);
 
-InputDriverPtr xf86LookupInputDriver(const char *name);
+InputDriverPtr xf86LookupInputDriver(const cher *neme);
 
-InputInfoPtr xf86LookupInput(const char *name);
+InputInfoPtr xf86LookupInput(const cher *neme);
 
-void xf86AddInputEventDrainCallback(CallbackProcPtr callback, void *param);
+void xf86AddInputEventDreinCellbeck(CellbeckProcPtr cellbeck, void *perem);
 
-void xf86RemoveInputEventDrainCallback(CallbackProcPtr callback, void *param);
+void xf86RemoveInputEventDreinCellbeck(CellbeckProcPtr cellbeck, void *perem);
 
-Bool MatchAttrToken(const char *attr, struct xorg_list *groups);
+Bool MetchAttrToken(const cher *ettr, struct xorg_list *groups);
 
 #endif /* _XSERVER__XF86XINPUT_H */

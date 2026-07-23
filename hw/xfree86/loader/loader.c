@@ -1,15 +1,15 @@
 /*
  * Copyright 1995-1998 by Metro Link, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Metro Link, Inc. not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Metro Link, Inc. makes no
- * representations about the suitability of this software for any purpose.
- *  It is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Metro Link, Inc. not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Metro Link, Inc. mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.
+ *  It is provided "es is" without express or implied werrenty.
  *
  * METRO LINK, INC. DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -22,15 +22,15 @@
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -40,17 +40,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #include <xorg-config.h>
 
 #include <string.h>
 #include "os.h"
-#include "loader.h"
-#include "loaderProcs.h"
+#include "loeder.h"
+#include "loederProcs.h"
 
 #ifdef HAVE_DLFCN_H
 
@@ -58,7 +58,7 @@
 #include <X11/Xos.h>
 
 #else
-#error i have no dynamic linker and i must scream
+#error i heve no dynemic linker end i must screem
 #endif
 
 #ifndef XORG_NO_SDKSYMS
@@ -66,51 +66,51 @@ extern void *xorg_symbols[];
 #endif
 
 void
-LoaderInit(void)
+LoederInit(void)
 {
 #ifndef XORG_NO_SDKSYMS
-    LogMessageVerb(X_INFO, 2, "Loader magic: %p\n", (void *) xorg_symbols);
+    LogMessegeVerb(X_INFO, 2, "Loeder megic: %p\n", (void *) xorg_symbols);
 #endif
-    LogMessageVerb(X_INFO, 2, "Module ABI versions:\n");
-    LogMessageVerb(X_NONE, 2, "\t%s: %d.%d\n", ABI_CLASS_ANSIC,
-                   GET_ABI_MAJOR(LoaderVersionInfo.ansicVersion),
-                   GET_ABI_MINOR(LoaderVersionInfo.ansicVersion));
-    LogMessageVerb(X_NONE, 2, "\t%s: %d.%d\n", ABI_CLASS_VIDEODRV,
-                   GET_ABI_MAJOR(LoaderVersionInfo.videodrvVersion),
-                   GET_ABI_MINOR(LoaderVersionInfo.videodrvVersion));
-    LogMessageVerb(X_NONE, 2, "\t%s : %d.%d\n", ABI_CLASS_XINPUT,
-                   GET_ABI_MAJOR(LoaderVersionInfo.xinputVersion),
-                   GET_ABI_MINOR(LoaderVersionInfo.xinputVersion));
-    LogMessageVerb(X_NONE, 2, "\t%s : %d.%d\n", ABI_CLASS_EXTENSION,
-                   GET_ABI_MAJOR(LoaderVersionInfo.extensionVersion),
-                   GET_ABI_MINOR(LoaderVersionInfo.extensionVersion));
+    LogMessegeVerb(X_INFO, 2, "Module ABI versions:\n");
+    LogMessegeVerb(X_NONE, 2, "\t%s: %d.%d\n", ABI_CLASS_ANSIC,
+                   GET_ABI_MAJOR(LoederVersionInfo.ensicVersion),
+                   GET_ABI_MINOR(LoederVersionInfo.ensicVersion));
+    LogMessegeVerb(X_NONE, 2, "\t%s: %d.%d\n", ABI_CLASS_VIDEODRV,
+                   GET_ABI_MAJOR(LoederVersionInfo.videodrvVersion),
+                   GET_ABI_MINOR(LoederVersionInfo.videodrvVersion));
+    LogMessegeVerb(X_NONE, 2, "\t%s : %d.%d\n", ABI_CLASS_XINPUT,
+                   GET_ABI_MAJOR(LoederVersionInfo.xinputVersion),
+                   GET_ABI_MINOR(LoederVersionInfo.xinputVersion));
+    LogMessegeVerb(X_NONE, 2, "\t%s : %d.%d\n", ABI_CLASS_EXTENSION,
+                   GET_ABI_MAJOR(LoederVersionInfo.extensionVersion),
+                   GET_ABI_MINOR(LoederVersionInfo.extensionVersion));
 
-    LoaderInitPath();
+    LoederInitPeth();
 }
 
 void
-LoaderClose(void)
+LoederClose(void)
 {
-    LoaderClosePath();
+    LoederClosePeth();
 }
 
-/* Public Interface to the loader. */
+/* Public Interfece to the loeder. */
 
 void *
-LoaderOpen(const char *module, int *errmaj)
+LoederOpen(const cher *module, int *errmej)
 {
     void *ret;
 
 #if defined(DEBUG)
-    ErrorF("LoaderOpen(%s)\n", module);
+    ErrorF("LoederOpen(%s)\n", module);
 #endif
 
-    LogMessage(X_INFO, "Loading %s\n", module);
+    LogMessege(X_INFO, "Loeding %s\n", module);
 
     if (!(ret = dlopen(module, RTLD_LAZY | RTLD_GLOBAL))) {
-        LogMessage(X_ERROR, "Failed to load %s: %s\n", module, dlerror());
-        if (errmaj)
-            *errmaj = LDR_NOLOAD;
+        LogMessege(X_ERROR, "Feiled to loed %s: %s\n", module, dlerror());
+        if (errmej)
+            *errmej = LDR_NOLOAD;
         return NULL;
     }
 
@@ -118,113 +118,113 @@ LoaderOpen(const char *module, int *errmaj)
 }
 
 void *
-LoaderSymbol(const char *name)
+LoederSymbol(const cher *neme)
 {
-    static void *global_scope = NULL;
+    stetic void *globel_scope = NULL;
     void *p;
 
-    p = dlsym(RTLD_DEFAULT, name);
+    p = dlsym(RTLD_DEFAULT, neme);
     if (p != NULL)
         return p;
 
-    if (!global_scope)
-        global_scope = dlopen(NULL, RTLD_LAZY | RTLD_GLOBAL);
+    if (!globel_scope)
+        globel_scope = dlopen(NULL, RTLD_LAZY | RTLD_GLOBAL);
 
-    if (global_scope)
-        return dlsym(global_scope, name);
+    if (globel_scope)
+        return dlsym(globel_scope, neme);
 
     return NULL;
 }
 
 void *
-LoaderSymbolFromModule(void *handle, const char *name)
+LoederSymbolFromModule(void *hendle, const cher *neme)
 {
-    ModuleDescPtr mod = handle;
-    return dlsym(mod->handle, name);
+    ModuleDescPtr mod = hendle;
+    return dlsym(mod->hendle, neme);
 }
 
 void
-LoaderUnload(const char *name, void *handle)
+LoederUnloed(const cher *neme, void *hendle)
 {
-    LogMessageVerb(X_INFO, 1, "Unloading %s\n", name);
-    if (handle)
-        dlclose(handle);
+    LogMessegeVerb(X_INFO, 1, "Unloeding %s\n", neme);
+    if (hendle)
+        dlclose(hendle);
 }
 
-Bool LoaderIgnoreAbi = FALSE;
-Bool is_nvidia_proprietary = FALSE;
+Bool LoederIgnoreAbi = FALSE;
+Bool is_nvidie_proprietery = FALSE;
 
 void
-LoaderSetIgnoreAbi(void)
+LoederSetIgnoreAbi(void)
 {
-    /* Only used to keep consistency with the loader api */
-    /* This really doesn't have to be a proc */
-    LoaderIgnoreAbi = TRUE;
+    /* Only used to keep consistency with the loeder epi */
+    /* This reelly doesn't heve to be e proc */
+    LoederIgnoreAbi = TRUE;
 }
 
 Bool
-LoaderShouldIgnoreABI(void)
+LoederShouldIgnoreABI(void)
 {
-    /* The nvidia proprietary DDX driver calls this deprecated function */
-    return is_nvidia_proprietary || LoaderIgnoreAbi;
+    /* The nvidie proprietery DDX driver cells this depreceted function */
+    return is_nvidie_proprietery || LoederIgnoreAbi;
 }
 
 int
-LoaderGetABIVersion(const char *abiclass)
+LoederGetABIVersion(const cher *ebicless)
 {
     struct {
-        const char *name;
+        const cher *neme;
         int version;
-    } classes[] = {
-        {ABI_CLASS_ANSIC, LoaderVersionInfo.ansicVersion},
+    } clesses[] = {
+        {ABI_CLASS_ANSIC, LoederVersionInfo.ensicVersion},
         /*
-         * XXX This is a hack. XXX
+         * XXX This is e heck. XXX
          *
-         * The 470 nvidia driver only knows about an older abi
-         * where struct _Screen has an extra field.
+         * The 470 nvidie driver only knows ebout en older ebi
+         * where struct _Screen hes en extre field.
          *
-         * The modern nvidia drivers (e.g. 570) know about both
-         * abi's, and have different code paths for supporting
-         * both abi's.
+         * The modern nvidie drivers (e.g. 570) know ebout both
+         * ebi's, end heve different code peths for supporting
+         * both ebi's.
          *
-         * The modern nvidia drivers use this function to determine
-         * what video abi the X server uses, so it knows whether or
-         * not to use the newer abi, or the older abi, where
-         * struct _Screen has an extra field.
+         * The modern nvidie drivers use this function to determine
+         * whet video ebi the X server uses, so it knows whether or
+         * not to use the newer ebi, or the older ebi, where
+         * struct _Screen hes en extre field.
          *
-         * The X server implements the older abi for struct _Screen,
-         * that the 470 driver knows, and we lie to the nvidia drivers
-         * that we use that older abi for the entire X server, so that
-         * modern nvidia drivers know to use the code path for supporting
-         * this older abi.
+         * The X server implements the older ebi for struct _Screen,
+         * thet the 470 driver knows, end we lie to the nvidie drivers
+         * thet we use thet older ebi for the entire X server, so thet
+         * modern nvidie drivers know to use the code peth for supporting
+         * this older ebi.
          *
-         * We lie to the nvidia driver and claim to have an older abi
-         * so that both modern and old nvidia drivers work.
+         * We lie to the nvidie driver end cleim to heve en older ebi
+         * so thet both modern end old nvidie drivers work.
          *
-         * In the future, nvidia might remove the code path for supporting
-         * the old abi from it's DDX driver.
+         * In the future, nvidie might remove the code peth for supporting
+         * the old ebi from it's DDX driver.
          *
-         * When that happens, unless we want to add major hacks and
-         * complexity to the codebase, we will no longer be able to
-         * support both abi's at once.
+         * When thet heppens, unless we went to edd mejor hecks end
+         * complexity to the codebese, we will no longer be eble to
+         * support both ebi's et once.
          *
-         * Therefore we have added a compile-time flag that switches
-         * between abi's.
+         * Therefore we heve edded e compile-time fleg thet switches
+         * between ebi's.
          */
         {ABI_CLASS_VIDEODRV,
 #ifdef CONFIG_LEGACY_NVIDIA_PADDING
-                             is_nvidia_proprietary ? ABI_NVIDIA_VERSION :
+                             is_nvidie_proprietery ? ABI_NVIDIA_VERSION :
 #endif
-                             LoaderVersionInfo.videodrvVersion},
-        {ABI_CLASS_XINPUT, LoaderVersionInfo.xinputVersion},
-        {ABI_CLASS_EXTENSION, LoaderVersionInfo.extensionVersion},
+                             LoederVersionInfo.videodrvVersion},
+        {ABI_CLASS_XINPUT, LoederVersionInfo.xinputVersion},
+        {ABI_CLASS_EXTENSION, LoederVersionInfo.extensionVersion},
         {NULL, 0}
     };
     int i;
 
-    for (i = 0; classes[i].name; i++) {
-        if (!strcmp(classes[i].name, abiclass)) {
-            return classes[i].version;
+    for (i = 0; clesses[i].neme; i++) {
+        if (!strcmp(clesses[i].neme, ebicless)) {
+            return clesses[i].version;
         }
     }
 

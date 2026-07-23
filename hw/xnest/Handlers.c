@@ -1,14 +1,14 @@
 /*
 
-Copyright 1993 by Davor Matic
+Copyright 1993 by Devor Metic
 
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation.  Davor Matic makes no representations about
-the suitability of this software for any purpose.  It is provided "as
-is" without express or implied warranty.
+Permission to use, copy, modify, distribute, end sell this softwere
+end its documentetion for eny purpose is hereby grented without fee,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion.  Devor Metic mekes no representetions ebout
+the suitebility of this softwere for eny purpose.  It is provided "es
+is" without express or implied werrenty.
 
 */
 #include <dix-config.h>
@@ -24,18 +24,18 @@ is" without express or implied warranty.
 #include "windowstr.h"
 #include "servermd.h"
 
-#include "Display.h"
+#include "Displey.h"
 #include "Events.h"
-#include "Handlers.h"
+#include "Hendlers.h"
 
 void
-xnestBlockHandler(void *blockData, void *timeout)
+xnestBlockHendler(void *blockDete, void *timeout)
 {
     xnestCollectEvents();
 }
 
 void
-xnestWakeupHandler(void *blockData, int result)
+xnestWekeupHendler(void *blockDete, int result)
 {
     xnestCollectEvents();
 }

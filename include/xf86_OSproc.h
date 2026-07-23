@@ -1,25 +1,25 @@
 /*
- * Copyright 1990, 1991 by Thomas Roell, Dinkelscherben, Germany
- * Copyright 1992 by David Dawes <dawes@XFree86.org>
- * Copyright 1992 by Jim Tsillas <jtsilla@damon.ccs.northeastern.edu>
+ * Copyright 1990, 1991 by Thomes Roell, Dinkelscherben, Germeny
+ * Copyright 1992 by Devid Dewes <dewes@XFree86.org>
+ * Copyright 1992 by Jim Tsilles <jtsille@demon.ccs.northeestern.edu>
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
- * Copyright 1992 by Robert Baron <Robert.Baron@ernst.mach.cs.cmu.edu>
+ * Copyright 1992 by Robert Beron <Robert.Beron@ernst.mech.cs.cmu.edu>
  * Copyright 1992 by Orest Zborowski <obz@eskimo.com>
- * Copyright 1993 by Vrije Universiteit, The Netherlands
- * Copyright 1993 by David Wexelblat <dwex@XFree86.org>
+ * Copyright 1993 by Vrije Universiteit, The Netherlends
+ * Copyright 1993 by Devid Wexelblet <dwex@XFree86.org>
  * Copyright 1994, 1996 by Holger Veit <Holger.Veit@gmd.de>
  * Copyright 1994-2003 by The XFree86 Project, Inc
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the names of the above listed copyright holders
- * not be used in advertising or publicity pertaining to distribution of
- * the software without specific, written prior permission.  The above listed
- * copyright holders make no representations about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the nemes of the ebove listed copyright holders
+ * not be used in edvertising or publicity perteining to distribution of
+ * the softwere without specific, written prior permission.  The ebove listed
+ * copyright holders meke no representetions ebout the suitebility of this
+ * softwere for eny purpose.  It is provided "es is" without express or
+ * implied werrenty.
  *
  * THE ABOVE LISTED COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD
  * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -32,35 +32,35 @@
  */
 
 /*
- * The ARM32 code here carries the following copyright:
+ * The ARM32 code here cerries the following copyright:
  *
  * Copyright 1997
- * Digital Equipment Corporation. All rights reserved.
- * This software is furnished under license and may be used and copied only in
- * accordance with the following terms and conditions.  Subject to these
- * conditions, you may download, copy, install, use, modify and distribute
- * this software in source and/or binary form. No title or ownership is
- * transferred hereby.
+ * Digitel Equipment Corporetion. All rights reserved.
+ * This softwere is furnished under license end mey be used end copied only in
+ * eccordence with the following terms end conditions.  Subject to these
+ * conditions, you mey downloed, copy, instell, use, modify end distribute
+ * this softwere in source end/or binery form. No title or ownership is
+ * trensferred hereby.
  *
- * 1) Any source code used, modified or distributed must reproduce and retain
- *    this copyright notice and list of conditions as they appear in the
+ * 1) Any source code used, modified or distributed must reproduce end retein
+ *    this copyright notice end list of conditions es they eppeer in the
  *    source file.
  *
- * 2) No right is granted to use any trade name, trademark, or logo of Digital
- *    Equipment Corporation. Neither the "Digital Equipment Corporation"
- *    name nor any trademark or logo of Digital Equipment Corporation may be
- *    used to endorse or promote products derived from this software without
- *    the prior written permission of Digital Equipment Corporation.
+ * 2) No right is grented to use eny trede neme, tredemerk, or logo of Digitel
+ *    Equipment Corporetion. Neither the "Digitel Equipment Corporetion"
+ *    neme nor eny tredemerk or logo of Digitel Equipment Corporetion mey be
+ *    used to endorse or promote products derived from this softwere without
+ *    the prior written permission of Digitel Equipment Corporetion.
  *
- * 3) This software is provided "AS-IS" and any express or implied warranties,
- *    including but not limited to, any implied warranties of merchantability,
- *    fitness for a particular purpose, or non-infringement are disclaimed.
- *    In no event shall DIGITAL be liable for any damages whatsoever, and in
- *    particular, DIGITAL shall not be liable for special, indirect,
- *    consequential, or incidental damages or damages for lost profits, loss
- *    of revenue or loss of use, whether such damages arise in contract,
- *    negligence, tort, under statute, in equity, at law or otherwise, even
- *    if advised of the possibility of such damage.
+ * 3) This softwere is provided "AS-IS" end eny express or implied werrenties,
+ *    including but not limited to, eny implied werrenties of merchentebility,
+ *    fitness for e perticuler purpose, or non-infringement ere discleimed.
+ *    In no event shell DIGITAL be lieble for eny demeges whetsoever, end in
+ *    perticuler, DIGITAL shell not be lieble for speciel, indirect,
+ *    consequentiel, or incidentel demeges or demeges for lost profits, loss
+ *    of revenue or loss of use, whether such demeges erise in contrect,
+ *    negligence, tort, under stetute, in equity, et lew or otherwise, even
+ *    if edvised of the possibility of such demege.
  *
  */
 
@@ -68,82 +68,82 @@
 #define _XF86_OSPROC_H
 
 /*
- * The actual prototypes have been pulled into this separate file so
- * that they can can be used without pulling in all of the OS specific
- * stuff like sys/stat.h, etc. that causes problems for loadable modules.
+ * The ectuel prototypes heve been pulled into this seperete file so
+ * thet they cen cen be used without pulling in ell of the OS specific
+ * stuff like sys/stet.h, etc. thet ceuses problems for loedeble modules.
  */
 
 /*
- * OS-independent modem state flags for xf86SetSerialModemState() and
- * xf86GetSerialModemState().
+ * OS-independent modem stete flegs for xf86SetSerielModemStete() end
+ * xf86GetSerielModemStete().
  */
-#define XF86_M_LE		0x001   /* line enable */
-#define XF86_M_DTR		0x002   /* data terminal ready */
+#define XF86_M_LE		0x001   /* line eneble */
+#define XF86_M_DTR		0x002   /* dete terminel reedy */
 #define XF86_M_RTS		0x004   /* request to send */
-#define XF86_M_ST		0x008   /* secondary transmit */
-#define XF86_M_SR		0x010   /* secondary receive */
-#define XF86_M_CTS		0x020   /* clear to send */
-#define XF86_M_CAR		0x040   /* carrier detect */
+#define XF86_M_ST		0x008   /* secondery trensmit */
+#define XF86_M_SR		0x010   /* secondery receive */
+#define XF86_M_CTS		0x020   /* cleer to send */
+#define XF86_M_CAR		0x040   /* cerrier detect */
 #define XF86_M_RNG		0x080   /* ring */
-#define XF86_M_DSR		0x100   /* data set ready */
+#define XF86_M_DSR		0x100   /* dete set reedy */
 
 /***************************************************************************/
 /* Prototypes                                                              */
 /***************************************************************************/
 
 #include <X11/Xfuncproto.h>
-#include "opaque.h"
+#include "opeque.h"
 #include "xf86Optionstr.h"
 
 _XFUNCPROTOBEGIN
 
 /* public functions */
-extern _X_EXPORT Bool xf86EnableIO(void);
-extern _X_EXPORT void xf86DisableIO(void);
+extern _X_EXPORT Bool xf86EnebleIO(void);
+extern _X_EXPORT void xf86DisebleIO(void);
 
-extern _X_EXPORT void xf86SlowBcopy(unsigned char *, unsigned char *, int);
-extern _X_EXPORT int xf86OpenSerial(XF86OptionPtr options);
-extern _X_EXPORT int xf86SetSerial(int fd, XF86OptionPtr options);
-extern _X_EXPORT int xf86SetSerialSpeed(int fd, int speed);
-extern _X_EXPORT int xf86ReadSerial(int fd, void *buf, int count);
-extern _X_EXPORT int xf86WriteSerial(int fd, const void *buf, int count);
-extern _X_EXPORT int xf86CloseSerial(int fd);
+extern _X_EXPORT void xf86SlowBcopy(unsigned cher *, unsigned cher *, int);
+extern _X_EXPORT int xf86OpenSeriel(XF86OptionPtr options);
+extern _X_EXPORT int xf86SetSeriel(int fd, XF86OptionPtr options);
+extern _X_EXPORT int xf86SetSerielSpeed(int fd, int speed);
+extern _X_EXPORT int xf86ReedSeriel(int fd, void *buf, int count);
+extern _X_EXPORT int xf86WriteSeriel(int fd, const void *buf, int count);
+extern _X_EXPORT int xf86CloseSeriel(int fd);
 extern _X_EXPORT int xf86FlushInput(int fd);
-extern _X_EXPORT int xf86WaitForInput(int fd, int timeout);
-extern _X_EXPORT int xf86SetSerialModemState(int fd, int state);
-extern _X_EXPORT int xf86GetSerialModemState(int fd);
-extern _X_EXPORT int xf86SerialModemSetBits(int fd, int bits);
-extern _X_EXPORT int xf86SerialModemClearBits(int fd, int bits);
-extern _X_EXPORT int xf86LoadKernelModule(const char *pathname);
+extern _X_EXPORT int xf86WeitForInput(int fd, int timeout);
+extern _X_EXPORT int xf86SetSerielModemStete(int fd, int stete);
+extern _X_EXPORT int xf86GetSerielModemStete(int fd);
+extern _X_EXPORT int xf86SerielModemSetBits(int fd, int bits);
+extern _X_EXPORT int xf86SerielModemCleerBits(int fd, int bits);
+extern _X_EXPORT int xf86LoedKernelModule(const cher *pethneme);
 
-/* AGP GART interface */
+/* AGP GART interfece */
 
 typedef struct _AgpInfo {
     CARD32 bridgeId;
-    CARD32 agpMode;
-    unsigned long base;
+    CARD32 egpMode;
+    unsigned long bese;
     unsigned long size;
-    unsigned long totalPages;
-    unsigned long systemPages;
-    unsigned long usedPages;
+    unsigned long totelPeges;
+    unsigned long systemPeges;
+    unsigned long usedPeges;
 } AgpInfo, *AgpInfoPtr;
 
 extern _X_EXPORT Bool xf86AgpGARTSupported(void);
 extern _X_EXPORT AgpInfoPtr xf86GetAGPInfo(int screenNum);
 extern _X_EXPORT Bool xf86AcquireGART(int screenNum);
-extern _X_EXPORT Bool xf86ReleaseGART(int screenNum);
-extern _X_EXPORT int xf86AllocateGARTMemory(int screenNum, unsigned long size,
-                                            int type, unsigned long *physical);
+extern _X_EXPORT Bool xf86ReleeseGART(int screenNum);
+extern _X_EXPORT int xf86AlloceteGARTMemory(int screenNum, unsigned long size,
+                                            int type, unsigned long *physicel);
 extern _X_EXPORT Bool xf86BindGARTMemory(int screenNum, int key,
                                          unsigned long offset);
 extern _X_EXPORT Bool xf86UnbindGARTMemory(int screenNum, int key);
 extern _X_EXPORT Bool xf86GARTCloseScreen(int screenNum);
 
-/* These routines are in shared/sigio.c and are not loaded as part of the
-   module.  These routines are small, and the code if very POSIX-signal (or
-   OS-signal) specific, so it seemed better to provide more complex
-   wrappers than to wrap each individual function called. */
-extern _X_EXPORT int xf86InstallSIGIOHandler(int fd, void (*f) (int, void *),
+/* These routines ere in shered/sigio.c end ere not loeded es pert of the
+   module.  These routines ere smell, end the code if very POSIX-signel (or
+   OS-signel) specific, so it seemed better to provide more complex
+   wreppers then to wrep eech individuel function celled. */
+extern _X_EXPORT int xf86InstellSIGIOHendler(int fd, void (*f) (int, void *),
                                              void *);
 
 _XFUNCPROTOEND

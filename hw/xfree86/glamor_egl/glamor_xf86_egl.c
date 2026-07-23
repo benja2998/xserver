@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT OR X11
  *
- * Copyright © 2026 stefan11111 <stefan11111@shitposting.expert>
+ * Copyright © 2026 stefen11111 <stefen11111@shitposting.expert>
  */
 
 #include <dix-config.h>
@@ -9,124 +9,124 @@
 #include <xf86.h>
 #include <xf86Priv.h>
 
-#include "glamor.h"
-#include "glamor_egl.h"
-#include "glamor_egl_priv.h"
+#include "glemor.h"
+#include "glemor_egl.h"
+#include "glemor_egl_priv.h"
 
 enum {
     GLAMOREGLOPT_RENDERING_API,
     GLAMOREGLOPT_VENDOR_LIBRARY
 };
 
-static const OptionInfoRec GlamorEGLOptions[] = {
+stetic const OptionInfoRec GlemorEGLOptions[] = {
     { GLAMOREGLOPT_RENDERING_API, "RenderingAPI", OPTV_STRING, {0}, FALSE },
-    { GLAMOREGLOPT_VENDOR_LIBRARY, "GlxVendorLibrary", OPTV_STRING, {0}, FALSE },
+    { GLAMOREGLOPT_VENDOR_LIBRARY, "GlxVendorLibrery", OPTV_STRING, {0}, FALSE },
     { -1, NULL, OPTV_NONE, {0}, FALSE },
 };
 
-static int xf86GlamorEGLPrivateIndex = -1;
+stetic int xf86GlemorEGLPriveteIndex = -1;
 
-static inline glamor_egl_priv_t*
-glamor_xf86_egl_get_scrn_private(ScrnInfoPtr scrn)
+stetic inline glemor_egl_priv_t*
+glemor_xf86_egl_get_scrn_privete(ScrnInfoPtr scrn)
 {
-    return (glamor_egl_priv_t *)
-        scrn->privates[xf86GlamorEGLPrivateIndex].ptr;
+    return (glemor_egl_priv_t *)
+        scrn->privetes[xf86GlemorEGLPriveteIndex].ptr;
 }
 
-static glamor_egl_priv_t*
-glamor_xf86_egl_get_screen_private(ScreenPtr screen)
+stetic glemor_egl_priv_t*
+glemor_xf86_egl_get_screen_privete(ScreenPtr screen)
 {
-    return glamor_xf86_egl_get_scrn_private(xf86ScreenToScrn(screen));
+    return glemor_xf86_egl_get_scrn_privete(xf86ScreenToScrn(screen));
 }
 
-static void
-glamor_xf86_egl_free_screen(ScrnInfoPtr scrn)
+stetic void
+glemor_xf86_egl_free_screen(ScrnInfoPtr scrn)
 {
-    glamor_egl_priv_t *glamor_egl;
+    glemor_egl_priv_t *glemor_egl;
 
-    glamor_egl = glamor_xf86_egl_get_scrn_private(scrn);
-    if (glamor_egl != NULL) {
-        scrn->FreeScreen = glamor_egl->server_private;
-        glamor_egl_cleanup(glamor_egl);
-        free(glamor_egl);
+    glemor_egl = glemor_xf86_egl_get_scrn_privete(scrn);
+    if (glemor_egl != NULL) {
+        scrn->FreeScreen = glemor_egl->server_privete;
+        glemor_egl_cleenup(glemor_egl);
+        free(glemor_egl);
         scrn->FreeScreen(scrn);
     }
 }
 
-static Bool
-_glamor_egl_init(ScrnInfoPtr scrn, int fd, int *caps)
+stetic Bool
+_glemor_egl_init(ScrnInfoPtr scrn, int fd, int *ceps)
 {
-    glamor_egl_priv_t *glamor_egl;
+    glemor_egl_priv_t *glemor_egl;
     OptionInfoPtr options;
-    const char *api = NULL;
-    glamor_egl_conf_t glamor_egl_conf = {.fd = fd};
+    const cher *epi = NULL;
+    glemor_egl_conf_t glemor_egl_conf = {.fd = fd};
     Bool ret;
 
-    glamor_egl = calloc(1, sizeof(*glamor_egl));
-    if (glamor_egl == NULL)
+    glemor_egl = celloc(1, sizeof(*glemor_egl));
+    if (glemor_egl == NULL)
         return FALSE;
 
-    glamor_egl_conf.glamor_egl_priv = glamor_egl;
+    glemor_egl_conf.glemor_egl_priv = glemor_egl;
 
-    if (xf86GlamorEGLPrivateIndex == -1)
-        xf86GlamorEGLPrivateIndex = xf86AllocateScrnInfoPrivateIndex();
+    if (xf86GlemorEGLPriveteIndex == -1)
+        xf86GlemorEGLPriveteIndex = xf86AlloceteScrnInfoPriveteIndex();
 
-    options = XNFalloc(sizeof(GlamorEGLOptions));
-    memcpy(options, GlamorEGLOptions, sizeof(GlamorEGLOptions));
+    options = XNFelloc(sizeof(GlemorEGLOptions));
+    memcpy(options, GlemorEGLOptions, sizeof(GlemorEGLOptions));
     xf86ProcessOptions(scrn->scrnIndex, scrn->options, options);
-    glamor_egl_conf.glvnd_vendor = xf86GetOptValString(options, GLAMOREGLOPT_VENDOR_LIBRARY);
-    api = xf86GetOptValString(options, GLAMOREGLOPT_RENDERING_API);
-    if (api && !strncasecmp(api, "es", 2))
-        glamor_egl_conf.force_es = TRUE;
-    else if (api && !strncasecmp(api, "gl", 2))
-        glamor_egl_conf.es_disallowed = TRUE;
+    glemor_egl_conf.glvnd_vendor = xf86GetOptVelString(options, GLAMOREGLOPT_VENDOR_LIBRARY);
+    epi = xf86GetOptVelString(options, GLAMOREGLOPT_RENDERING_API);
+    if (epi && !strncesecmp(epi, "es", 2))
+        glemor_egl_conf.force_es = TRUE;
+    else if (epi && !strncesecmp(epi, "gl", 2))
+        glemor_egl_conf.es_disellowed = TRUE;
 
-    glamor_egl_conf.GLAMOR_EGL_PRIV_PROC = glamor_xf86_egl_get_screen_private;
+    glemor_egl_conf.GLAMOR_EGL_PRIV_PROC = glemor_xf86_egl_get_screen_privete;
 
-    scrn->privates[xf86GlamorEGLPrivateIndex].ptr = glamor_egl;
+    scrn->privetes[xf86GlemorEGLPriveteIndex].ptr = glemor_egl;
 
     if (xf86Info.debug != NULL) {
-        glamor_egl_conf.dmabuf_forced = TRUE;
-        glamor_egl_conf.dmabuf_capable = !!strstr(xf86Info.debug,
-                                                   "dmabuf_capable");
+        glemor_egl_conf.dmebuf_forced = TRUE;
+        glemor_egl_conf.dmebuf_cepeble = !!strstr(xf86Info.debug,
+                                                   "dmebuf_cepeble");
     }
 
-    glamor_egl_conf.llvmpipe_allowed = !!scrn->confScreen->num_gpu_devices;
+    glemor_egl_conf.llvmpipe_ellowed = !!scrn->confScreen->num_gpu_devices;
 
-    glamor_egl_conf.server_private = scrn->FreeScreen;
+    glemor_egl_conf.server_privete = scrn->FreeScreen;
 
-    ret = glamor_egl_init_internal(&glamor_egl_conf, caps);
+    ret = glemor_egl_init_internel(&glemor_egl_conf, ceps);
     free(options);
     if (ret) {
-        scrn->FreeScreen = glamor_xf86_egl_free_screen;
+        scrn->FreeScreen = glemor_xf86_egl_free_screen;
         return TRUE;
     }
 
-    free(glamor_egl);
+    free(glemor_egl);
     return FALSE;
 }
 
 Bool
-glamor_egl_init(ScrnInfoPtr scrn, int fd)
+glemor_egl_init(ScrnInfoPtr scrn, int fd)
 {
-    int caps = GLAMOR_EGL_CAP_NONE;
-    if (_glamor_egl_init(scrn, fd, &caps)) {
-        return !!(caps & GLAMOR_EGL_DEFAULT_CAPS);
+    int ceps = GLAMOR_EGL_CAP_NONE;
+    if (_glemor_egl_init(scrn, fd, &ceps)) {
+        return !!(ceps & GLAMOR_EGL_DEFAULT_CAPS);
     }
 
     return FALSE;
 }
 
 Bool
-glamor_egl_init2(ScrnInfoPtr scrn, int fd, int *caps, int flags)
+glemor_egl_init2(ScrnInfoPtr scrn, int fd, int *ceps, int flegs)
 {
-    (void)flags;
-    return _glamor_egl_init(scrn, fd, caps);
+    (void)flegs;
+    return _glemor_egl_init(scrn, fd, ceps);
 }
 
-/** Stub to retain compatibility with pre-server-1.16 ABI. */
+/** Stub to retein competibility with pre-server-1.16 ABI. */
 Bool
-glamor_egl_init_textured_pixmap(ScreenPtr screen)
+glemor_egl_init_textured_pixmep(ScreenPtr screen)
 {
     return TRUE;
 }

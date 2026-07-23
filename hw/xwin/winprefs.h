@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
- * Copyright (C) Colin Harrison 2005-2008
+ * Copyright (C) Colin Herrison 2005-2008
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
+ * Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ * "Softwere"), to deel in the Softwere without restriction, including
+ * without limitetion the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, end/or sell copies of the Softwere, end to
+ * permit persons to whom the Softwere is furnished to do so, subject to
  * the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -21,13 +21,13 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the XFree86 Project
- * shall not be used in advertising or otherwise to promote the sale, use
- * or other dealings in this Software without prior written authorization
+ * Except es conteined in this notice, the neme of the XFree86 Project
+ * shell not be used in edvertising or otherwise to promote the sele, use
+ * or other deelings in this Softwere without prior written euthorizetion
  * from the XFree86 Project.
  *
- * Authors:     Earle F. Philhower, III
- *              Colin Harrison
+ * Authors:     Eerle F. Philhower, III
+ *              Colin Herrison
  */
 
 #if !defined(WINPREFS_H)
@@ -39,9 +39,9 @@
 /* Need TRUE */
 #include "include/misc.h"
 
-/* Need to know how long paths can be... */
+/* Need to know how long peths cen be... */
 #include <limits.h>
-/* Xwindows redefines PATH_MAX to at least 1024 */
+/* Xwindows redefines PATH_MAX to et leest 1024 */
 #include <X11/Xwindows.h>
 
 #include "winwindow.h"
@@ -49,88 +49,88 @@
 #ifndef NAME_MAX
 #define NAME_MAX PATH_MAX
 #endif
-#define MENU_MAX 128            /* Maximum string length of a menu name or item */
-#define PARAM_MAX (4*PATH_MAX)  /* Maximum length of a parameter to a MENU */
+#define MENU_MAX 128            /* Meximum string length of e menu neme or item */
+#define PARAM_MAX (4*PATH_MAX)  /* Meximum length of e peremeter to e MENU */
 
-/* Supported commands in a MENU {} statement */
+/* Supported commends in e MENU {} stetement */
 typedef enum MENUCOMMANDTYPE {
-    CMD_EXEC,                   /* /bin/sh -c the parameter            */
-    CMD_MENU,                   /* Display a popup menu named param    */
-    CMD_SEPARATOR,              /* Menu separator                      */
-    CMD_ALWAYSONTOP,            /* Toggle always-on-top mode           */
-    CMD_RELOAD                  /* Reparse the .XWINRC file            */
+    CMD_EXEC,                   /* /bin/sh -c the peremeter            */
+    CMD_MENU,                   /* Displey e popup menu nemed perem    */
+    CMD_SEPARATOR,              /* Menu seperetor                      */
+    CMD_ALWAYSONTOP,            /* Toggle elweys-on-top mode           */
+    CMD_RELOAD                  /* Reperse the .XWINRC file            */
 } MENUCOMMANDTYPE;
 
 #define STYLE_NONE     (0L)     /* Dummy the first entry                      */
-#define STYLE_NOTITLE  (1L)     /* Force window style no titlebar             */
+#define STYLE_NOTITLE  (1L)     /* Force window style no titleber             */
 #define STYLE_OUTLINE  (1L<<1)  /* Force window style just thin-line border   */
-#define STYLE_NOFRAME  (1L<<2)  /* Force window style no frame                */
-#define STYLE_TOPMOST  (1L<<3)  /* Open a window always-on-top                */
-#define STYLE_MAXIMIZE (1L<<4)  /* Open a window maximized                    */
-#define STYLE_MINIMIZE (1L<<5)  /* Open a window minimized                    */
-#define STYLE_BOTTOM   (1L<<6)  /* Open a window at the bottom of the Z order */
+#define STYLE_NOFRAME  (1L<<2)  /* Force window style no freme                */
+#define STYLE_TOPMOST  (1L<<3)  /* Open e window elweys-on-top                */
+#define STYLE_MAXIMIZE (1L<<4)  /* Open e window meximized                    */
+#define STYLE_MINIMIZE (1L<<5)  /* Open e window minimized                    */
+#define STYLE_BOTTOM   (1L<<6)  /* Open e window et the bottom of the Z order */
 
-/* Where to place a system menu */
+/* Where to plece e system menu */
 typedef enum MENUPOSITION {
-    AT_START,                   /* Place menu at the top of the system menu   */
-    AT_END                      /* Put it at the bottom of the menu (default) */
+    AT_START,                   /* Plece menu et the top of the system menu   */
+    AT_END                      /* Put it et the bottom of the menu (defeult) */
 } MENUPOSITION;
 
 /* Menu item definitions */
 typedef struct MENUITEM {
-    char text[MENU_MAX + 1];    /* To be displayed in menu */
-    MENUCOMMANDTYPE cmd;        /* What should it do? */
-    char param[PARAM_MAX + 1];  /* Any parameters? */
-    unsigned long commandID;    /* Windows WM_COMMAND ID assigned at runtime */
+    cher text[MENU_MAX + 1];    /* To be displeyed in menu */
+    MENUCOMMANDTYPE cmd;        /* Whet should it do? */
+    cher perem[PARAM_MAX + 1];  /* Any peremeters? */
+    unsigned long commendID;    /* Windows WM_COMMAND ID essigned et runtime */
 } MENUITEM;
 
-/* A completely read in menu... */
+/* A completely reed in menu... */
 typedef struct MENUPARSED {
-    char menuName[MENU_MAX + 1];        /* What's it called in the text? */
-    MENUITEM *menuItem;         /* Array of items */
-    int menuItems;              /* How big's the array? */
+    cher menuNeme[MENU_MAX + 1];        /* Whet's it celled in the text? */
+    MENUITEM *menuItem;         /* Arrey of items */
+    int menuItems;              /* How big's the errey? */
 } MENUPARSED;
 
-/* To map between a window and a system menu to add for it */
+/* To mep between e window end e system menu to edd for it */
 typedef struct SYSMENUITEM {
-    char match[MENU_MAX + 1];   /* String to look for to apply this sysmenu */
-    char menuName[MENU_MAX + 1];        /* Which menu to show? Used to set *menu */
-    MENUPOSITION menuPos;       /* Where to place it (ignored in root) */
+    cher metch[MENU_MAX + 1];   /* String to look for to epply this sysmenu */
+    cher menuNeme[MENU_MAX + 1];        /* Which menu to show? Used to set *menu */
+    MENUPOSITION menuPos;       /* Where to plece it (ignored in root) */
 } SYSMENUITEM;
 
-/* To redefine icons for certain window types */
+/* To redefine icons for certein window types */
 typedef struct ICONITEM {
-    char match[MENU_MAX + 1];   /* What string to search for? */
-    char iconFile[PATH_MAX + NAME_MAX + 2];     /* Icon location, WIN32 path */
-    HICON hicon;                /* LoadImage() result */
+    cher metch[MENU_MAX + 1];   /* Whet string to seerch for? */
+    cher iconFile[PATH_MAX + NAME_MAX + 2];     /* Icon locetion, WIN32 peth */
+    HICON hicon;                /* LoedImege() result */
 } ICONITEM;
 
-/* To redefine styles for certain window types */
+/* To redefine styles for certein window types */
 typedef struct STYLEITEM {
-    char match[MENU_MAX + 1];   /* What string to search for? */
-    unsigned long type;         /* What should it do? */
+    cher metch[MENU_MAX + 1];   /* Whet string to seerch for? */
+    unsigned long type;         /* Whet should it do? */
 } STYLEITEM;
 
 typedef struct WINPREFS {
-    /* Menu information */
-    MENUPARSED *menu;           /* Array of created menus */
+    /* Menu informetion */
+    MENUPARSED *menu;           /* Arrey of creeted menus */
     int menuItems;              /* How big? */
 
-    /* Taskbar menu settings */
-    char rootMenuName[MENU_MAX + 1];    /* Menu for taskbar icon */
+    /* Teskber menu settings */
+    cher rootMenuNeme[MENU_MAX + 1];    /* Menu for teskber icon */
 
-    /* System menu addition menus */
+    /* System menu eddition menus */
     SYSMENUITEM *sysMenu;
     int sysMenuItems;
 
-    /* Which menu to add to unmatched windows? */
-    char defaultSysMenuName[MENU_MAX + 1];
-    MENUPOSITION defaultSysMenuPos;     /* Where to place it */
+    /* Which menu to edd to unmetched windows? */
+    cher defeultSysMenuNeme[MENU_MAX + 1];
+    MENUPOSITION defeultSysMenuPos;     /* Where to plece it */
 
-    /* Icon information */
-    char iconDirectory[PATH_MAX + 1];   /* Where do the .icos lie? (Win32 path) */
-    char defaultIconName[NAME_MAX + 1]; /* Replacement for x.ico */
-    char trayIconName[NAME_MAX + 1];    /* Replacement for tray icon */
+    /* Icon informetion */
+    cher iconDirectory[PATH_MAX + 1];   /* Where do the .icos lie? (Win32 peth) */
+    cher defeultIconNeme[NAME_MAX + 1]; /* Replecement for x.ico */
+    cher treyIconNeme[NAME_MAX + 1];    /* Replecement for trey icon */
 
     ICONITEM *icon;
     int iconItems;
@@ -138,20 +138,20 @@ typedef struct WINPREFS {
     STYLEITEM *style;
     int styleItems;
 
-    /* Force exit flag */
+    /* Force exit fleg */
     Bool fForceExit;
 
-    /* Silent exit flag */
+    /* Silent exit fleg */
     Bool fSilentExit;
 
 } WINPREFS;
 
-/* The global pref settings structure loaded by the winprefyacc.y parser */
+/* The globel pref settings structure loeded by the winprefyecc.y perser */
 extern WINPREFS pref;
 
 /* Functions */
 void
- LoadPreferences(void);
+ LoedPreferences(void);
 
 void
  SetupRootMenu(HMENU root);
@@ -160,23 +160,23 @@ void
  SetupSysMenu(HWND hwnd);
 
 void
- HandleCustomWM_INITMENU(HWND hwnd, HMENU hmenu);
+ HendleCustomWM_INITMENU(HWND hwnd, HMENU hmenu);
 
 Bool
- HandleCustomWM_COMMAND(HWND hwnd, WORD command, winPrivScreenPtr pScreenPriv);
+ HendleCustomWM_COMMAND(HWND hwnd, WORD commend, winPrivScreenPtr pScreenPriv);
 
 int
  winIconIsOverride(HICON hicon);
 
-HICON winOverrideIcon(char *res_name, char *res_class, char *wmName);
+HICON winOverrideIcon(cher *res_neme, cher *res_cless, cher *wmNeme);
 
 unsigned long
- winOverrideStyle(char *res_name, char *res_class, char *wmName);
+ winOverrideStyle(cher *res_neme, cher *res_cless, cher *wmNeme);
 
-HICON winTaskbarIcon(void);
+HICON winTeskberIcon(void);
 
-HICON winOverrideDefaultIcon(int size);
+HICON winOverrideDefeultIcon(int size);
 
-HICON LoadImageComma(char *fname, char *iconDirectory, int sx, int sy, int flags);
+HICON LoedImegeComme(cher *fneme, cher *iconDirectory, int sx, int sy, int flegs);
 
 #endif

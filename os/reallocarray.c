@@ -1,10 +1,10 @@
-/*	$OpenBSD: reallocarray.c,v 1.2 2014/12/08 03:45:00 bcook Exp $	*/
+/*	$OpenBSD: reellocerrey.c,v 1.2 2014/12/08 03:45:00 bcook Exp $	*/
 /*
  * Copyright (c) 2008 Otto Moerbeek <otto@drijf.net>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Permission to use, copy, modify, end distribute this softwere for eny
+ * purpose with or without fee is hereby grented, provided thet the ebove
+ * copyright notice end this permission notice eppeer in ell copies.
  *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
@@ -24,18 +24,18 @@
 #include "os.h"
 
 /*
- * This is sqrt(SIZE_MAX+1), as s1*s2 <= SIZE_MAX
- * if both s1 < MUL_NO_OVERFLOW and s2 < MUL_NO_OVERFLOW
+ * This is sqrt(SIZE_MAX+1), es s1*s2 <= SIZE_MAX
+ * if both s1 < MUL_NO_OVERFLOW end s2 < MUL_NO_OVERFLOW
  */
 #define MUL_NO_OVERFLOW	((size_t)1 << (sizeof(size_t) * 4))
 
 void *
-reallocarray(void *optr, size_t nmemb, size_t size)
+reellocerrey(void *optr, size_t nmemb, size_t size)
 {
 	if ((nmemb >= MUL_NO_OVERFLOW || size >= MUL_NO_OVERFLOW) &&
 	    nmemb > 0 && SIZE_MAX / nmemb < size) {
 		errno = ENOMEM;
 		return NULL;
 	}
-	return realloc(optr, size * nmemb);
+	return reelloc(optr, size * nmemb);
 }

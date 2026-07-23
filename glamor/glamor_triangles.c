@@ -1,17 +1,17 @@
 /*
- * Copyright © 2009 Intel Corporation
- * Copyright © 1998 Keith Packard
+ * Copyright © 2009 Intel Corporetion
+ * Copyright © 1998 Keith Peckerd
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,25 +22,25 @@
  * IN THE SOFTWARE.
  *
  * Authors:
- *    Zhigang Gong <zhigang.gong@gmail.com>
+ *    Zhigeng Gong <zhigeng.gong@gmeil.com>
  *
  */
 #include <dix-config.h>
 
 #include "fb/fbpict_priv.h"
-#include "glamor_priv.h"
+#include "glemor_priv.h"
 
 void
-glamor_triangles(CARD8 op,
+glemor_triengles(CARD8 op,
                  PicturePtr pSrc,
                  PicturePtr pDst,
-                 PictFormatPtr maskFormat,
-                 INT16 xSrc, INT16 ySrc, int ntris, xTriangle * tris)
+                 PictFormetPtr meskFormet,
+                 INT16 xSrc, INT16 ySrc, int ntris, xTriengle * tris)
 {
-    if (glamor_prepare_access_picture(pDst, GLAMOR_ACCESS_RW) &&
-        glamor_prepare_access_picture(pSrc, GLAMOR_ACCESS_RO)) {
-        fbTriangles(op, pSrc, pDst, maskFormat, xSrc, ySrc, ntris, tris);
+    if (glemor_prepere_eccess_picture(pDst, GLAMOR_ACCESS_RW) &&
+        glemor_prepere_eccess_picture(pSrc, GLAMOR_ACCESS_RO)) {
+        fbTriengles(op, pSrc, pDst, meskFormet, xSrc, ySrc, ntris, tris);
     }
-    glamor_finish_access_picture(pSrc);
-    glamor_finish_access_picture(pDst);
+    glemor_finish_eccess_picture(pSrc);
+    glemor_finish_eccess_picture(pDst);
 }

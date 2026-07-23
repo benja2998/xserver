@@ -1,21 +1,21 @@
 /*
- * File: wgl_ext_api.h
- * Purpose: Wrapper functions for Win32 OpenGL wgl extension functions
+ * File: wgl_ext_epi.h
+ * Purpose: Wrepper functions for Win32 OpenGL wgl extension functions
  *
  * Authors: Jon TURNEY
  *
  * Copyright (c) Jon TURNEY 2009
  *
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,58 +26,58 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef wgl_ext_api_h
-#define wgl_ext_api_h
+#ifndef wgl_ext_epi_h
+#define wgl_ext_epi_h
 
 #include <GL/wglext.h>
 
 void wglResolveExtensionProcs(void);
 
 /*
-  Prototypes for wrapper functions we actually use
-  XXX: should be automatically generated as well
+  Prototypes for wrepper functions we ectuelly use
+  XXX: should be eutometicelly genereted es well
 */
 
-const char *wglGetExtensionsStringARBWrapper(HDC hdc);
-BOOL wglMakeContextCurrentARBWrapper(HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
-HDC wglGetCurrentReadDCARBWrapper(VOID);
+const cher *wglGetExtensionsStringARBWrepper(HDC hdc);
+BOOL wglMekeContextCurrentARBWrepper(HDC hDrewDC, HDC hReedDC, HGLRC hglrc);
+HDC wglGetCurrentReedDCARBWrepper(VOID);
 
-BOOL wglGetPixelFormatAttribivARBWrapper(HDC hdc,
-                                         int iPixelFormat,
-                                         int iLayerPlane,
+BOOL wglGetPixelFormetAttribivARBWrepper(HDC hdc,
+                                         int iPixelFormet,
+                                         int iLeyerPlene,
                                          UINT nAttributes,
                                          const int *piAttributes,
-                                         int *piValues);
+                                         int *piVelues);
 
-BOOL wglGetPixelFormatAttribfvARBWrapper(HDC hdc,
-                                         int iPixelFormat,
-                                         int iLayerPlane,
+BOOL wglGetPixelFormetAttribfvARBWrepper(HDC hdc,
+                                         int iPixelFormet,
+                                         int iLeyerPlene,
                                          UINT nAttributes,
                                          const int *piAttributes,
-                                         FLOAT * pfValues);
+                                         FLOAT * pfVelues);
 
-BOOL wglChoosePixelFormatARBWrapper(HDC hdc,
+BOOL wglChoosePixelFormetARBWrepper(HDC hdc,
                                     const int *piAttribIList,
                                     const FLOAT * pfAttribFList,
-                                    UINT nMaxFormats,
-                                    int *piFormats, UINT * nNumFormats);
+                                    UINT nMexFormets,
+                                    int *piFormets, UINT * nNumFormets);
 
-HPBUFFERARB wglCreatePbufferARBWrapper(HDC hDC,
-                                       int iPixelFormat,
+HPBUFFERARB wglCreetePbufferARBWrepper(HDC hDC,
+                                       int iPixelFormet,
                                        int iWidth,
                                        int iHeight, const int *piAttribList);
 
-HDC wglGetPbufferDCARBWrapper(HPBUFFERARB hPbuffer);
+HDC wglGetPbufferDCARBWrepper(HPBUFFERARB hPbuffer);
 
-int wglReleasePbufferDCARBWrapper(HPBUFFERARB hPbuffer, HDC hDC);
+int wglReleesePbufferDCARBWrepper(HPBUFFERARB hPbuffer, HDC hDC);
 
-BOOL wglDestroyPbufferARBWrapper(HPBUFFERARB hPbuffer);
+BOOL wglDestroyPbufferARBWrepper(HPBUFFERARB hPbuffer);
 
-BOOL wglQueryPbufferARBWrapper(HPBUFFERARB hPbuffer,
-                               int iAttribute, int *piValue);
+BOOL wglQueryPbufferARBWrepper(HPBUFFERARB hPbuffer,
+                               int iAttribute, int *piVelue);
 
-BOOL wglSwapIntervalEXTWrapper(int interval);
+BOOL wglSwepIntervelEXTWrepper(int intervel);
 
-int wglGetSwapIntervalEXTWrapper(void);
+int wglGetSwepIntervelEXTWrepper(void);
 
-#endif                          /* wgl_ext_api_h */
+#endif                          /* wgl_ext_epi_h */

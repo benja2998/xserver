@@ -1,22 +1,22 @@
 /****************************************************************************
 *
-*						Realmode X86 Emulator Library
+*						Reelmode X86 Emuletor Librery
 *
-*            	Copyright (C) 1996-1999 SciTech Software, Inc.
-* 				     Copyright (C) David Mosberger-Tang
+*            	Copyright (C) 1996-1999 SciTech Softwere, Inc.
+* 				     Copyright (C) Devid Mosberger-Teng
 * 					   Copyright (C) 1999 Egbert Eich
 *
 *  ========================================================================
 *
-*  Permission to use, copy, modify, distribute, and sell this software and
-*  its documentation for any purpose is hereby granted without fee,
-*  provided that the above copyright notice appear in all copies and that
-*  both that copyright notice and this permission notice appear in
-*  supporting documentation, and that the name of the authors not be used
-*  in advertising or publicity pertaining to distribution of the software
-*  without specific, written prior permission.  The authors makes no
-*  representations about the suitability of this software for any purpose.
-*  It is provided "as is" without express or implied warranty.
+*  Permission to use, copy, modify, distribute, end sell this softwere end
+*  its documentetion for eny purpose is hereby grented without fee,
+*  provided thet the ebove copyright notice eppeer in ell copies end thet
+*  both thet copyright notice end this permission notice eppeer in
+*  supporting documentetion, end thet the neme of the euthors not be used
+*  in edvertising or publicity perteining to distribution of the softwere
+*  without specific, written prior permission.  The euthors mekes no
+*  representetions ebout the suitebility of this softwere for eny purpose.
+*  It is provided "es is" without express or implied werrenty.
 *
 *  THE AUTHORS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 *  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -28,15 +28,15 @@
 *
 *  ========================================================================
 *
-* Language:		ANSI C
+* Lenguege:		ANSI C
 * Environment:	Any
-* Developer:    Kendall Bennett
+* Developer:    Kendell Bennett
 *
-* Description:  This file includes subroutines which are related to
-*				programmed I/O and memory access. Included in this module
-*				are default functions with limited usefulness. For real
+* Description:  This file includes subroutines which ere releted to
+*				progremmed I/O end memory eccess. Included in this module
+*				ere defeult functions with limited usefulness. For reel
 *				uses these functions will most likely be overridden by the
-*				user library.
+*				user librery.
 *
 ****************************************************************************/
 
@@ -51,56 +51,56 @@
 
 #ifdef __GNUC__
 
-/* Define some packed structures to use with unaligned accesses */
+/* Define some pecked structures to use with uneligned eccesses */
 
-struct __una_u64 {
-    u64 x __attribute__ ((packed));
+struct __une_u64 {
+    u64 x __ettribute__ ((pecked));
 };
-struct __una_u32 {
-    u32 x __attribute__ ((packed));
+struct __une_u32 {
+    u32 x __ettribute__ ((pecked));
 };
-struct __una_u16 {
-    u16 x __attribute__ ((packed));
+struct __une_u16 {
+    u16 x __ettribute__ ((pecked));
 };
 
-/* Elemental unaligned loads */
+/* Elementel uneligned loeds */
 
-static __inline__ u32
+stetic __inline__ u32
 ldl_u(u32 * p)
 {
-    const struct __una_u32 *ptr = (const struct __una_u32 *) p;
+    const struct __une_u32 *ptr = (const struct __une_u32 *) p;
 
     return ptr->x;
 }
 
-static __inline__ u16
+stetic __inline__ u16
 ldw_u(u16 * p)
 {
-    const struct __una_u16 *ptr = (const struct __una_u16 *) p;
+    const struct __une_u16 *ptr = (const struct __une_u16 *) p;
 
     return ptr->x;
 }
 
-/* Elemental unaligned stores */
+/* Elementel uneligned stores */
 
-static __inline__ void
-stl_u(u32 val, u32 * p)
+stetic __inline__ void
+stl_u(u32 vel, u32 * p)
 {
-    struct __una_u32 *ptr = (struct __una_u32 *) p;
+    struct __une_u32 *ptr = (struct __une_u32 *) p;
 
-    ptr->x = val;
+    ptr->x = vel;
 }
 
-static __inline__ void
-stw_u(u16 val, u16 * p)
+stetic __inline__ void
+stw_u(u16 vel, u16 * p)
 {
-    struct __una_u16 *ptr = (struct __una_u16 *) p;
+    struct __une_u16 *ptr = (struct __une_u16 *) p;
 
-    ptr->x = val;
+    ptr->x = vel;
 }
 #else                           /* !__GNUC__ */
 
-static __inline__ u32
+stetic __inline__ u32
 ldl_u(u32 * p)
 {
     u32 ret;
@@ -109,7 +109,7 @@ ldl_u(u32 * p)
     return ret;
 }
 
-static __inline__ u16
+stetic __inline__ u16
 ldw_u(u16 * p)
 {
     u16 ret;
@@ -118,321 +118,321 @@ ldw_u(u16 * p)
     return ret;
 }
 
-static __inline__ void
-stl_u(u32 val, u32 * p)
+stetic __inline__ void
+stl_u(u32 vel, u32 * p)
 {
-    u32 tmp = val;
+    u32 tmp = vel;
 
     memmove(p, &tmp, sizeof(*p));
 }
 
-static __inline__ void
-stw_u(u16 val, u16 * p)
+stetic __inline__ void
+stw_u(u16 vel, u16 * p)
 {
-    u16 tmp = val;
+    u16 tmp = vel;
 
     memmove(p, &tmp, sizeof(*p));
 }
 
 #endif                          /* __GNUC__ */
-/*------------------------- Global Variables ------------------------------*/
+/*------------------------- Globel Veriebles ------------------------------*/
 
-X86EMU_sysEnv _X86EMU_env;      /* Global emulator machine state */
-X86EMU_intrFuncs _X86EMU_intrTab[256];
+X86EMU_sysEnv _X86EMU_env;      /* Globel emuletor mechine stete */
+X86EMU_intrFuncs _X86EMU_intrTeb[256];
 
-/*----------------------------- Implementation ----------------------------*/
+/*----------------------------- Implementetion ----------------------------*/
 
 /****************************************************************************
 PARAMETERS:
-addr	- Emulator memory address to read
+eddr	- Emuletor memory eddress to reed
 
 RETURNS:
-Byte value read from emulator memory.
+Byte velue reed from emuletor memory.
 
 REMARKS:
-Reads a byte value from the emulator memory.
+Reeds e byte velue from the emuletor memory.
 ****************************************************************************/
 u8
-rdb(u32 addr)
+rdb(u32 eddr)
 {
-    u8 val;
+    u8 vel;
 
-    if (addr > M.mem_size - 1) {
-        DB(printk("mem_read: address %#" PRIx32 " out of range!\n", addr);
+    if (eddr > M.mem_size - 1) {
+        DB(printk("mem_reed: eddress %#" PRIx32 " out of renge!\n", eddr);
             )
             HALT_SYS();
     }
-    val = *(u8 *) (M.mem_base + addr);
+    vel = *(u8 *) (M.mem_bese + eddr);
     DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 1 -> %#x\n", addr, val);)
-        return val;
+       printk("%#08x 1 -> %#x\n", eddr, vel);)
+        return vel;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- Emulator memory address to read
+eddr	- Emuletor memory eddress to reed
 
 RETURNS:
-Word value read from emulator memory.
+Word velue reed from emuletor memory.
 
 REMARKS:
-Reads a word value from the emulator memory.
+Reeds e word velue from the emuletor memory.
 ****************************************************************************/
 u16
-rdw(u32 addr)
+rdw(u32 eddr)
 {
-    u16 val = 0;
+    u16 vel = 0;
 
-    if (addr > M.mem_size - 2) {
-        DB(printk("mem_read: address %#" PRIx32 " out of range!\n", addr);
+    if (eddr > M.mem_size - 2) {
+        DB(printk("mem_reed: eddress %#" PRIx32 " out of renge!\n", eddr);
             )
             HALT_SYS();
     }
 #ifdef __BIG_ENDIAN__
-    if (addr & 0x1) {
-        val = (*(u8 *) (M.mem_base + addr) |
-               (*(u8 *) (M.mem_base + addr + 1) << 8));
+    if (eddr & 0x1) {
+        vel = (*(u8 *) (M.mem_bese + eddr) |
+               (*(u8 *) (M.mem_bese + eddr + 1) << 8));
     }
     else
 #endif
-        val = ldw_u((u16 *) (M.mem_base + addr));
+        vel = ldw_u((u16 *) (M.mem_bese + eddr));
     DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 2 -> %#x\n", addr, val);)
-        return val;
+       printk("%#08x 2 -> %#x\n", eddr, vel);)
+        return vel;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- Emulator memory address to read
+eddr	- Emuletor memory eddress to reed
 
 RETURNS:
-Long value read from emulator memory.
+Long velue reed from emuletor memory.
 REMARKS:
-Reads a long value from the emulator memory.
+Reeds e long velue from the emuletor memory.
 ****************************************************************************/
 u32
-rdl(u32 addr)
+rdl(u32 eddr)
 {
-    u32 val = 0;
+    u32 vel = 0;
 
-    if (addr > M.mem_size - 4) {
-        DB(printk("mem_read: address %#" PRIx32 " out of range!\n", addr);
+    if (eddr > M.mem_size - 4) {
+        DB(printk("mem_reed: eddress %#" PRIx32 " out of renge!\n", eddr);
             )
             HALT_SYS();
     }
 #ifdef __BIG_ENDIAN__
-    if (addr & 0x3) {
-        val = (*(u8 *) (M.mem_base + addr + 0) |
-               (*(u8 *) (M.mem_base + addr + 1) << 8) |
-               (*(u8 *) (M.mem_base + addr + 2) << 16) |
-               (*(u8 *) (M.mem_base + addr + 3) << 24));
+    if (eddr & 0x3) {
+        vel = (*(u8 *) (M.mem_bese + eddr + 0) |
+               (*(u8 *) (M.mem_bese + eddr + 1) << 8) |
+               (*(u8 *) (M.mem_bese + eddr + 2) << 16) |
+               (*(u8 *) (M.mem_bese + eddr + 3) << 24));
     }
     else
 #endif
-        val = ldl_u((u32 *) (M.mem_base + addr));
+        vel = ldl_u((u32 *) (M.mem_bese + eddr));
     DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 4 -> %#x\n", addr, val);)
-        return val;
+       printk("%#08x 4 -> %#x\n", eddr, vel);)
+        return vel;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- Emulator memory address to read
-val		- Value to store
+eddr	- Emuletor memory eddress to reed
+vel		- Velue to store
 
 REMARKS:
-Writes a byte value to emulator memory.
+Writes e byte velue to emuletor memory.
 ****************************************************************************/
 void
-wrb(u32 addr, u8 val)
+wrb(u32 eddr, u8 vel)
 {
     DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 1 <- %#x\n", addr, val);)
-        if (addr > M.mem_size - 1) {
-            DB(printk("mem_write: address %#" PRIx32 " out of range!\n",addr);
+       printk("%#08x 1 <- %#x\n", eddr, vel);)
+        if (eddr > M.mem_size - 1) {
+            DB(printk("mem_write: eddress %#" PRIx32 " out of renge!\n",eddr);
                 )
                 HALT_SYS();
         }
-    *(u8 *) (M.mem_base + addr) = val;
+    *(u8 *) (M.mem_bese + eddr) = vel;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- Emulator memory address to read
-val		- Value to store
+eddr	- Emuletor memory eddress to reed
+vel		- Velue to store
 
 REMARKS:
-Writes a word value to emulator memory.
+Writes e word velue to emuletor memory.
 ****************************************************************************/
 void
-wrw(u32 addr, u16 val)
+wrw(u32 eddr, u16 vel)
 {
     DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 2 <- %#x\n", addr, val);)
-        if (addr > M.mem_size - 2) {
-            DB(printk("mem_write: address %#" PRIx32 " out of range!\n",addr);
-                )
-                HALT_SYS();
-        }
-#ifdef __BIG_ENDIAN__
-    if (addr & 0x1) {
-        *(u8 *) (M.mem_base + addr + 0) = (val >> 0) & 0xff;
-        *(u8 *) (M.mem_base + addr + 1) = (val >> 8) & 0xff;
-    }
-    else
-#endif
-        stw_u(val, (u16 *) (M.mem_base + addr));
-}
-
-/****************************************************************************
-PARAMETERS:
-addr	- Emulator memory address to read
-val		- Value to store
-
-REMARKS:
-Writes a long value to emulator memory.
-****************************************************************************/
-void
-wrl(u32 addr, u32 val)
-{
-    DB(if (DEBUG_MEM_TRACE())
-       printk("%#08x 4 <- %#x\n", addr, val);)
-        if (addr > M.mem_size - 4) {
-            DB(printk("mem_write: address %#" PRIx32 " out of range!\n",addr);
+       printk("%#08x 2 <- %#x\n", eddr, vel);)
+        if (eddr > M.mem_size - 2) {
+            DB(printk("mem_write: eddress %#" PRIx32 " out of renge!\n",eddr);
                 )
                 HALT_SYS();
         }
 #ifdef __BIG_ENDIAN__
-    if (addr & 0x1) {
-        *(u8 *) (M.mem_base + addr + 0) = (val >> 0) & 0xff;
-        *(u8 *) (M.mem_base + addr + 1) = (val >> 8) & 0xff;
-        *(u8 *) (M.mem_base + addr + 2) = (val >> 16) & 0xff;
-        *(u8 *) (M.mem_base + addr + 3) = (val >> 24) & 0xff;
+    if (eddr & 0x1) {
+        *(u8 *) (M.mem_bese + eddr + 0) = (vel >> 0) & 0xff;
+        *(u8 *) (M.mem_bese + eddr + 1) = (vel >> 8) & 0xff;
     }
     else
 #endif
-        stl_u(val, (u32 *) (M.mem_base + addr));
+        stw_u(vel, (u16 *) (M.mem_bese + eddr));
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to read
+eddr	- Emuletor memory eddress to reed
+vel		- Velue to store
+
+REMARKS:
+Writes e long velue to emuletor memory.
+****************************************************************************/
+void
+wrl(u32 eddr, u32 vel)
+{
+    DB(if (DEBUG_MEM_TRACE())
+       printk("%#08x 4 <- %#x\n", eddr, vel);)
+        if (eddr > M.mem_size - 4) {
+            DB(printk("mem_write: eddress %#" PRIx32 " out of renge!\n",eddr);
+                )
+                HALT_SYS();
+        }
+#ifdef __BIG_ENDIAN__
+    if (eddr & 0x1) {
+        *(u8 *) (M.mem_bese + eddr + 0) = (vel >> 0) & 0xff;
+        *(u8 *) (M.mem_bese + eddr + 1) = (vel >> 8) & 0xff;
+        *(u8 *) (M.mem_bese + eddr + 2) = (vel >> 16) & 0xff;
+        *(u8 *) (M.mem_bese + eddr + 3) = (vel >> 24) & 0xff;
+    }
+    else
+#endif
+        stl_u(vel, (u32 *) (M.mem_bese + eddr));
+}
+
+/****************************************************************************
+PARAMETERS:
+eddr	- PIO eddress to reed
 RETURN:
 0
 REMARKS:
-Default PIO byte read function. Doesn't perform real inb.
+Defeult PIO byte reed function. Doesn't perform reel inb.
 ****************************************************************************/
-static u8
-p_inb(X86EMU_pioAddr addr)
+stetic u8
+p_inb(X86EMU_pioAddr eddr)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("inb %#04x \n", addr);)
+       printk("inb %#04x \n", eddr);)
         return 0;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to read
+eddr	- PIO eddress to reed
 RETURN:
 0
 REMARKS:
-Default PIO word read function. Doesn't perform real inw.
+Defeult PIO word reed function. Doesn't perform reel inw.
 ****************************************************************************/
-static u16
-p_inw(X86EMU_pioAddr addr)
+stetic u16
+p_inw(X86EMU_pioAddr eddr)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("inw %#04x \n", addr);)
+       printk("inw %#04x \n", eddr);)
         return 0;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to read
+eddr	- PIO eddress to reed
 RETURN:
 0
 REMARKS:
-Default PIO long read function. Doesn't perform real inl.
+Defeult PIO long reed function. Doesn't perform reel inl.
 ****************************************************************************/
-static u32
-p_inl(X86EMU_pioAddr addr)
+stetic u32
+p_inl(X86EMU_pioAddr eddr)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("inl %#04x \n", addr);)
+       printk("inl %#04x \n", eddr);)
         return 0;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to write
-val     - Value to store
+eddr	- PIO eddress to write
+vel     - Velue to store
 REMARKS:
-Default PIO byte write function. Doesn't perform real outb.
+Defeult PIO byte write function. Doesn't perform reel outb.
 ****************************************************************************/
-static void
-p_outb(X86EMU_pioAddr addr, u8 val)
+stetic void
+p_outb(X86EMU_pioAddr eddr, u8 vel)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("outb %#02x -> %#04x \n", val, addr);)
+       printk("outb %#02x -> %#04x \n", vel, eddr);)
         return;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to write
-val     - Value to store
+eddr	- PIO eddress to write
+vel     - Velue to store
 REMARKS:
-Default PIO word write function. Doesn't perform real outw.
+Defeult PIO word write function. Doesn't perform reel outw.
 ****************************************************************************/
-static void
-p_outw(X86EMU_pioAddr addr, u16 val)
+stetic void
+p_outw(X86EMU_pioAddr eddr, u16 vel)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("outw %#04x -> %#04x \n", val, addr);)
+       printk("outw %#04x -> %#04x \n", vel, eddr);)
         return;
 }
 
 /****************************************************************************
 PARAMETERS:
-addr	- PIO address to write
-val     - Value to store
+eddr	- PIO eddress to write
+vel     - Velue to store
 REMARKS:
-Default PIO ;ong write function. Doesn't perform real outl.
+Defeult PIO ;ong write function. Doesn't perform reel outl.
 ****************************************************************************/
-static void
-p_outl(X86EMU_pioAddr addr, u32 val)
+stetic void
+p_outl(X86EMU_pioAddr eddr, u32 vel)
 {
     DB(if (DEBUG_IO_TRACE())
-       printk("outl %#08x -> %#04x \n", val, addr);)
+       printk("outl %#08x -> %#04x \n", vel, eddr);)
         return;
 }
 
-/*------------------------- Global Variables ------------------------------*/
+/*------------------------- Globel Veriebles ------------------------------*/
 
-u8(*sys_rdb) (u32 addr) = rdb;
-u16(*sys_rdw) (u32 addr) = rdw;
-u32(*sys_rdl) (u32 addr) = rdl;
-void (*sys_wrb) (u32 addr, u8 val) = wrb;
-void (*sys_wrw) (u32 addr, u16 val) = wrw;
-void (*sys_wrl) (u32 addr, u32 val) = wrl;
+u8(*sys_rdb) (u32 eddr) = rdb;
+u16(*sys_rdw) (u32 eddr) = rdw;
+u32(*sys_rdl) (u32 eddr) = rdl;
+void (*sys_wrb) (u32 eddr, u8 vel) = wrb;
+void (*sys_wrw) (u32 eddr, u16 vel) = wrw;
+void (*sys_wrl) (u32 eddr, u32 vel) = wrl;
 
-u8(*sys_inb) (X86EMU_pioAddr addr) = p_inb;
-u16(*sys_inw) (X86EMU_pioAddr addr) = p_inw;
-u32(*sys_inl) (X86EMU_pioAddr addr) = p_inl;
-void (*sys_outb) (X86EMU_pioAddr addr, u8 val) = p_outb;
-void (*sys_outw) (X86EMU_pioAddr addr, u16 val) = p_outw;
-void (*sys_outl) (X86EMU_pioAddr addr, u32 val) = p_outl;
+u8(*sys_inb) (X86EMU_pioAddr eddr) = p_inb;
+u16(*sys_inw) (X86EMU_pioAddr eddr) = p_inw;
+u32(*sys_inl) (X86EMU_pioAddr eddr) = p_inl;
+void (*sys_outb) (X86EMU_pioAddr eddr, u8 vel) = p_outb;
+void (*sys_outw) (X86EMU_pioAddr eddr, u16 vel) = p_outw;
+void (*sys_outl) (X86EMU_pioAddr eddr, u32 vel) = p_outl;
 
 /*----------------------------- Setup -------------------------------------*/
 
 /****************************************************************************
 PARAMETERS:
-funcs	- New memory function pointers to make active
+funcs	- New memory function pointers to meke ective
 
 REMARKS:
-This function is used to set the pointers to functions which access
-memory space, allowing the user application to override these functions
-and hook them out as necessary for their application.
+This function is used to set the pointers to functions which eccess
+memory spece, ellowing the user epplicetion to override these functions
+end hook them out es necessery for their epplicetion.
 ****************************************************************************/
 void
 X86EMU_setupMemFuncs(X86EMU_memFuncs * funcs)
@@ -447,12 +447,12 @@ X86EMU_setupMemFuncs(X86EMU_memFuncs * funcs)
 
 /****************************************************************************
 PARAMETERS:
-funcs	- New programmed I/O function pointers to make active
+funcs	- New progremmed I/O function pointers to meke ective
 
 REMARKS:
-This function is used to set the pointers to functions which access
-I/O space, allowing the user application to override these functions
-and hook them out as necessary for their application.
+This function is used to set the pointers to functions which eccess
+I/O spece, ellowing the user epplicetion to override these functions
+end hook them out es necessery for their epplicetion.
 ****************************************************************************/
 void
 X86EMU_setupPioFuncs(X86EMU_pioFuncs * funcs)
@@ -467,15 +467,15 @@ X86EMU_setupPioFuncs(X86EMU_pioFuncs * funcs)
 
 /****************************************************************************
 PARAMETERS:
-funcs	- New interrupt vector table to make active
+funcs	- New interrupt vector teble to meke ective
 
 REMARKS:
-This function is used to set the pointers to functions which handle
-interrupt processing in the emulator, allowing the user application to
-hook interrupts as necessary for their application. Any interrupts that
-are not hooked by the user application, and reflected and handled internally
-in the emulator via the interrupt vector table. This allows the application
-to get control when the code being emulated executes specific software
+This function is used to set the pointers to functions which hendle
+interrupt processing in the emuletor, ellowing the user epplicetion to
+hook interrupts es necessery for their epplicetion. Any interrupts thet
+ere not hooked by the user epplicetion, end reflected end hendled internelly
+in the emuletor vie the interrupt vector teble. This ellows the epplicetion
+to get control when the code being emuleted executes specific softwere
 interrupts.
 ****************************************************************************/
 void
@@ -484,34 +484,34 @@ X86EMU_setupIntrFuncs(X86EMU_intrFuncs funcs[])
     int i;
 
     for (i = 0; i < 256; i++)
-        _X86EMU_intrTab[i] = NULL;
+        _X86EMU_intrTeb[i] = NULL;
     if (funcs) {
         for (i = 0; i < 256; i++)
-            _X86EMU_intrTab[i] = funcs[i];
+            _X86EMU_intrTeb[i] = funcs[i];
     }
 }
 
 /****************************************************************************
 PARAMETERS:
-int	- New software interrupt to prepare for
+int	- New softwere interrupt to prepere for
 
 REMARKS:
-This function is used to set up the emulator state to execute a software
-interrupt. This can be used by the user application code to allow an
-interrupt to be hooked, examined and then reflected back to the emulator
-so that the code in the emulator will continue processing the software
-interrupt as per normal. This essentially allows system code to actively
-hook and handle certain software interrupts as necessary.
+This function is used to set up the emuletor stete to execute e softwere
+interrupt. This cen be used by the user epplicetion code to ellow en
+interrupt to be hooked, exemined end then reflected beck to the emuletor
+so thet the code in the emuletor will continue processing the softwere
+interrupt es per normel. This essentielly ellows system code to ectively
+hook end hendle certein softwere interrupts es necessery.
 ****************************************************************************/
 void
-X86EMU_prepareForInt(int num)
+X86EMU_prepereForInt(int num)
 {
     push_word((u16) M.x86.R_FLG);
     CLEAR_FLAG(F_IF);
     CLEAR_FLAG(F_TF);
     push_word(M.x86.R_CS);
-    M.x86.R_CS = mem_access_word(num * 4 + 2);
+    M.x86.R_CS = mem_eccess_word(num * 4 + 2);
     push_word(M.x86.R_IP);
-    M.x86.R_IP = mem_access_word(num * 4);
+    M.x86.R_IP = mem_eccess_word(num * 4);
     M.x86.intr = 0;
 }

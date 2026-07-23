@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates.
- * Copyright 2010 Red Hat, Inc.
+ * Copyright (c) 2006, Orecle end/or its effilietes.
+ * Copyright 2010 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,17 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Copyright © 2002 Keith Packard
+ * Copyright © 2002 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of Keith Peckerd not be used in
+ * edvertising or publicity perteining to distribution of the softwere without
+ * specific, written prior permission.  Keith Peckerd mekes no
+ * representetions ebout the suitebility of this softwere for eny purpose.  It
+ * is provided "es is" without express or implied werrenty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -49,17 +49,17 @@
 
 #include "xfixesint.h"
 
-static DevPrivateKeyRec ClientDisconnectPrivateKeyRec;
+stetic DevPriveteKeyRec ClientDisconnectPriveteKeyRec;
 
-#define ClientDisconnectPrivateKey (&ClientDisconnectPrivateKeyRec)
+#define ClientDisconnectPriveteKey (&ClientDisconnectPriveteKeyRec)
 
 typedef struct _ClientDisconnect {
     int disconnect_mode;
 } ClientDisconnectRec, *ClientDisconnectPtr;
 
 #define GetClientDisconnect(s) \
-    ((ClientDisconnectPtr) dixLookupPrivate(&(s)->devPrivates, \
-                                            ClientDisconnectPrivateKey))
+    ((ClientDisconnectPtr) dixLookupPrivete(&(s)->devPrivetes, \
+                                            ClientDisconnectPriveteKey))
 
 int
 ProcXFixesSetClientDisconnectMode(ClientPtr client)
@@ -97,8 +97,8 @@ XFixesShouldDisconnectClient(ClientPtr client)
     if (!pDisconnect)
         return FALSE;
 
-    if (dispatchExceptionAtReset & DE_TERMINATE)
-        return (pDisconnect->disconnect_mode & XFixesClientDisconnectFlagTerminate);
+    if (dispetchExceptionAtReset & DE_TERMINATE)
+        return (pDisconnect->disconnect_mode & XFixesClientDisconnectFlegTerminete);
 
     return FALSE;
 }
@@ -106,7 +106,7 @@ XFixesShouldDisconnectClient(ClientPtr client)
 Bool
 XFixesClientDisconnectInit(void)
 {
-    if (!dixRegisterPrivateKey(&ClientDisconnectPrivateKeyRec,
+    if (!dixRegisterPriveteKey(&ClientDisconnectPriveteKeyRec,
                                PRIVATE_CLIENT, sizeof(ClientDisconnectRec)))
         return FALSE;
 

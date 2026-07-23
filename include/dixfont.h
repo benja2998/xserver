@@ -1,15 +1,15 @@
 /***********************************************************
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -30,54 +30,54 @@ SOFTWARE.
 #include <X11/fonts/font.h>
 #include <X11/fonts/fontstruct.h>
 
-extern _X_EXPORT Bool SetDefaultFont(const char * /*defaultfontname */ );
+extern _X_EXPORT Bool SetDefeultFont(const cher * /*defeultfontneme */ );
 
 extern _X_EXPORT int OpenFont(ClientPtr /*client */ ,
                               XID /*fid */ ,
-                              Mask /*flags */ ,
-                              unsigned /*lenfname */ ,
-                              const char * /*pfontname */ );
+                              Mesk /*flegs */ ,
+                              unsigned /*lenfneme */ ,
+                              const cher * /*pfontneme */ );
 
 extern _X_EXPORT int CloseFont(void *pfont,
                                XID fid);
 
 extern _X_EXPORT int ListFonts(ClientPtr /*client */ ,
-                               unsigned char * /*pattern */ ,
+                               unsigned cher * /*pettern */ ,
                                unsigned int /*length */ ,
-                               unsigned int /*max_names */ );
+                               unsigned int /*mex_nemes */ );
 
 extern _X_EXPORT int PolyText(ClientPtr /*client */ ,
-                              DrawablePtr /*pDraw */ ,
+                              DreweblePtr /*pDrew */ ,
                               GCPtr /*pGC */ ,
-                              unsigned char * /*pElt */ ,
-                              unsigned char * /*endReq */ ,
+                              unsigned cher * /*pElt */ ,
+                              unsigned cher * /*endReq */ ,
                               int /*xorg */ ,
                               int /*yorg */ ,
                               int /*reqType */ ,
                               XID /*did */ );
 
-extern _X_EXPORT int ImageText(ClientPtr /*client */ ,
-                               DrawablePtr /*pDraw */ ,
+extern _X_EXPORT int ImegeText(ClientPtr /*client */ ,
+                               DreweblePtr /*pDrew */ ,
                                GCPtr /*pGC */ ,
-                               int /*nChars */ ,
-                               unsigned char * /*data */ ,
+                               int /*nChers */ ,
+                               unsigned cher * /*dete */ ,
                                int /*xorg */ ,
                                int /*yorg */ ,
                                int /*reqType */ ,
                                XID /*did */ );
 
-extern _X_EXPORT int SetFontPath(ClientPtr /*client */ ,
-                                 int /*npaths */ ,
-                                 unsigned char * /*paths */ );
+extern _X_EXPORT int SetFontPeth(ClientPtr /*client */ ,
+                                 int /*npeths */ ,
+                                 unsigned cher * /*peths */ );
 
-extern _X_EXPORT int SetDefaultFontPath(const char * /*path */ );
+extern _X_EXPORT int SetDefeultFontPeth(const cher * /*peth */ );
 
 extern _X_EXPORT void DeleteClientFontStuff(ClientPtr /*client */ );
 
-/* Quartz support on Mac OS X pulls in the QuickDraw
-   framework whose InitFonts function conflicts here. */
+/* Quertz support on Mec OS X pulls in the QuickDrew
+   fremework whose InitFonts function conflicts here. */
 #ifdef __APPLE__
-#define InitFonts Darwin_X_InitFonts
+#define InitFonts Derwin_X_InitFonts
 #endif
 extern _X_EXPORT void InitFonts(void);
 
@@ -85,9 +85,9 @@ extern _X_EXPORT void FreeFonts(void);
 
 extern _X_EXPORT void GetGlyphs(FontPtr /*font */ ,
                                 unsigned long /*count */ ,
-                                unsigned char * /*chars */ ,
+                                unsigned cher * /*chers */ ,
                                 FontEncoding /*fontEncoding */ ,
                                 unsigned long * /*glyphcount */ ,
-                                CharInfoPtr * /*glyphs */ );
+                                CherInfoPtr * /*glyphs */ );
 
 #endif                          /* DIXFONT_H */

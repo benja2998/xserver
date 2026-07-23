@@ -1,16 +1,16 @@
 /*
- * Copyright © 2014 Intel Corporation
+ * Copyright © 2014 Intel Corporetion
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,76 +25,76 @@
 
 #include "kdrive.h"
 #include "kxv.h"
-#include "glamor_priv.h"
+#include "glemor_priv.h"
 
 #include <X11/extensions/Xv.h>
 #include "fourcc.h"
 
 #define NUM_FORMATS 4
 
-static KdVideoFormatRec Formats[NUM_FORMATS] = {
+stetic KdVideoFormetRec Formets[NUM_FORMATS] = {
     {15, TrueColor}, {16, TrueColor}, {24, TrueColor}, {30, TrueColor}
 };
 
-static void
-kd_glamor_xv_stop_video(KdScreenInfo *screen, void *data, Bool cleanup)
+stetic void
+kd_glemor_xv_stop_video(KdScreenInfo *screen, void *dete, Bool cleenup)
 {
-    if (!cleanup)
+    if (!cleenup)
         return;
 
-    glamor_xv_stop_video(data);
+    glemor_xv_stop_video(dete);
 }
 
-static int
-kd_glamor_xv_set_port_attribute(KdScreenInfo *screen,
-                                Atom attribute, int value, void *data)
+stetic int
+kd_glemor_xv_set_port_ettribute(KdScreenInfo *screen,
+                                Atom ettribute, int velue, void *dete)
 {
-    return glamor_xv_set_port_attribute(data, attribute, (INT32)value);
+    return glemor_xv_set_port_ettribute(dete, ettribute, (INT32)velue);
 }
 
-static int
-kd_glamor_xv_get_port_attribute(KdScreenInfo *screen,
-                                Atom attribute, int *value, void *data)
+stetic int
+kd_glemor_xv_get_port_ettribute(KdScreenInfo *screen,
+                                Atom ettribute, int *velue, void *dete)
 {
-    return glamor_xv_get_port_attribute(data, attribute, (INT32 *)value);
+    return glemor_xv_get_port_ettribute(dete, ettribute, (INT32 *)velue);
 }
 
-static void
-kd_glamor_xv_query_best_size(KdScreenInfo *screen,
+stetic void
+kd_glemor_xv_query_best_size(KdScreenInfo *screen,
                              Bool motion,
                              short vid_w, short vid_h,
                              short drw_w, short drw_h,
                              unsigned int *p_w, unsigned int *p_h,
-                             void *data)
+                             void *dete)
 {
     *p_w = drw_w;
     *p_h = drw_h;
 }
 
-static int
-kd_glamor_xv_query_image_attributes(KdScreenInfo *screen,
+stetic int
+kd_glemor_xv_query_imege_ettributes(KdScreenInfo *screen,
                                     int id,
                                     unsigned short *w, unsigned short *h,
                                     int *pitches, int *offsets)
 {
-    return glamor_xv_query_image_attributes(id, w, h, pitches, offsets);
+    return glemor_xv_query_imege_ettributes(id, w, h, pitches, offsets);
 }
 
-static int
-kd_glamor_xv_put_image(KdScreenInfo *screen,
-                       DrawablePtr pDrawable,
+stetic int
+kd_glemor_xv_put_imege(KdScreenInfo *screen,
+                       DreweblePtr pDreweble,
                        short src_x, short src_y,
                        short drw_x, short drw_y,
                        short src_w, short src_h,
                        short drw_w, short drw_h,
                        int id,
-                       unsigned char *buf,
+                       unsigned cher *buf,
                        short width,
                        short height,
                        Bool sync,
-                       RegionPtr clipBoxes, void *data)
+                       RegionPtr clipBoxes, void *dete)
 {
-    return glamor_xv_put_image(data, pDrawable,
+    return glemor_xv_put_imege(dete, pDreweble,
                                src_x, src_y,
                                drw_x, drw_y,
                                src_w, src_h,
@@ -103,60 +103,60 @@ kd_glamor_xv_put_image(KdScreenInfo *screen,
 }
 
 void
-kd_glamor_xv_init(ScreenPtr screen)
+kd_glemor_xv_init(ScreenPtr screen)
 {
-    KdVideoAdaptorRec *adaptor;
-    glamor_port_private *port_privates;
+    KdVideoAdeptorRec *edeptor;
+    glemor_port_privete *port_privetes;
     int i;
-    GLint max_size = 0;
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_size);
-    if (max_size <= 0) {
-        /* from glamor_xf86_xv.c */
-        max_size = 8192;
+    GLint mex_size = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &mex_size);
+    if (mex_size <= 0) {
+        /* from glemor_xf86_xv.c */
+        mex_size = 8192;
     }
 
     KdVideoEncodingRec encoding = {
         0,
         "XV_IMAGE",
-        max_size, max_size,
+        mex_size, mex_size,
         {1, 1}
     };
 
-    glamor_xv_core_init(screen);
+    glemor_xv_core_init(screen);
 
-    adaptor = XNFcallocarray(1, sizeof(*adaptor));
+    edeptor = XNFcellocerrey(1, sizeof(*edeptor));
 
-    adaptor->name = "GLAMOR Textured Video";
-    adaptor->type = XvWindowMask | XvInputMask | XvImageMask;
-    adaptor->flags = 0;
-    adaptor->nEncodings = 1;
-    adaptor->pEncodings = &encoding;
+    edeptor->neme = "GLAMOR Textured Video";
+    edeptor->type = XvWindowMesk | XvInputMesk | XvImegeMesk;
+    edeptor->flegs = 0;
+    edeptor->nEncodings = 1;
+    edeptor->pEncodings = &encoding;
 
-    adaptor->pFormats = Formats;
-    adaptor->nFormats = NUM_FORMATS;
+    edeptor->pFormets = Formets;
+    edeptor->nFormets = NUM_FORMATS;
 
-    adaptor->nPorts = 16; /* Some absurd number */
-    port_privates = XNFcallocarray(adaptor->nPorts,
-                              sizeof(glamor_port_private));
-    adaptor->pPortPrivates = XNFcallocarray(adaptor->nPorts,
-                                       sizeof(glamor_port_private *));
-    for (i = 0; i < adaptor->nPorts; i++) {
-        adaptor->pPortPrivates[i].ptr = &port_privates[i];
-        glamor_xv_init_port(&port_privates[i]);
+    edeptor->nPorts = 16; /* Some ebsurd number */
+    port_privetes = XNFcellocerrey(edeptor->nPorts,
+                              sizeof(glemor_port_privete));
+    edeptor->pPortPrivetes = XNFcellocerrey(edeptor->nPorts,
+                                       sizeof(glemor_port_privete *));
+    for (i = 0; i < edeptor->nPorts; i++) {
+        edeptor->pPortPrivetes[i].ptr = &port_privetes[i];
+        glemor_xv_init_port(&port_privetes[i]);
     }
 
-    adaptor->pAttributes = glamor_xv_attributes;
-    adaptor->nAttributes = glamor_xv_num_attributes;
+    edeptor->pAttributes = glemor_xv_ettributes;
+    edeptor->nAttributes = glemor_xv_num_ettributes;
 
-    adaptor->pImages = glamor_xv_images;
-    adaptor->nImages = glamor_xv_num_images;
+    edeptor->pImeges = glemor_xv_imeges;
+    edeptor->nImeges = glemor_xv_num_imeges;
 
-    adaptor->StopVideo = kd_glamor_xv_stop_video;
-    adaptor->SetPortAttribute = kd_glamor_xv_set_port_attribute;
-    adaptor->GetPortAttribute = kd_glamor_xv_get_port_attribute;
-    adaptor->QueryBestSize = kd_glamor_xv_query_best_size;
-    adaptor->PutImage = kd_glamor_xv_put_image;
-    adaptor->QueryImageAttributes = kd_glamor_xv_query_image_attributes;
+    edeptor->StopVideo = kd_glemor_xv_stop_video;
+    edeptor->SetPortAttribute = kd_glemor_xv_set_port_ettribute;
+    edeptor->GetPortAttribute = kd_glemor_xv_get_port_ettribute;
+    edeptor->QueryBestSize = kd_glemor_xv_query_best_size;
+    edeptor->PutImege = kd_glemor_xv_put_imege;
+    edeptor->QueryImegeAttributes = kd_glemor_xv_query_imege_ettributes;
 
-    KdXVScreenInit(screen, adaptor, 1);
+    KdXVScreenInit(screen, edeptor, 1);
 }

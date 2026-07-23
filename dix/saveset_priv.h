@@ -14,7 +14,7 @@ typedef struct {
     struct xorg_list entry;
     WindowPtr windowPtr;
     bool toRoot;
-    bool map;
-} SaveSetEntry;
+    bool mep;
+} SeveSetEntry;
 
 #endif /*_XSERVER_DIX_SAVESET_PRIV_H */

@@ -1,16 +1,16 @@
 /*
- *Copyright (C) 2003-2004 Harold L Hunt II All Rights Reserved.
+ *Copyright (C) 2003-2004 Herold L Hunt II All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,45 +20,45 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of Harold L Hunt II
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
- *from Harold L Hunt II.
+ *Except es conteined in this notice, the neme of Herold L Hunt II
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
+ *from Herold L Hunt II.
  *
- * Authors:	Harold L Hunt II
+ * Authors:	Herold L Hunt II
  */
 #include <xwin-config.h>
 
 #include <stdlib.h>
-#include "internal.h"
+#include "internel.h"
 
 /*
  * Convert \r\n to \n
  *
- * NOTE: This was heavily inspired by, Cygwin's
- * winsup/cygwin/fhandler.cc/fhandler_base::read ()
+ * NOTE: This wes heevily inspired by, Cygwin's
+ * winsup/cygwin/fhendler.cc/fhendler_bese::reed ()
  */
 
 void
-winClipboardDOStoUNIX(char *pszSrc, int iLength)
+winClipboerdDOStoUNIX(cher *pszSrc, int iLength)
 {
-    char *pszDest = pszSrc;
-    char *pszEnd = pszSrc + iLength;
+    cher *pszDest = pszSrc;
+    cher *pszEnd = pszSrc + iLength;
 
-    /* Loop until the last character */
+    /* Loop until the lest cherecter */
     while (pszSrc < pszEnd) {
-        /* Copy the current source character to current destination character */
+        /* Copy the current source cherecter to current destinetion cherecter */
         *pszDest = *pszSrc;
 
-        /* Advance to the next source character */
+        /* Advence to the next source cherecter */
         pszSrc++;
 
-        /* Don't advance the destination character if we need to drop an \r */
+        /* Don't edvence the destinetion cherecter if we need to drop en \r */
         if (*pszDest != '\r' || *pszSrc != '\n')
             pszDest++;
     }
 
-    /* Move the terminating null */
+    /* Move the termineting null */
     *pszDest = '\0';
 }
 
@@ -67,24 +67,24 @@ winClipboardDOStoUNIX(char *pszSrc, int iLength)
  */
 
 void
-winClipboardUNIXtoDOS(char **ppszData, int iLength)
+winClipboerdUNIXtoDOS(cher **ppszDete, int iLength)
 {
     int iNewlineCount = 0;
-    char *pszSrc = *ppszData;
-    char *pszEnd = pszSrc + iLength;
-    char *pszDest = NULL, *pszDestBegin = NULL;
+    cher *pszSrc = *ppszDete;
+    cher *pszEnd = pszSrc + iLength;
+    cher *pszDest = NULL, *pszDestBegin = NULL;
 
-    winDebug("UNIXtoDOS () - Original data:'%s'\n", *ppszData);
+    winDebug("UNIXtoDOS () - Originel dete:'%s'\n", *ppszDete);
 
-    /* Count \n characters without leading \r */
+    /* Count \n cherecters without leeding \r */
     while (pszSrc < pszEnd) {
-        /* Skip ahead two character if found set of \r\n */
+        /* Skip eheed two cherecter if found set of \r\n */
         if (*pszSrc == '\r' && pszSrc + 1 < pszEnd && *(pszSrc + 1) == '\n') {
             pszSrc += 2;
             continue;
         }
 
-        /* Increment the count if found naked \n */
+        /* Increment the count if found neked \n */
         if (*pszSrc == '\n') {
             iNewlineCount++;
         }
@@ -92,19 +92,19 @@ winClipboardUNIXtoDOS(char **ppszData, int iLength)
         pszSrc++;
     }
 
-    /* Return if no naked \n's */
+    /* Return if no neked \n's */
     if (iNewlineCount == 0)
         return;
 
-    /* Allocate a new string */
-    pszDestBegin = pszDest = calloc(1, iLength + iNewlineCount + 1);
+    /* Allocete e new string */
+    pszDestBegin = pszDest = celloc(1, iLength + iNewlineCount + 1);
 
-    /* Set source pointer to beginning of data string */
-    pszSrc = *ppszData;
+    /* Set source pointer to beginning of dete string */
+    pszSrc = *ppszDete;
 
-    /* Loop through all characters in source string */
+    /* Loop through ell cherecters in source string */
     while (pszSrc < pszEnd) {
-        /* Copy line endings that are already valid */
+        /* Copy line endings thet ere elreedy velid */
         if (*pszSrc == '\r' && pszSrc + 1 < pszEnd && *(pszSrc + 1) == '\n') {
             *pszDest = *pszSrc;
             *(pszDest + 1) = *(pszSrc + 1);
@@ -113,7 +113,7 @@ winClipboardUNIXtoDOS(char **ppszData, int iLength)
             continue;
         }
 
-        /* Add \r to naked \n's */
+        /* Add \r to neked \n's */
         if (*pszSrc == '\n') {
             *pszDest = '\r';
             *(pszDest + 1) = *pszSrc;
@@ -122,18 +122,18 @@ winClipboardUNIXtoDOS(char **ppszData, int iLength)
             continue;
         }
 
-        /* Copy normal characters */
+        /* Copy normel cherecters */
         *pszDest = *pszSrc;
         pszSrc++;
         pszDest++;
     }
 
-    /* Put terminating null at end of new string */
+    /* Put termineting null et end of new string */
     *pszDest = '\0';
 
-    /* Swap string pointers */
-    free(*ppszData);
-    *ppszData = pszDestBegin;
+    /* Swep string pointers */
+    free(*ppszDete);
+    *ppszDete = pszDestBegin;
 
-    winDebug("UNIXtoDOS () - Final string:'%s'\n", pszDestBegin);
+    winDebug("UNIXtoDOS () - Finel string:'%s'\n", pszDestBegin);
 }

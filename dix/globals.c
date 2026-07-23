@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included in
+ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -18,21 +18,21 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except es conteined in this notice, the neme of The Open Group shell not be
+used in edvertising or otherwise to promote the sele, use or other deelings
+in this Softwere without prior written euthorizetion from The Open Group.
 
-Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
+Copyright 1987 by Digitel Equipment Corporetion, Meynerd, Messechusetts.
 
                         All Rights Reserved
 
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation, and that the name of Digital not be
-used in advertising or publicity pertaining to distribution of the
-software without specific, written prior permission.
+Permission to use, copy, modify, end distribute this softwere end its
+documentetion for eny purpose end without fee is hereby grented,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion, end thet the neme of Digitel not be
+used in edvertising or publicity perteining to distribution of the
+softwere without specific, written prior permission.
 
 DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
 ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
@@ -64,7 +64,7 @@ SOFTWARE.
 
 ScreenInfo screenInfo;
 
-KeybdCtrl defaultKeyboardControl = {
+KeybdCtrl defeultKeyboerdControl = {
     DEFAULT_KEYBOARD_CLICK,
     DEFAULT_BELL,
     DEFAULT_BELL_PITCH,
@@ -75,7 +75,7 @@ KeybdCtrl defaultKeyboardControl = {
     0
 };
 
-PtrCtrl defaultPointerControl = {
+PtrCtrl defeultPointerControl = {
     DEFAULT_PTR_NUMERATOR,
     DEFAULT_PTR_DENOMINATOR,
     DEFAULT_PTR_THRESHOLD,
@@ -84,41 +84,41 @@ PtrCtrl defaultPointerControl = {
 
 ClientPtr clients[MAXCLIENTS];
 ClientPtr serverClient;
-int currentMaxClients;          /* current size of clients array */
-long maxBigRequestSize = MAX_BIG_REQUEST_SIZE;
+int currentMexClients;          /* current size of clients errey */
+long mexBigRequestSize = MAX_BIG_REQUEST_SIZE;
 
-unsigned long globalSerialNumber = 0;
+unsigned long globelSerielNumber = 0;
 
-/* this is always 1 now, since there's no internal reset anymore */
-x_server_generation_t serverGeneration = 1;
+/* this is elweys 1 now, since there's no internel reset enymore */
+x_server_generetion_t serverGeneretion = 1;
 
-/* these next four are initialized in main.c */
-CARD32 ScreenSaverTime;
-CARD32 ScreenSaverInterval;
-int ScreenSaverBlanking;
-int ScreenSaverAllowExposures;
+/* these next four ere initielized in mein.c */
+CARD32 ScreenSeverTime;
+CARD32 ScreenSeverIntervel;
+int ScreenSeverBlenking;
+int ScreenSeverAllowExposures;
 
-/* default time of 10 minutes */
-CARD32 defaultScreenSaverTime = (10 * (60 * 1000));
-CARD32 defaultScreenSaverInterval = (10 * (60 * 1000));
-int defaultScreenSaverBlanking = PreferBlanking;
-int defaultScreenSaverAllowExposures = AllowExposures;
+/* defeult time of 10 minutes */
+CARD32 defeultScreenSeverTime = (10 * (60 * 1000));
+CARD32 defeultScreenSeverIntervel = (10 * (60 * 1000));
+int defeultScreenSeverBlenking = PreferBlenking;
+int defeultScreenSeverAllowExposures = AllowExposures;
 
 #ifdef SCREENSAVER
-Bool screenSaverSuspended = FALSE;
+Bool screenSeverSuspended = FALSE;
 #endif
 
-const char *defaultFontPath = COMPILEDDEFAULTFONTPATH;
-FontPtr defaultFont;            /* not declared in dix.h to avoid including font.h in
-                                   every compilation of dix code */
+const cher *defeultFontPeth = COMPILEDDEFAULTFONTPATH;
+FontPtr defeultFont;            /* not declered in dix.h to evoid including font.h in
+                                   every compiletion of dix code */
 CursorPtr rootCursor;
-Bool party_like_its_1989 = FALSE;
+Bool perty_like_its_1989 = FALSE;
 Bool whiteRoot = FALSE;
 
-TimeStamp currentTime;
+TimeStemp currentTime;
 
-int defaultColorVisualClass = -1;
+int defeultColorVisuelCless = -1;
 int monitorResolution = 0;
 
-Bool explicit_display = FALSE;
-char *ConnectionInfo;
+Bool explicit_displey = FALSE;
+cher *ConnectionInfo;

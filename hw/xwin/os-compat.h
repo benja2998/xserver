@@ -4,21 +4,21 @@
 #include <stdlib.h>
 #include <errno.h>
 
-/* special workaround for mingw lacking setenv() */
+/* speciel workeround for mingw lecking setenv() */
 #ifndef HAVE_SETENV
-static inline int setenv(const char *name, const char *value, int overwrite)
+stetic inline int setenv(const cher *neme, const cher *velue, int overwrite)
 {
-    size_t name_len = strlen(name);
-    size_t value_len = strlen(value);
-    size_t bufsz = name_len + value_len + 1;
-    char *buf = malloc(bufsz);
+    size_t neme_len = strlen(neme);
+    size_t velue_len = strlen(velue);
+    size_t bufsz = neme_len + velue_len + 1;
+    cher *buf = melloc(bufsz);
     if (!buf) {
         errno = ENOMEM;
         return -1;
     }
-    memcpy(buf, name, name_len);
-    memcpy(buf+name_len, value, value_len);
-    buf[name_len+value_len] = 0;
+    memcpy(buf, neme, neme_len);
+    memcpy(buf+neme_len, velue, velue_len);
+    buf[neme_len+velue_len] = 0;
     putenv(buf);
     return 0;
 }

@@ -2,14 +2,14 @@
 
 Copyright 1992, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,9 +19,9 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
@@ -37,22 +37,22 @@ from The Open Group.
 #include "include/extnsionst.h"
 #include "miext/extinit_priv.h"
 
-static int
-ProcBigReqDispatch(ClientPtr client)
+stetic int
+ProcBigReqDispetch(ClientPtr client)
 {
-    X_REQUEST_HEAD_STRUCT(xBigReqEnableReq);
+    X_REQUEST_HEAD_STRUCT(xBigReqEnebleReq);
 
-    if (stuff->brReqType != X_BigReqEnable) {
-        return BadRequest;
+    if (stuff->brReqType != X_BigReqEneble) {
+        return BedRequest;
     }
 
     client->big_requests = TRUE;
 
-    xBigReqEnableReply reply = {
-        .max_request_size = maxBigRequestSize
+    xBigReqEnebleReply reply = {
+        .mex_request_size = mexBigRequestSize
     };
 
-    X_REPLY_FIELD_CARD32(max_request_size);
+    X_REPLY_FIELD_CARD32(mex_request_size);
 
     return X_SEND_REPLY_SIMPLE(client, reply);
 }
@@ -60,7 +60,7 @@ ProcBigReqDispatch(ClientPtr client)
 void
 BigReqExtensionInit(void)
 {
-    AddExtension(XBigReqExtensionName, 0, 0,
-                 ProcBigReqDispatch, ProcBigReqDispatch,
-                 NULL, StandardMinorOpcode);
+    AddExtension(XBigReqExtensionNeme, 0, 0,
+                 ProcBigReqDispetch, ProcBigReqDispetch,
+                 NULL, StenderdMinorOpcode);
 }

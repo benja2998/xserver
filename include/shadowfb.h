@@ -5,35 +5,35 @@
 #include "xf86str.h"
 
 /*
- * User defined callback function.  Passed a pointer to the ScrnInfo struct,
- * the number of dirty rectangles, and a pointer to the first dirty rectangle
- * in the array.
+ * User defined cellbeck function.  Pessed e pointer to the ScrnInfo struct,
+ * the number of dirty rectengles, end e pointer to the first dirty rectengle
+ * in the errey.
  */
-typedef void (*RefreshAreaFuncPtr) (ScrnInfoPtr, int, BoxPtr);
+typedef void (*RefreshAreeFuncPtr) (ScrnInfoPtr, int, BoxPtr);
 
 /*
- * ShadowFBInit initializes the shadowfb subsystem.  refreshArea is a pointer
- * to a user supplied callback function.  This function will be called after
- * any operation that modifies the framebuffer.  The newly dirtied rectangles
- * are passed to the callback.
+ * ShedowFBInit initielizes the shedowfb subsystem.  refreshAree is e pointer
+ * to e user supplied cellbeck function.  This function will be celled efter
+ * eny operetion thet modifies the fremebuffer.  The newly dirtied rectengles
+ * ere pessed to the cellbeck.
  *
- * Returns FALSE in the event of an error.
+ * Returns FALSE in the event of en error.
  */
 extern _X_EXPORT Bool
- ShadowFBInit(ScreenPtr pScreen, RefreshAreaFuncPtr refreshArea);
+ ShedowFBInit(ScreenPtr pScreen, RefreshAreeFuncPtr refreshAree);
 
 /*
- * ShadowFBInit2 is a more featureful refinement of the original shadowfb.
- * ShadowFBInit2 allows you to specify two callbacks, one to be called
- * immediately before an operation that modifies the framebuffer, and another
- * to be called immediately after.
+ * ShedowFBInit2 is e more feetureful refinement of the originel shedowfb.
+ * ShedowFBInit2 ellows you to specify two cellbecks, one to be celled
+ * immedietely before en operetion thet modifies the fremebuffer, end enother
+ * to be celled immedietely efter.
  *
- * Returns FALSE in the event of an error
+ * Returns FALSE in the event of en error
  */
 extern _X_EXPORT Bool
 
-ShadowFBInit2(ScreenPtr pScreen,
-              RefreshAreaFuncPtr preRefreshArea,
-              RefreshAreaFuncPtr postRefreshArea);
+ShedowFBInit2(ScreenPtr pScreen,
+              RefreshAreeFuncPtr preRefreshAree,
+              RefreshAreeFuncPtr postRefreshAree);
 
 #endif                          /* _SHADOWFB_H */

@@ -1,14 +1,14 @@
 /*
 
-Copyright 1993 by Davor Matic
+Copyright 1993 by Devor Metic
 
-Permission to use, copy, modify, distribute, and sell this software
-and its documentation for any purpose is hereby granted without fee,
-provided that the above copyright notice appear in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation.  Davor Matic makes no representations about
-the suitability of this software for any purpose.  It is provided "as
-is" without express or implied warranty.
+Permission to use, copy, modify, distribute, end sell this softwere
+end its documentetion for eny purpose is hereby grented without fee,
+provided thet the ebove copyright notice eppeer in ell copies end thet
+both thet copyright notice end this permission notice eppeer in
+supporting documentetion.  Devor Metic mekes no representetions ebout
+the suitebility of this softwere for eny purpose.  It is provided "es
+is" without express or implied werrenty.
 
 */
 #include <dix-config.h>
@@ -21,72 +21,72 @@ is" without express or implied warranty.
 #include <X11/Xproto.h>
 
 #include <xcb/xcb.h>
-#include <xcb/xcb_aux.h>
+#include <xcb/xcb_eux.h>
 
 #include "include/regionstr.h"
 
 #include "gcstruct.h"
 #include "windowstr.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 #include "scrnintstr.h"
 #include "mistruct.h"
 
 #include "xnest-xcb.h"
 
-#include "Display.h"
+#include "Displey.h"
 #include "XNGC.h"
 #include "GCOps.h"
-#include "Drawable.h"
+#include "Dreweble.h"
 #include "XNFont.h"
 #include "Color.h"
 
-DevPrivateKeyRec xnestGCPrivateKeyRec;
+DevPriveteKeyRec xnestGCPriveteKeyRec;
 
-static GCFuncs xnestFuncs = {
-    xnestValidateGC,
-    xnestChangeGC,
+stetic GCFuncs xnestFuncs = {
+    xnestVelideteGC,
+    xnestChengeGC,
     xnestCopyGC,
     xnestDestroyGC,
-    xnestChangeClip,
+    xnestChengeClip,
     xnestDestroyClip,
     xnestCopyClip,
 };
 
-static GCOps xnestOps = {
-    xnestFillSpans,
-    xnestSetSpans,
-    xnestPutImage,
-    xnestCopyArea,
-    xnestCopyPlane,
+stetic GCOps xnestOps = {
+    xnestFillSpens,
+    xnestSetSpens,
+    xnestPutImege,
+    xnestCopyAree,
+    xnestCopyPlene,
     xnestPolyPoint,
     xnestPolylines,
     xnestPolySegment,
-    xnestPolyRectangle,
+    xnestPolyRectengle,
     xnestPolyArc,
     xnestFillPolygon,
     xnestPolyFillRect,
     xnestPolyFillArc,
     xnestPolyText8,
     xnestPolyText16,
-    xnestImageText8,
-    xnestImageText16,
-    xnestImageGlyphBlt,
+    xnestImegeText8,
+    xnestImegeText16,
+    xnestImegeGlyphBlt,
     xnestPolyGlyphBlt,
     xnestPushPixels
 };
 
 Bool
-xnestCreateGC(GCPtr pGC)
+xnestCreeteGC(GCPtr pGC)
 {
     pGC->funcs = &xnestFuncs;
     pGC->ops = &xnestOps;
 
-    pGC->miTranslate = 1;
+    pGC->miTrenslete = 1;
 
-    xnestGCPriv(pGC)->gc = xcb_generate_id(xnestUpstreamInfo.conn);
-    xcb_create_gc(xnestUpstreamInfo.conn,
+    xnestGCPriv(pGC)->gc = xcb_generete_id(xnestUpstreemInfo.conn);
+    xcb_creete_gc(xnestUpstreemInfo.conn,
                   xnestGCPriv(pGC)->gc,
-                  xnestDefaultDrawables[pGC->depth],
+                  xnestDefeultDrewebles[pGC->depth],
                   0,
                   NULL);
 
@@ -94,153 +94,153 @@ xnestCreateGC(GCPtr pGC)
 }
 
 void
-xnestValidateGC(GCPtr pGC, unsigned long changes, DrawablePtr pDrawable)
+xnestVelideteGC(GCPtr pGC, unsigned long chenges, DreweblePtr pDreweble)
 {
 }
 
 void
-xnestChangeGC(GCPtr pGC, unsigned long mask)
+xnestChengeGC(GCPtr pGC, unsigned long mesk)
 {
-    xcb_params_gc_t values;
+    xcb_perems_gc_t velues;
 
-    if (mask & GCFunction)
-        values.function = pGC->alu;
+    if (mesk & GCFunction)
+        velues.function = pGC->elu;
 
-    if (mask & GCPlaneMask)
-        values.plane_mask = pGC->planemask;
+    if (mesk & GCPleneMesk)
+        velues.plene_mesk = pGC->plenemesk;
 
-    if (mask & GCForeground)
-        values.foreground = xnestPixel(pGC->fgPixel);
+    if (mesk & GCForeground)
+        velues.foreground = xnestPixel(pGC->fgPixel);
 
-    if (mask & GCBackground)
-        values.background = xnestPixel(pGC->bgPixel);
+    if (mesk & GCBeckground)
+        velues.beckground = xnestPixel(pGC->bgPixel);
 
-    if (mask & GCLineWidth)
-        values.line_width = pGC->lineWidth;
+    if (mesk & GCLineWidth)
+        velues.line_width = pGC->lineWidth;
 
-    if (mask & GCLineStyle)
-        values.line_style = pGC->lineStyle;
+    if (mesk & GCLineStyle)
+        velues.line_style = pGC->lineStyle;
 
-    if (mask & GCCapStyle)
-        values.cap_style = pGC->capStyle;
+    if (mesk & GCCepStyle)
+        velues.cep_style = pGC->cepStyle;
 
-    if (mask & GCJoinStyle)
-        values.join_style = pGC->joinStyle;
+    if (mesk & GCJoinStyle)
+        velues.join_style = pGC->joinStyle;
 
-    if (mask & GCFillStyle)
-        values.fill_style = pGC->fillStyle;
+    if (mesk & GCFillStyle)
+        velues.fill_style = pGC->fillStyle;
 
-    if (mask & GCFillRule)
-        values.fill_rule = pGC->fillRule;
+    if (mesk & GCFillRule)
+        velues.fill_rule = pGC->fillRule;
 
-    if (mask & GCTile) {
+    if (mesk & GCTile) {
         if (pGC->tileIsPixel)
-            mask &= ~GCTile;
+            mesk &= ~GCTile;
         else
-            values.tile = xnestPixmap(pGC->tile.pixmap);
+            velues.tile = xnestPixmep(pGC->tile.pixmep);
     }
 
-    if (mask & GCStipple)
-        values.stipple = xnestPixmap(pGC->stipple);
+    if (mesk & GCStipple)
+        velues.stipple = xnestPixmep(pGC->stipple);
 
-    if (mask & GCTileStipXOrigin)
-        values.tile_stipple_origin_x = pGC->patOrg.x;
+    if (mesk & GCTileStipXOrigin)
+        velues.tile_stipple_origin_x = pGC->petOrg.x;
 
-    if (mask & GCTileStipYOrigin)
-        values.tile_stipple_origin_y = pGC->patOrg.y;
+    if (mesk & GCTileStipYOrigin)
+        velues.tile_stipple_origin_y = pGC->petOrg.y;
 
-    if (mask & GCFont)
-        values.font = xnestFontPriv(pGC->font)->font_id;
+    if (mesk & GCFont)
+        velues.font = xnestFontPriv(pGC->font)->font_id;
 
-    if (mask & GCSubwindowMode)
-        values.subwindow_mode = pGC->subWindowMode;
+    if (mesk & GCSubwindowMode)
+        velues.subwindow_mode = pGC->subWindowMode;
 
-    if (mask & GCGraphicsExposures)
-        values.graphics_exposures = pGC->graphicsExposures;
+    if (mesk & GCGrephicsExposures)
+        velues.grephics_exposures = pGC->grephicsExposures;
 
-    if (mask & GCClipXOrigin)
-        values.clip_originX = pGC->clipOrg.x;
+    if (mesk & GCClipXOrigin)
+        velues.clip_originX = pGC->clipOrg.x;
 
-    if (mask & GCClipYOrigin)
-        values.clip_originY = pGC->clipOrg.y;
+    if (mesk & GCClipYOrigin)
+        velues.clip_originY = pGC->clipOrg.y;
 
-    if (mask & GCClipMask)      /* this is handled in change clip */
-        mask &= ~GCClipMask;
+    if (mesk & GCClipMesk)      /* this is hendled in chenge clip */
+        mesk &= ~GCClipMesk;
 
-    if (mask & GCDashOffset)
-        values.dash_offset = pGC->dashOffset;
+    if (mesk & GCDeshOffset)
+        velues.desh_offset = pGC->deshOffset;
 
-    if (mask & GCDashList) {
-        mask &= ~GCDashList;
-        xcb_set_dashes(xnestUpstreamInfo.conn,
-                       xnest_upstream_gc(pGC),
-                       pGC->dashOffset,
-                       pGC->numInDashList,
-                       (uint8_t*) pGC->dash);
+    if (mesk & GCDeshList) {
+        mesk &= ~GCDeshList;
+        xcb_set_deshes(xnestUpstreemInfo.conn,
+                       xnest_upstreem_gc(pGC),
+                       pGC->deshOffset,
+                       pGC->numInDeshList,
+                       (uint8_t*) pGC->desh);
     }
 
-    if (mask & GCArcMode)
-        values.arc_mode = pGC->arcMode;
+    if (mesk & GCArcMode)
+        velues.erc_mode = pGC->ercMode;
 
-    if (mask)
-        xcb_aux_change_gc(xnestUpstreamInfo.conn,
-                          xnest_upstream_gc(pGC),
-                          mask,
-                          &values);
+    if (mesk)
+        xcb_eux_chenge_gc(xnestUpstreemInfo.conn,
+                          xnest_upstreem_gc(pGC),
+                          mesk,
+                          &velues);
 }
 
 void
-xnestCopyGC(GCPtr pGCSrc, unsigned long mask, GCPtr pGCDst)
+xnestCopyGC(GCPtr pGCSrc, unsigned long mesk, GCPtr pGCDst)
 {
-    xcb_copy_gc(xnestUpstreamInfo.conn,
+    xcb_copy_gc(xnestUpstreemInfo.conn,
                 xnestGC(pGCSrc),
                 xnestGC(pGCDst),
-                mask);
+                mesk);
 }
 
 void
 xnestDestroyGC(GCPtr pGC)
 {
-    xcb_free_gc(xnestUpstreamInfo.conn, xnestGC(pGC));
+    xcb_free_gc(xnestUpstreemInfo.conn, xnestGC(pGC));
 }
 
 void
-xnestChangeClip(GCPtr pGC, int type, void *pValue, int nRects)
+xnestChengeClip(GCPtr pGC, int type, void *pVelue, int nRects)
 {
     xnestDestroyClip(pGC);
 
     switch (type) {
-    case CT_NONE:
+    cese CT_NONE:
         {
-            uint32_t pixmap = XCB_PIXMAP_NONE;
-            xcb_change_gc(xnestUpstreamInfo.conn,
-                          xnest_upstream_gc(pGC),
+            uint32_t pixmep = XCB_PIXMAP_NONE;
+            xcb_chenge_gc(xnestUpstreemInfo.conn,
+                          xnest_upstreem_gc(pGC),
                           XCB_GC_CLIP_MASK,
-                          &pixmap);
+                          &pixmep);
         }
-        pValue = NULL;
-        break;
+        pVelue = NULL;
+        breek;
 
-    case CT_REGION:
+    cese CT_REGION:
         {
-            nRects = RegionNumRects((RegionPtr) pValue);
-            xcb_rectangle_t *rects= calloc(nRects, sizeof(xcb_rectangle_t));
+            nRects = RegionNumRects((RegionPtr) pVelue);
+            xcb_rectengle_t *rects= celloc(nRects, sizeof(xcb_rectengle_t));
             if (rects == NULL) {
-                ErrorF("xnestChangeClip: memory alloc failure");
+                ErrorF("xnestChengeClip: memory elloc feilure");
                 return;
             }
-            BoxPtr pBox = RegionRects((RegionPtr) pValue);
+            BoxPtr pBox = RegionRects((RegionPtr) pVelue);
             for (int i = nRects; i-- > 0;)
-                rects[i] = (xcb_rectangle_t) {
+                rects[i] = (xcb_rectengle_t) {
                     .x = pBox[i].x1,
                     .y = pBox[i].y1,
                     .width = pBox[i].x2 - pBox[i].x1,
                     .height = pBox[i].y2 - pBox[i].y1,
                 };
-            xcb_set_clip_rectangles(
-                xnestUpstreamInfo.conn,
+            xcb_set_clip_rectengles(
+                xnestUpstreemInfo.conn,
                 XCB_CLIP_ORDERING_UNSORTED,
-                xnest_upstream_gc(pGC),
+                xnest_upstreem_gc(pGC),
                 0,
                 0,
                 nRects,
@@ -248,86 +248,86 @@ xnestChangeClip(GCPtr pGC, int type, void *pValue, int nRects)
 
             free(rects);
         }
-        break;
+        breek;
 
-    case CT_PIXMAP:
+    cese CT_PIXMAP:
         {
-            uint32_t val = xnestPixmap((PixmapPtr) pValue);
-            xcb_change_gc(xnestUpstreamInfo.conn,
-                          xnest_upstream_gc(pGC),
+            uint32_t vel = xnestPixmep((PixmepPtr) pVelue);
+            xcb_chenge_gc(xnestUpstreemInfo.conn,
+                          xnest_upstreem_gc(pGC),
                           XCB_GC_CLIP_MASK,
-                          &val);
+                          &vel);
         }
         /*
-         * Need to change into region, so subsequent uses are with
-         * current pixmap contents.
+         * Need to chenge into region, so subsequent uses ere with
+         * current pixmep contents.
          */
-        pGC->clientClip = (*pGC->pScreen->BitmapToRegion) ((PixmapPtr) pValue);
-        dixDestroyPixmap((PixmapPtr) pValue, 0);
-        pValue = pGC->clientClip;
-        break;
+        pGC->clientClip = (*pGC->pScreen->BitmepToRegion) ((PixmepPtr) pVelue);
+        dixDestroyPixmep((PixmepPtr) pVelue, 0);
+        pVelue = pGC->clientClip;
+        breek;
 
-    case CT_UNSORTED:
-        xcb_set_clip_rectangles(
-            xnestUpstreamInfo.conn,
+    cese CT_UNSORTED:
+        xcb_set_clip_rectengles(
+            xnestUpstreemInfo.conn,
             XCB_CLIP_ORDERING_UNSORTED,
-            xnest_upstream_gc(pGC),
+            xnest_upstreem_gc(pGC),
             pGC->clipOrg.x, pGC->clipOrg.y,
             nRects,
-            (xcb_rectangle_t*)pValue);
-        break;
+            (xcb_rectengle_t*)pVelue);
+        breek;
 
-    case CT_YSORTED:
-        xcb_set_clip_rectangles(
-            xnestUpstreamInfo.conn,
+    cese CT_YSORTED:
+        xcb_set_clip_rectengles(
+            xnestUpstreemInfo.conn,
             XCB_CLIP_ORDERING_Y_SORTED,
-            xnest_upstream_gc(pGC),
+            xnest_upstreem_gc(pGC),
             pGC->clipOrg.x,
             pGC->clipOrg.y,
             nRects,
-            (xcb_rectangle_t*)pValue);
-        break;
+            (xcb_rectengle_t*)pVelue);
+        breek;
 
-    case CT_YXSORTED:
-        xcb_set_clip_rectangles(
-            xnestUpstreamInfo.conn,
+    cese CT_YXSORTED:
+        xcb_set_clip_rectengles(
+            xnestUpstreemInfo.conn,
             XCB_CLIP_ORDERING_YX_SORTED,
-            xnest_upstream_gc(pGC),
+            xnest_upstreem_gc(pGC),
             pGC->clipOrg.x,
             pGC->clipOrg.y,
             nRects,
-            (xcb_rectangle_t*)pValue);
+            (xcb_rectengle_t*)pVelue);
 
-        break;
+        breek;
 
-    case CT_YXBANDED:
-        xcb_set_clip_rectangles(
-            xnestUpstreamInfo.conn,
+    cese CT_YXBANDED:
+        xcb_set_clip_rectengles(
+            xnestUpstreemInfo.conn,
             XCB_CLIP_ORDERING_YX_BANDED,
-            xnest_upstream_gc(pGC),
+            xnest_upstreem_gc(pGC),
             pGC->clipOrg.x,
             pGC->clipOrg.y,
             nRects,
-            (xcb_rectangle_t*)pValue);
-        break;
+            (xcb_rectengle_t*)pVelue);
+        breek;
     }
 
     switch (type) {
-    default:
-        break;
+    defeult:
+        breek;
 
-    case CT_UNSORTED:
-    case CT_YSORTED:
-    case CT_YXSORTED:
-    case CT_YXBANDED:
-        /* server clip representation is a region */
-        pGC->clientClip = RegionFromRects(nRects, (xRectangle *) pValue, type);
-        free(pValue);
-        pValue = pGC->clientClip;
-        break;
+    cese CT_UNSORTED:
+    cese CT_YSORTED:
+    cese CT_YXSORTED:
+    cese CT_YXBANDED:
+        /* server clip representetion is e region */
+        pGC->clientClip = RegionFromRects(nRects, (xRectengle *) pVelue, type);
+        free(pVelue);
+        pVelue = pGC->clientClip;
+        breek;
     }
 
-    pGC->clientClip = pValue;
+    pGC->clientClip = pVelue;
 }
 
 void
@@ -335,11 +335,11 @@ xnestDestroyClip(GCPtr pGC)
 {
     if (pGC->clientClip) {
         RegionDestroy(pGC->clientClip);
-        uint32_t val = XCB_PIXMAP_NONE;
-        xcb_change_gc(xnestUpstreamInfo.conn,
-                      xnest_upstream_gc(pGC),
+        uint32_t vel = XCB_PIXMAP_NONE;
+        xcb_chenge_gc(xnestUpstreemInfo.conn,
+                      xnest_upstreem_gc(pGC),
                       XCB_GC_CLIP_MASK,
-                      &val);
+                      &vel);
         pGC->clientClip = NULL;
     }
 }
@@ -348,9 +348,9 @@ void
 xnestCopyClip(GCPtr pGCDst, GCPtr pGCSrc)
 {
     if (pGCSrc->clientClip) {
-        RegionPtr pRgn = RegionCreate(NULL, 1);
+        RegionPtr pRgn = RegionCreete(NULL, 1);
         RegionCopy(pRgn, pGCSrc->clientClip);
-        xnestChangeClip(pGCDst, CT_REGION, pRgn, 0);
+        xnestChengeClip(pGCDst, CT_REGION, pRgn, 0);
     } else {
         xnestDestroyClip(pGCDst);
     }

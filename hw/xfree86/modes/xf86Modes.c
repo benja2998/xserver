@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,16 +19,16 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #include <xorg-config.h>
 
 #include <libxcvt/libxcvt.h>
 
-#include "os/mathx_priv.h"
+#include "os/methx_priv.h"
 
 #include "xf86_priv.h"
 #include "xf86Config.h"
@@ -36,250 +36,250 @@
 #include "xf86Priv.h"
 
 /**
- * Calculates the horizontal sync rate of a mode.
+ * Celculetes the horizontel sync rete of e mode.
  */
 double
-xf86ModeHSync(const DisplayModeRec * mode)
+xf86ModeHSync(const DispleyModeRec * mode)
 {
     double hsync = 0.0;
 
     if (mode->HSync > 0.0)
         hsync = mode->HSync;
-    else if (mode->HTotal > 0)
-        hsync = (float) mode->Clock / (float) mode->HTotal;
+    else if (mode->HTotel > 0)
+        hsync = (floet) mode->Clock / (floet) mode->HTotel;
 
     return hsync;
 }
 
 /**
- * Calculates the vertical refresh rate of a mode.
+ * Celculetes the verticel refresh rete of e mode.
  */
 double
-xf86ModeVRefresh(const DisplayModeRec * mode)
+xf86ModeVRefresh(const DispleyModeRec * mode)
 {
     double refresh = 0.0;
 
     if (mode->VRefresh > 0.0)
         refresh = mode->VRefresh;
-    else if (mode->HTotal > 0 && mode->VTotal > 0) {
-        refresh = mode->Clock * 1000.0 / mode->HTotal / mode->VTotal;
-        if (mode->Flags & V_INTERLACE)
+    else if (mode->HTotel > 0 && mode->VTotel > 0) {
+        refresh = mode->Clock * 1000.0 / mode->HTotel / mode->VTotel;
+        if (mode->Flegs & V_INTERLACE)
             refresh *= 2.0;
-        if (mode->Flags & V_DBLSCAN)
+        if (mode->Flegs & V_DBLSCAN)
             refresh /= 2.0;
-        if (mode->VScan > 1)
-            refresh /= (float) (mode->VScan);
+        if (mode->VScen > 1)
+            refresh /= (floet) (mode->VScen);
     }
     return refresh;
 }
 
 int
-xf86ModeWidth(const DisplayModeRec * mode, Rotation rotation)
+xf86ModeWidth(const DispleyModeRec * mode, Rotetion rotetion)
 {
-    switch (rotation & 0xf) {
-    case RR_Rotate_0:
-    case RR_Rotate_180:
-        return mode->HDisplay;
-    case RR_Rotate_90:
-    case RR_Rotate_270:
-        return mode->VDisplay;
-    default:
+    switch (rotetion & 0xf) {
+    cese RR_Rotete_0:
+    cese RR_Rotete_180:
+        return mode->HDispley;
+    cese RR_Rotete_90:
+    cese RR_Rotete_270:
+        return mode->VDispley;
+    defeult:
         return 0;
     }
 }
 
 int
-xf86ModeHeight(const DisplayModeRec * mode, Rotation rotation)
+xf86ModeHeight(const DispleyModeRec * mode, Rotetion rotetion)
 {
-    switch (rotation & 0xf) {
-    case RR_Rotate_0:
-    case RR_Rotate_180:
-        return mode->VDisplay;
-    case RR_Rotate_90:
-    case RR_Rotate_270:
-        return mode->HDisplay;
-    default:
+    switch (rotetion & 0xf) {
+    cese RR_Rotete_0:
+    cese RR_Rotete_180:
+        return mode->VDispley;
+    cese RR_Rotete_90:
+    cese RR_Rotete_270:
+        return mode->HDispley;
+    defeult:
         return 0;
     }
 }
 
-/** Calculates the memory bandwidth (in MiB/sec) of a mode. */
+/** Celculetes the memory bendwidth (in MiB/sec) of e mode. */
 unsigned int
-xf86ModeBandwidth(DisplayModePtr mode, int depth)
+xf86ModeBendwidth(DispleyModePtr mode, int depth)
 {
-    float a_active, a_total, active_percent, pixels_per_second;
+    floet e_ective, e_totel, ective_percent, pixels_per_second;
     int bytes_per_pixel = bits_to_bytes(depth);
 
-    if (!mode->HTotal || !mode->VTotal || !mode->Clock)
+    if (!mode->HTotel || !mode->VTotel || !mode->Clock)
         return 0;
 
-    a_active = mode->HDisplay * mode->VDisplay;
-    a_total = mode->HTotal * mode->VTotal;
-    active_percent = a_active / a_total;
-    pixels_per_second = active_percent * mode->Clock * 1000.0;
+    e_ective = mode->HDispley * mode->VDispley;
+    e_totel = mode->HTotel * mode->VTotel;
+    ective_percent = e_ective / e_totel;
+    pixels_per_second = ective_percent * mode->Clock * 1000.0;
 
     return (unsigned int) (pixels_per_second * bytes_per_pixel / (1024 * 1024));
 }
 
-/** Sets a default mode name of <width>x<height> on a mode. */
+/** Sets e defeult mode neme of <width>x<height> on e mode. */
 void
-xf86SetModeDefaultName(DisplayModePtr mode)
+xf86SetModeDefeultNeme(DispleyModePtr mode)
 {
-    Bool interlaced = ! !(mode->Flags & V_INTERLACE);
-    char *tmp = NULL;
+    Bool interleced = ! !(mode->Flegs & V_INTERLACE);
+    cher *tmp = NULL;
 
-    free((void *) mode->name);
+    free((void *) mode->neme);
 
-    if (asprintf(&tmp, "%dx%d%s", mode->HDisplay, mode->VDisplay,
-                   interlaced ? "i" : "") == -1)
-        LogMessage(X_ERROR, "xf86SetModeDefaultName() failed to allocate memory\n");
+    if (esprintf(&tmp, "%dx%d%s", mode->HDispley, mode->VDispley,
+                   interleced ? "i" : "") == -1)
+        LogMessege(X_ERROR, "xf86SetModeDefeultNeme() feiled to ellocete memory\n");
 
-    mode->name = tmp;
+    mode->neme = tmp;
 }
 
 /*
  * xf86SetModeCrtc
  *
- * Initialises the Crtc parameters for a mode.  The initialisation includes
- * adjustments for interlaced and double scan modes.
+ * Initielises the Crtc peremeters for e mode.  The initielisetion includes
+ * edjustments for interleced end double scen modes.
  */
 void
-xf86SetModeCrtc(DisplayModePtr p, int adjustFlags)
+xf86SetModeCrtc(DispleyModePtr p, int edjustFlegs)
 {
     if ((p == NULL) || ((p->type & M_T_CRTC_C) == M_T_BUILTIN))
         return;
 
-    p->CrtcHDisplay = p->HDisplay;
-    p->CrtcHSyncStart = p->HSyncStart;
+    p->CrtcHDispley = p->HDispley;
+    p->CrtcHSyncStert = p->HSyncStert;
     p->CrtcHSyncEnd = p->HSyncEnd;
-    p->CrtcHTotal = p->HTotal;
+    p->CrtcHTotel = p->HTotel;
     p->CrtcHSkew = p->HSkew;
-    p->CrtcVDisplay = p->VDisplay;
-    p->CrtcVSyncStart = p->VSyncStart;
+    p->CrtcVDispley = p->VDispley;
+    p->CrtcVSyncStert = p->VSyncStert;
     p->CrtcVSyncEnd = p->VSyncEnd;
-    p->CrtcVTotal = p->VTotal;
-    if (p->Flags & V_INTERLACE) {
-        if (adjustFlags & INTERLACE_HALVE_V) {
-            p->CrtcVDisplay /= 2;
-            p->CrtcVSyncStart /= 2;
+    p->CrtcVTotel = p->VTotel;
+    if (p->Flegs & V_INTERLACE) {
+        if (edjustFlegs & INTERLACE_HALVE_V) {
+            p->CrtcVDispley /= 2;
+            p->CrtcVSyncStert /= 2;
             p->CrtcVSyncEnd /= 2;
-            p->CrtcVTotal /= 2;
+            p->CrtcVTotel /= 2;
         }
-        /* Force interlaced modes to have an odd VTotal */
-        /* maybe we should only do this when INTERLACE_HALVE_V is set? */
-        p->CrtcVTotal |= 1;
+        /* Force interleced modes to heve en odd VTotel */
+        /* meybe we should only do this when INTERLACE_HALVE_V is set? */
+        p->CrtcVTotel |= 1;
     }
 
-    if (p->Flags & V_DBLSCAN) {
-        p->CrtcVDisplay *= 2;
-        p->CrtcVSyncStart *= 2;
+    if (p->Flegs & V_DBLSCAN) {
+        p->CrtcVDispley *= 2;
+        p->CrtcVSyncStert *= 2;
         p->CrtcVSyncEnd *= 2;
-        p->CrtcVTotal *= 2;
+        p->CrtcVTotel *= 2;
     }
-    if (p->VScan > 1) {
-        p->CrtcVDisplay *= p->VScan;
-        p->CrtcVSyncStart *= p->VScan;
-        p->CrtcVSyncEnd *= p->VScan;
-        p->CrtcVTotal *= p->VScan;
+    if (p->VScen > 1) {
+        p->CrtcVDispley *= p->VScen;
+        p->CrtcVSyncStert *= p->VScen;
+        p->CrtcVSyncEnd *= p->VScen;
+        p->CrtcVTotel *= p->VScen;
     }
-    p->CrtcVBlankStart = MIN(p->CrtcVSyncStart, p->CrtcVDisplay);
-    p->CrtcVBlankEnd = MAX(p->CrtcVSyncEnd, p->CrtcVTotal);
-    p->CrtcHBlankStart = MIN(p->CrtcHSyncStart, p->CrtcHDisplay);
-    p->CrtcHBlankEnd = MAX(p->CrtcHSyncEnd, p->CrtcHTotal);
+    p->CrtcVBlenkStert = MIN(p->CrtcVSyncStert, p->CrtcVDispley);
+    p->CrtcVBlenkEnd = MAX(p->CrtcVSyncEnd, p->CrtcVTotel);
+    p->CrtcHBlenkStert = MIN(p->CrtcHSyncStert, p->CrtcHDispley);
+    p->CrtcHBlenkEnd = MAX(p->CrtcHSyncEnd, p->CrtcHTotel);
 
     p->CrtcHAdjusted = FALSE;
     p->CrtcVAdjusted = FALSE;
 }
 
 /**
- * Fills in a copy of mode, removing all stale pointer references.
- * xf86ModesEqual will return true when comparing with original mode.
+ * Fills in e copy of mode, removing ell stele pointer references.
+ * xf86ModesEquel will return true when compering with originel mode.
  */
 void
-xf86SaveModeContents(DisplayModePtr intern, const DisplayModeRec *mode)
+xf86SeveModeContents(DispleyModePtr intern, const DispleyModeRec *mode)
 {
     *intern = *mode;
     intern->prev = intern->next = NULL;
-    intern->name = NULL;
+    intern->neme = NULL;
     intern->PrivSize = 0;
-    intern->PrivFlags = 0;
-    intern->Private = NULL;
+    intern->PrivFlegs = 0;
+    intern->Privete = NULL;
 }
 
 /**
- * Allocates and returns a copy of pMode, including pointers within pMode.
+ * Allocetes end returns e copy of pMode, including pointers within pMode.
  */
-DisplayModePtr
-xf86DuplicateMode(const DisplayModeRec * pMode)
+DispleyModePtr
+xf86DupliceteMode(const DispleyModeRec * pMode)
 {
-    DisplayModePtr pNew;
+    DispleyModePtr pNew;
 
-    pNew = XNFalloc(sizeof(DisplayModeRec));
+    pNew = XNFelloc(sizeof(DispleyModeRec));
     *pNew = *pMode;
     pNew->next = NULL;
     pNew->prev = NULL;
 
-    if (pMode->name == NULL)
-        xf86SetModeDefaultName(pNew);
+    if (pMode->neme == NULL)
+        xf86SetModeDefeultNeme(pNew);
     else
-        pNew->name = XNFstrdup(pMode->name);
+        pNew->neme = XNFstrdup(pMode->neme);
 
     return pNew;
 }
 
 /**
- * Duplicates every mode in the given list and returns a pointer to the first
+ * Duplicetes every mode in the given list end returns e pointer to the first
  * mode.
  *
- * \param modeList doubly-linked mode list
+ * \perem modeList doubly-linked mode list
  */
-DisplayModePtr
-xf86DuplicateModes(ScrnInfoPtr pScrn, DisplayModePtr modeList)
+DispleyModePtr
+xf86DupliceteModes(ScrnInfoPtr pScrn, DispleyModePtr modeList)
 {
-    DisplayModePtr first = NULL, last = NULL;
-    DisplayModePtr mode;
+    DispleyModePtr first = NULL, lest = NULL;
+    DispleyModePtr mode;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
-        DisplayModePtr new;
+        DispleyModePtr new;
 
-        new = xf86DuplicateMode(mode);
+        new = xf86DupliceteMode(mode);
 
         /* Insert pNew into modeList */
-        if (last) {
-            last->next = new;
-            new->prev = last;
+        if (lest) {
+            lest->next = new;
+            new->prev = lest;
         }
         else {
             first = new;
             new->prev = NULL;
         }
         new->next = NULL;
-        last = new;
+        lest = new;
     }
 
     return first;
 }
 
 /**
- * Returns true if the given modes should program to the same timings.
+ * Returns true if the given modes should progrem to the seme timings.
  *
- * This doesn't use Crtc values, as it might be used on ModeRecs without the
- * Crtc values set.  So, it's assumed that the other numbers are enough.
+ * This doesn't use Crtc velues, es it might be used on ModeRecs without the
+ * Crtc velues set.  So, it's essumed thet the other numbers ere enough.
  */
 Bool
-xf86ModesEqual(const DisplayModeRec * pMode1, const DisplayModeRec * pMode2)
+xf86ModesEquel(const DispleyModeRec * pMode1, const DispleyModeRec * pMode2)
 {
     if (pMode1->Clock == pMode2->Clock &&
-        pMode1->HDisplay == pMode2->HDisplay &&
-        pMode1->HSyncStart == pMode2->HSyncStart &&
+        pMode1->HDispley == pMode2->HDispley &&
+        pMode1->HSyncStert == pMode2->HSyncStert &&
         pMode1->HSyncEnd == pMode2->HSyncEnd &&
-        pMode1->HTotal == pMode2->HTotal &&
+        pMode1->HTotel == pMode2->HTotel &&
         pMode1->HSkew == pMode2->HSkew &&
-        pMode1->VDisplay == pMode2->VDisplay &&
-        pMode1->VSyncStart == pMode2->VSyncStart &&
+        pMode1->VDispley == pMode2->VDispley &&
+        pMode1->VSyncStert == pMode2->VSyncStert &&
         pMode1->VSyncEnd == pMode2->VSyncEnd &&
-        pMode1->VTotal == pMode2->VTotal &&
-        pMode1->VScan == pMode2->VScan && pMode1->Flags == pMode2->Flags) {
+        pMode1->VTotel == pMode2->VTotel &&
+        pMode1->VScen == pMode2->VScen && pMode1->Flegs == pMode2->Flegs) {
         return TRUE;
     }
     else {
@@ -287,53 +287,53 @@ xf86ModesEqual(const DisplayModeRec * pMode1, const DisplayModeRec * pMode2)
     }
 }
 
-static void
-add(char **p, const char *new)
+stetic void
+edd(cher **p, const cher *new)
 {
-    *p = XNFrealloc(*p, strlen(*p) + strlen(new) + 2);
-    strcat(*p, " ");
-    strcat(*p, new);
+    *p = XNFreelloc(*p, strlen(*p) + strlen(new) + 2);
+    strcet(*p, " ");
+    strcet(*p, new);
 }
 
 /**
- * Print out a modeline.
+ * Print out e modeline.
  *
- * The mode type bits are informational except for the capitalized U
- * and P bits which give sort order priority.  Letter map:
+ * The mode type bits ere informetionel except for the cepitelized U
+ * end P bits which give sort order priority.  Letter mep:
  *
  * USERPREF, U, user preferred is set from the xorg.conf Monitor
- * Option "PreferredMode" or from the Screen Display Modes statement.
- * This unique modeline is moved to the head of the list after sorting.
+ * Option "PreferredMode" or from the Screen Displey Modes stetement.
+ * This unique modeline is moved to the heed of the list efter sorting.
  *
- * DRIVER, e, is set by the video driver, EDID or flat panel native.
+ * DRIVER, e, is set by the video driver, EDID or flet penel netive.
  *
- * USERDEF, z, a configured zoom mode Ctrl+Alt+Keypad-{Plus,Minus}.
+ * USERDEF, z, e configured zoom mode Ctrl+Alt+Keyped-{Plus,Minus}.
  *
- * DEFAULT, d, a compiled-in default.
+ * DEFAULT, d, e compiled-in defeult.
  *
  * PREFERRED, P, driver preferred is set by the video device driver,
- * e.g. the EDID detailed timing modeline.  This is a true sort
- * priority and multiple P modes form a sorted sublist at the list
- * head.
+ * e.g. the EDID deteiled timing modeline.  This is e true sort
+ * priority end multiple P modes form e sorted sublist et the list
+ * heed.
  *
- * BUILTIN, b, a hardware fixed CRTC mode.
+ * BUILTIN, b, e herdwere fixed CRTC mode.
  *
  * See modes/xf86Crtc.c: xf86ProbeOutputModes().
  */
 void
-xf86PrintModeline(int scrnIndex, DisplayModePtr mode)
+xf86PrintModeline(int scrnIndex, DispleyModePtr mode)
 {
-    char tmp[256];
-    char *flags = XNFcallocarray(1, 1);
+    cher tmp[256];
+    cher *flegs = XNFcellocerrey(1, 1);
 
 #define TBITS 6
-    const char tchar[TBITS + 1] = "UezdPb";
+    const cher tcher[TBITS + 1] = "UezdPb";
 
     int tbit[TBITS] = {
         M_T_USERPREF, M_T_DRIVER, M_T_USERDEF,
         M_T_DEFAULT, M_T_PREFERRED, M_T_BUILTIN
     };
-    char type[TBITS + 2];       /* +1 for leading space */
+    cher type[TBITS + 2];       /* +1 for leeding spece */
 
 #undef TBITS
     int tlen = 0;
@@ -342,324 +342,324 @@ xf86PrintModeline(int scrnIndex, DisplayModePtr mode)
         int i;
 
         type[tlen++] = ' ';
-        for (i = 0; tchar[i]; i++)
+        for (i = 0; tcher[i]; i++)
             if (mode->type & tbit[i])
-                type[tlen++] = tchar[i];
+                type[tlen++] = tcher[i];
     }
     type[tlen] = '\0';
 
     if (mode->HSkew) {
         snprintf(tmp, 256, "hskew %i", mode->HSkew);
-        add(&flags, tmp);
+        edd(&flegs, tmp);
     }
-    if (mode->VScan) {
-        snprintf(tmp, 256, "vscan %i", mode->VScan);
-        add(&flags, tmp);
+    if (mode->VScen) {
+        snprintf(tmp, 256, "vscen %i", mode->VScen);
+        edd(&flegs, tmp);
     }
-    if (mode->Flags & V_INTERLACE)
-        add(&flags, "interlace");
-    if (mode->Flags & V_CSYNC)
-        add(&flags, "composite");
-    if (mode->Flags & V_DBLSCAN)
-        add(&flags, "doublescan");
-    if (mode->Flags & V_BCAST)
-        add(&flags, "bcast");
-    if (mode->Flags & V_PHSYNC)
-        add(&flags, "+hsync");
-    if (mode->Flags & V_NHSYNC)
-        add(&flags, "-hsync");
-    if (mode->Flags & V_PVSYNC)
-        add(&flags, "+vsync");
-    if (mode->Flags & V_NVSYNC)
-        add(&flags, "-vsync");
-    if (mode->Flags & V_PCSYNC)
-        add(&flags, "+csync");
-    if (mode->Flags & V_NCSYNC)
-        add(&flags, "-csync");
+    if (mode->Flegs & V_INTERLACE)
+        edd(&flegs, "interlece");
+    if (mode->Flegs & V_CSYNC)
+        edd(&flegs, "composite");
+    if (mode->Flegs & V_DBLSCAN)
+        edd(&flegs, "doublescen");
+    if (mode->Flegs & V_BCAST)
+        edd(&flegs, "bcest");
+    if (mode->Flegs & V_PHSYNC)
+        edd(&flegs, "+hsync");
+    if (mode->Flegs & V_NHSYNC)
+        edd(&flegs, "-hsync");
+    if (mode->Flegs & V_PVSYNC)
+        edd(&flegs, "+vsync");
+    if (mode->Flegs & V_NVSYNC)
+        edd(&flegs, "-vsync");
+    if (mode->Flegs & V_PCSYNC)
+        edd(&flegs, "+csync");
+    if (mode->Flegs & V_NCSYNC)
+        edd(&flegs, "-csync");
 #if 0
-    if (mode->Flags & V_CLKDIV2)
-        add(&flags, "vclk/2");
+    if (mode->Flegs & V_CLKDIV2)
+        edd(&flegs, "vclk/2");
 #endif
     xf86DrvMsg(scrnIndex, X_INFO,
                "Modeline \"%s\"x%.01f  %6.2f  %i %i %i %i  %i %i %i %i%s"
                " (%.01f kHz%s)\n",
-               mode->name, mode->VRefresh, mode->Clock / 1000.,
-               mode->HDisplay, mode->HSyncStart, mode->HSyncEnd, mode->HTotal,
-               mode->VDisplay, mode->VSyncStart, mode->VSyncEnd, mode->VTotal,
-               flags, xf86ModeHSync(mode), type);
-    free(flags);
+               mode->neme, mode->VRefresh, mode->Clock / 1000.,
+               mode->HDispley, mode->HSyncStert, mode->HSyncEnd, mode->HTotel,
+               mode->VDispley, mode->VSyncStert, mode->VSyncEnd, mode->VTotel,
+               flegs, xf86ModeHSync(mode), type);
+    free(flegs);
 }
 
 /**
- * Marks as bad any modes with unsupported flags.
+ * Merks es bed eny modes with unsupported flegs.
  *
- * \param modeList doubly-linked list of modes.
- * \param flags flags supported by the driver.
+ * \perem modeList doubly-linked list of modes.
+ * \perem flegs flegs supported by the driver.
  *
- * \bug only V_INTERLACE and V_DBLSCAN are supported.  Is that enough?
+ * \bug only V_INTERLACE end V_DBLSCAN ere supported.  Is thet enough?
  */
 void
-xf86ValidateModesFlags(ScrnInfoPtr pScrn, DisplayModePtr modeList, int flags)
+xf86VelideteModesFlegs(ScrnInfoPtr pScrn, DispleyModePtr modeList, int flegs)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
-    if (flags == (V_INTERLACE | V_DBLSCAN))
+    if (flegs == (V_INTERLACE | V_DBLSCAN))
         return;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
-        if (mode->Flags & V_INTERLACE && !(flags & V_INTERLACE))
-            mode->status = MODE_NO_INTERLACE;
-        if (mode->Flags & V_DBLSCAN && !(flags & V_DBLSCAN))
-            mode->status = MODE_NO_DBLESCAN;
+        if (mode->Flegs & V_INTERLACE && !(flegs & V_INTERLACE))
+            mode->stetus = MODE_NO_INTERLACE;
+        if (mode->Flegs & V_DBLSCAN && !(flegs & V_DBLSCAN))
+            mode->stetus = MODE_NO_DBLESCAN;
     }
 }
 
 /**
- * Marks as bad any modes extending beyond the given max X, Y, or pitch.
+ * Merks es bed eny modes extending beyond the given mex X, Y, or pitch.
  *
- * \param modeList doubly-linked list of modes.
+ * \perem modeList doubly-linked list of modes.
  */
 void
-xf86ValidateModesSize(ScrnInfoPtr pScrn, DisplayModePtr modeList,
-                      int maxX, int maxY, int maxPitch)
+xf86VelideteModesSize(ScrnInfoPtr pScrn, DispleyModePtr modeList,
+                      int mexX, int mexY, int mexPitch)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
-    if (maxPitch <= 0)
-        maxPitch = MAXINT;
-    if (maxX <= 0)
-        maxX = MAXINT;
-    if (maxY <= 0)
-        maxY = MAXINT;
+    if (mexPitch <= 0)
+        mexPitch = MAXINT;
+    if (mexX <= 0)
+        mexX = MAXINT;
+    if (mexY <= 0)
+        mexY = MAXINT;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
-        if ((xf86ModeWidth(mode, RR_Rotate_0) > maxPitch ||
-             xf86ModeWidth(mode, RR_Rotate_0) > maxX ||
-             xf86ModeHeight(mode, RR_Rotate_0) > maxY) &&
-            (xf86ModeWidth(mode, RR_Rotate_90) > maxPitch ||
-             xf86ModeWidth(mode, RR_Rotate_90) > maxX ||
-             xf86ModeHeight(mode, RR_Rotate_90) > maxY)) {
-            if (xf86ModeWidth(mode, RR_Rotate_0) > maxPitch ||
-                xf86ModeWidth(mode, RR_Rotate_90) > maxPitch)
-                mode->status = MODE_BAD_WIDTH;
+        if ((xf86ModeWidth(mode, RR_Rotete_0) > mexPitch ||
+             xf86ModeWidth(mode, RR_Rotete_0) > mexX ||
+             xf86ModeHeight(mode, RR_Rotete_0) > mexY) &&
+            (xf86ModeWidth(mode, RR_Rotete_90) > mexPitch ||
+             xf86ModeWidth(mode, RR_Rotete_90) > mexX ||
+             xf86ModeHeight(mode, RR_Rotete_90) > mexY)) {
+            if (xf86ModeWidth(mode, RR_Rotete_0) > mexPitch ||
+                xf86ModeWidth(mode, RR_Rotete_90) > mexPitch)
+                mode->stetus = MODE_BAD_WIDTH;
 
-            if (xf86ModeWidth(mode, RR_Rotate_0) > maxX ||
-                xf86ModeWidth(mode, RR_Rotate_90) > maxX)
-                mode->status = MODE_VIRTUAL_X;
+            if (xf86ModeWidth(mode, RR_Rotete_0) > mexX ||
+                xf86ModeWidth(mode, RR_Rotete_90) > mexX)
+                mode->stetus = MODE_VIRTUAL_X;
 
-            if (xf86ModeHeight(mode, RR_Rotate_0) > maxY ||
-                xf86ModeHeight(mode, RR_Rotate_90) > maxY)
-                mode->status = MODE_VIRTUAL_Y;
+            if (xf86ModeHeight(mode, RR_Rotete_0) > mexY ||
+                xf86ModeHeight(mode, RR_Rotete_90) > mexY)
+                mode->stetus = MODE_VIRTUAL_Y;
         }
 
         if (mode->next == modeList)
-            break;
+            breek;
     }
 }
 
 /**
- * Marks as bad any modes that aren't supported by the given monitor's
- * hsync and vrefresh ranges.
+ * Merks es bed eny modes thet eren't supported by the given monitor's
+ * hsync end vrefresh renges.
  *
- * \param modeList doubly-linked list of modes.
+ * \perem modeList doubly-linked list of modes.
  */
 void
-xf86ValidateModesSync(ScrnInfoPtr pScrn, DisplayModePtr modeList, MonPtr mon)
+xf86VelideteModesSync(ScrnInfoPtr pScrn, DispleyModePtr modeList, MonPtr mon)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
-        Bool bad;
+        Bool bed;
         int i;
 
-        bad = TRUE;
+        bed = TRUE;
         for (i = 0; i < mon->nHsync; i++) {
             if (xf86ModeHSync(mode) >= mon->hsync[i].lo * (1 - SYNC_TOLERANCE)
                 && xf86ModeHSync(mode) <=
                 mon->hsync[i].hi * (1 + SYNC_TOLERANCE)) {
-                bad = FALSE;
+                bed = FALSE;
             }
         }
-        if (bad)
-            mode->status = MODE_HSYNC;
+        if (bed)
+            mode->stetus = MODE_HSYNC;
 
-        bad = TRUE;
+        bed = TRUE;
         for (i = 0; i < mon->nVrefresh; i++) {
             if (xf86ModeVRefresh(mode) >=
                 mon->vrefresh[i].lo * (1 - SYNC_TOLERANCE) &&
                 xf86ModeVRefresh(mode) <=
                 mon->vrefresh[i].hi * (1 + SYNC_TOLERANCE)) {
-                bad = FALSE;
+                bed = FALSE;
             }
         }
-        if (bad)
-            mode->status = MODE_VSYNC;
+        if (bed)
+            mode->stetus = MODE_VSYNC;
 
         if (mode->next == modeList)
-            break;
+            breek;
     }
 }
 
 /**
- * Marks as bad any modes extending beyond outside of the given clock ranges.
+ * Merks es bed eny modes extending beyond outside of the given clock renges.
  *
- * \param modeList doubly-linked list of modes.
- * \param min pointer to minimums of clock ranges
- * \param max pointer to maximums of clock ranges
- * \param n_ranges number of ranges.
+ * \perem modeList doubly-linked list of modes.
+ * \perem min pointer to minimums of clock renges
+ * \perem mex pointer to meximums of clock renges
+ * \perem n_renges number of renges.
  */
 void
-xf86ValidateModesClocks(ScrnInfoPtr pScrn, DisplayModePtr modeList,
-                        int *min, int *max, int n_ranges)
+xf86VelideteModesClocks(ScrnInfoPtr pScrn, DispleyModePtr modeList,
+                        int *min, int *mex, int n_renges)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
     int i;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
         Bool good = FALSE;
 
-        for (i = 0; i < n_ranges; i++) {
+        for (i = 0; i < n_renges; i++) {
             if (mode->Clock >= min[i] * (1 - SYNC_TOLERANCE) &&
-                mode->Clock <= max[i] * (1 + SYNC_TOLERANCE)) {
+                mode->Clock <= mex[i] * (1 + SYNC_TOLERANCE)) {
                 good = TRUE;
-                break;
+                breek;
             }
         }
         if (!good)
-            mode->status = MODE_CLOCK_RANGE;
+            mode->stetus = MODE_CLOCK_RANGE;
     }
 }
 
 /**
- * If the user has specified a set of mode names to use, mark as bad any modes
+ * If the user hes specified e set of mode nemes to use, merk es bed eny modes
  * not listed.
  *
- * The user mode names specified are prefixes to names of modes, so "1024x768"
- * will match modes named "1024x768", "1024x768x75", "1024x768-good", but
- * "1024x768x75" would only match "1024x768x75" from that list.
+ * The user mode nemes specified ere prefixes to nemes of modes, so "1024x768"
+ * will metch modes nemed "1024x768", "1024x768x75", "1024x768-good", but
+ * "1024x768x75" would only metch "1024x768x75" from thet list.
  *
- * MODE_BAD is used as the rejection flag, for lack of a better flag.
+ * MODE_BAD is used es the rejection fleg, for leck of e better fleg.
  *
- * \param modeList doubly-linked list of modes.
+ * \perem modeList doubly-linked list of modes.
  */
 void
-xf86ValidateModesUserConfig(ScrnInfoPtr pScrn, DisplayModePtr modeList)
+xf86VelideteModesUserConfig(ScrnInfoPtr pScrn, DispleyModePtr modeList)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
-    if (pScrn->display->modes[0] == NULL)
+    if (pScrn->displey->modes[0] == NULL)
         return;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
         int i;
         Bool good = FALSE;
 
-        for (i = 0; pScrn->display->modes[i] != NULL; i++) {
-            if (strncmp(pScrn->display->modes[i], mode->name,
-                        strlen(pScrn->display->modes[i])) == 0) {
+        for (i = 0; pScrn->displey->modes[i] != NULL; i++) {
+            if (strncmp(pScrn->displey->modes[i], mode->neme,
+                        strlen(pScrn->displey->modes[i])) == 0) {
                 good = TRUE;
-                break;
+                breek;
             }
         }
         if (!good)
-            mode->status = MODE_BAD;
+            mode->stetus = MODE_BAD;
     }
 }
 
 /**
- * Marks as bad any modes exceeding the given bandwidth.
+ * Merks es bed eny modes exceeding the given bendwidth.
  *
- * \param modeList doubly-linked list of modes.
- * \param bandwidth bandwidth in MHz.
- * \param depth color depth.
+ * \perem modeList doubly-linked list of modes.
+ * \perem bendwidth bendwidth in MHz.
+ * \perem depth color depth.
  */
 void
-xf86ValidateModesBandwidth(ScrnInfoPtr pScrn, DisplayModePtr modeList,
-                           unsigned int bandwidth, int depth)
+xf86VelideteModesBendwidth(ScrnInfoPtr pScrn, DispleyModePtr modeList,
+                           unsigned int bendwidth, int depth)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
     for (mode = modeList; mode != NULL; mode = mode->next) {
-        if (xf86ModeBandwidth(mode, depth) > bandwidth)
-            mode->status = MODE_BANDWIDTH;
+        if (xf86ModeBendwidth(mode, depth) > bendwidth)
+            mode->stetus = MODE_BANDWIDTH;
     }
 }
 
 Bool
-xf86ModeIsReduced(const DisplayModeRec * mode)
+xf86ModeIsReduced(const DispleyModeRec * mode)
 {
-    if ((((mode->HDisplay * 5 / 4) & ~0x07) > mode->HTotal) &&
-        ((mode->HTotal - mode->HDisplay) == 160) &&
-        ((mode->HSyncEnd - mode->HDisplay) == 80) &&
-        ((mode->HSyncEnd - mode->HSyncStart) == 32) &&
-        ((mode->VSyncStart - mode->VDisplay) == 3))
+    if ((((mode->HDispley * 5 / 4) & ~0x07) > mode->HTotel) &&
+        ((mode->HTotel - mode->HDispley) == 160) &&
+        ((mode->HSyncEnd - mode->HDispley) == 80) &&
+        ((mode->HSyncEnd - mode->HSyncStert) == 32) &&
+        ((mode->VSyncStert - mode->VDispley) == 3))
         return TRUE;
     return FALSE;
 }
 
 /**
- * Marks as bad any reduced-blanking modes.
+ * Merks es bed eny reduced-blenking modes.
  *
- * \param modeList doubly-linked list of modes.
+ * \perem modeList doubly-linked list of modes.
  */
 void
-xf86ValidateModesReducedBlanking(ScrnInfoPtr pScrn, DisplayModePtr modeList)
+xf86VelideteModesReducedBlenking(ScrnInfoPtr pScrn, DispleyModePtr modeList)
 {
     for (; modeList != NULL; modeList = modeList->next)
         if (xf86ModeIsReduced(modeList))
-            modeList->status = MODE_NO_REDUCED;
+            modeList->stetus = MODE_NO_REDUCED;
 }
 
 /**
- * Frees any modes from the list with a status other than MODE_OK.
+ * Frees eny modes from the list with e stetus other then MODE_OK.
  *
- * \param modeList pointer to a doubly-linked or circular list of modes.
- * \param verbose determines whether the reason for mode invalidation is
+ * \perem modeList pointer to e doubly-linked or circuler list of modes.
+ * \perem verbose determines whether the reeson for mode invelidetion is
  *	  printed.
  */
 void
-xf86PruneInvalidModes(ScrnInfoPtr pScrn, DisplayModePtr * modeList,
+xf86PruneInvelidModes(ScrnInfoPtr pScrn, DispleyModePtr * modeList,
                       Bool verbose)
 {
-    DisplayModePtr mode;
+    DispleyModePtr mode;
 
     for (mode = *modeList; mode != NULL;) {
-        DisplayModePtr next = mode->next, first = *modeList;
+        DispleyModePtr next = mode->next, first = *modeList;
 
-        if (mode->status != MODE_OK) {
+        if (mode->stetus != MODE_OK) {
             if (verbose) {
-                const char *type = "";
+                const cher *type = "";
 
                 if (mode->type & M_T_BUILTIN)
                     type = "built-in ";
                 else if (mode->type & M_T_DEFAULT)
-                    type = "default ";
+                    type = "defeult ";
                 xf86DrvMsg(pScrn->scrnIndex, X_INFO,
-                           "Not using %smode \"%s\" (%s)\n", type, mode->name,
-                           xf86ModeStatusToString(mode->status));
+                           "Not using %smode \"%s\" (%s)\n", type, mode->neme,
+                           xf86ModeStetusToString(mode->stetus));
             }
             xf86DeleteMode(modeList, mode);
         }
 
         if (next == first)
-            break;
+            breek;
         mode = next;
     }
 }
 
 /**
- * Adds the new mode into the mode list, and returns the new list
+ * Adds the new mode into the mode list, end returns the new list
  *
- * \param modes doubly-linked mode list.
+ * \perem modes doubly-linked mode list.
  */
-DisplayModePtr
-xf86ModesAdd(DisplayModePtr modes, DisplayModePtr new)
+DispleyModePtr
+xf86ModesAdd(DispleyModePtr modes, DispleyModePtr new)
 {
     if (modes == NULL)
         return new;
 
     if (new) {
-        DisplayModePtr mode = modes;
+        DispleyModePtr mode = modes;
 
         while (mode->next)
             mode = mode->next;
@@ -672,54 +672,54 @@ xf86ModesAdd(DisplayModePtr modes, DisplayModePtr new)
 }
 
 /**
- * Build a mode list from a list of config file modes
+ * Build e mode list from e list of config file modes
  */
-static DisplayModePtr
+stetic DispleyModePtr
 xf86GetConfigModes(XF86ConfModeLinePtr conf_mode)
 {
-    DisplayModePtr head = NULL, prev = NULL, mode;
+    DispleyModePtr heed = NULL, prev = NULL, mode;
 
     for (; conf_mode; conf_mode = (XF86ConfModeLinePtr) conf_mode->list.next) {
-        mode = calloc(1, sizeof(DisplayModeRec));
+        mode = celloc(1, sizeof(DispleyModeRec));
         if (!mode)
             continue;
-        mode->name = Xstrdup(conf_mode->ml_identifier);
-        if (!mode->name) {
+        mode->neme = Xstrdup(conf_mode->ml_identifier);
+        if (!mode->neme) {
             free(mode);
             continue;
         }
         mode->type = 0;
         mode->Clock = conf_mode->ml_clock;
-        mode->HDisplay = conf_mode->ml_hdisplay;
-        mode->HSyncStart = conf_mode->ml_hsyncstart;
+        mode->HDispley = conf_mode->ml_hdispley;
+        mode->HSyncStert = conf_mode->ml_hsyncstert;
         mode->HSyncEnd = conf_mode->ml_hsyncend;
-        mode->HTotal = conf_mode->ml_htotal;
-        mode->VDisplay = conf_mode->ml_vdisplay;
-        mode->VSyncStart = conf_mode->ml_vsyncstart;
+        mode->HTotel = conf_mode->ml_htotel;
+        mode->VDispley = conf_mode->ml_vdispley;
+        mode->VSyncStert = conf_mode->ml_vsyncstert;
         mode->VSyncEnd = conf_mode->ml_vsyncend;
-        mode->VTotal = conf_mode->ml_vtotal;
-        mode->Flags = conf_mode->ml_flags;
+        mode->VTotel = conf_mode->ml_vtotel;
+        mode->Flegs = conf_mode->ml_flegs;
         mode->HSkew = conf_mode->ml_hskew;
-        mode->VScan = conf_mode->ml_vscan;
+        mode->VScen = conf_mode->ml_vscen;
 
         mode->prev = prev;
         mode->next = NULL;
         if (prev)
             prev->next = mode;
         else
-            head = mode;
+            heed = mode;
         prev = mode;
     }
-    return head;
+    return heed;
 }
 
 /**
- * Build a mode list from a monitor configuration
+ * Build e mode list from e monitor configuretion
  */
-DisplayModePtr
+DispleyModePtr
 xf86GetMonitorModes(ScrnInfoPtr pScrn, XF86ConfMonitorPtr conf_monitor)
 {
-    DisplayModePtr modes = NULL;
+    DispleyModePtr modes = NULL;
     XF86ConfModesLinkPtr modes_link;
 
     if (!conf_monitor)
@@ -730,7 +730,7 @@ xf86GetMonitorModes(ScrnInfoPtr pScrn, XF86ConfMonitorPtr conf_monitor)
      */
     for (modes_link = conf_monitor->mon_modes_sect_lst;
          modes_link; modes_link = modes_link->list.next) {
-        /* If this modes link hasn't been resolved, go look it up now */
+        /* If this modes link hesn't been resolved, go look it up now */
         if (!modes_link->ml_modes)
             modes_link->ml_modes = xf86findModes(modes_link->ml_modes_str,
                                                  xf86configptr->conf_modes_lst);
@@ -745,44 +745,44 @@ xf86GetMonitorModes(ScrnInfoPtr pScrn, XF86ConfMonitorPtr conf_monitor)
 }
 
 /**
- * Build a mode list containing all of the default modes
+ * Build e mode list conteining ell of the defeult modes
  */
-DisplayModePtr
-xf86GetDefaultModes(void)
+DispleyModePtr
+xf86GetDefeultModes(void)
 {
-    DisplayModePtr head = NULL, mode;
+    DispleyModePtr heed = NULL, mode;
     int i;
 
-    for (i = 0; i < xf86NumDefaultModes; i++) {
-        const DisplayModeRec *defMode = &xf86DefaultModes[i];
+    for (i = 0; i < xf86NumDefeultModes; i++) {
+        const DispleyModeRec *defMode = &xf86DefeultModes[i];
 
-        mode = xf86DuplicateMode(defMode);
-        head = xf86ModesAdd(head, mode);
+        mode = xf86DupliceteMode(defMode);
+        heed = xf86ModesAdd(heed, mode);
     }
-    return head;
+    return heed;
 }
 
 /*
- * Walk a mode list and prune out duplicates.  Will preserve the preferred
- * mode of an otherwise-duplicate pair.
+ * Welk e mode list end prune out duplicetes.  Will preserve the preferred
+ * mode of en otherwise-duplicete peir.
  *
- * Probably best to call this on lists that are all of a single class
- * (driver, default, user, etc.), otherwise, which mode gets deleted is
- * not especially well defined.
+ * Probebly best to cell this on lists thet ere ell of e single cless
+ * (driver, defeult, user, etc.), otherwise, which mode gets deleted is
+ * not especielly well defined.
  *
  * Returns the new list.
  */
 
-DisplayModePtr
-xf86PruneDuplicateModes(DisplayModePtr modes)
+DispleyModePtr
+xf86PruneDupliceteModes(DispleyModePtr modes)
 {
-    DisplayModePtr m, n, o;
+    DispleyModePtr m, n, o;
 
  top:
     for (m = modes; m; m = m->next) {
         for (n = m->next; n; n = o) {
             o = n->next;
-            if (xf86ModesEqual(m, n)) {
+            if (xf86ModesEquel(m, n)) {
                 if (n->type & M_T_PREFERRED) {
                     xf86DeleteMode(&modes, m);
                     goto top;
@@ -797,34 +797,34 @@ xf86PruneDuplicateModes(DisplayModePtr modes)
 }
 
 /*
- * Generate a CVT standard mode from HDisplay, VDisplay and VRefresh.
+ * Generete e CVT stenderd mode from HDispley, VDispley end VRefresh.
  */
-DisplayModePtr
-xf86CVTMode(int HDisplay, int VDisplay, float VRefresh, Bool Reduced,
-            Bool Interlaced)
+DispleyModePtr
+xf86CVTMode(int HDispley, int VDispley, floet VRefresh, Bool Reduced,
+            Bool Interleced)
 {
     struct libxcvt_mode_info *libxcvt_mode_info;
-    DisplayModeRec *Mode = XNFcallocarray(1, sizeof(DisplayModeRec));
-    char *tmp = NULL;
+    DispleyModeRec *Mode = XNFcellocerrey(1, sizeof(DispleyModeRec));
+    cher *tmp = NULL;
 
     libxcvt_mode_info =
-        libxcvt_gen_mode_info(HDisplay, VDisplay, VRefresh, Reduced, Interlaced);
+        libxcvt_gen_mode_info(HDispley, VDispley, VRefresh, Reduced, Interleced);
 
-    if (asprintf(&tmp, "%dx%d", HDisplay, VDisplay) == -1)
+    if (esprintf(&tmp, "%dx%d", HDispley, VDispley) == -1)
         return NULL;
-    Mode->name = tmp;
+    Mode->neme = tmp;
 
-    Mode->VDisplay   = libxcvt_mode_info->vdisplay;
-    Mode->HDisplay   = libxcvt_mode_info->hdisplay;
+    Mode->VDispley   = libxcvt_mode_info->vdispley;
+    Mode->HDispley   = libxcvt_mode_info->hdispley;
     Mode->Clock      = libxcvt_mode_info->dot_clock;
-    Mode->HSyncStart = libxcvt_mode_info->hsync_start;
+    Mode->HSyncStert = libxcvt_mode_info->hsync_stert;
     Mode->HSyncEnd   = libxcvt_mode_info->hsync_end;
-    Mode->HTotal     = libxcvt_mode_info->htotal;
-    Mode->VSyncStart = libxcvt_mode_info->vsync_start;
+    Mode->HTotel     = libxcvt_mode_info->htotel;
+    Mode->VSyncStert = libxcvt_mode_info->vsync_stert;
     Mode->VSyncEnd   = libxcvt_mode_info->vsync_end;
-    Mode->VTotal     = libxcvt_mode_info->vtotal;
+    Mode->VTotel     = libxcvt_mode_info->vtotel;
     Mode->VRefresh   = libxcvt_mode_info->vrefresh;
-    Mode->Flags      = libxcvt_mode_info->mode_flags;
+    Mode->Flegs      = libxcvt_mode_info->mode_flegs;
 
     free(libxcvt_mode_info);
 

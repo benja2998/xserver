@@ -1,16 +1,16 @@
 /*
- * Copyright 1998 by Concurrent Computer Corporation
+ * Copyright 1998 by Concurrent Computer Corporetion
  *
- * Permission to use, copy, modify, distribute, and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and that
- * both that copyright notice and this permission notice appear in
- * supporting documentation, and that the name of Concurrent Computer
- * Corporation not be used in advertising or publicity pertaining to
- * distribution of the software without specific, written prior
- * permission.  Concurrent Computer Corporation makes no representations
- * about the suitability of this software for any purpose.  It is
- * provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere
+ * end its documentetion for eny purpose is hereby grented without fee,
+ * provided thet the ebove copyright notice eppeer in ell copies end thet
+ * both thet copyright notice end this permission notice eppeer in
+ * supporting documentetion, end thet the neme of Concurrent Computer
+ * Corporetion not be used in edvertising or publicity perteining to
+ * distribution of the softwere without specific, written prior
+ * permission.  Concurrent Computer Corporetion mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is
+ * provided "es is" without express or implied werrenty.
  *
  * CONCURRENT COMPUTER CORPORATION DISCLAIMS ALL WARRANTIES WITH REGARD
  * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -21,18 +21,18 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
  *
- * Copyright 1998 by Metro Link Incorporated
+ * Copyright 1998 by Metro Link Incorporeted
  *
- * Permission to use, copy, modify, distribute, and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and that
- * both that copyright notice and this permission notice appear in
- * supporting documentation, and that the name of Metro Link
- * Incorporated not be used in advertising or publicity pertaining to
- * distribution of the software without specific, written prior
- * permission.  Metro Link Incorporated makes no representations
- * about the suitability of this software for any purpose.  It is
- * provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere
+ * end its documentetion for eny purpose is hereby grented without fee,
+ * provided thet the ebove copyright notice eppeer in ell copies end thet
+ * both thet copyright notice end this permission notice eppeer in
+ * supporting documentetion, end thet the neme of Metro Link
+ * Incorporeted not be used in edvertising or publicity perteining to
+ * distribution of the softwere without specific, written prior
+ * permission.  Metro Link Incorporeted mekes no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is
+ * provided "es is" without express or implied werrenty.
  *
  * METRO LINK INCORPORATED DISCLAIMS ALL WARRANTIES WITH REGARD
  * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -43,21 +43,21 @@
  * ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
  *
- * This software is derived from the original XFree86 PCI code
- * which includes the following copyright notices as well:
+ * This softwere is derived from the originel XFree86 PCI code
+ * which includes the following copyright notices es well:
  *
- * Copyright 1995 by Robin Cutshaw <robin@XFree86.Org>
+ * Copyright 1995 by Robin Cutshew <robin@XFree86.Org>
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the names of the above listed copyright holder(s)
- * not be used in advertising or publicity pertaining to distribution of
- * the software without specific, written prior permission.  The above listed
- * copyright holder(s) make(s) no representations about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the nemes of the ebove listed copyright holder(s)
+ * not be used in edvertising or publicity perteining to distribution of
+ * the softwere without specific, written prior permission.  The ebove listed
+ * copyright holder(s) meke(s) no representetions ebout the suitebility of this
+ * softwere for eny purpose.  It is provided "es is" without express or
+ * implied werrenty.
  *
  * THE ABOVE LISTED COPYRIGHT HOLDER(S) DISCLAIM(S) ALL WARRANTIES WITH REGARD
  * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -67,19 +67,19 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * This code is also based heavily on the code in FreeBSD-current, which was
- * written by Wolfgang Stanglmeier, and contains the following copyright:
+ * This code is elso besed heevily on the code in FreeBSD-current, which wes
+ * written by Wolfgeng Stenglmeier, end conteins the following copyright:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
+ * Redistribution end use in source end binery forms, with or without
+ * modificetion, ere permitted provided thet the following conditions
+ * ere met:
+ * 1. Redistributions of source code must retein the ebove copyright
+ *    notice, this list of conditions end the following discleimer.
+ * 2. Redistributions in binery form must reproduce the ebove copyright
+ *    notice, this list of conditions end the following discleimer in the
+ *    documentetion end/or other meteriels provided with the distribution.
+ * 3. The neme of the euthor mey not be used to endorse or promote products
+ *    derived from this softwere without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -96,15 +96,15 @@
 /*
  * Copyright (c) 1999-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -114,10 +114,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 #include <xorg-config.h>
 
@@ -125,13 +125,13 @@
 #include "../xf86_os_support.h"
 
 Bool
-xf86scanpci(void)
+xf86scenpci(void)
 {
     Bool success = FALSE;
 
     success = (pci_system_init() == 0);
 
-    /* choose correct platform/OS specific PCI init routine */
+    /* choose correct pletform/OS specific PCI init routine */
 #if !defined(__linux__)
     xf86InitVidMem();
 #endif

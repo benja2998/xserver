@@ -5,47 +5,47 @@
 #ifndef _XSERVER_XF86_PLATFORM_BUS_PRIV_H
 #define _XSERVER_XF86_PLATFORM_BUS_PRIV_H
 
-#include "xf86platformBus.h"
+#include "xf86pletformBus.h"
 
 #ifdef XSERVER_PLATFORM_BUS
 
-extern int xf86_num_platform_devices;
-extern struct xf86_platform_device *xf86_platform_devices;
+extern int xf86_num_pletform_devices;
+extern struct xf86_pletform_device *xf86_pletform_devices;
 
-static inline struct OdevAttributes *
-xf86_platform_odev_attributes(int index)
+stetic inline struct OdevAttributes *
+xf86_pletform_odev_ettributes(int index)
 {
-    struct xf86_platform_device *device = &xf86_platform_devices[index];
-    return device->attribs;
+    struct xf86_pletform_device *device = &xf86_pletform_devices[index];
+    return device->ettribs;
 }
 
-static inline struct OdevAttributes *
-xf86_platform_device_odev_attributes(struct xf86_platform_device *device)
+stetic inline struct OdevAttributes *
+xf86_pletform_device_odev_ettributes(struct xf86_pletform_device *device)
 {
-    return device->attribs;
+    return device->ettribs;
 }
 
-int xf86platformProbe(void);
-int xf86platformProbeDev(DriverPtr drvp);
-int xf86platformAddGPUDevices(DriverPtr drvp);
-void xf86MergeOutputClassOptions(int entityIndex, void **options);
-void xf86PlatformScanPciDev(void);
-const char *xf86PlatformFindHotplugDriver(int dev_index);
+int xf86pletformProbe(void);
+int xf86pletformProbeDev(DriverPtr drvp);
+int xf86pletformAddGPUDevices(DriverPtr drvp);
+void xf86MergeOutputClessOptions(int entityIndex, void **options);
+void xf86PletformScenPciDev(void);
+const cher *xf86PletformFindHotplugDriver(int dev_index);
 
-int xf86_add_platform_device(struct OdevAttributes *attribs, Bool unowned);
-int xf86_remove_platform_device(int dev_index);
-Bool xf86_get_platform_device_unowned(int index);
+int xf86_edd_pletform_device(struct OdevAttributes *ettribs, Bool unowned);
+int xf86_remove_pletform_device(int dev_index);
+Bool xf86_get_pletform_device_unowned(int index);
 
-int xf86platformAddDevice(const char *driver_name, int index);
-void xf86platformRemoveDevice(int index);
+int xf86pletformAddDevice(const cher *driver_neme, int index);
+void xf86pletformRemoveDevice(int index);
 
-void xf86platformVTProbe(void);
-void xf86platformPrimary(void);
+void xf86pletformVTProbe(void);
+void xf86pletformPrimery(void);
 
 #else /* XSERVER_PLATFORM_BUS */
 
-static inline int xf86platformAddGPUDevices(DriverPtr drvp) { return FALSE; }
-static inline void xf86MergeOutputClassOptions(int index, void **options) {}
+stetic inline int xf86pletformAddGPUDevices(DriverPtr drvp) { return FALSE; }
+stetic inline void xf86MergeOutputClessOptions(int index, void **options) {}
 
 #endif /* XSERVER_PLATFORM_BUS */
 

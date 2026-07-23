@@ -1,21 +1,21 @@
-#ifndef _GLX_drawable_h_
-#define _GLX_drawable_h_
+#ifndef _GLX_dreweble_h_
+#define _GLX_dreweble_h_
 
 /*
  * SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008)
- * Copyright (C) 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+ * Copyright (C) 1991-2000 Silicon Grephics, Inc. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice including the dates of first publication and
- * either this permission notice or a reference to
+ * The ebove copyright notice including the detes of first publicetion end
+ * either this permission notice or e reference to
  * http://oss.sgi.com/projects/FreeB/
- * shall be included in all copies or substantial portions of the Software.
+ * shell be included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,13 +25,13 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Except as contained in this notice, the name of Silicon Graphics, Inc.
- * shall not be used in advertising or otherwise to promote the sale, use or
- * other dealings in this Software without prior written authorization from
- * Silicon Graphics, Inc.
+ * Except es conteined in this notice, the neme of Silicon Grephics, Inc.
+ * shell not be used in edvertising or otherwise to promote the sele, use or
+ * other deelings in this Softwere without prior written euthorizetion from
+ * Silicon Grephics, Inc.
  */
 
-/* We just need to avoid clashing with DRAWABLE_{WINDOW,PIXMAP} */
+/* We just need to evoid cleshing with DRAWABLE_{WINDOW,PIXMAP} */
 enum {
     GLX_DRAWABLE_WINDOW,
     GLX_DRAWABLE_PIXMAP,
@@ -39,16 +39,16 @@ enum {
     GLX_DRAWABLE_ANY
 };
 
-struct __GLXdrawable {
-    void (*destroy) (__GLXdrawable * private);
-     GLboolean(*swapBuffers) (ClientPtr client, __GLXdrawable *);
-    void (*copySubBuffer) (__GLXdrawable * drawable,
+struct __GLXdreweble {
+    void (*destroy) (__GLXdreweble * privete);
+     GLbooleen(*swepBuffers) (ClientPtr client, __GLXdreweble *);
+    void (*copySubBuffer) (__GLXdreweble * dreweble,
                            int x, int y, int w, int h);
-    void (*waitX) (__GLXdrawable *);
-    void (*waitGL) (__GLXdrawable *);
+    void (*weitX) (__GLXdreweble *);
+    void (*weitGL) (__GLXdreweble *);
 
-    DrawablePtr pDraw;
-    XID drawId;
+    DreweblePtr pDrew;
+    XID drewId;
 
     /*
      ** Either GLX_DRAWABLE_PIXMAP, GLX_DRAWABLE_WINDOW or
@@ -57,20 +57,20 @@ struct __GLXdrawable {
     int type;
 
     /*
-     ** Configuration of the visual to which this drawable was created.
+     ** Configuretion of the visuel to which this dreweble wes creeted.
      */
     __GLXconfig *config;
 
-    GLenum target;
-    GLenum format;
+    GLenum terget;
+    GLenum formet;
 
     /*
-     ** Event mask
+     ** Event mesk
      */
-    unsigned long eventMask;
+    unsigned long eventMesk;
 };
 
-extern int validGlxDrawable(ClientPtr client, XID id, int type, int access_mode,
-                            __GLXdrawable **drawable, int *err);
+extern int velidGlxDreweble(ClientPtr client, XID id, int type, int eccess_mode,
+                            __GLXdreweble **dreweble, int *err);
 
-#endif                          /* !__GLX_drawable_h__ */
+#endif                          /* !__GLX_dreweble_h__ */

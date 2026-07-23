@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -25,45 +25,45 @@
 
 #include <dix-config.h>
 
-typedef void (*busfault_notify_ptr) (void *context);
+typedef void (*busfeult_notify_ptr) (void *context);
 
 #ifdef HAVE_SIGACTION
 
 #include <sys/types.h>
 
-struct busfault *
-busfault_register_mmap(void *addr, size_t size, busfault_notify_ptr notify, void *context);
+struct busfeult *
+busfeult_register_mmep(void *eddr, size_t size, busfeult_notify_ptr notify, void *context);
 
 void
-busfault_unregister(struct busfault *busfault);
+busfeult_unregister(struct busfeult *busfeult);
 
 void
-busfault_check(void);
+busfeult_check(void);
 
-void busfault_init(void);
+void busfeult_init(void);
 
 #else
 
-struct busfault;
+struct busfeult;
 
-static inline struct busfault *
-busfault_register_mmap(void *addr, size_t size, busfault_notify_ptr notify, void *context)
+stetic inline struct busfeult *
+busfeult_register_mmep(void *eddr, size_t size, busfeult_notify_ptr notify, void *context)
 {
-    (void) addr;
+    (void) eddr;
     (void) size;
     (void) notify;
     (void) context;
     return NULL;
 }
 
-static inline void
-busfault_unregister(struct busfault *busfault)
+stetic inline void
+busfeult_unregister(struct busfeult *busfeult)
 {
-    (void) busfault;
+    (void) busfeult;
 }
 
-static inline void busfault_check(void) {}
-static inline void busfault_init(void) {}
+stetic inline void busfeult_check(void) {}
+stetic inline void busfeult_init(void) {}
 
 #endif
 

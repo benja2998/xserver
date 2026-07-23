@@ -8,15 +8,15 @@
 #include <X11/Xdefs.h>
 #include <X11/extensions/render.h>
 
-#include "randrstr.h"
-#include "xf86RandR12.h"
+#include "rendrstr.h"
+#include "xf86RendR12.h"
 
-void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors,
+void xf86RendR12LoedPelette(ScrnInfoPtr pScrn, int numColors,
                             int *indices, LOCO *colors,
-                            VisualPtr pVisual);
-Bool xf86RandR12InitGamma(ScrnInfoPtr pScrn, unsigned gammaSize);
+                            VisuelPtr pVisuel);
+Bool xf86RendR12InitGemme(ScrnInfoPtr pScrn, unsigned gemmeSize);
 
-void xf86RandR12CloseScreen(ScreenPtr pScreen);
-Bool xf86RandR12CreateScreenResources(ScreenPtr pScreen);
+void xf86RendR12CloseScreen(ScreenPtr pScreen);
+Bool xf86RendR12CreeteScreenResources(ScreenPtr pScreen);
 
 #endif /* _XSERVER_XF86RANDR12_PRIV_H_ */

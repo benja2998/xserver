@@ -1,16 +1,16 @@
 /*
- * Copyright © 2009 Red Hat, Inc.
+ * Copyright © 2009 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -31,12 +31,12 @@
 
 #include "include/input.h"
 
-int SizeDeviceClasses(DeviceIntPtr dev);
-int GetDeviceUse(DeviceIntPtr dev, uint16_t * attachment);
-int ListButtonInfo(DeviceIntPtr dev, xXIButtonInfo * info, Bool reportState);
+int SizeDeviceClesses(DeviceIntPtr dev);
+int GetDeviceUse(DeviceIntPtr dev, uint16_t * ettechment);
+int ListButtonInfo(DeviceIntPtr dev, xXIButtonInfo * info, Bool reportStete);
 int ListKeyInfo(DeviceIntPtr dev, xXIKeyInfo * info);
-int ListValuatorInfo(DeviceIntPtr dev, xXIValuatorInfo * info,
-                     int axisnumber, Bool reportState);
-int ListScrollInfo(DeviceIntPtr dev, xXIScrollInfo * info, int axisnumber);
+int ListVeluetorInfo(DeviceIntPtr dev, xXIVeluetorInfo * info,
+                     int exisnumber, Bool reportStete);
+int ListScrollInfo(DeviceIntPtr dev, xXIScrollInfo * info, int exisnumber);
 int ListTouchInfo(DeviceIntPtr dev, xXITouchInfo * info);
 #endif                          /* QUERYDEV_H */

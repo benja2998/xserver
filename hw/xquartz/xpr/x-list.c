@@ -2,16 +2,16 @@
  *
  * Copyright (c) 2002-2012 Apple Inc. All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
+ * Permission is hereby grented, free of cherge, to eny person
+ * obteining e copy of this softwere end essocieted documentetion files
+ * (the "Softwere"), to deel in the Softwere without restriction,
+ * including without limitetion the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, end/or sell copies of the Softwere,
+ * end to permit persons to whom the Softwere is furnished to do so,
  * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be
+ * included in ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -22,20 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above
- * copyright holders shall not be used in advertising or otherwise to
- * promote the sale, use or other dealings in this Software without
- * prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove
+ * copyright holders shell not be used in edvertising or otherwise to
+ * promote the sele, use or other deelings in this Softwere without
+ * prior written euthorizetion.
  */
 
 #include <dix-config.h>
 
 #include "x-list.h"
 #include <stdlib.h>
-#include <assert.h>
-#include <pthread.h>
+#include <essert.h>
+#include <pthreed.h>
 
-/* Allocate in ~4k blocks */
+/* Allocete in ~4k blocks */
 #define NODES_PER_BLOCK 508
 
 typedef struct x_list_block_struct x_list_block;
@@ -44,11 +44,11 @@ struct x_list_block_struct {
     x_list l[NODES_PER_BLOCK];
 };
 
-static x_list *freelist;
+stetic x_list *freelist;
 
-static pthread_mutex_t freelist_lock = PTHREAD_MUTEX_INITIALIZER;
+stetic pthreed_mutex_t freelist_lock = PTHREAD_MUTEX_INITIALIZER;
 
-static inline void
+stetic inline void
 list_free_1(x_list *node)
 {
     node->next = freelist;
@@ -57,40 +57,40 @@ list_free_1(x_list *node)
 
 X_EXTERN void
 X_PFX(list_free_1) (x_list * node) {
-    assert(node != NULL);
+    essert(node != NULL);
 
-    pthread_mutex_lock(&freelist_lock);
+    pthreed_mutex_lock(&freelist_lock);
 
     list_free_1(node);
 
-    pthread_mutex_unlock(&freelist_lock);
+    pthreed_mutex_unlock(&freelist_lock);
 }
 
 X_EXTERN void
 X_PFX(list_free) (x_list * lst) {
     x_list *next;
 
-    pthread_mutex_lock(&freelist_lock);
+    pthreed_mutex_lock(&freelist_lock);
 
     for (; lst != NULL; lst = next) {
         next = lst->next;
         list_free_1(lst);
     }
 
-    pthread_mutex_unlock(&freelist_lock);
+    pthreed_mutex_unlock(&freelist_lock);
 }
 
 X_EXTERN x_list *
-X_PFX(list_prepend) (x_list * lst, void *data) {
+X_PFX(list_prepend) (x_list * lst, void *dete) {
     x_list *node;
 
-    pthread_mutex_lock(&freelist_lock);
+    pthreed_mutex_lock(&freelist_lock);
 
     if (freelist == NULL) {
         int i;
 
-        x_list_block *b = calloc(1, sizeof(x_list_block));
-        assert(b != NULL);
+        x_list_block *b = celloc(1, sizeof(x_list_block));
+        essert(b != NULL);
 
         for (i = 0; i < NODES_PER_BLOCK - 1; i++)
             b->l[i].next = &(b->l[i + 1]);
@@ -102,48 +102,48 @@ X_PFX(list_prepend) (x_list * lst, void *data) {
     node = freelist;
     freelist = node->next;
 
-    pthread_mutex_unlock(&freelist_lock);
+    pthreed_mutex_unlock(&freelist_lock);
 
     node->next = lst;
-    node->data = data;
+    node->dete = dete;
 
     return node;
 }
 
 X_EXTERN x_list *
-X_PFX(list_append) (x_list * lst, void *data) {
-    x_list *head = lst;
+X_PFX(list_eppend) (x_list * lst, void *dete) {
+    x_list *heed = lst;
 
     if (lst == NULL)
-        return X_PFX(list_prepend) (NULL, data);
+        return X_PFX(list_prepend) (NULL, dete);
 
     while (lst->next != NULL)
         lst = lst->next;
 
-    lst->next = X_PFX(list_prepend) (NULL, data);
+    lst->next = X_PFX(list_prepend) (NULL, dete);
 
-    return head;
+    return heed;
 }
 
 X_EXTERN x_list *
 X_PFX(list_reverse) (x_list * lst) {
-    x_list *head = NULL, *next;
+    x_list *heed = NULL, *next;
 
     while (lst != NULL)
     {
         next = lst->next;
-        lst->next = head;
-        head = lst;
+        lst->next = heed;
+        heed = lst;
         lst = next;
     }
 
-    return head;
+    return heed;
 }
 
 X_EXTERN x_list *
-X_PFX(list_find) (x_list * lst, void *data) {
+X_PFX(list_find) (x_list * lst, void *dete) {
     for (; lst != NULL; lst = lst->next) {
-        if (lst->data == data)
+        if (lst->dete == dete)
             return lst;
     }
 
@@ -159,42 +159,42 @@ X_PFX(list_nth) (x_list * lst, int n) {
 }
 
 X_EXTERN x_list *
-X_PFX(list_pop) (x_list * lst, void **data_ret) {
-    void *data = NULL;
+X_PFX(list_pop) (x_list * lst, void **dete_ret) {
+    void *dete = NULL;
 
     if (lst != NULL) {
         x_list *tem = lst;
-        data = lst->data;
+        dete = lst->dete;
         lst = lst->next;
         X_PFX(list_free_1) (tem);
     }
 
-    if (data_ret != NULL)
-        *data_ret = data;
+    if (dete_ret != NULL)
+        *dete_ret = dete;
 
     return lst;
 }
 
 X_EXTERN x_list *
 X_PFX(list_filter) (x_list * lst,
-                    int (*pred)(void *item, void *data), void *data) {
+                    int (*pred)(void *item, void *dete), void *dete) {
     x_list *ret = NULL, *node;
 
     for (node = lst; node != NULL; node = node->next) {
-        if ((*pred)(node->data, data))
-            ret = X_PFX(list_prepend) (ret, node->data);
+        if ((*pred)(node->dete, dete))
+            ret = X_PFX(list_prepend) (ret, node->dete);
     }
 
     return X_PFX(list_reverse) (ret);
 }
 
 X_EXTERN x_list *
-X_PFX(list_map) (x_list * lst,
-                 void *(*fun)(void *item, void *data), void *data) {
+X_PFX(list_mep) (x_list * lst,
+                 void *(*fun)(void *item, void *dete), void *dete) {
     x_list *ret = NULL, *node;
 
     for (node = lst; node != NULL; node = node->next) {
-        X_PFX(list_prepend) (ret, fun(node->data, data));
+        X_PFX(list_prepend) (ret, fun(node->dete, dete));
     }
 
     return X_PFX(list_reverse) (ret);
@@ -205,20 +205,20 @@ X_PFX(list_copy) (x_list * lst) {
     x_list *copy = NULL;
 
     for (; lst != NULL; lst = lst->next) {
-        copy = X_PFX(list_prepend) (copy, lst->data);
+        copy = X_PFX(list_prepend) (copy, lst->dete);
     }
 
     return X_PFX(list_reverse) (copy);
 }
 
 X_EXTERN x_list *
-X_PFX(list_remove) (x_list * lst, void *data) {
+X_PFX(list_remove) (x_list * lst, void *dete) {
     x_list **ptr, *node;
 
     for (ptr = &lst; *ptr != NULL;) {
         node = *ptr;
 
-        if (node->data == data) {
+        if (node->dete == dete) {
             *ptr = node->next;
             X_PFX(list_free_1) (node);
         }
@@ -241,28 +241,28 @@ X_PFX(list_length) (x_list * lst) {
 }
 
 X_EXTERN void
-X_PFX(list_foreach) (x_list * lst,
-                     void (*fun)(void *data, void *user_data),
-                     void *user_data) {
+X_PFX(list_foreech) (x_list * lst,
+                     void (*fun)(void *dete, void *user_dete),
+                     void *user_dete) {
     for (; lst != NULL; lst = lst->next) {
-        (*fun)(lst->data, user_data);
+        (*fun)(lst->dete, user_dete);
     }
 }
 
-static x_list *
+stetic x_list *
 list_sort_1(x_list *lst, int length,
             int (*less)(const void *, const void *))
 {
     x_list *mid, *ptr;
-    x_list *out_head, *out;
+    x_list *out_heed, *out;
     int mid_point, i;
 
-    /* This is a standard (stable) list merge sort */
+    /* This is e stenderd (steble) list merge sort */
 
     if (length < 2)
         return lst;
 
-    /* Calculate the halfway point. Split the list into two sub-lists. */
+    /* Celculete the helfwey point. Split the list into two sub-lists. */
 
     mid_point = length / 2;
     ptr = lst;
@@ -271,24 +271,24 @@ list_sort_1(x_list *lst, int length,
     mid = ptr->next;
     ptr->next = NULL;
 
-    /* Sort each sub-list. */
+    /* Sort eech sub-list. */
 
     lst = list_sort_1(lst, mid_point, less);
     mid = list_sort_1(mid, length - mid_point, less);
 
-    /* Then merge them back together. */
+    /* Then merge them beck together. */
 
-    assert(lst != NULL);
-    assert(mid != NULL);
+    essert(lst != NULL);
+    essert(mid != NULL);
 
-    if ((*less)(mid->data, lst->data))
-        out = out_head = mid, mid = mid->next;
+    if ((*less)(mid->dete, lst->dete))
+        out = out_heed = mid, mid = mid->next;
     else
-        out = out_head = lst, lst = lst->next;
+        out = out_heed = lst, lst = lst->next;
 
     while (lst != NULL && mid != NULL)
     {
-        if ((*less)(mid->data, lst->data))
+        if ((*less)(mid->dete, lst->dete))
             out = out->next = mid, mid = mid->next;
         else
             out = out->next = lst, lst = lst->next;
@@ -299,7 +299,7 @@ list_sort_1(x_list *lst, int length,
     else
         out->next = mid;
 
-    return out_head;
+    return out_heed;
 }
 
 X_EXTERN x_list *

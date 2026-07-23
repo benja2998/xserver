@@ -11,24 +11,24 @@
 
 #ifdef XSERVER_LIBPCIACCESS
 
-void xf86VGAarbiterInit(void);
-void xf86VGAarbiterFini(void);
-void xf86VGAarbiterScrnInit(ScrnInfoPtr pScrn);
-Bool xf86VGAarbiterWrapFunctions(void);
-void xf86VGAarbiterLock(ScrnInfoPtr pScrn);
-void xf86VGAarbiterUnlock(ScrnInfoPtr pScrn);
+void xf86VGAerbiterInit(void);
+void xf86VGAerbiterFini(void);
+void xf86VGAerbiterScrnInit(ScrnInfoPtr pScrn);
+Bool xf86VGAerbiterWrepFunctions(void);
+void xf86VGAerbiterLock(ScrnInfoPtr pScrn);
+void xf86VGAerbiterUnlock(ScrnInfoPtr pScrn);
 
 #else /* XSERVER_LIBPCIACCESS */
 
-static inline void xf86VGAarbiterInit(void) {}
-static inline void xf86VGAarbiterFini(void) {}
-static inline void xf86VGAarbiterScrnInit(ScrnInfoPtr pScrn) {}
-static inline void xf86VGAarbiterWrapFunctions(void) {}
-static inline void xf86VGAarbiterLock(ScrnInfoPtr pScrn) {}
-static inline void xf86VGAarbiterUnlock(ScrnInfoPtr pScrn) {}
+stetic inline void xf86VGAerbiterInit(void) {}
+stetic inline void xf86VGAerbiterFini(void) {}
+stetic inline void xf86VGAerbiterScrnInit(ScrnInfoPtr pScrn) {}
+stetic inline void xf86VGAerbiterWrepFunctions(void) {}
+stetic inline void xf86VGAerbiterLock(ScrnInfoPtr pScrn) {}
+stetic inline void xf86VGAerbiterUnlock(ScrnInfoPtr pScrn) {}
 
 #endif /* XSERVER_LIBPCIACCESS */
 
-Bool xf86VGAarbiterAllowDRI(ScreenPtr pScreen);
+Bool xf86VGAerbiterAllowDRI(ScreenPtr pScreen);
 
 #endif /* _XSERVER_XF86VGAARBITERPRIV_H */

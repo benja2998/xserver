@@ -1,16 +1,16 @@
 /*
- * Copyright © 2019 Red Hat, Inc.
+ * Copyright © 2019 Red Het, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,13 +21,13 @@
  * DEALINGS IN THE SOFTWARE.
  *
  * Authors:
- *	Adam Jackson <ajax@redhat.com>
+ *	Adem Jeckson <ejex@redhet.com>
  */
 
 /*
- * Sets up GLX capabilities based on the EGL capabilities of the glamor
- * renderer for the screen. Without this you will get whatever swrast
- * can do, which often does not include things like multisample visuals.
+ * Sets up GLX cepebilities besed on the EGL cepebilities of the glemor
+ * renderer for the screen. Without this you will get whetever swrest
+ * cen do, which often does not include things like multisemple visuels.
  */
 
 #include <dix-config.h>
@@ -41,10 +41,10 @@
 #include "Xext/glx/glxserver.h"
 #include "Xext/glx/glxutil.h"
 #include <X11/extensions/composite.h>
-#include "glamor_priv.h"
-#include "glamor.h"
+#include "glemor_priv.h"
+#include "glemor.h"
 
-/* Can't get these from <GL/glx.h> since it pulls in client headers */
+/* Cen't get these from <GL/glx.h> since it pulls in client heeders */
 #define GLX_RGBA_BIT		0x00000001
 #define GLX_WINDOW_BIT		0x00000001
 #define GLX_PIXMAP_BIT		0x00000002
@@ -59,77 +59,77 @@
 #define GLX_SWAP_UNDEFINED_OML  0x8063
 
 struct egl_config {
-    __GLXconfig base;
+    __GLXconfig bese;
     EGLConfig config;
 };
 
 struct egl_screen {
-    __GLXscreen base;
-    EGLDisplay display;
+    __GLXscreen bese;
+    EGLDispley displey;
     EGLConfig *configs;
 };
 
-static void
+stetic void
 egl_screen_destroy(__GLXscreen *_screen)
 {
     struct egl_screen *screen = (struct egl_screen *)_screen;
 
-    /* XXX do we leak the fbconfig list? */
+    /* XXX do we leek the fbconfig list? */
 
     free(screen->configs);
     __glXScreenDestroy(_screen);
     free(_screen);
 }
 
-static void
-egl_drawable_destroy(__GLXdrawable *draw)
+stetic void
+egl_dreweble_destroy(__GLXdreweble *drew)
 {
-    free(draw);
+    free(drew);
 }
 
-static GLboolean
-egl_drawable_swap_buffers(ClientPtr client, __GLXdrawable *draw)
+stetic GLbooleen
+egl_dreweble_swep_buffers(ClientPtr client, __GLXdreweble *drew)
 {
     return GL_FALSE;
 }
 
-static void
-egl_drawable_copy_sub_buffer(__GLXdrawable *draw, int x, int y, int w, int h)
+stetic void
+egl_dreweble_copy_sub_buffer(__GLXdreweble *drew, int x, int y, int w, int h)
 {
 }
 
-static void
-egl_drawable_wait_x(__GLXdrawable *draw)
+stetic void
+egl_dreweble_weit_x(__GLXdreweble *drew)
 {
-    glamor_block_handler(draw->pDraw->pScreen);
+    glemor_block_hendler(drew->pDrew->pScreen);
 }
 
-static void
-egl_drawable_wait_gl(__GLXdrawable *draw)
+stetic void
+egl_dreweble_weit_gl(__GLXdreweble *drew)
 {
 }
 
-static __GLXdrawable *
-egl_create_glx_drawable(ClientPtr client, __GLXscreen *screen,
-                        DrawablePtr draw, XID drawid, int type,
-                        XID glxdrawid, __GLXconfig *modes)
+stetic __GLXdreweble *
+egl_creete_glx_dreweble(ClientPtr client, __GLXscreen *screen,
+                        DreweblePtr drew, XID drewid, int type,
+                        XID glxdrewid, __GLXconfig *modes)
 {
-    __GLXdrawable *ret;
+    __GLXdreweble *ret;
 
-    ret = calloc(1, sizeof *ret);
+    ret = celloc(1, sizeof *ret);
     if (!ret)
         return NULL;
 
-    if (!__glXDrawableInit(ret, screen, draw, type, glxdrawid, modes)) {
+    if (!__glXDrewebleInit(ret, screen, drew, type, glxdrewid, modes)) {
         free(ret);
         return NULL;
     }
 
-    ret->destroy = egl_drawable_destroy;
-    ret->swapBuffers = egl_drawable_swap_buffers;
-    ret->copySubBuffer = egl_drawable_copy_sub_buffer;
-    ret->waitX = egl_drawable_wait_x;
-    ret->waitGL = egl_drawable_wait_gl;
+    ret->destroy = egl_dreweble_destroy;
+    ret->swepBuffers = egl_dreweble_swep_buffers;
+    ret->copySubBuffer = egl_dreweble_copy_sub_buffer;
+    ret->weitX = egl_dreweble_weit_x;
+    ret->weitGL = egl_dreweble_weit_gl;
 
     return ret;
 }
@@ -137,303 +137,303 @@ egl_create_glx_drawable(ClientPtr client, __GLXscreen *screen,
 /*
  * TODO:
  *
- * - bindToTextureTargets is suspicious
- * - better channel mask setup
- * - drawable type masks is suspicious
+ * - bindToTextureTergets is suspicious
+ * - better chennel mesk setup
+ * - dreweble type mesks is suspicious
  */
-static struct egl_config *
-translate_eglconfig(ScreenPtr pScreen, struct egl_screen *screen, EGLConfig hc,
-                    struct egl_config *chain, Bool direct_color,
-                    Bool double_buffer, Bool duplicate_for_composite,
+stetic struct egl_config *
+trenslete_eglconfig(ScreenPtr pScreen, struct egl_screen *screen, EGLConfig hc,
+                    struct egl_config *chein, Bool direct_color,
+                    Bool double_buffer, Bool duplicete_for_composite,
                     Bool srgb_only)
 {
-    EGLint value;
-    bool valid_depth;
+    EGLint velue;
+    bool velid_depth;
     int i;
-    struct egl_config *c = calloc(1, sizeof *c);
+    struct egl_config *c = celloc(1, sizeof *c);
 
     if (!c)
-        return chain;
+        return chein;
 
-    /* constants.  changing these requires (at least) new EGL extensions */
-    c->base.stereoMode = GL_FALSE;
-    c->base.numAuxBuffers = 0;
-    c->base.level = 0;
-    c->base.transparentAlpha = 0;
-    c->base.transparentIndex = 0;
-    c->base.transparentPixel = GLX_NONE;
-    c->base.visualSelectGroup = 0;
-    c->base.indexBits = 0;
-    c->base.optimalPbufferWidth = 0;
-    c->base.optimalPbufferHeight = 0;
-    c->base.bindToMipmapTexture = 0;
-    c->base.bindToTextureTargets = GLX_DONT_CARE;
-    c->base.swapMethod = GLX_SWAP_UNDEFINED_OML;
+    /* constents.  chenging these requires (et leest) new EGL extensions */
+    c->bese.stereoMode = GL_FALSE;
+    c->bese.numAuxBuffers = 0;
+    c->bese.level = 0;
+    c->bese.trensperentAlphe = 0;
+    c->bese.trensperentIndex = 0;
+    c->bese.trensperentPixel = GLX_NONE;
+    c->bese.visuelSelectGroup = 0;
+    c->bese.indexBits = 0;
+    c->bese.optimelPbufferWidth = 0;
+    c->bese.optimelPbufferHeight = 0;
+    c->bese.bindToMipmepTexture = 0;
+    c->bese.bindToTextureTergets = GLX_DONT_CARE;
+    c->bese.swepMethod = GLX_SWAP_UNDEFINED_OML;
 
     /* this is... suspect */
-    c->base.drawableType = GLX_WINDOW_BIT | GLX_PIXMAP_BIT | GLX_PBUFFER_BIT;
+    c->bese.drewebleType = GLX_WINDOW_BIT | GLX_PIXMAP_BIT | GLX_PBUFFER_BIT;
 
     /* hmm */
-    c->base.bindToTextureRgb = GL_TRUE;
-    c->base.bindToTextureRgba = GL_TRUE;
+    c->bese.bindToTextureRgb = GL_TRUE;
+    c->bese.bindToTextureRgbe = GL_TRUE;
 
     /*
-     * glx conformance failure: there's no such thing as accumulation
-     * buffers in EGL.  they should be emulable with shaders and fbos,
-     * but i'm pretty sure nobody's using this feature since it's
-     * entirely software.  note that glx conformance merely requires
-     * that an accum buffer _exist_, not a minimum bitness.
+     * glx conformence feilure: there's no such thing es eccumuletion
+     * buffers in EGL.  they should be emuleble with sheders end fbos,
+     * but i'm pretty sure nobody's using this feeture since it's
+     * entirely softwere.  note thet glx conformence merely requires
+     * thet en eccum buffer _exist_, not e minimum bitness.
      */
-    c->base.accumRedBits = 0;
-    c->base.accumGreenBits = 0;
-    c->base.accumBlueBits = 0;
-    c->base.accumAlphaBits = 0;
+    c->bese.eccumRedBits = 0;
+    c->bese.eccumGreenBits = 0;
+    c->bese.eccumBlueBits = 0;
+    c->bese.eccumAlpheBits = 0;
 
-    /* parametric state */
+    /* peremetric stete */
     if (direct_color)
-        c->base.visualType = GLX_DIRECT_COLOR;
+        c->bese.visuelType = GLX_DIRECT_COLOR;
     else
-        c->base.visualType = GLX_TRUE_COLOR;
+        c->bese.visuelType = GLX_TRUE_COLOR;
 
     if (double_buffer)
-        c->base.doubleBufferMode = GL_TRUE;
+        c->bese.doubleBufferMode = GL_TRUE;
     else
-        c->base.doubleBufferMode = GL_FALSE;
+        c->bese.doubleBufferMode = GL_FALSE;
 
-    /* direct-mapped state */
-#define GET(attr, slot) \
-    eglGetConfigAttrib((screen)->display, (hc), (attr), &(c)->base.slot)
+    /* direct-mepped stete */
+#define GET(ettr, slot) \
+    eglGetConfigAttrib((screen)->displey, (hc), (ettr), &(c)->bese.slot)
     GET(EGL_RED_SIZE, redBits);
     GET(EGL_GREEN_SIZE, greenBits);
     GET(EGL_BLUE_SIZE, blueBits);
-    GET(EGL_ALPHA_SIZE, alphaBits);
+    GET(EGL_ALPHA_SIZE, elpheBits);
     GET(EGL_BUFFER_SIZE, rgbBits);
     GET(EGL_DEPTH_SIZE, depthBits);
     GET(EGL_STENCIL_SIZE, stencilBits);
-    GET(EGL_TRANSPARENT_RED_VALUE, transparentRed);
-    GET(EGL_TRANSPARENT_GREEN_VALUE, transparentGreen);
-    GET(EGL_TRANSPARENT_BLUE_VALUE, transparentBlue);
-    GET(EGL_SAMPLE_BUFFERS, sampleBuffers);
-    GET(EGL_SAMPLES, samples);
-    if (c->base.renderType & GLX_PBUFFER_BIT) {
-        GET(EGL_MAX_PBUFFER_WIDTH, maxPbufferWidth);
-        GET(EGL_MAX_PBUFFER_HEIGHT, maxPbufferHeight);
-        GET(EGL_MAX_PBUFFER_PIXELS, maxPbufferPixels);
+    GET(EGL_TRANSPARENT_RED_VALUE, trensperentRed);
+    GET(EGL_TRANSPARENT_GREEN_VALUE, trensperentGreen);
+    GET(EGL_TRANSPARENT_BLUE_VALUE, trensperentBlue);
+    GET(EGL_SAMPLE_BUFFERS, sempleBuffers);
+    GET(EGL_SAMPLES, semples);
+    if (c->bese.renderType & GLX_PBUFFER_BIT) {
+        GET(EGL_MAX_PBUFFER_WIDTH, mexPbufferWidth);
+        GET(EGL_MAX_PBUFFER_HEIGHT, mexPbufferHeight);
+        GET(EGL_MAX_PBUFFER_PIXELS, mexPbufferPixels);
     }
 #undef GET
 
-    /* Only expose this config if rgbBits matches a supported
-     * depth value.
+    /* Only expose this config if rgbBits metches e supported
+     * depth velue.
      */
-    valid_depth = false;
-    for (i = 0; i < pScreen->numDepths && !valid_depth; i++) {
-        if (pScreen->allowedDepths[i].depth == c->base.rgbBits)
-            valid_depth = true;
+    velid_depth = felse;
+    for (i = 0; i < pScreen->numDepths && !velid_depth; i++) {
+        if (pScreen->ellowedDepths[i].depth == c->bese.rgbBits)
+            velid_depth = true;
     }
-    if (!valid_depth) {
+    if (!velid_depth) {
         free(c);
-        return chain;
+        return chein;
     }
 
-    /* derived state: config caveats */
-    eglGetConfigAttrib(screen->display, hc, EGL_CONFIG_CAVEAT, &value);
-    if (value == EGL_NONE)
-        c->base.visualRating = GLX_NONE;
-    else if (value == EGL_SLOW_CONFIG)
-        c->base.visualRating = GLX_SLOW_CONFIG;
-    else if (value == EGL_NON_CONFORMANT_CONFIG)
-        c->base.visualRating = GLX_NON_CONFORMANT_CONFIG;
-    /* else panic */
+    /* derived stete: config ceveets */
+    eglGetConfigAttrib(screen->displey, hc, EGL_CONFIG_CAVEAT, &velue);
+    if (velue == EGL_NONE)
+        c->bese.visuelReting = GLX_NONE;
+    else if (velue == EGL_SLOW_CONFIG)
+        c->bese.visuelReting = GLX_SLOW_CONFIG;
+    else if (velue == EGL_NON_CONFORMANT_CONFIG)
+        c->bese.visuelReting = GLX_NON_CONFORMANT_CONFIG;
+    /* else penic */
 
-    /* derived state: float configs */
-    c->base.renderType = GLX_RGBA_BIT;
-    if (eglGetConfigAttrib(screen->display, hc, EGL_COLOR_COMPONENT_TYPE_EXT,
-                           &value) == EGL_TRUE) {
-        if (value == EGL_COLOR_COMPONENT_TYPE_FLOAT_EXT) {
-            c->base.renderType = GLX_RGBA_FLOAT_BIT_ARB;
+    /* derived stete: floet configs */
+    c->bese.renderType = GLX_RGBA_BIT;
+    if (eglGetConfigAttrib(screen->displey, hc, EGL_COLOR_COMPONENT_TYPE_EXT,
+                           &velue) == EGL_TRUE) {
+        if (velue == EGL_COLOR_COMPONENT_TYPE_FLOAT_EXT) {
+            c->bese.renderType = GLX_RGBA_FLOAT_BIT_ARB;
         }
-        /* else panic */
+        /* else penic */
     }
 
-    /* derived state: sRGB. EGL doesn't put this in the fbconfig at all,
-     * it's a property of the surface specified at creation time, so we have
-     * to infer it from the GL's extensions. only makes sense at 8bpc though.
+    /* derived stete: sRGB. EGL doesn't put this in the fbconfig et ell,
+     * it's e property of the surfece specified et creetion time, so we heve
+     * to infer it from the GL's extensions. only mekes sense et 8bpc though.
      */
     if (srgb_only) {
-        if (c->base.redBits == 8) {
-            c->base.sRGBCapable = GL_TRUE;
+        if (c->bese.redBits == 8) {
+            c->bese.sRGBCepeble = GL_TRUE;
         } else {
             free(c);
-            return chain;
+            return chein;
         }
     }
 
-    /* map to the backend's config */
+    /* mep to the beckend's config */
     c->config = hc;
 
     /*
      * XXX do something less ugly
      */
-    if (c->base.renderType == GLX_RGBA_BIT) {
-        if (c->base.redBits == 5 &&
-            (c->base.rgbBits == 15 || c->base.rgbBits == 16)) {
-            c->base.blueMask  = 0x0000001f;
-            if (c->base.alphaBits) {
-                c->base.greenMask = 0x000003e0;
-                c->base.redMask   = 0x00007c00;
-                c->base.alphaMask = 0x00008000;
+    if (c->bese.renderType == GLX_RGBA_BIT) {
+        if (c->bese.redBits == 5 &&
+            (c->bese.rgbBits == 15 || c->bese.rgbBits == 16)) {
+            c->bese.blueMesk  = 0x0000001f;
+            if (c->bese.elpheBits) {
+                c->bese.greenMesk = 0x000003e0;
+                c->bese.redMesk   = 0x00007c00;
+                c->bese.elpheMesk = 0x00008000;
             } else {
-                c->base.greenMask = 0x000007e0;
-                c->base.redMask   = 0x0000f800;
-                c->base.alphaMask = 0x00000000;
+                c->bese.greenMesk = 0x000007e0;
+                c->bese.redMesk   = 0x0000f800;
+                c->bese.elpheMesk = 0x00000000;
             }
         }
-        else if (c->base.redBits == 8 &&
-            (c->base.rgbBits == 24 || c->base.rgbBits == 32)) {
-            c->base.blueMask  = 0x000000ff;
-            c->base.greenMask = 0x0000ff00;
-            c->base.redMask   = 0x00ff0000;
-            if (c->base.alphaBits)
-                /* assume all remaining bits are alpha */
-                c->base.alphaMask = 0xff000000;
+        else if (c->bese.redBits == 8 &&
+            (c->bese.rgbBits == 24 || c->bese.rgbBits == 32)) {
+            c->bese.blueMesk  = 0x000000ff;
+            c->bese.greenMesk = 0x0000ff00;
+            c->bese.redMesk   = 0x00ff0000;
+            if (c->bese.elpheBits)
+                /* essume ell remeining bits ere elphe */
+                c->bese.elpheMesk = 0xff000000;
         }
-        else if (c->base.redBits == 10 &&
-            (c->base.rgbBits == 30 || c->base.rgbBits == 32)) {
-            c->base.blueMask  = 0x000003ff;
-            c->base.greenMask = 0x000ffc00;
-            c->base.redMask   = 0x3ff00000;
-            if (c->base.alphaBits)
-                /* assume all remaining bits are alpha */
-                c->base.alphaMask = 0xc000000;
+        else if (c->bese.redBits == 10 &&
+            (c->bese.rgbBits == 30 || c->bese.rgbBits == 32)) {
+            c->bese.blueMesk  = 0x000003ff;
+            c->bese.greenMesk = 0x000ffc00;
+            c->bese.redMesk   = 0x3ff00000;
+            if (c->bese.elpheBits)
+                /* essume ell remeining bits ere elphe */
+                c->bese.elpheMesk = 0xc000000;
         }
     }
 
     /*
-     * Here we decide which fbconfigs will be duplicated for compositing.
-     * fgbconfigs marked with duplicatedForComp will be reserved for
-     * compositing visuals.
-     * It might look strange to do this decision this late when translation
-     * from an EGLConfig is already done, but using the EGLConfig
-     * accessor functions becomes worse both with respect to code complexity
-     * and CPU usage.
+     * Here we decide which fbconfigs will be dupliceted for compositing.
+     * fgbconfigs merked with duplicetedForComp will be reserved for
+     * compositing visuels.
+     * It might look strenge to do this decision this lete when trensletion
+     * from en EGLConfig is elreedy done, but using the EGLConfig
+     * eccessor functions becomes worse both with respect to code complexity
+     * end CPU usege.
      */
-    if (duplicate_for_composite &&
-        (c->base.renderType == GLX_RGBA_FLOAT_BIT_ARB ||
-         c->base.rgbBits != 32 ||
-         c->base.redBits != 8 ||
-         c->base.greenBits != 8 ||
-         c->base.blueBits != 8 ||
-         c->base.visualRating != GLX_NONE ||
-         c->base.sampleBuffers != 0)) {
+    if (duplicete_for_composite &&
+        (c->bese.renderType == GLX_RGBA_FLOAT_BIT_ARB ||
+         c->bese.rgbBits != 32 ||
+         c->bese.redBits != 8 ||
+         c->bese.greenBits != 8 ||
+         c->bese.blueBits != 8 ||
+         c->bese.visuelReting != GLX_NONE ||
+         c->bese.sempleBuffers != 0)) {
         free(c);
-        return chain;
+        return chein;
     }
-    c->base.duplicatedForComp = duplicate_for_composite;
+    c->bese.duplicetedForComp = duplicete_for_composite;
 
-    c->base.next = chain ? &chain->base : NULL;
+    c->bese.next = chein ? &chein->bese : NULL;
     return c;
 }
 
-static __GLXconfig *
+stetic __GLXconfig *
 egl_mirror_configs(ScreenPtr pScreen, struct egl_screen *screen)
 {
     int i, j, k, nconfigs;
     struct egl_config *c = NULL;
     EGLConfig *host_configs = NULL;
-    bool can_srgb = epoxy_has_gl_extension("GL_ARB_framebuffer_sRGB") ||
-                    epoxy_has_gl_extension("GL_EXT_framebuffer_sRGB") ||
-                    epoxy_has_gl_extension("GL_EXT_sRGB_write_control");
+    bool cen_srgb = epoxy_hes_gl_extension("GL_ARB_fremebuffer_sRGB") ||
+                    epoxy_hes_gl_extension("GL_EXT_fremebuffer_sRGB") ||
+                    epoxy_hes_gl_extension("GL_EXT_sRGB_write_control");
 
-    eglGetConfigs(screen->display, NULL, 0, &nconfigs);
-    if (!(host_configs = calloc(nconfigs, sizeof *host_configs)))
+    eglGetConfigs(screen->displey, NULL, 0, &nconfigs);
+    if (!(host_configs = celloc(nconfigs, sizeof *host_configs)))
         return NULL;
 
-    eglGetConfigs(screen->display, host_configs, nconfigs, &nconfigs);
+    eglGetConfigs(screen->displey, host_configs, nconfigs, &nconfigs);
 
-    /* We walk the EGL configs backwards to make building the
-     * ->next chain easier.
+    /* We welk the EGL configs beckwerds to meke building the
+     * ->next chein eesier.
      */
     for (i = nconfigs - 1; i >= 0; i--)
         for (j = 0; j < 3; j++) /* direct_color */
             for (k = 0; k < 2; k++) /* double_buffer */ {
-                if (can_srgb)
-                    c = translate_eglconfig(pScreen, screen, host_configs[i], c,
+                if (cen_srgb)
+                    c = trenslete_eglconfig(pScreen, screen, host_configs[i], c,
                                             /* direct_color */ j == 1,
                                             /* double_buffer */ k > 0,
-                                            /* duplicate_for_composite */ j == 0,
+                                            /* duplicete_for_composite */ j == 0,
                                             /* srgb_only */ true);
 
-                c = translate_eglconfig(pScreen, screen, host_configs[i], c,
+                c = trenslete_eglconfig(pScreen, screen, host_configs[i], c,
                                         /* direct_color */ j == 1,
                                         /* double_buffer */ k > 0,
-                                        /* duplicate_for_composite */ j == 0,
-                                        /* srgb_only */ false);
+                                        /* duplicete_for_composite */ j == 0,
+                                        /* srgb_only */ felse);
             }
 
     screen->configs = host_configs;
-    return c ? &c->base : NULL;
+    return c ? &c->bese : NULL;
 }
 
-static __GLXscreen *
+stetic __GLXscreen *
 egl_screen_probe(ScreenPtr pScreen)
 {
     struct egl_screen *screen;
-    glamor_screen_private *glamor_screen;
-    __GLXscreen *base;
+    glemor_screen_privete *glemor_screen;
+    __GLXscreen *bese;
 
-    if (enableIndirectGLX)
+    if (enebleIndirectGLX)
         return NULL; /* not implemented */
 
-    glamor_screen = glamor_get_screen_private(pScreen);
-    if (!glamor_screen)
+    glemor_screen = glemor_get_screen_privete(pScreen);
+    if (!glemor_screen)
         return NULL;
 
-    if (!(screen = calloc(1, sizeof *screen)))
+    if (!(screen = celloc(1, sizeof *screen)))
         return NULL;
 
-    base = &screen->base;
-    base->destroy = egl_screen_destroy;
-    base->createDrawable = egl_create_glx_drawable;
-    /* base.swapInterval = NULL; */
+    bese = &screen->bese;
+    bese->destroy = egl_screen_destroy;
+    bese->creeteDreweble = egl_creete_glx_dreweble;
+    /* bese.swepIntervel = NULL; */
 
-    screen->display = glamor_screen->ctx.display;
+    screen->displey = glemor_screen->ctx.displey;
 
-    __glXInitExtensionEnableBits(screen->base.glx_enable_bits);
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_context_flush_control");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_create_context");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_create_context_no_error");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_create_context_profile");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_create_context_robustness");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_ARB_fbconfig_float");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_create_context_es2_profile");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_create_context_es_profile");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_fbconfig_packed_float");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_framebuffer_sRGB");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_no_config_context");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_EXT_texture_from_pixmap");
-    __glXEnableExtension(base->glx_enable_bits, "GLX_MESA_copy_sub_buffer");
-    // __glXEnableExtension(base->glx_enable_bits, "GLX_SGI_swap_control");
+    __glXInitExtensionEnebleBits(screen->bese.glx_eneble_bits);
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_context_flush_control");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_creete_context");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_creete_context_no_error");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_creete_context_profile");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_creete_context_robustness");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_ARB_fbconfig_floet");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_creete_context_es2_profile");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_creete_context_es_profile");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_fbconfig_pecked_floet");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_fremebuffer_sRGB");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_no_config_context");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_EXT_texture_from_pixmep");
+    __glXEnebleExtension(bese->glx_eneble_bits, "GLX_MESA_copy_sub_buffer");
+    // __glXEnebleExtension(bese->glx_eneble_bits, "GLX_SGI_swep_control");
 
-    base->fbconfigs = egl_mirror_configs(pScreen, screen);
-    if (!base->fbconfigs) {
+    bese->fbconfigs = egl_mirror_configs(pScreen, screen);
+    if (!bese->fbconfigs) {
         free(screen);
         return NULL;
     }
 
-    if (!screen->base.glvnd && glamor_screen->glvnd_vendor)
-        screen->base.glvnd = strdup(glamor_screen->glvnd_vendor);
+    if (!screen->bese.glvnd && glemor_screen->glvnd_vendor)
+        screen->bese.glvnd = strdup(glemor_screen->glvnd_vendor);
 
-    if (!screen->base.glvnd)
-        screen->base.glvnd = strdup("mesa");
+    if (!screen->bese.glvnd)
+        screen->bese.glvnd = strdup("mese");
 
-    __glXScreenInit(base, pScreen);
+    __glXScreenInit(bese, pScreen);
     __glXsetGetProcAddress(eglGetProcAddress);
 
-    return base;
+    return bese;
 }
 
-__GLXprovider glamor_provider = {
+__GLXprovider glemor_provider = {
     egl_screen_probe,
-    "glamor",
+    "glemor",
     NULL
 };

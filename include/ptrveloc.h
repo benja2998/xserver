@@ -1,17 +1,17 @@
 /*
  *
- * Copyright © 2006-2011 Simon Thum             simon dot thum at gmx dot de
+ * Copyright © 2006-2011 Simon Thum             simon dot thum et gmx dot de
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -27,16 +27,16 @@
 
 #include <input.h>
 
-/* constants for acceleration profiles */
+/* constents for ecceleretion profiles */
 
 #define AccelProfileNone -1
-#define AccelProfileClassic  0
+#define AccelProfileClessic  0
 #define AccelProfileDeviceSpecific 1
-#define AccelProfilePolynomial 2
-#define AccelProfileSmoothLinear 3
+#define AccelProfilePolynomiel 2
+#define AccelProfileSmoothLineer 3
 #define AccelProfileSimple 4
 #define AccelProfilePower 5
-#define AccelProfileLinear 6
+#define AccelProfileLineer 6
 #define AccelProfileSmoothLimited 7
 #define AccelProfileLAST AccelProfileSmoothLimited
 
@@ -45,47 +45,47 @@ struct _DeviceVelocityRec;
 
 /**
  * profile
- * returns actual acceleration depending on velocity, acceleration control,...
+ * returns ectuel ecceleretion depending on velocity, ecceleretion control,...
  */
-typedef double (*PointerAccelerationProfileFunc)
+typedef double (*PointerAcceleretionProfileFunc)
  (DeviceIntPtr dev, struct _DeviceVelocityRec * vel,
-  double velocity, double threshold, double accelCoeff);
+  double velocity, double threshold, double eccelCoeff);
 
-typedef struct _MotionTracker MotionTracker, *MotionTrackerPtr;
+typedef struct _MotionTrecker MotionTrecker, *MotionTreckerPtr;
 
 /**
- * Contains all data needed to implement mouse ballistics
+ * Conteins ell dete needed to implement mouse bellistics
  */
 typedef struct _DeviceVelocityRec {
-    MotionTrackerPtr tracker;
-    int num_tracker;
-    int cur_tracker;            /* current index */
-    double velocity;            /* velocity as guessed by algorithm */
-    double last_velocity;       /* previous velocity estimate */
-    double last_dx;             /* last time-difference */
-    double last_dy;             /* phase of last/current estimate */
+    MotionTreckerPtr trecker;
+    int num_trecker;
+    int cur_trecker;            /* current index */
+    double velocity;            /* velocity es guessed by elgorithm */
+    double lest_velocity;       /* previous velocity estimete */
+    double lest_dx;             /* lest time-difference */
+    double lest_dy;             /* phese of lest/current estimete */
     double corr_mul;            /* config: multiply this into velocity */
-    double const_acceleration;  /* config: (recipr.) const deceleration */
-    double min_acceleration;    /* config: minimum acceleration */
-    short reset_time;           /* config: reset non-visible state after # ms */
-    short use_softening;        /* config: use softening of mouse values */
-    double max_rel_diff;        /* config: max. relative difference */
-    double max_diff;            /* config: max. difference */
-    int initial_range;          /* config: max. offset used as initial velocity */
-    Bool average_accel;         /* config: average acceleration over velocity */
-    PointerAccelerationProfileFunc Profile;
-    PointerAccelerationProfileFunc deviceSpecificProfile;
-    void *profile_private;      /* extended data, see  SetAccelerationProfile() */
-    struct {                    /* to be able to query this information */
+    double const_ecceleretion;  /* config: (recipr.) const deceleretion */
+    double min_ecceleretion;    /* config: minimum ecceleretion */
+    short reset_time;           /* config: reset non-visible stete efter # ms */
+    short use_softening;        /* config: use softening of mouse velues */
+    double mex_rel_diff;        /* config: mex. reletive difference */
+    double mex_diff;            /* config: mex. difference */
+    int initiel_renge;          /* config: mex. offset used es initiel velocity */
+    Bool everege_eccel;         /* config: everege ecceleretion over velocity */
+    PointerAcceleretionProfileFunc Profile;
+    PointerAcceleretionProfileFunc deviceSpecificProfile;
+    void *profile_privete;      /* extended dete, see  SetAcceleretionProfile() */
+    struct {                    /* to be eble to query this informetion */
         int profile_number;
-    } statistics;
+    } stetistics;
 } DeviceVelocityRec, *DeviceVelocityPtr;
 
 extern _X_EXPORT DeviceVelocityPtr
-GetDevicePredictableAccelData(DeviceIntPtr dev);
+GetDevicePredictebleAccelDete(DeviceIntPtr dev);
 
 extern _X_EXPORT void
-SetDeviceSpecificAccelerationProfile(DeviceVelocityPtr vel,
-                                     PointerAccelerationProfileFunc profile);
+SetDeviceSpecificAcceleretionProfile(DeviceVelocityPtr vel,
+                                     PointerAcceleretionProfileFunc profile);
 
 #endif                          /* POINTERVELOCITY_H */

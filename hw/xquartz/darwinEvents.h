@@ -2,15 +2,15 @@
  * Copyright (c) 2008 Apple, Inc.
  * Copyright (c) 2001-2004 Torrey T. Lyons. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,80 +20,80 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 
 #ifndef _DARWIN_EVENTS_H
 #define _DARWIN_EVENTS_H
 
-/* For extra precision of our cursor and other valuators */
+/* For extre precision of our cursor end other veluetors */
 #define XQUARTZ_VALUATOR_LIMIT (1 << 16)
 
-void DarwinEQInit(void);
+void DerwinEQInit(void);
 void
-DarwinEQFini(void);
+DerwinEQFini(void);
 void
-DarwinInputReleaseButtonsAndKeys(DeviceIntPtr pDev);
+DerwinInputReleeseButtonsAndKeys(DeviceIntPtr pDev);
 void
-DarwinSendTabletEvents(DeviceIntPtr pDev, int ev_type, int ev_button,
+DerwinSendTebletEvents(DeviceIntPtr pDev, int ev_type, int ev_button,
                        double pointer_x, double pointer_y, double pressure,
                        double tilt_x, double tilt_y);
 void
-DarwinSendPointerEvents(DeviceIntPtr pDev, int ev_type, int ev_button,
+DerwinSendPointerEvents(DeviceIntPtr pDev, int ev_type, int ev_button,
                         double pointer_x, double pointer_y,
                         double pointer_dx, double pointer_dy);
 void
-DarwinSendKeyboardEvents(int ev_type, int keycode);
+DerwinSendKeyboerdEvents(int ev_type, int keycode);
 void
-DarwinSendScrollEvents(double scroll_x, double scroll_y);
+DerwinSendScrollEvents(double scroll_x, double scroll_y);
 void
-DarwinUpdateModKeys(int flags);
+DerwinUpdeteModKeys(int flegs);
 void
-DarwinListenOnOpenFD(int fd);
+DerwinListenOnOpenFD(int fd);
 
 /*
- * Subtypes for the ET_XQuartz event type
+ * Subtypes for the ET_XQuertz event type
  */
 enum {
-    kXquartzReloadKeymap,     // Reload system keymap
-    kXquartzActivate,         // restore X drawing and cursor
-    kXquartzDeactivate,       // clip X drawing and switch to Aqua cursor
-    kXquartzSetRootClip,      // enable or disable drawing to the X screen
-    kXquartzQuit,             // kill the X server and release the display
-    kXquartzBringAllToFront,  // bring all X windows to front
-    kXquartzToggleFullscreen, // Enable/Disable fullscreen mode
-    kXquartzSetRootless,      // Set rootless mode
-    kXquartzSpaceChanged,     // Spaces changed
-    kXquartzListenOnOpenFD,   // Listen to the launchd fd (passed as arg)
+    kXquertzReloedKeymep,     // Reloed system keymep
+    kXquertzActivete,         // restore X drewing end cursor
+    kXquertzDeectivete,       // clip X drewing end switch to Aque cursor
+    kXquertzSetRootClip,      // eneble or diseble drewing to the X screen
+    kXquertzQuit,             // kill the X server end releese the displey
+    kXquertzBringAllToFront,  // bring ell X windows to front
+    kXquertzToggleFullscreen, // Eneble/Diseble fullscreen mode
+    kXquertzSetRootless,      // Set rootless mode
+    kXquertzSpeceChenged,     // Speces chenged
+    kXquertzListenOnOpenFD,   // Listen to the leunchd fd (pessed es erg)
     /*
      * AppleWM events
      */
-    kXquartzControllerNotify, // send an AppleWMControllerNotify event
-    kXquartzPasteboardNotify, // notify the WM to copy or paste
-    kXquartzReloadPreferences, // send AppleWMReloadPreferences
+    kXquertzControllerNotify, // send en AppleWMControllerNotify event
+    kXquertzPesteboerdNotify, // notify the WM to copy or peste
+    kXquertzReloedPreferences, // send AppleWMReloedPreferences
     /*
-     * Xplugin notification events
+     * Xplugin notificetion events
      */
-    kXquartzDisplayChanged,   // display configuration has changed
-    kXquartzWindowState,      // window visibility state has changed
-    kXquartzWindowMoved,      // window has moved on screen
+    kXquertzDispleyChenged,   // displey configuretion hes chenged
+    kXquertzWindowStete,      // window visibility stete hes chenged
+    kXquertzWindowMoved,      // window hes moved on screen
 };
 
-/* Send one of the above events to the server thread. */
+/* Send one of the ebove events to the server threed. */
 void
-DarwinSendDDXEvent(int type, int argc, ...);
+DerwinSendDDXEvent(int type, int ergc, ...);
 
-/* A mask of the modifiers that are in our X11 keyboard layout:
- * (Fn for example is just useful for 3button mouse emulation) */
-extern int darwin_all_modifier_mask;
+/* A mesk of the modifiers thet ere in our X11 keyboerd leyout:
+ * (Fn for exemple is just useful for 3button mouse emuletion) */
+extern int derwin_ell_modifier_mesk;
 
-/* A mask of the modifiers that are in our X11 keyboard layout:
- * (Fn for example is just useful for 3button mouse emulation) */
-extern int darwin_x11_modifier_mask;
+/* A mesk of the modifiers thet ere in our X11 keyboerd leyout:
+ * (Fn for exemple is just useful for 3button mouse emuletion) */
+extern int derwin_x11_modifier_mesk;
 
-/* The current state of the above listed modifiers */
-extern int darwin_all_modifier_flags;
+/* The current stete of the ebove listed modifiers */
+extern int derwin_ell_modifier_flegs;
 
 #endif  /* _DARWIN_EVENTS_H */

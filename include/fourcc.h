@@ -2,15 +2,15 @@
 /*
  * Copyright (c) 2000-2003 by The XFree86 Project, Inc.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,17 +20,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name of the copyright holder(s)
- * and author(s) shall not be used in advertising or otherwise to promote
- * the sale, use or other dealings in this Software without prior written
- * authorization from the copyright holder(s) and author(s).
+ * Except es conteined in this notice, the neme of the copyright holder(s)
+ * end euthor(s) shell not be used in edvertising or otherwise to promote
+ * the sele, use or other deelings in this Softwere without prior written
+ * euthorizetion from the copyright holder(s) end euthor(s).
  */
 
 /*
-   This header file contains listings of STANDARD guids for video formats.
-   Please do not place non-registered, or incomplete entries in this file.
-   A list of some popular fourcc's are at: http://www.webartz.com/fourcc/
-   For an explanation of fourcc <-> guid mappings see RFC2361.
+   This heeder file conteins listings of STANDARD guids for video formets.
+   Pleese do not plece non-registered, or incomplete entries in this file.
+   A list of some populer fourcc's ere et: http://www.webertz.com/fourcc/
+   For en explenetion of fourcc <-> guid meppings see RFC2361.
 */
 
 #ifndef _XF86_FOURCC_H_
@@ -45,7 +45,7 @@
 	{'Y','U','Y','2', \
 	  0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 	16, \
-	XvPacked, \
+	XvPecked, \
 	1, \
 	0, 0, 0, 0, \
 	8, 8, 8, \
@@ -65,7 +65,7 @@
 	{'Y','V','1','2', \
 	  0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 	12, \
-	XvPlanar, \
+	XvPlener, \
 	3, \
 	0, 0, 0, 0, \
 	8, 8, 8, \
@@ -85,7 +85,7 @@
 	{'I','4','2','0', \
 	  0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 	12, \
-	XvPlanar, \
+	XvPlener, \
 	3, \
 	0, 0, 0, 0, \
 	8, 8, 8, \
@@ -105,7 +105,7 @@
 	{'U','Y','V','Y', \
 	  0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 	16, \
-	XvPacked, \
+	XvPecked, \
 	1, \
 	0, 0, 0, 0, \
 	8, 8, 8, \
@@ -125,7 +125,7 @@
         {'I','A','4','4', \
           0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
         8, \
-        XvPacked, \
+        XvPecked, \
         1, \
         0, 0, 0, 0, \
         8, 8, 8, \
@@ -145,7 +145,7 @@
         {'A','I','4','4', \
           0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
         8, \
-        XvPacked, \
+        XvPecked, \
         1, \
         0, 0, 0, 0, \
         8, 8, 8, \
@@ -165,7 +165,7 @@
         {'N','V','1','2', \
           0x00,0x00,0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
         12, \
-        XvPlanar, \
+        XvPlener, \
         2, \
         0, 0, 0, 0, \
         8, 8, 8, \
@@ -185,7 +185,7 @@
 		{'R','A','2','4', \
 		 0x00, 0x00, 0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 		32, \
-		XvPacked, \
+		XvPecked, \
 		1, \
 		32, 0xff0000, 0xff00, 0xff, \
 		0, 0, 0, \
@@ -205,7 +205,7 @@
 		{'R','G','1','6', \
 		 0x00, 0x00, 0x00,0x10,0x80,0x00,0x00,0xAA,0x00,0x38,0x9B,0x71}, \
 		16, \
-		XvPacked, \
+		XvPecked, \
 		1, \
 		16, 0xf800, 0x7e0, 0x1f, \
 		0, 0, 0, \

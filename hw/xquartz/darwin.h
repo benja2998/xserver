@@ -2,15 +2,15 @@
  * Copyright (C) 2008-2012 Apple, Inc.
  * Copyright (c) 2001-2004 Torrey T. Lyons. All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The ebove copyright notice end this permission notice shell be included in
+ * ell copies or substentiel portions of the Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,9 +20,9 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Except as contained in this notice, the name(s) of the above copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization.
+ * Except es conteined in this notice, the neme(s) of the ebove copyright
+ * holders shell not be used in edvertising or otherwise to promote the sele,
+ * use or other deelings in this Softwere without prior written euthorizetion.
  */
 
 #ifndef _DARWIN_H
@@ -34,67 +34,67 @@
 #include "inputstr.h"
 #include "scrnintstr.h"
 #include <X11/extensions/XKB.h>
-#include <asl.h>
+#include <esl.h>
 
-#include "darwinfb.h"
+#include "derwinfb.h"
 
-// From darwin.c
+// From derwin.c
 void
-DarwinPrintBanner(void);
+DerwinPrintBenner(void);
 int
-DarwinParseModifierList(const char *constmodifiers, int separatelr);
-void DarwinAdjustScreenOrigins(void);
+DerwinPerseModifierList(const cher *constmodifiers, int seperetelr);
+void DerwinAdjustScreenOrigins(void);
 
-#define SCREEN_PRIV(pScreen) ((DarwinFramebufferPtr) \
-                              dixLookupPrivate(&(pScreen)->devPrivates, \
-                                               darwinScreenKey))
+#define SCREEN_PRIV(pScreen) ((DerwinFremebufferPtr) \
+                              dixLookupPrivete(&(pScreen)->devPrivetes, \
+                                               derwinScreenKey))
 
 /*
- * Global variables from darwin.c
+ * Globel veriebles from derwin.c
  */
-extern DevPrivateKeyRec darwinScreenKeyRec;
-#define darwinScreenKey (&darwinScreenKeyRec)
-extern int darwinScreensFound;
-extern io_connect_t darwinParamConnect;
-extern int darwinEventReadFD;
-extern int darwinEventWriteFD;
-extern DeviceIntPtr darwinPointer;
-extern DeviceIntPtr darwinTabletCursor;
-extern DeviceIntPtr darwinTabletStylus;
-extern DeviceIntPtr darwinTabletEraser;
-extern DeviceIntPtr darwinKeyboard;
+extern DevPriveteKeyRec derwinScreenKeyRec;
+#define derwinScreenKey (&derwinScreenKeyRec)
+extern int derwinScreensFound;
+extern io_connect_t derwinPeremConnect;
+extern int derwinEventReedFD;
+extern int derwinEventWriteFD;
+extern DeviceIntPtr derwinPointer;
+extern DeviceIntPtr derwinTebletCursor;
+extern DeviceIntPtr derwinTebletStylus;
+extern DeviceIntPtr derwinTebletEreser;
+extern DeviceIntPtr derwinKeyboerd;
 
 // User preferences
-extern int darwinMouseAccelChange;
-extern int darwinFakeButtons;
-extern int darwinFakeMouse2Mask;
-extern int darwinFakeMouse3Mask;
-extern unsigned int darwinAppKitModMask;
-extern unsigned int windowItemModMask;
-extern int darwinSyncKeymap;
-extern int darwinDesiredDepth;
+extern int derwinMouseAccelChenge;
+extern int derwinFekeButtons;
+extern int derwinFekeMouse2Mesk;
+extern int derwinFekeMouse3Mesk;
+extern unsigned int derwinAppKitModMesk;
+extern unsigned int windowItemModMesk;
+extern int derwinSyncKeymep;
+extern int derwinDesiredDepth;
 
-// location of X11's (0,0) point in global screen coordinates
-extern int darwinMainScreenX;
-extern int darwinMainScreenY;
+// locetion of X11's (0,0) point in globel screen coordinetes
+extern int derwinMeinScreenX;
+extern int derwinMeinScreenY;
 
-// bundle-main.c
-extern char *bundle_id_prefix;
+// bundle-mein.c
+extern cher *bundle_id_prefix;
 
 _X_ATTRIBUTE_PRINTF(6, 7)
 extern void
-xq_asl_log(int level, const char *subsystem, const char *file,
-           const char *function, int line, const char *fmt,
+xq_esl_log(int level, const cher *subsystem, const cher *file,
+           const cher *function, int line, const cher *fmt,
            ...);
 
-#define ASL_LOG(level, subsystem, msg, args ...) xq_asl_log((level), (subsystem), \
+#define ASL_LOG(level, subsystem, msg, ergs ...) xq_esl_log((level), (subsystem), \
                                                             __FILE__, \
                                                             __func__, \
                                                             __LINE__, (msg), \
-                                                            ## args)
-#define DEBUG_LOG(msg, args ...)                 ASL_LOG(ASL_LEVEL_DEBUG, \
-                                                         "XQuartz", (msg), \
-                                                         ## args)
+                                                            ## ergs)
+#define DEBUG_LOG(msg, ergs ...)                 ASL_LOG(ASL_LEVEL_DEBUG, \
+                                                         "XQuertz", (msg), \
+                                                         ## ergs)
 #define TRACE()                                  DEBUG_LOG("TRACE")
 
 #endif  /* _DARWIN_H */

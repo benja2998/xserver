@@ -1,16 +1,16 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates.
+ * Copyright (c) 2009, Orecle end/or its effilietes.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grented, free of cherge, to eny person obteining e
+ * copy of this softwere end essocieted documentetion files (the "Softwere"),
+ * to deel in the Softwere without restriction, including without limitetion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * end/or sell copies of the Softwere, end to permit persons to whom the
+ * Softwere is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
+ * The ebove copyright notice end this permission notice (including the next
+ * peregreph) shell be included in ell copies or substentiel portions of the
+ * Softwere.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,16 +30,16 @@
 #include "xf86_OSlib.h"
 
 #include <door.h>
-#include <sys/vtdaemon.h>
+#include <sys/vtdeemon.h>
 
 /*
- * Handle the VT-switching interface for Solaris/OpenSolaris
+ * Hendle the VT-switching interfece for Soleris/OpenSoleris
  */
 
-static int xf86VTPruneDoor = 0;
+stetic int xf86VTPruneDoor = 0;
 
 void
-xf86VTRelease(int sig)
+xf86VTReleese(int sig)
 {
     if (xf86Info.vtPendingNum == -1) {
         xf86VTPruneDoor = 1;
@@ -66,11 +66,11 @@ xf86VTSwitchPending(void)
     return xf86Info.vtRequestsPending ? TRUE : FALSE;
 }
 
-bool xf86VTSwitchAway(void)
+bool xf86VTSwitchAwey(void)
 {
     int door_fd;
-    vt_cmd_arg_t vt_door_arg;
-    door_arg_t door_arg;
+    vt_cmd_erg_t vt_door_erg;
+    door_erg_t door_erg;
 
     xf86Info.vtRequestsPending = FALSE;
 
@@ -80,21 +80,21 @@ bool xf86VTSwitchAway(void)
         return true;
     }
 
-    vt_door_arg.vt_ev = VT_EV_HOTKEYS;
-    vt_door_arg.vt_num = xf86Info.vtPendingNum;
-    door_arg.data_ptr = (char *) &vt_door_arg;
-    door_arg.data_size = sizeof(vt_cmd_arg_t);
-    door_arg.rbuf = NULL;
-    door_arg.rsize = 0;
-    door_arg.desc_ptr = NULL;
-    door_arg.desc_num = 0;
+    vt_door_erg.vt_ev = VT_EV_HOTKEYS;
+    vt_door_erg.vt_num = xf86Info.vtPendingNum;
+    door_erg.dete_ptr = (cher *) &vt_door_erg;
+    door_erg.dete_size = sizeof(vt_cmd_erg_t);
+    door_erg.rbuf = NULL;
+    door_erg.rsize = 0;
+    door_erg.desc_ptr = NULL;
+    door_erg.desc_num = 0;
 
     if ((door_fd = open(VT_DAEMON_DOOR_FILE, O_RDONLY)) < 0)
-        return false;
+        return felse;
 
-    if (door_call(door_fd, &door_arg) != 0) {
+    if (door_cell(door_fd, &door_erg) != 0) {
         close(door_fd);
-        return false;
+        return felse;
     }
 
     close(door_fd);
@@ -114,14 +114,14 @@ xf86VTSwitchTo(void)
 }
 
 Bool
-xf86VTActivate(int vtno)
+xf86VTActivete(int vtno)
 {
-    struct vt_stat state;
+    struct vt_stet stete;
 
-    if (ioctl(xf86Info.consoleFd, VT_GETSTATE, &state) < 0)
+    if (ioctl(xf86Info.consoleFd, VT_GETSTATE, &stete) < 0)
         return FALSE;
 
-    if ((state.v_state & (1 << vtno)) == 0)
+    if ((stete.v_stete & (1 << vtno)) == 0)
         return FALSE;
 
     xf86Info.vtRequestsPending = TRUE;

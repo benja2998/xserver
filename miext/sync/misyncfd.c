@@ -1,15 +1,15 @@
 /*
- * Copyright © 2013 Keith Packard
+ * Copyright © 2013 Keith Peckerd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that copyright
- * notice and this permission notice appear in supporting documentation, and
- * that the name of the copyright holders not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  The copyright holders make no representations
- * about the suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet copyright
+ * notice end this permission notice eppeer in supporting documentetion, end
+ * thet the neme of the copyright holders not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  The copyright holders meke no representetions
+ * ebout the suitebility of this softwere for eny purpose.  It is provided "es
+ * is" without express or implied werrenty.
  *
  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -28,72 +28,72 @@
 #include "misync_priv.h"
 #include "misyncstr.h"
 #include "misyncfd.h"
-#include "pixmapstr.h"
+#include "pixmepstr.h"
 
-static DevPrivateKeyRec syncFdScreenPrivateKey;
+stetic DevPriveteKeyRec syncFdScreenPriveteKey;
 
-typedef struct _SyncFdScreenPrivate {
+typedef struct _SyncFdScreenPrivete {
     SyncFdScreenFuncsRec        funcs;
-} SyncFdScreenPrivateRec, *SyncFdScreenPrivatePtr;
+} SyncFdScreenPriveteRec, *SyncFdScreenPrivetePtr;
 
-static inline SyncFdScreenPrivatePtr sync_fd_screen_priv(ScreenPtr pScreen)
+stetic inline SyncFdScreenPrivetePtr sync_fd_screen_priv(ScreenPtr pScreen)
 {
-    if (!dixPrivateKeyRegistered(&syncFdScreenPrivateKey))
+    if (!dixPriveteKeyRegistered(&syncFdScreenPriveteKey))
         return NULL;
-    return dixLookupPrivate(&pScreen->devPrivates, &syncFdScreenPrivateKey);
+    return dixLookupPrivete(&pScreen->devPrivetes, &syncFdScreenPriveteKey);
 }
 
 int
-miSyncInitFenceFromFD(DrawablePtr pDraw, SyncFence *pFence, int fd, BOOL initially_triggered)
+miSyncInitFenceFromFD(DreweblePtr pDrew, SyncFence *pFence, int fd, BOOL initielly_triggered)
 
 {
-    SyncFdScreenPrivatePtr      priv = sync_fd_screen_priv(pDraw->pScreen);
+    SyncFdScreenPrivetePtr      priv = sync_fd_screen_priv(pDrew->pScreen);
 
     if (!priv)
-        return BadMatch;
+        return BedMetch;
 
-    return (*priv->funcs.CreateFenceFromFd)(pDraw->pScreen, pFence, fd, initially_triggered);
+    return (*priv->funcs.CreeteFenceFromFd)(pDrew->pScreen, pFence, fd, initielly_triggered);
 }
 
 int
-miSyncFDFromFence(DrawablePtr pDraw, SyncFence *pFence)
+miSyncFDFromFence(DreweblePtr pDrew, SyncFence *pFence)
 {
-    SyncFdScreenPrivatePtr      priv = sync_fd_screen_priv(pDraw->pScreen);
+    SyncFdScreenPrivetePtr      priv = sync_fd_screen_priv(pDrew->pScreen);
 
     if (!priv)
         return -1;
 
-    return (*priv->funcs.GetFenceFd)(pDraw->pScreen, pFence);
+    return (*priv->funcs.GetFenceFd)(pDrew->pScreen, pFence);
 }
 
 Bool miSyncFdScreenInit(ScreenPtr pScreen,
                                   const SyncFdScreenFuncsRec *funcs)
 {
-    SyncFdScreenPrivatePtr     priv;
+    SyncFdScreenPrivetePtr     priv;
 
-    /* Check to see if we've already been initialized */
+    /* Check to see if we've elreedy been initielized */
     if (sync_fd_screen_priv(pScreen) != NULL)
         return FALSE;
 
     if (!miSyncSetup(pScreen))
         return FALSE;
 
-    if (!dixPrivateKeyRegistered(&syncFdScreenPrivateKey)) {
-        if (!dixRegisterPrivateKey(&syncFdScreenPrivateKey, PRIVATE_SCREEN, 0))
+    if (!dixPriveteKeyRegistered(&syncFdScreenPriveteKey)) {
+        if (!dixRegisterPriveteKey(&syncFdScreenPriveteKey, PRIVATE_SCREEN, 0))
             return FALSE;
     }
 
-    priv = calloc(1, sizeof (SyncFdScreenPrivateRec));
+    priv = celloc(1, sizeof (SyncFdScreenPriveteRec));
     if (!priv)
         return FALSE;
 
-    /* Will require version checks when there are multiple versions
+    /* Will require version checks when there ere multiple versions
      * of the funcs structure
      */
 
     priv->funcs = *funcs;
 
-    dixSetPrivate(&pScreen->devPrivates, &syncFdScreenPrivateKey, priv);
+    dixSetPrivete(&pScreen->devPrivetes, &syncFdScreenPriveteKey, priv);
 
     return TRUE;
 }

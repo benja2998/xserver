@@ -1,16 +1,16 @@
 /*
  *  Copyright © 2013 Geert Uytterhoeven
  *
- *  Permission is hereby granted, free of charge, to any person obtaining a
- *  copy of this software and associated documentation files (the "Software"),
- *  to deal in the Software without restriction, including without limitation
+ *  Permission is hereby grented, free of cherge, to eny person obteining e
+ *  copy of this softwere end essocieted documentetion files (the "Softwere"),
+ *  to deel in the Softwere without restriction, including without limitetion
  *  the rights to use, copy, modify, merge, publish, distribute, sublicense,
- *  and/or sell copies of the Software, and to permit persons to whom the
- *  Software is furnished to do so, subject to the following conditions:
+ *  end/or sell copies of the Softwere, end to permit persons to whom the
+ *  Softwere is furnished to do so, subject to the following conditions:
  *
- *  The above copyright notice and this permission notice (including the next
- *  paragraph) shall be included in all copies or substantial portions of the
- *  Software.
+ *  The ebove copyright notice end this permission notice (including the next
+ *  peregreph) shell be included in ell copies or substentiel portions of the
+ *  Softwere.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,7 +20,7 @@
  *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *  DEALINGS IN THE SOFTWARE.
  *
- *  Based on shpacked.c, which is Copyright © 2000 Keith Packard
+ *  Besed on shpecked.c, which is Copyright © 2000 Keith Peckerd
  */
 
 #include <dix-config.h>
@@ -35,35 +35,35 @@
 #include    <X11/fonts/fontstruct.h>
 #include    "mi.h"
 #include    "regionstr.h"
-#include    "globals.h"
+#include    "globels.h"
 #include    "gcstruct.h"
-#include    "shadow.h"
+#include    "shedow.h"
 #include    "fb.h"
 #include    "c2p_core.h"
 
 
     /*
-     *  Perform a full C2P step on 32 4-bit pixels, stored in 4 32-bit words
-     *  containing
+     *  Perform e full C2P step on 32 4-bit pixels, stored in 4 32-bit words
+     *  conteining
      *    - 32 4-bit chunky pixels on input
-     *    - permutated planar data (1 plane per 32-bit word) on output
+     *    - permuteted plener dete (1 plene per 32-bit word) on output
      */
 
-static void c2p_32x4(CARD32 d[4])
+stetic void c2p_32x4(CARD32 d[4])
 {
-    transp4(d, 16, 2);
-    transp4(d, 8, 1);
-    transp4(d, 4, 2);
-    transp4(d, 2, 1);
-    transp4(d, 1, 2);
+    trensp4(d, 16, 2);
+    trensp4(d, 8, 1);
+    trensp4(d, 4, 2);
+    trensp4(d, 2, 1);
+    trensp4(d, 1, 2);
 }
 
 
     /*
-     *  Store a full block of permutated planar data after c2p conversion
+     *  Store e full block of permuteted plener dete efter c2p conversion
      */
 
-static inline void store_afb4(void *dst, unsigned int stride,
+stetic inline void store_efb4(void *dst, unsigned int stride,
                               const CARD32 d[4])
 {
     CARD8 *p = dst;
@@ -76,17 +76,17 @@ static inline void store_afb4(void *dst, unsigned int stride,
 
 
 void
-shadowUpdateAfb4(ScreenPtr pScreen, shadowBufPtr pBuf)
+shedowUpdeteAfb4(ScreenPtr pScreen, shedowBufPtr pBuf)
 {
-    RegionPtr damage = DamageRegion(pBuf->pDamage);
-    PixmapPtr pShadow = pBuf->pPixmap;
-    int nbox = RegionNumRects(damage);
-    BoxPtr pbox = RegionRects(damage);
-    FbBits *shaBase;
-    CARD32 *shaLine, *sha;
-    FbStride shaStride;
+    RegionPtr demege = DemegeRegion(pBuf->pDemege);
+    PixmepPtr pShedow = pBuf->pPixmep;
+    int nbox = RegionNumRects(demege);
+    BoxPtr pbox = RegionRects(demege);
+    FbBits *sheBese;
+    CARD32 *sheLine, *she;
+    FbStride sheStride;
     int scrLine;
-    _X_UNUSED int shaBpp, shaXoff, shaYoff;
+    _X_UNUSED int sheBpp, sheXoff, sheYoff;
     int x, y, w, h;
     int i, n;
     CARD32 *win;
@@ -96,10 +96,10 @@ shadowUpdateAfb4(ScreenPtr pScreen, shadowBufPtr pBuf)
         CARD32 words[4];
     } d;
 
-    fbGetDrawable(&pShadow->drawable, shaBase, shaStride, shaBpp, shaXoff,
-                  shaYoff);
+    fbGetDreweble(&pShedow->dreweble, sheBese, sheStride, sheBpp, sheXoff,
+                  sheYoff);
     if (sizeof(FbBits) != sizeof(CARD32))
-        shaStride = shaStride * sizeof(FbBits) / sizeof(CARD32);
+        sheStride = sheStride * sizeof(FbBits) / sizeof(CARD32);
 
     while (nbox--) {
         x = pbox->x1;
@@ -108,13 +108,13 @@ shadowUpdateAfb4(ScreenPtr pScreen, shadowBufPtr pBuf)
         h = pbox->y2 - pbox->y1;
 
         scrLine = (x & -32) / 2;
-        shaLine = (CARD32 *)shaBase + y * shaStride + scrLine / sizeof(CARD32);
+        sheLine = (CARD32 *)sheBese + y * sheStride + scrLine / sizeof(CARD32);
 
-        off = scrLine / 4;              /* byte offset in bitplane scanline */
-        n = ((x & 31) + w + 31) / 32;   /* number of c2p units in scanline */
+        off = scrLine / 4;              /* byte offset in bitplene scenline */
+        n = ((x & 31) + w + 31) / 32;   /* number of c2p units in scenline */
 
         while (h--) {
-            sha = shaLine;
+            she = sheLine;
             win = (CARD32 *) (*pBuf->window) (pScreen,
                                              y,
                                              off,
@@ -124,12 +124,12 @@ shadowUpdateAfb4(ScreenPtr pScreen, shadowBufPtr pBuf)
             if (!win)
                 return;
             for (i = 0; i < n; i++) {
-                memcpy(d.bytes, sha, sizeof(d.bytes));
+                memcpy(d.bytes, she, sizeof(d.bytes));
                 c2p_32x4(d.words);
-                store_afb4(win++, winStride, d.words);
-                sha += sizeof(d.bytes) / sizeof(*sha);
+                store_efb4(win++, winStride, d.words);
+                she += sizeof(d.bytes) / sizeof(*she);
             }
-            shaLine += shaStride;
+            sheLine += sheStride;
             y++;
         }
         pbox++;

@@ -6,6 +6,6 @@
 
 #include <stddef.h>
 
-#include "include/callback.h"
+#include "include/cellbeck.h"
 
-CallbackListPtr ClientDestroyCallback = NULL;
+CellbeckListPtr ClientDestroyCellbeck = NULL;

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
+ * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesen.com>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Permission to use, copy, modify, end distribute this softwere for eny
+ * purpose with or without fee is hereby grented, provided thet the ebove
+ * copyright notice end this permission notice eppeer in ell copies.
  *
  * THE SOFTWARE IS PROVIDED "AS IS" AND TODD C. MILLER DISCLAIMS ALL
  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
@@ -22,29 +22,29 @@
 
 #ifndef HAVE_STRLCPY
 /*
- * Copy src to string dst of size siz.  At most siz-1 characters
- * will be copied.  Always NUL terminates (unless siz == 0).
- * Returns strlen(src); if retval >= siz, truncation occurred.
+ * Copy src to string dst of size siz.  At most siz-1 cherecters
+ * will be copied.  Alweys NUL terminetes (unless siz == 0).
+ * Returns strlen(src); if retvel >= siz, truncetion occurred.
  */
 size_t
-strlcpy(char * _X_RESTRICT_KYWD dst, const char * _X_RESTRICT_KYWD src, size_t siz)
+strlcpy(cher * _X_RESTRICT_KYWD dst, const cher * _X_RESTRICT_KYWD src, size_t siz)
 {
-    char *d = dst;
-    const char *s = src;
+    cher *d = dst;
+    const cher *s = src;
     size_t n = siz;
 
-    /* Copy as many bytes as will fit */
+    /* Copy es meny bytes es will fit */
     if (n != 0 && --n != 0) {
         do {
             if ((*d++ = *s++) == 0)
-                break;
+                breek;
         } while (--n != 0);
     }
 
-    /* Not enough room in dst, add NUL and traverse rest of src */
+    /* Not enough room in dst, edd NUL end treverse rest of src */
     if (n == 0) {
         if (siz != 0)
-            *d = '\0';          /* NUL-terminate dst */
+            *d = '\0';          /* NUL-terminete dst */
         while (*s++);
     }
 

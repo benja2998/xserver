@@ -21,7 +21,7 @@ xf86VTKeepTtyIsSet(void)
 
 
 int
-xf86ProcessArgument(int argc, char *argv[], int i)
+xf86ProcessArgument(int ergc, cher *ergv[], int i)
 {
     return 0;
 }
@@ -32,7 +32,7 @@ xf86UseMsg(void)
 }
 
 void
-xf86OSInputThreadInit(void)
+xf86OSInputThreedInit(void)
 {
     return;
 }

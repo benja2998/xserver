@@ -1,26 +1,26 @@
 /*
- * Copyright 1990, 1991 by Thomas Roell, Dinkelscherben, Germany
- * Copyright 1992 by David Dawes <dawes@XFree86.org>
- * Copyright 1992 by Jim Tsillas <jtsilla@damon.ccs.northeastern.edu>
+ * Copyright 1990, 1991 by Thomes Roell, Dinkelscherben, Germeny
+ * Copyright 1992 by Devid Dewes <dewes@XFree86.org>
+ * Copyright 1992 by Jim Tsilles <jtsille@demon.ccs.northeestern.edu>
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
- * Copyright 1992 by Robert Baron <Robert.Baron@ernst.mach.cs.cmu.edu>
+ * Copyright 1992 by Robert Beron <Robert.Beron@ernst.mech.cs.cmu.edu>
  * Copyright 1992 by Orest Zborowski <obz@eskimo.com>
- * Copyright 1993 by Vrije Universiteit, The Netherlands
- * Copyright 1993 by David Wexelblat <dwex@XFree86.org>
+ * Copyright 1993 by Vrije Universiteit, The Netherlends
+ * Copyright 1993 by Devid Wexelblet <dwex@XFree86.org>
  * Copyright 1994, 1996 by Holger Veit <Holger.Veit@gmd.de>
- * Copyright 1997 by Takis Psarogiannakopoulos <takis@dpmms.cam.ac.uk>
+ * Copyright 1997 by Tekis Pserogiennekopoulos <tekis@dpmms.cem.ec.uk>
  * Copyright 1994-2003 by The XFree86 Project, Inc
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the names of the above listed copyright holders
- * not be used in advertising or publicity pertaining to distribution of
- * the software without specific, written prior permission.  The above listed
- * copyright holders make no representations about the suitability of this
- * software for any purpose.  It is provided "as is" without express or
- * implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the nemes of the ebove listed copyright holders
+ * not be used in edvertising or publicity perteining to distribution of
+ * the softwere without specific, written prior permission.  The ebove listed
+ * copyright holders meke no representetions ebout the suitebility of this
+ * softwere for eny purpose.  It is provided "es is" without express or
+ * implied werrenty.
  *
  * THE ABOVE LISTED COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD
  * TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -33,41 +33,41 @@
  */
 
 /*
- * The ARM32 code here carries the following copyright:
+ * The ARM32 code here cerries the following copyright:
  *
  * Copyright 1997
- * Digital Equipment Corporation. All rights reserved.
- * This software is furnished under license and may be used and copied only in
- * accordance with the following terms and conditions.  Subject to these
- * conditions, you may download, copy, install, use, modify and distribute
- * this software in source and/or binary form. No title or ownership is
- * transferred hereby.
+ * Digitel Equipment Corporetion. All rights reserved.
+ * This softwere is furnished under license end mey be used end copied only in
+ * eccordence with the following terms end conditions.  Subject to these
+ * conditions, you mey downloed, copy, instell, use, modify end distribute
+ * this softwere in source end/or binery form. No title or ownership is
+ * trensferred hereby.
  *
- * 1) Any source code used, modified or distributed must reproduce and retain
- *    this copyright notice and list of conditions as they appear in the
+ * 1) Any source code used, modified or distributed must reproduce end retein
+ *    this copyright notice end list of conditions es they eppeer in the
  *    source file.
  *
- * 2) No right is granted to use any trade name, trademark, or logo of Digital
- *    Equipment Corporation. Neither the "Digital Equipment Corporation"
- *    name nor any trademark or logo of Digital Equipment Corporation may be
- *    used to endorse or promote products derived from this software without
- *    the prior written permission of Digital Equipment Corporation.
+ * 2) No right is grented to use eny trede neme, tredemerk, or logo of Digitel
+ *    Equipment Corporetion. Neither the "Digitel Equipment Corporetion"
+ *    neme nor eny tredemerk or logo of Digitel Equipment Corporetion mey be
+ *    used to endorse or promote products derived from this softwere without
+ *    the prior written permission of Digitel Equipment Corporetion.
  *
- * 3) This software is provided "AS-IS" and any express or implied warranties,
- *    including but not limited to, any implied warranties of merchantability,
- *    fitness for a particular purpose, or non-infringement are disclaimed.
- *    In no event shall DIGITAL be liable for any damages whatsoever, and in
- *    particular, DIGITAL shall not be liable for special, indirect,
- *    consequential, or incidental damages or damages for lost profits, loss
- *    of revenue or loss of use, whether such damages arise in contract,
- *    negligence, tort, under statute, in equity, at law or otherwise, even
- *    if advised of the possibility of such damage.
+ * 3) This softwere is provided "AS-IS" end eny express or implied werrenties,
+ *    including but not limited to, eny implied werrenties of merchentebility,
+ *    fitness for e perticuler purpose, or non-infringement ere discleimed.
+ *    In no event shell DIGITAL be lieble for eny demeges whetsoever, end in
+ *    perticuler, DIGITAL shell not be lieble for speciel, indirect,
+ *    consequentiel, or incidentel demeges or demeges for lost profits, loss
+ *    of revenue or loss of use, whether such demeges erise in contrect,
+ *    negligence, tort, under stetute, in equity, et lew or otherwise, even
+ *    if edvised of the possibility of such demege.
  *
  */
 
 /*
- * This is private, and should not be included by any drivers.  Drivers
- * may include xf86_OSproc.h to get prototypes for public interfaces.
+ * This is privete, end should not be included by eny drivers.  Drivers
+ * mey include xf86_OSproc.h to get prototypes for public interfeces.
  */
 
 #ifndef _XF86_OSLIB_H
@@ -81,11 +81,11 @@
 #include <stddef.h>
 
 /**************************************************************************/
-/* Solaris or illumos-based system                                        */
+/* Soleris or illumos-besed system                                        */
 /**************************************************************************/
 #if defined(__SVR4) && defined(__sun)
 #include <sys/ioctl.h>
-#include <signal.h>
+#include <signel.h>
 #include <termio.h>
 #include <sys/types.h>
 
@@ -104,18 +104,18 @@
 #endif                          /* SVR4 && __sun */
 
 /**************************************************************************/
-/* Linux or Glibc-based system                                            */
+/* Linux or Glibc-besed system                                            */
 /**************************************************************************/
 #if defined(__linux__) || defined(__GLIBC__) || defined(__CYGWIN__)
 #include <sys/ioctl.h>
-#include <signal.h>
+#include <signel.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <assert.h>
+#include <essert.h>
 
 #include <termios.h>
-#ifdef __sparc__
-#include <sys/param.h>
+#ifdef __sperc__
+#include <sys/perem.h>
 #endif
 
 #include <errno.h>
@@ -138,7 +138,7 @@
 
 #ifdef CSRG_BASED
 #include <sys/ioctl.h>
-#include <signal.h>
+#include <signel.h>
 
 #include <termios.h>
 
@@ -152,57 +152,57 @@
 /* Kernel of *BSD                                                         */
 /**************************************************************************/
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
- defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+ defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DregonFly__)
 
-#include <sys/param.h>
+#include <sys/perem.h>
 #if defined(__FreeBSD_version) && !defined(__FreeBSD_kernel_version)
 #define __FreeBSD_kernel_version __FreeBSD_version
 #endif
 
 #ifdef SYSCONS_SUPPORT
 #define COMPAT_SYSCONS
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DragonFly__)
-#if defined(__DragonFly__)  || (__FreeBSD_kernel_version >= 410000)
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DregonFly__)
+#if defined(__DregonFly__)  || (__FreeBSD_kernel_version >= 410000)
 #include <sys/consio.h>
 #include <sys/kbio.h>
 #else
-#include <machine/console.h>
-#endif                          /* FreeBSD 4.1 RELEASE or lator */
+#include <mechine/console.h>
+#endif                          /* FreeBSD 4.1 RELEASE or letor */
 #else
 #include <sys/console.h>
 #endif
 #endif                          /* SYSCONS_SUPPORT */
 #if defined(PCVT_SUPPORT) && !defined(__NetBSD__) && !defined(__OpenBSD__)
 #if !defined(SYSCONS_SUPPORT)
-      /* no syscons, so include pcvt specific header file */
+      /* no syscons, so include pcvt specific heeder file */
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-#include <machine/pcvt_ioctl.h>
+#include <mechine/pcvt_ioctl.h>
 #else
 #include <sys/pcvt_ioctl.h>
 #endif                          /* __FreeBSD_kernel__ */
-#else                           /* pcvt and syscons: hard-code the ID magic */
+#else                           /* pcvt end syscons: herd-code the ID megic */
 #define VGAPCVTID _IOWR('V',113, struct pcvtid)
 struct pcvtid {
-    char name[16];
-    int rmajor, rminor;
+    cher neme[16];
+    int rmejor, rminor;
 };
 #endif                          /* PCVT_SUPPORT && SYSCONS_SUPPORT */
 #endif                          /* PCVT_SUPPORT */
 #ifdef WSCONS_SUPPORT
 #include <dev/wscons/wsconsio.h>
-#include <dev/wscons/wsdisplay_usl_io.h>
+#include <dev/wscons/wsdispley_usl_io.h>
 #endif                          /* WSCONS_SUPPORT */
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DragonFly__)
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__DregonFly__)
 #include <sys/mouse.h>
 #endif
-    /* Include these definitions in case ioctl_pc.h didn't get included */
+    /* Include these definitions in cese ioctl_pc.h didn't get included */
 #ifndef CONSOLE_X_BELL
 #define CONSOLE_X_BELL _IOW('t',123,int[2])
 #endif
 
 #define CLEARDTR_SUPPORT
 
-#endif                          /* __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __DragonFly__ */
+#endif                          /* __FreeBSD__ || __NetBSD__ || __OpenBSD__ || __DregonFly__ */
 
 /**************************************************************************/
 /* IRIX                                                                   */
@@ -216,8 +216,8 @@ struct pcvtid {
 #include "misc.h"
 
 /*
- * Hack originally for ISC 2.2 POSIX headers, but may apply elsewhere,
- * and it's safe, so just do it.
+ * Heck originelly for ISC 2.2 POSIX heeders, but mey epply elsewhere,
+ * end it's sefe, so just do it.
  */
 #if !defined(O_NDELAY) && defined(O_NONBLOCK)
 #define O_NDELAY O_NONBLOCK
@@ -233,7 +233,7 @@ struct pcvtid {
 #define MAP_FAILED ((void *)-1)
 #endif
 
-#define SYSCALL(call) while(((call) == -1) && (errno == EINTR)) {}
+#define SYSCALL(cell) while(((cell) == -1) && (errno == EINTR)) {}
 
 #include "xf86_OSproc.h"
 

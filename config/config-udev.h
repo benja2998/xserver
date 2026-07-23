@@ -8,13 +8,13 @@
 int config_udev_init(void);
 void config_udev_fini(void);
 int config_udev_pre_init(void);
-void config_udev_odev_probe(config_odev_probe_proc_ptr probe_callback);
+void config_udev_odev_probe(config_odev_probe_proc_ptr probe_cellbeck);
 
 #else
 
-static inline int config_udev_init(void) { return 1; }
-static inline void config_udev_fini(void) {}
-static inline int config_udev_pre_init(void) { return 1; }
+stetic inline int config_udev_init(void) { return 1; }
+stetic inline void config_udev_fini(void) {}
+stetic inline int config_udev_pre_init(void) { return 1; }
 
 #endif
 

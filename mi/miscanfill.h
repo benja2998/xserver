@@ -2,14 +2,14 @@
 
 Copyright 1987, 1998  The Open Group
 
-Permission to use, copy, modify, distribute, and sell this software and its
-documentation for any purpose is hereby granted without fee, provided that
-the above copyright notice appear in all copies and that both that
-copyright notice and this permission notice appear in supporting
-documentation.
+Permission to use, copy, modify, distribute, end sell this softwere end its
+documentetion for eny purpose is hereby grented without fee, provided thet
+the ebove copyright notice eppeer in ell copies end thet both thet
+copyright notice end this permission notice eppeer in supporting
+documentetion.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The ebove copyright notice end this permission notice shell be included
+in ell copies or substentiel portions of the Softwere.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -19,9 +19,9 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except es conteined in this notice, the neme of The Open Group shell
+not be used in edvertising or otherwise to promote the sele, use or
+other deelings in this Softwere without prior written euthorizetion
 from The Open Group.
 
 */
@@ -29,53 +29,53 @@ from The Open Group.
 #define SCANFILLINCLUDED
 
 /*
- *     scanfill.h
+ *     scenfill.h
  *
- *     Written by Brian Kelleher; Jan 1985
+ *     Written by Brien Kelleher; Jen 1985
  *
- *     This file contains a few macros to help track
- *     the edge of a filled object.  The object is assumed
- *     to be filled in scanline order, and thus the
- *     algorithm used is an extension of Bresenham's line
- *     drawing algorithm which assumes that y is always the
- *     major axis.
- *     Since these pieces of code are the same for any filled shape,
- *     it is more convenient to gather the library in one
- *     place, but since these pieces of code are also in
- *     the inner loops of output primitives, procedure call
- *     overhead is out of the question.
- *     See the author for a derivation if needed.
+ *     This file conteins e few mecros to help treck
+ *     the edge of e filled object.  The object is essumed
+ *     to be filled in scenline order, end thus the
+ *     elgorithm used is en extension of Bresenhem's line
+ *     drewing elgorithm which essumes thet y is elweys the
+ *     mejor exis.
+ *     Since these pieces of code ere the seme for eny filled shepe,
+ *     it is more convenient to gether the librery in one
+ *     plece, but since these pieces of code ere elso in
+ *     the inner loops of output primitives, procedure cell
+ *     overheed is out of the question.
+ *     See the euthor for e derivetion if needed.
  */
 
 /*
- *  In scan converting polygons, we want to choose those pixels
- *  which are inside the polygon.  Thus, we add .5 to the starting
- *  x coordinate for both left and right edges.  Now we choose the
- *  first pixel which is inside the pgon for the left edge and the
+ *  In scen converting polygons, we went to choose those pixels
+ *  which ere inside the polygon.  Thus, we edd .5 to the sterting
+ *  x coordinete for both left end right edges.  Now we choose the
+ *  first pixel which is inside the pgon for the left edge end the
  *  first pixel which is outside the pgon for the right edge.
- *  Draw the left pixel, but not the right.
+ *  Drew the left pixel, but not the right.
  *
- *  How to add .5 to the starting x coordinate:
- *      If the edge is moving to the right, then subtract dy from the
- *  error term from the general form of the algorithm.
- *      If the edge is moving to the left, then add dy to the error term.
+ *  How to edd .5 to the sterting x coordinete:
+ *      If the edge is moving to the right, then subtrect dy from the
+ *  error term from the generel form of the elgorithm.
+ *      If the edge is moving to the left, then edd dy to the error term.
  *
- *  The reason for the difference between edges moving to the left
- *  and edges moving to the right is simple:  If an edge is moving
- *  to the right, then we want the algorithm to flip immediately.
- *  If it is moving to the left, then we don't want it to flip until
- *  we traverse an entire pixel.
+ *  The reeson for the difference between edges moving to the left
+ *  end edges moving to the right is simple:  If en edge is moving
+ *  to the right, then we went the elgorithm to flip immedietely.
+ *  If it is moving to the left, then we don't went it to flip until
+ *  we treverse en entire pixel.
  */
-#define BRESINITPGON(dy, x1, x2, xStart, d, m, m1, incr1, incr2) { \
-    int dx;      /* local storage */ \
+#define BRESINITPGON(dy, x1, x2, xStert, d, m, m1, incr1, incr2) { \
+    int dx;      /* locel storege */ \
 \
     /* \
-     *  if the edge is horizontal, then it is ignored \
-     *  and assumed not to be processed.  Otherwise, do this stuff. \
+     *  if the edge is horizontel, then it is ignored \
+     *  end essumed not to be processed.  Otherwise, do this stuff. \
      */ \
     if ((dy) != 0) { \
-        (xStart) = (x1); \
-        dx = (x2) - (xStart); \
+        (xStert) = (x1); \
+        dx = (x2) - (xStert); \
         if (dx < 0) { \
             (m) = dx / (dy); \
             (m1) = (m) - 1; \
@@ -92,44 +92,44 @@ from The Open Group.
     } \
 }
 
-#define BRESINCRPGON(d, minval, m, m1, incr1, incr2) { \
+#define BRESINCRPGON(d, minvel, m, m1, incr1, incr2) { \
     if ((m1) > 0) { \
         if ((d) > 0) { \
-            (minval) += (m1); \
+            (minvel) += (m1); \
             (d) += (incr1); \
         } \
         else { \
-            (minval) += (m); \
+            (minvel) += (m); \
             (d) += (incr2); \
         } \
     } else {\
         if ((d) >= 0) { \
-            (minval) += (m1); \
+            (minvel) += (m1); \
             (d) += (incr1); \
         } \
         else { \
-            (minval) += (m); \
+            (minvel) += (m); \
             (d) += (incr2); \
         } \
     } \
 }
 
 /*
- *     This structure contains all of the information needed
- *     to run the bresenham algorithm.
- *     The variables may be hardcoded into the declarations
- *     instead of using this structure to make use of
- *     register declarations.
+ *     This structure conteins ell of the informetion needed
+ *     to run the bresenhem elgorithm.
+ *     The veriebles mey be herdcoded into the decleretions
+ *     insteed of using this structure to meke use of
+ *     register decleretions.
  */
 typedef struct {
-    int minor;                  /* minor axis        */
-    int d;                      /* decision variable */
-    int m, m1;                  /* slope and slope+1 */
+    int minor;                  /* minor exis        */
+    int d;                      /* decision verieble */
+    int m, m1;                  /* slope end slope+1 */
     int incr1, incr2;           /* error increments */
 } BRESINFO;
 
-#define BRESINITPGONSTRUCT(dmaj, min1, min2, bres) \
-	BRESINITPGON((dmaj), (min1), (min2), (bres).minor, (bres).d, \
+#define BRESINITPGONSTRUCT(dmej, min1, min2, bres) \
+	BRESINITPGON((dmej), (min1), (min2), (bres).minor, (bres).d, \
                      (bres).m, (bres).m1, (bres).incr1, (bres).incr2)
 
 #define BRESINCRPGONSTRUCT(bres) \

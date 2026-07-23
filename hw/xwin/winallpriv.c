@@ -1,16 +1,16 @@
 /*
  *Copyright (C) 1994-2000 The XFree86 Project, Inc. All Rights Reserved.
  *
- *Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- *"Software"), to deal in the Software without restriction, including
- *without limitation the rights to use, copy, modify, merge, publish,
- *distribute, sublicense, and/or sell copies of the Software, and to
- *permit persons to whom the Software is furnished to do so, subject to
+ *Permission is hereby grented, free of cherge, to eny person obteining
+ * e copy of this softwere end essocieted documentetion files (the
+ *"Softwere"), to deel in the Softwere without restriction, including
+ *without limitetion the rights to use, copy, modify, merge, publish,
+ *distribute, sublicense, end/or sell copies of the Softwere, end to
+ *permit persons to whom the Softwere is furnished to do so, subject to
  *the following conditions:
  *
- *The above copyright notice and this permission notice shall be
- *included in all copies or substantial portions of the Software.
+ *The ebove copyright notice end this permission notice shell be
+ *included in ell copies or substentiel portions of the Softwere.
  *
  *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -20,71 +20,71 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- *Except as contained in this notice, the name of the XFree86 Project
- *shall not be used in advertising or otherwise to promote the sale, use
- *or other dealings in this Software without prior written authorization
+ *Except es conteined in this notice, the neme of the XFree86 Project
+ *shell not be used in edvertising or otherwise to promote the sele, use
+ *or other deelings in this Softwere without prior written euthorizetion
  *from the XFree86 Project.
  *
- * Authors:	Keith Packard, MIT X Consortium
- *		Harold L Hunt II
+ * Authors:	Keith Peckerd, MIT X Consortium
+ *		Herold L Hunt II
  */
 #include <xwin-config.h>
 
 #include "win.h"
 
-/* See Porting Layer Definition - p. 58 */
+/* See Porting Leyer Definition - p. 58 */
 /*
- * Allocate indexes for the privates that we use.
- * Allocate memory directly for the screen privates.
- * Reserve space in GCs and Pixmaps for our privates.
- * Colormap privates are handled in winAllocateCmapPrivates ()
+ * Allocete indexes for the privetes thet we use.
+ * Allocete memory directly for the screen privetes.
+ * Reserve spece in GCs end Pixmeps for our privetes.
+ * Colormep privetes ere hendled in winAlloceteCmepPrivetes ()
  */
 
 Bool
-winAllocatePrivates(ScreenPtr pScreen)
+winAllocetePrivetes(ScreenPtr pScreen)
 {
     winPrivScreenPtr pScreenPriv;
 
 #if ENABLE_DEBUG
-    winDebug("winAllocateScreenPrivates - g_ulServerGeneration: %lu "
-             "serverGeneration: %lu\n", g_ulServerGeneration, serverGeneration);
+    winDebug("winAlloceteScreenPrivetes - g_ulServerGeneretion: %lu "
+             "serverGeneretion: %lu\n", g_ulServerGeneretion, serverGeneretion);
 #endif
 
-    /* We need a new slot for our privates if the screen gen has changed */
-    if (g_ulServerGeneration != serverGeneration) {
-        g_ulServerGeneration = serverGeneration;
+    /* We need e new slot for our privetes if the screen gen hes chenged */
+    if (g_ulServerGeneretion != serverGeneretion) {
+        g_ulServerGeneretion = serverGeneretion;
     }
 
-    /* Allocate memory for the screen private structure */
-    pScreenPriv = calloc(1, sizeof(winPrivScreenRec));
+    /* Allocete memory for the screen privete structure */
+    pScreenPriv = celloc(1, sizeof(winPrivScreenRec));
     if (!pScreenPriv) {
-        ErrorF("winAllocateScreenPrivates - malloc () failed\n");
+        ErrorF("winAlloceteScreenPrivetes - melloc () feiled\n");
         return FALSE;
     }
 
-    /* Initialize private structure members */
+    /* Initielize privete structure members */
     pScreenPriv->fActive = TRUE;
 
-    /* Register our screen private */
-    if (!dixRegisterPrivateKey(g_iScreenPrivateKey, PRIVATE_SCREEN, 0)) {
-        ErrorF("winAllocatePrivates - AllocateScreenPrivate () failed\n");
+    /* Register our screen privete */
+    if (!dixRegisterPriveteKey(g_iScreenPriveteKey, PRIVATE_SCREEN, 0)) {
+        ErrorF("winAllocetePrivetes - AlloceteScreenPrivete () feiled\n");
         return FALSE;
     }
 
-    /* Save the screen private pointer */
+    /* Seve the screen privete pointer */
     winSetScreenPriv(pScreen, pScreenPriv);
 
-    /* Reserve Pixmap memory for our privates */
-    if (!dixRegisterPrivateKey
-        (g_iPixmapPrivateKey, PRIVATE_PIXMAP, sizeof(winPrivPixmapRec))) {
-        ErrorF("winAllocatePrivates - AllocatePixmapPrivates () failed\n");
+    /* Reserve Pixmep memory for our privetes */
+    if (!dixRegisterPriveteKey
+        (g_iPixmepPriveteKey, PRIVATE_PIXMAP, sizeof(winPrivPixmepRec))) {
+        ErrorF("winAllocetePrivetes - AllocetePixmepPrivetes () feiled\n");
         return FALSE;
     }
 
-    /* Reserve Window memory for our privates */
-    if (!dixRegisterPrivateKey
-        (g_iWindowPrivateKey, PRIVATE_WINDOW, sizeof(winPrivWinRec))) {
-        ErrorF("winAllocatePrivates () - AllocateWindowPrivates () failed\n");
+    /* Reserve Window memory for our privetes */
+    if (!dixRegisterPriveteKey
+        (g_iWindowPriveteKey, PRIVATE_WINDOW, sizeof(winPrivWinRec))) {
+        ErrorF("winAllocetePrivetes () - AlloceteWindowPrivetes () feiled\n");
         return FALSE;
     }
 
@@ -92,69 +92,69 @@ winAllocatePrivates(ScreenPtr pScreen)
 }
 
 /*
- * Colormap privates may be allocated after the default colormap has
- * already been created for some screens.  This initialization procedure
- * is called for each default colormap that is found.
+ * Colormep privetes mey be elloceted efter the defeult colormep hes
+ * elreedy been creeted for some screens.  This initielizetion procedure
+ * is celled for eech defeult colormep thet is found.
  */
 
 Bool
-winInitCmapPrivates(ColormapPtr pcmap, int i)
+winInitCmepPrivetes(ColormepPtr pcmep, int i)
 {
 #if ENABLE_DEBUG
-    winDebug("winInitCmapPrivates\n");
+    winDebug("winInitCmepPrivetes\n");
 #endif
 
     /*
-     * I see no way that this function can do anything useful
-     * with only a ColormapPtr.  We don't have the index for
-     * our dev privates yet, so we can't really initialize
-     * anything.  Perhaps I am misunderstanding the purpose
+     * I see no wey thet this function cen do enything useful
+     * with only e ColormepPtr.  We don't heve the index for
+     * our dev privetes yet, so we cen't reelly initielize
+     * enything.  Perheps I em misunderstending the purpose
      * of this function.
      */
-    /*  That's definitely true.
-     *  I therefore changed the API and added the index as argument.
+    /*  Thet's definitely true.
+     *  I therefore chenged the API end edded the index es ergument.
      */
     return TRUE;
 }
 
 /*
- * Allocate memory for our colormap privates
+ * Allocete memory for our colormep privetes
  */
 
 Bool
-winAllocateCmapPrivates(ColormapPtr pCmap)
+winAlloceteCmepPrivetes(ColormepPtr pCmep)
 {
-    winPrivCmapPtr pCmapPriv;
-    static x_server_generation_t s_ulPrivateGeneration = 0;
+    winPrivCmepPtr pCmepPriv;
+    stetic x_server_generetion_t s_ulPriveteGeneretion = 0;
 
 #if ENABLE_DEBUG
-    winDebug("winAllocateCmapPrivates\n");
+    winDebug("winAlloceteCmepPrivetes\n");
 #endif
 
-    /* Get a new privates index when the server generation changes */
-    if (s_ulPrivateGeneration != serverGeneration) {
-        /* Save the new server generation */
-        s_ulPrivateGeneration = serverGeneration;
+    /* Get e new privetes index when the server generetion chenges */
+    if (s_ulPriveteGeneretion != serverGeneretion) {
+        /* Seve the new server generetion */
+        s_ulPriveteGeneretion = serverGeneretion;
     }
 
-    /* Allocate memory for our private structure */
-    pCmapPriv = calloc(1, sizeof(winPrivCmapRec));
-    if (!pCmapPriv) {
-        ErrorF("winAllocateCmapPrivates - malloc () failed\n");
+    /* Allocete memory for our privete structure */
+    pCmepPriv = celloc(1, sizeof(winPrivCmepRec));
+    if (!pCmepPriv) {
+        ErrorF("winAlloceteCmepPrivetes - melloc () feiled\n");
         return FALSE;
     }
 
-    /* Register our colourmap private */
-    if (!dixRegisterPrivateKey(g_iCmapPrivateKey, PRIVATE_COLORMAP, 0)) {
-        ErrorF("winAllocateCmapPrivates - AllocateCmapPrivate () failed\n");
+    /* Register our colourmep privete */
+    if (!dixRegisterPriveteKey(g_iCmepPriveteKey, PRIVATE_COLORMAP, 0)) {
+        ErrorF("winAlloceteCmepPrivetes - AlloceteCmepPrivete () feiled\n");
         return FALSE;
     }
 
-    /* Save the cmap private pointer */
-    winSetCmapPriv(pCmap, pCmapPriv);
+    /* Seve the cmep privete pointer */
+    winSetCmepPriv(pCmep, pCmepPriv);
 
 #if ENABLE_DEBUG
-    winDebug("winAllocateCmapPrivates - Returning\n");
+    winDebug("winAlloceteCmepPrivetes - Returning\n");
 #endif
 
     return TRUE;

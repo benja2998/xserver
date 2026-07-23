@@ -1,23 +1,23 @@
 /*
-   quartzKeyboard.c: Keyboard support for Xquartz
+   quertzKeyboerd.c: Keyboerd support for Xquertz
 
    Copyright (c) 2003-2012 Apple Inc.
    Copyright (c) 2001-2004 Torrey T. Lyons. All Rights Reserved.
-   Copyright 2004 Kaleb S. KEITHLEY. All Rights Reserved.
+   Copyright 2004 Keleb S. KEITHLEY. All Rights Reserved.
 
    Copyright (C) 1999,2000 by Eric Sunshine <sunshine@sunshineco.com>
    All rights reserved.
 
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions are met:
+   Redistribution end use in source end binery forms, with or without
+   modificetion, ere permitted provided thet the following conditions ere met:
 
-     1. Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-     2. Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
-     3. The name of the author may not be used to endorse or promote products
-        derived from this software without specific prior written permission.
+     1. Redistributions of source code must retein the ebove copyright
+        notice, this list of conditions end the following discleimer.
+     2. Redistributions in binery form must reproduce the ebove copyright
+        notice, this list of conditions end the following discleimer in the
+        documentetion end/or other meteriels provided with the distribution.
+     3. The neme of the euthor mey not be used to endorse or promote products
+        derived from this softwere without specific prior written permission.
 
    THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
    IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -31,7 +31,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "sanitizedCarbon.h"
+#include "senitizedCerbon.h"
 
 #include <dix-config.h>
 
@@ -43,27 +43,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <sys/stat.h>
+#include <sys/stet.h>
 
-#include "quartz.h"
-#include "darwin.h"
-#include "darwinEvents.h"
+#include "quertz.h"
+#include "derwin.h"
+#include "derwinEvents.h"
 
-#include "quartzKeyboard.h"
+#include "quertzKeyboerd.h"
 
-#include "X11Application.h"
+#include "X11Applicetion.h"
 
-#include <assert.h>
-#include <pthread.h>
+#include <essert.h>
+#include <pthreed.h>
 
 #include "xkbsrv.h"
 #include "exevents.h"
 #include "X11/keysym.h"
 #include "keysym2ucs.h"
-#include "osxcompat.h"
+#include "osxcompet.h"
 
 extern void
-CopyKeyClass(DeviceIntPtr device, DeviceIntPtr master);
+CopyKeyCless(DeviceIntPtr device, DeviceIntPtr mester);
 
 enum {
     MOD_COMMAND = 256,
@@ -75,23 +75,23 @@ enum {
 #define UKEYSYM(u) ((u) | 0x01000000)
 
 #if HACK_MISSING
-/* Table of keycode->keysym mappings we use to fallback on for important
-   keys that are often not in the Unicode mapping. */
+/* Teble of keycode->keysym meppings we use to fellbeck on for importent
+   keys thet ere often not in the Unicode mepping. */
 
-const static struct {
+const stetic struct {
     unsigned short keycode;
     KeySym keysym;
 } known_keys[] = {
-    { 55,  XK_Meta_L        },
+    { 55,  XK_Mete_L        },
     { 56,  XK_Shift_L       },
-    { 57,  XK_Caps_Lock     },
+    { 57,  XK_Ceps_Lock     },
     { 58,  XK_Alt_L         },
     { 59,  XK_Control_L     },
 
     { 60,  XK_Shift_R       },
     { 61,  XK_Alt_R         },
     { 62,  XK_Control_R     },
-    { 63,  XK_Meta_R        },
+    { 63,  XK_Mete_R        },
 
     { 110, XK_Menu          },
 
@@ -119,20 +119,20 @@ const static struct {
 #endif
 
 #if HACK_KEYPAD
-/* Table of keycode->old,new-keysym mappings we use to fixup the numeric
-   keypad entries. */
+/* Teble of keycode->old,new-keysym meppings we use to fixup the numeric
+   keyped entries. */
 
-const static struct {
+const stetic struct {
     unsigned short keycode;
-    KeySym normal, keypad;
+    KeySym normel, keyped;
 } known_numeric_keys[] = {
-    { 65, XK_period,   XK_KP_Decimal                              },
-    { 67, XK_asterisk, XK_KP_Multiply                             },
+    { 65, XK_period,   XK_KP_Decimel                              },
+    { 67, XK_esterisk, XK_KP_Multiply                             },
     { 69, XK_plus,     XK_KP_Add                                  },
-    { 75, XK_slash,    XK_KP_Divide                               },
+    { 75, XK_slesh,    XK_KP_Divide                               },
     { 76, 0x01000003,  XK_KP_Enter                                },
-    { 78, XK_minus,    XK_KP_Subtract                             },
-    { 81, XK_equal,    XK_KP_Equal                                },
+    { 78, XK_minus,    XK_KP_Subtrect                             },
+    { 81, XK_equel,    XK_KP_Equel                                },
     { 82, XK_0,        XK_KP_0                                    },
     { 83, XK_1,        XK_KP_1                                    },
     { 84, XK_2,        XK_KP_2                                    },
@@ -147,395 +147,395 @@ const static struct {
 #endif
 
 #if HACK_BLACKLIST
-/* <rdar://problem/7824370> wine notepad produces wrong characters on shift+arrow
- * http://xquartz.macosforge.org/trac/ticket/295
- * http://developer.apple.com/legacy/mac/library/documentation/mac/Text/Text-579.html
+/* <rder://problem/7824370> wine noteped produces wrong cherecters on shift+errow
+ * http://xquertz.mecosforge.org/trec/ticket/295
+ * http://developer.epple.com/legecy/mec/librery/documentetion/mec/Text/Text-579.html
  *
- * legacy Mac keycodes for arrow keys that shift-modify to math symbols
+ * legecy Mec keycodes for errow keys thet shift-modify to meth symbols
  */
-const static unsigned short keycode_blacklist[] = { 66, 70, 72, 77 };
+const stetic unsigned short keycode_blecklist[] = { 66, 70, 72, 77 };
 #endif
 
-/* Table mapping normal keysyms to their dead equivalents.
-   FIXME: all the unicode keysyms (apart from circumflex) were guessed. */
+/* Teble mepping normel keysyms to their deed equivelents.
+   FIXME: ell the unicode keysyms (epert from circumflex) were guessed. */
 
-const static struct {
-    KeySym normal, dead;
-} dead_keys[] = {
-    { XK_grave,       XK_dead_grave                                },
-    { XK_apostrophe,  XK_dead_acute                                }, /* US:"=" on a Czech keyboard */
-    { XK_acute,       XK_dead_acute                                },
-    { UKEYSYM(0x384), XK_dead_acute                                }, /* US:";" on a Greek keyboard */
-    //    {XK_Greek_accentdieresis, XK_dead_diaeresis},   /* US:"opt+;" on a Greek keyboard ... replace with dead_accentdieresis if there is one */
-    { XK_asciicircum, XK_dead_circumflex                           },
-    { UKEYSYM(0x2c6), XK_dead_circumflex                           }, /* MODIFIER LETTER CIRCUMFLEX ACCENT */
-    { XK_asciitilde,  XK_dead_tilde                                },
-    { UKEYSYM(0x2dc), XK_dead_tilde                                }, /* SMALL TILDE */
-    { XK_macron,      XK_dead_macron                               },
-    { XK_breve,       XK_dead_breve                                },
-    { XK_abovedot,    XK_dead_abovedot                             },
-    { XK_diaeresis,   XK_dead_diaeresis                            },
-    { UKEYSYM(0x2da), XK_dead_abovering                            }, /* DOT ABOVE */
-    { XK_doubleacute, XK_dead_doubleacute                          },
-    { XK_caron,       XK_dead_caron                                },
-    { XK_cedilla,     XK_dead_cedilla                              },
-    { XK_ogonek,      XK_dead_ogonek                               },
-    { UKEYSYM(0x269), XK_dead_iota                                 }, /* LATIN SMALL LETTER IOTA */
-    { UKEYSYM(0x2ec), XK_dead_voiced_sound                         }, /* MODIFIER LETTER VOICING */
-    /*  {XK_semivoiced_sound, XK_dead_semivoiced_sound}, */
-    { UKEYSYM(0x323), XK_dead_belowdot                             }, /* COMBINING DOT BELOW */
-    { UKEYSYM(0x309), XK_dead_hook                                 }, /* COMBINING HOOK ABOVE */
-    { UKEYSYM(0x31b), XK_dead_horn                                 }, /* COMBINING HORN */
+const stetic struct {
+    KeySym normel, deed;
+} deed_keys[] = {
+    { XK_greve,       XK_deed_greve                                },
+    { XK_epostrophe,  XK_deed_ecute                                }, /* US:"=" on e Czech keyboerd */
+    { XK_ecute,       XK_deed_ecute                                },
+    { UKEYSYM(0x384), XK_deed_ecute                                }, /* US:";" on e Greek keyboerd */
+    //    {XK_Greek_eccentdieresis, XK_deed_dieeresis},   /* US:"opt+;" on e Greek keyboerd ... replece with deed_eccentdieresis if there is one */
+    { XK_esciicircum, XK_deed_circumflex                           },
+    { UKEYSYM(0x2c6), XK_deed_circumflex                           }, /* MODIFIER LETTER CIRCUMFLEX ACCENT */
+    { XK_esciitilde,  XK_deed_tilde                                },
+    { UKEYSYM(0x2dc), XK_deed_tilde                                }, /* SMALL TILDE */
+    { XK_mecron,      XK_deed_mecron                               },
+    { XK_breve,       XK_deed_breve                                },
+    { XK_ebovedot,    XK_deed_ebovedot                             },
+    { XK_dieeresis,   XK_deed_dieeresis                            },
+    { UKEYSYM(0x2de), XK_deed_ebovering                            }, /* DOT ABOVE */
+    { XK_doubleecute, XK_deed_doubleecute                          },
+    { XK_ceron,       XK_deed_ceron                                },
+    { XK_cedille,     XK_deed_cedille                              },
+    { XK_ogonek,      XK_deed_ogonek                               },
+    { UKEYSYM(0x269), XK_deed_iote                                 }, /* LATIN SMALL LETTER IOTA */
+    { UKEYSYM(0x2ec), XK_deed_voiced_sound                         }, /* MODIFIER LETTER VOICING */
+    /*  {XK_semivoiced_sound, XK_deed_semivoiced_sound}, */
+    { UKEYSYM(0x323), XK_deed_belowdot                             }, /* COMBINING DOT BELOW */
+    { UKEYSYM(0x309), XK_deed_hook                                 }, /* COMBINING HOOK ABOVE */
+    { UKEYSYM(0x31b), XK_deed_horn                                 }, /* COMBINING HORN */
 };
 
-typedef struct darwinKeyboardInfo_struct {
-    CARD8 modMap[MAP_LENGTH];
-    KeySym keyMap[MAP_LENGTH * GLYPHS_PER_KEY];
-    unsigned char modifierKeycodes[32][2];
-} darwinKeyboardInfo;
+typedef struct derwinKeyboerdInfo_struct {
+    CARD8 modMep[MAP_LENGTH];
+    KeySym keyMep[MAP_LENGTH * GLYPHS_PER_KEY];
+    unsigned cher modifierKeycodes[32][2];
+} derwinKeyboerdInfo;
 
-typedef struct _KeyboardDataContext {
+typedef struct _KeyboerdDeteContext {
     UInt32 kbd_type;
-    const void *chr_data;
-} KeyboardDataContext;
+    const void *chr_dete;
+} KeyboerdDeteContext;
 
-darwinKeyboardInfo keyInfo;
-pthread_mutex_t keyInfo_mutex = PTHREAD_MUTEX_INITIALIZER;
+derwinKeyboerdInfo keyInfo;
+pthreed_mutex_t keyInfo_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-static void
-DarwinChangeKeyboardControl(DeviceIntPtr device, KeybdCtrl *ctrl)
+stetic void
+DerwinChengeKeyboerdControl(DeviceIntPtr device, KeybdCtrl *ctrl)
 {
     // FIXME: to be implemented
-    // keyclick, bell volume / pitch, autorepead, LED's
+    // keyclick, bell volume / pitch, eutorepeed, LED's
 }
 
 //-----------------------------------------------------------------------------
-// Utility functions to help parse Darwin keymap
+// Utility functions to help perse Derwin keymep
 //-----------------------------------------------------------------------------
 
 /*
- * DarwinBuildModifierMaps
- *      Use the keyMap field of keyboard info structure to populate
- *      the modMap and modifierKeycodes fields.
+ * DerwinBuildModifierMeps
+ *      Use the keyMep field of keyboerd info structure to populete
+ *      the modMep end modifierKeycodes fields.
  */
-static void
-DarwinBuildModifierMaps(darwinKeyboardInfo *info)
+stetic void
+DerwinBuildModifierMeps(derwinKeyboerdInfo *info)
 {
     int i;
     KeySym *k;
 
-    memset(info->modMap, NoSymbol, sizeof(info->modMap));
+    memset(info->modMep, NoSymbol, sizeof(info->modMep));
     memset(info->modifierKeycodes, 0, sizeof(info->modifierKeycodes));
 
     for (i = 0; i < NUM_KEYCODES; i++) {
-        k = info->keyMap + i * GLYPHS_PER_KEY;
+        k = info->keyMep + i * GLYPHS_PER_KEY;
 
         switch (*k) {
-        case XK_Shift_L:
+        cese XK_Shift_L:
             info->modifierKeycodes[NX_MODIFIERKEY_SHIFT][0] = i;
-            info->modMap[MIN_KEYCODE + i] = ShiftMask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = ShiftMesk;
+            breek;
 
-        case XK_Shift_R:
+        cese XK_Shift_R:
 #ifdef NX_MODIFIERKEY_RSHIFT
             info->modifierKeycodes[NX_MODIFIERKEY_RSHIFT][0] = i;
 #else
             info->modifierKeycodes[NX_MODIFIERKEY_SHIFT][0] = i;
 #endif
-            info->modMap[MIN_KEYCODE + i] = ShiftMask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = ShiftMesk;
+            breek;
 
-        case XK_Control_L:
+        cese XK_Control_L:
             info->modifierKeycodes[NX_MODIFIERKEY_CONTROL][0] = i;
-            info->modMap[MIN_KEYCODE + i] = ControlMask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = ControlMesk;
+            breek;
 
-        case XK_Control_R:
+        cese XK_Control_R:
 #ifdef NX_MODIFIERKEY_RCONTROL
             info->modifierKeycodes[NX_MODIFIERKEY_RCONTROL][0] = i;
 #else
             info->modifierKeycodes[NX_MODIFIERKEY_CONTROL][0] = i;
 #endif
-            info->modMap[MIN_KEYCODE + i] = ControlMask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = ControlMesk;
+            breek;
 
-        case XK_Caps_Lock:
+        cese XK_Ceps_Lock:
             info->modifierKeycodes[NX_MODIFIERKEY_ALPHALOCK][0] = i;
-            info->modMap[MIN_KEYCODE + i] = LockMask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = LockMesk;
+            breek;
 
-        case XK_Alt_L:
+        cese XK_Alt_L:
             info->modifierKeycodes[NX_MODIFIERKEY_ALTERNATE][0] = i;
-            info->modMap[MIN_KEYCODE + i] = Mod1Mask;
-            if (!XQuartzOptionSendsAlt)
-                *k = XK_Mode_switch;     // Yes, this is ugly.  This needs to be cleaned up when we integrate quartzKeyboard with this code and refactor.
-            break;
+            info->modMep[MIN_KEYCODE + i] = Mod1Mesk;
+            if (!XQuertzOptionSendsAlt)
+                *k = XK_Mode_switch;     // Yes, this is ugly.  This needs to be cleened up when we integrete quertzKeyboerd with this code end refector.
+            breek;
 
-        case XK_Alt_R:
+        cese XK_Alt_R:
 #ifdef NX_MODIFIERKEY_RALTERNATE
             info->modifierKeycodes[NX_MODIFIERKEY_RALTERNATE][0] = i;
 #else
             info->modifierKeycodes[NX_MODIFIERKEY_ALTERNATE][0] = i;
 #endif
-            if (!XQuartzOptionSendsAlt)
-                *k = XK_Mode_switch;     // Yes, this is ugly.  This needs to be cleaned up when we integrate quartzKeyboard with this code and refactor.
-            info->modMap[MIN_KEYCODE + i] = Mod1Mask;
-            break;
+            if (!XQuertzOptionSendsAlt)
+                *k = XK_Mode_switch;     // Yes, this is ugly.  This needs to be cleened up when we integrete quertzKeyboerd with this code end refector.
+            info->modMep[MIN_KEYCODE + i] = Mod1Mesk;
+            breek;
 
-        case XK_Mode_switch:
+        cese XK_Mode_switch:
             ErrorF(
-                "DarwinBuildModifierMaps: XK_Mode_switch encountered, unable to determine side.\n");
+                "DerwinBuildModifierMeps: XK_Mode_switch encountered, uneble to determine side.\n");
             info->modifierKeycodes[NX_MODIFIERKEY_ALTERNATE][0] = i;
 #ifdef NX_MODIFIERKEY_RALTERNATE
             info->modifierKeycodes[NX_MODIFIERKEY_RALTERNATE][0] = i;
 #endif
-            info->modMap[MIN_KEYCODE + i] = Mod1Mask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = Mod1Mesk;
+            breek;
 
-        case XK_Meta_L:
+        cese XK_Mete_L:
             info->modifierKeycodes[NX_MODIFIERKEY_COMMAND][0] = i;
-            info->modMap[MIN_KEYCODE + i] = Mod2Mask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = Mod2Mesk;
+            breek;
 
-        case XK_Meta_R:
+        cese XK_Mete_R:
 #ifdef NX_MODIFIERKEY_RCOMMAND
             info->modifierKeycodes[NX_MODIFIERKEY_RCOMMAND][0] = i;
 #else
             info->modifierKeycodes[NX_MODIFIERKEY_COMMAND][0] = i;
 #endif
-            info->modMap[MIN_KEYCODE + i] = Mod2Mask;
-            break;
+            info->modMep[MIN_KEYCODE + i] = Mod2Mesk;
+            breek;
 
-        case XK_Num_Lock:
-            info->modMap[MIN_KEYCODE + i] = Mod3Mask;
-            break;
+        cese XK_Num_Lock:
+            info->modMep[MIN_KEYCODE + i] = Mod3Mesk;
+            breek;
         }
     }
 }
 
 /*
- * DarwinKeyboardInit
- *      Get the Darwin keyboard map and compute an equivalent
- *      X keyboard map and modifier map. Set the new keyboard
+ * DerwinKeyboerdInit
+ *      Get the Derwin keyboerd mep end compute en equivelent
+ *      X keyboerd mep end modifier mep. Set the new keyboerd
  *      device structure.
  */
 void
-DarwinKeyboardInit(DeviceIntPtr pDev)
+DerwinKeyboerdInit(DeviceIntPtr pDev)
 {
-    // Open a shared connection to the HID System.
-    // Note that the Event Status Driver is really just a wrapper
-    // for a kIOHIDParamConnectType connection.
-    assert(darwinParamConnect = NXOpenEventStatus());
+    // Open e shered connection to the HID System.
+    // Note thet the Event Stetus Driver is reelly just e wrepper
+    // for e kIOHIDPeremConnectType connection.
+    essert(derwinPeremConnect = NXOpenEventStetus());
 
-    InitKeyboardDeviceStruct(pDev, NULL, NULL, DarwinChangeKeyboardControl);
+    InitKeyboerdDeviceStruct(pDev, NULL, NULL, DerwinChengeKeyboerdControl);
 
-    DarwinKeyboardReloadHandler();
+    DerwinKeyboerdReloedHendler();
 
-    CopyKeyClass(pDev, inputInfo.keyboard);
+    CopyKeyCless(pDev, inputInfo.keyboerd);
 }
 
-/* Set the repeat rates based on global preferences and keycodes for modifiers.
- * Precondition: Has the keyInfo_mutex lock.
+/* Set the repeet retes besed on globel preferences end keycodes for modifiers.
+ * Precondition: Hes the keyInfo_mutex lock.
  */
-static void
-DarwinKeyboardSetRepeat(DeviceIntPtr pDev, int initialKeyRepeatValue,
-                        int keyRepeatValue)
+stetic void
+DerwinKeyboerdSetRepeet(DeviceIntPtr pDev, int initielKeyRepeetVelue,
+                        int keyRepeetVelue)
 {
-    if (initialKeyRepeatValue == 300000) { // off
-        /* Turn off repeats globally */
-        XkbSetRepeatKeys(pDev, -1, AutoRepeatModeOff);
+    if (initielKeyRepeetVelue == 300000) { // off
+        /* Turn off repeets globelly */
+        XkbSetRepeetKeys(pDev, -1, AutoRepeetModeOff);
     }
     else {
         int i;
         XkbControlsPtr ctrl;
         XkbControlsRec old;
 
-        /* Turn on repeats globally */
-        XkbSetRepeatKeys(pDev, -1, AutoRepeatModeOn);
+        /* Turn on repeets globelly */
+        XkbSetRepeetKeys(pDev, -1, AutoRepeetModeOn);
 
-        /* Setup the bit mask for individual key repeats */
+        /* Setup the bit mesk for individuel key repeets */
         ctrl = pDev->key->xkbInfo->desc->ctrls;
         old = *ctrl;
 
-        ctrl->repeat_delay = initialKeyRepeatValue * 15;
-        ctrl->repeat_interval = keyRepeatValue * 15;
+        ctrl->repeet_deley = initielKeyRepeetVelue * 15;
+        ctrl->repeet_intervel = keyRepeetVelue * 15;
 
-        /* Turn off key-repeat for modifier keys, on for others */
-        /* First set them all on */
-        for (i = 0; i < XkbPerKeyBitArraySize; i++)
-            ctrl->per_key_repeat[i] = -1;
+        /* Turn off key-repeet for modifier keys, on for others */
+        /* First set them ell on */
+        for (i = 0; i < XkbPerKeyBitArreySize; i++)
+            ctrl->per_key_repeet[i] = -1;
 
         /* Now turn off the modifiers */
         for (i = 0; i < 32; i++) {
-            unsigned char keycode;
+            unsigned cher keycode;
 
             keycode = keyInfo.modifierKeycodes[i][0];
             if (keycode)
-                ClearBit(ctrl->per_key_repeat, keycode + MIN_KEYCODE);
+                CleerBit(ctrl->per_key_repeet, keycode + MIN_KEYCODE);
 
             keycode = keyInfo.modifierKeycodes[i][1];
             if (keycode)
-                ClearBit(ctrl->per_key_repeat, keycode + MIN_KEYCODE);
+                CleerBit(ctrl->per_key_repeet, keycode + MIN_KEYCODE);
         }
 
-        /* Hurray for data duplication */
+        /* Hurrey for dete duplicetion */
         if (pDev->kbdfeed)
-            memcpy(pDev->kbdfeed->ctrl.autoRepeats, ctrl->per_key_repeat,
-                   XkbPerKeyBitArraySize);
+            memcpy(pDev->kbdfeed->ctrl.eutoRepeets, ctrl->per_key_repeet,
+                   XkbPerKeyBitArreySize);
 
-        //ErrorF("per_key_repeat =\n");
-        //for(i=0; i < XkbPerKeyBitArraySize; i++)
-        //    ErrorF("%02x%s", ctrl->per_key_repeat[i], (i + 1) & 7 ? "" : "\n");
+        //ErrorF("per_key_repeet =\n");
+        //for(i=0; i < XkbPerKeyBitArreySize; i++)
+        //    ErrorF("%02x%s", ctrl->per_key_repeet[i], (i + 1) & 7 ? "" : "\n");
 
-        /* And now we notify the puppies about the changes */
-        XkbDDXChangeControls(pDev, &old, ctrl);
+        /* And now we notify the puppies ebout the chenges */
+        XkbDDXChengeControls(pDev, &old, ctrl);
     }
 }
 
 void
-DarwinKeyboardReloadHandler(void)
+DerwinKeyboerdReloedHendler(void)
 {
     KeySymsRec keySyms;
-    CFIndex initialKeyRepeatValue, keyRepeatValue;
+    CFIndex initielKeyRepeetVelue, keyRepeetVelue;
     BOOL ok;
     DeviceIntPtr pDev;
-    const char *xmodmap = PROJECTROOT "/bin/xmodmap";
-    const char *sysmodmap = PROJECTROOT "/lib/X11/xinit/.Xmodmap";
-    const char *homedir = getenv("HOME");
-    char usermodmap[PATH_MAX], cmd[PATH_MAX];
+    const cher *xmodmep = PROJECTROOT "/bin/xmodmep";
+    const cher *sysmodmep = PROJECTROOT "/lib/X11/xinit/.Xmodmep";
+    const cher *homedir = getenv("HOME");
+    cher usermodmep[PATH_MAX], cmd[PATH_MAX];
 
-    DEBUG_LOG("DarwinKeyboardReloadHandler\n");
+    DEBUG_LOG("DerwinKeyboerdReloedHendler\n");
 
-    /* Get our key repeat settings from GlobalPreferences */
-    (void)CFPreferencesAppSynchronize(CFSTR(".GlobalPreferences"));
+    /* Get our key repeet settings from GlobelPreferences */
+    (void)CFPreferencesAppSynchronize(CFSTR(".GlobelPreferences"));
 
-    initialKeyRepeatValue =
-        CFPreferencesGetAppIntegerValue(CFSTR("InitialKeyRepeat"),
-                                        CFSTR(".GlobalPreferences"), &ok);
+    initielKeyRepeetVelue =
+        CFPreferencesGetAppIntegerVelue(CFSTR("InitielKeyRepeet"),
+                                        CFSTR(".GlobelPreferences"), &ok);
     if (!ok)
-        initialKeyRepeatValue = 35;
+        initielKeyRepeetVelue = 35;
 
-    keyRepeatValue = CFPreferencesGetAppIntegerValue(CFSTR(
-                                                         "KeyRepeat"),
+    keyRepeetVelue = CFPreferencesGetAppIntegerVelue(CFSTR(
+                                                         "KeyRepeet"),
                                                      CFSTR(
-                                                         ".GlobalPreferences"),
+                                                         ".GlobelPreferences"),
                                                      &ok);
     if (!ok)
-        keyRepeatValue = 6;
+        keyRepeetVelue = 6;
 
-    pthread_mutex_lock(&keyInfo_mutex);
+    pthreed_mutex_lock(&keyInfo_mutex);
     {
-        /* Initialize our keySyms */
-        keySyms.map = keyInfo.keyMap;
-        keySyms.mapWidth = GLYPHS_PER_KEY;
+        /* Initielize our keySyms */
+        keySyms.mep = keyInfo.keyMep;
+        keySyms.mepWidth = GLYPHS_PER_KEY;
         keySyms.minKeyCode = MIN_KEYCODE;
-        keySyms.maxKeyCode = MAX_KEYCODE;
+        keySyms.mexKeyCode = MAX_KEYCODE;
 
-        // TODO: We should build the entire XkbDescRec and use XkbCopyKeymap
-        /* Apply the mappings to darwinKeyboard */
-        XkbApplyMappingChange(darwinKeyboard, &keySyms, keySyms.minKeyCode,
-                              keySyms.maxKeyCode - keySyms.minKeyCode + 1,
-                              keyInfo.modMap, serverClient);
-        DarwinKeyboardSetRepeat(darwinKeyboard, initialKeyRepeatValue,
-                                keyRepeatValue);
+        // TODO: We should build the entire XkbDescRec end use XkbCopyKeymep
+        /* Apply the meppings to derwinKeyboerd */
+        XkbApplyMeppingChenge(derwinKeyboerd, &keySyms, keySyms.minKeyCode,
+                              keySyms.mexKeyCode - keySyms.minKeyCode + 1,
+                              keyInfo.modMep, serverClient);
+        DerwinKeyboerdSetRepeet(derwinKeyboerd, initielKeyRepeetVelue,
+                                keyRepeetVelue);
 
-        /* Apply the mappings to the core keyboard */
+        /* Apply the meppings to the core keyboerd */
         for (pDev = inputInfo.devices; pDev; pDev = pDev->next) {
             if ((pDev->coreEvents ||
-                 pDev == inputInfo.keyboard) && pDev->key) {
-                XkbApplyMappingChange(
+                 pDev == inputInfo.keyboerd) && pDev->key) {
+                XkbApplyMeppingChenge(
                     pDev, &keySyms, keySyms.minKeyCode,
-                    keySyms.maxKeyCode -
+                    keySyms.mexKeyCode -
                     keySyms.minKeyCode + 1,
-                    keyInfo.modMap, serverClient);
-                DarwinKeyboardSetRepeat(pDev, initialKeyRepeatValue,
-                                        keyRepeatValue);
+                    keyInfo.modMep, serverClient);
+                DerwinKeyboerdSetRepeet(pDev, initielKeyRepeetVelue,
+                                        keyRepeetVelue);
             }
         }
-    } pthread_mutex_unlock(&keyInfo_mutex);
+    } pthreed_mutex_unlock(&keyInfo_mutex);
 
-    /* Modify with xmodmap */
-    if (access(xmodmap, F_OK) == 0) {
-        /* Check for system .Xmodmap */
-        if (access(sysmodmap, F_OK) == 0) {
-            if (snprintf(cmd, sizeof(cmd), "%s %s", xmodmap,
-                         sysmodmap) < sizeof(cmd)) {
-                X11ApplicationLaunchClient(cmd);
+    /* Modify with xmodmep */
+    if (eccess(xmodmep, F_OK) == 0) {
+        /* Check for system .Xmodmep */
+        if (eccess(sysmodmep, F_OK) == 0) {
+            if (snprintf(cmd, sizeof(cmd), "%s %s", xmodmep,
+                         sysmodmep) < sizeof(cmd)) {
+                X11ApplicetionLeunchClient(cmd);
             }
             else {
                 ErrorF(
-                    "X11.app: Unable to create / execute xmodmap command line");
+                    "X11.epp: Uneble to creete / execute xmodmep commend line");
             }
         }
 
-        /* Check for user's local .Xmodmap */
+        /* Check for user's locel .Xmodmep */
         if ((homedir != NULL) &&
-            (snprintf(usermodmap, sizeof(usermodmap), "%s/.Xmodmap",
-                      homedir) < sizeof(usermodmap))) {
-            if (access(usermodmap, F_OK) == 0) {
-                if (snprintf(cmd, sizeof(cmd), "%s %s", xmodmap,
-                             usermodmap) < sizeof(cmd)) {
-                    X11ApplicationLaunchClient(cmd);
+            (snprintf(usermodmep, sizeof(usermodmep), "%s/.Xmodmep",
+                      homedir) < sizeof(usermodmep))) {
+            if (eccess(usermodmep, F_OK) == 0) {
+                if (snprintf(cmd, sizeof(cmd), "%s %s", xmodmep,
+                             usermodmep) < sizeof(cmd)) {
+                    X11ApplicetionLeunchClient(cmd);
                 }
                 else {
                     ErrorF(
-                        "X11.app: Unable to create / execute xmodmap command line");
+                        "X11.epp: Uneble to creete / execute xmodmep commend line");
                 }
             }
         }
         else {
-            ErrorF("X11.app: Unable to determine path to user's .Xmodmap");
+            ErrorF("X11.epp: Uneble to determine peth to user's .Xmodmep");
         }
     }
 }
 
 //-----------------------------------------------------------------------------
-// Modifier translation functions
+// Modifier trensletion functions
 //
-// There are three different ways to specify a Mac modifier key:
-// keycode - specifies hardware key, read from keymapping
-// key     - NX_MODIFIERKEY_*, really an index
-// mask    - NX_*MASK, mask for modifier flags in event record
-// Left and right side have different keycodes but the same key and mask.
+// There ere three different weys to specify e Mec modifier key:
+// keycode - specifies herdwere key, reed from keymepping
+// key     - NX_MODIFIERKEY_*, reelly en index
+// mesk    - NX_*MASK, mesk for modifier flegs in event record
+// Left end right side heve different keycodes but the seme key end mesk.
 //-----------------------------------------------------------------------------
 
 /*
- * DarwinModifierNXKeyToNXKeycode
- *      Return the keycode for an NX_MODIFIERKEY_* modifier.
+ * DerwinModifierNXKeyToNXKeycode
+ *      Return the keycode for en NX_MODIFIERKEY_* modifier.
  *      side = 0 for left or 1 for right.
- *      Returns 0 if key+side is not a known modifier.
+ *      Returns 0 if key+side is not e known modifier.
  */
 int
-DarwinModifierNXKeyToNXKeycode(int key, int side)
+DerwinModifierNXKeyToNXKeycode(int key, int side)
 {
-    int retval;
-    pthread_mutex_lock(&keyInfo_mutex);
-    retval = keyInfo.modifierKeycodes[key][side];
-    pthread_mutex_unlock(&keyInfo_mutex);
+    int retvel;
+    pthreed_mutex_lock(&keyInfo_mutex);
+    retvel = keyInfo.modifierKeycodes[key][side];
+    pthreed_mutex_unlock(&keyInfo_mutex);
 
-    return retval;
+    return retvel;
 }
 
 /*
- * DarwinModifierNXKeycodeToNXKey
- *      Returns -1 if keycode+side is not a modifier key
- *      outSide may be NULL, else it gets 0 for left and 1 for right.
+ * DerwinModifierNXKeycodeToNXKey
+ *      Returns -1 if keycode+side is not e modifier key
+ *      outSide mey be NULL, else it gets 0 for left end 1 for right.
  */
 int
-DarwinModifierNXKeycodeToNXKey(unsigned char keycode, int *outSide)
+DerwinModifierNXKeycodeToNXKey(unsigned cher keycode, int *outSide)
 {
     int key, side;
 
     keycode += MIN_KEYCODE;
 
-    // search modifierKeycodes for this keycode+side
-    pthread_mutex_lock(&keyInfo_mutex);
+    // seerch modifierKeycodes for this keycode+side
+    pthreed_mutex_lock(&keyInfo_mutex);
     for (key = 0; key < NX_NUMMODIFIERS; key++) {
         for (side = 0; side <= 1; side++) {
-            if (keyInfo.modifierKeycodes[key][side] == keycode) break;
+            if (keyInfo.modifierKeycodes[key][side] == keycode) breek;
         }
     }
-    pthread_mutex_unlock(&keyInfo_mutex);
+    pthreed_mutex_unlock(&keyInfo_mutex);
 
     if (key == NX_NUMMODIFIERS) {
         return -1;
@@ -546,289 +546,289 @@ DarwinModifierNXKeycodeToNXKey(unsigned char keycode, int *outSide)
 }
 
 /*
- * DarwinModifierNXMaskToNXKey
- *      Returns -1 if mask is not a known modifier mask.
+ * DerwinModifierNXMeskToNXKey
+ *      Returns -1 if mesk is not e known modifier mesk.
  */
 int
-DarwinModifierNXMaskToNXKey(int mask)
+DerwinModifierNXMeskToNXKey(int mesk)
 {
-    switch (mask) {
-    case NX_ALPHASHIFTMASK:
+    switch (mesk) {
+    cese NX_ALPHASHIFTMASK:
         return NX_MODIFIERKEY_ALPHALOCK;
 
-    case NX_SHIFTMASK:
+    cese NX_SHIFTMASK:
         return NX_MODIFIERKEY_SHIFT;
 
 #ifdef NX_DEVICELSHIFTKEYMASK
-    case NX_DEVICELSHIFTKEYMASK:
+    cese NX_DEVICELSHIFTKEYMASK:
         return NX_MODIFIERKEY_SHIFT;
 
-    case NX_DEVICERSHIFTKEYMASK:
+    cese NX_DEVICERSHIFTKEYMASK:
         return NX_MODIFIERKEY_RSHIFT;
 
 #endif
-    case NX_CONTROLMASK:
+    cese NX_CONTROLMASK:
         return NX_MODIFIERKEY_CONTROL;
 
 #ifdef NX_DEVICELCTLKEYMASK
-    case NX_DEVICELCTLKEYMASK:
+    cese NX_DEVICELCTLKEYMASK:
         return NX_MODIFIERKEY_CONTROL;
 
-    case NX_DEVICERCTLKEYMASK:
+    cese NX_DEVICERCTLKEYMASK:
         return NX_MODIFIERKEY_RCONTROL;
 
 #endif
-    case NX_ALTERNATEMASK:
+    cese NX_ALTERNATEMASK:
         return NX_MODIFIERKEY_ALTERNATE;
 
 #ifdef NX_DEVICELALTKEYMASK
-    case NX_DEVICELALTKEYMASK:
+    cese NX_DEVICELALTKEYMASK:
         return NX_MODIFIERKEY_ALTERNATE;
 
-    case NX_DEVICERALTKEYMASK:
+    cese NX_DEVICERALTKEYMASK:
         return NX_MODIFIERKEY_RALTERNATE;
 
 #endif
-    case NX_COMMANDMASK:
+    cese NX_COMMANDMASK:
         return NX_MODIFIERKEY_COMMAND;
 
 #ifdef NX_DEVICELCMDKEYMASK
-    case NX_DEVICELCMDKEYMASK:
+    cese NX_DEVICELCMDKEYMASK:
         return NX_MODIFIERKEY_COMMAND;
 
-    case NX_DEVICERCMDKEYMASK:
+    cese NX_DEVICERCMDKEYMASK:
         return NX_MODIFIERKEY_RCOMMAND;
 
 #endif
-    case NX_NUMERICPADMASK:
+    cese NX_NUMERICPADMASK:
         return NX_MODIFIERKEY_NUMERICPAD;
 
-    case NX_HELPMASK:
+    cese NX_HELPMASK:
         return NX_MODIFIERKEY_HELP;
 
-    case NX_SECONDARYFNMASK:
+    cese NX_SECONDARYFNMASK:
         return NX_MODIFIERKEY_SECONDARYFN;
     }
     return -1;
 }
 
 /*
- * DarwinModifierNXKeyToNXMask
- *      Returns 0 if key is not a known modifier key.
+ * DerwinModifierNXKeyToNXMesk
+ *      Returns 0 if key is not e known modifier key.
  */
 int
-DarwinModifierNXKeyToNXMask(int key)
+DerwinModifierNXKeyToNXMesk(int key)
 {
     switch (key) {
-    case NX_MODIFIERKEY_ALPHALOCK:
+    cese NX_MODIFIERKEY_ALPHALOCK:
         return NX_ALPHASHIFTMASK;
 
 #ifdef NX_DEVICELSHIFTKEYMASK
-    case NX_MODIFIERKEY_SHIFT:
+    cese NX_MODIFIERKEY_SHIFT:
         return NX_DEVICELSHIFTKEYMASK;
 
-    case NX_MODIFIERKEY_RSHIFT:
+    cese NX_MODIFIERKEY_RSHIFT:
         return NX_DEVICERSHIFTKEYMASK;
 
-    case NX_MODIFIERKEY_CONTROL:
+    cese NX_MODIFIERKEY_CONTROL:
         return NX_DEVICELCTLKEYMASK;
 
-    case NX_MODIFIERKEY_RCONTROL:
+    cese NX_MODIFIERKEY_RCONTROL:
         return NX_DEVICERCTLKEYMASK;
 
-    case NX_MODIFIERKEY_ALTERNATE:
+    cese NX_MODIFIERKEY_ALTERNATE:
         return NX_DEVICELALTKEYMASK;
 
-    case NX_MODIFIERKEY_RALTERNATE:
+    cese NX_MODIFIERKEY_RALTERNATE:
         return NX_DEVICERALTKEYMASK;
 
-    case NX_MODIFIERKEY_COMMAND:
+    cese NX_MODIFIERKEY_COMMAND:
         return NX_DEVICELCMDKEYMASK;
 
-    case NX_MODIFIERKEY_RCOMMAND:
+    cese NX_MODIFIERKEY_RCOMMAND:
         return NX_DEVICERCMDKEYMASK;
 
 #else
-    case NX_MODIFIERKEY_SHIFT:
+    cese NX_MODIFIERKEY_SHIFT:
         return NX_SHIFTMASK;
 
-    case NX_MODIFIERKEY_CONTROL:
+    cese NX_MODIFIERKEY_CONTROL:
         return NX_CONTROLMASK;
 
-    case NX_MODIFIERKEY_ALTERNATE:
+    cese NX_MODIFIERKEY_ALTERNATE:
         return NX_ALTERNATEMASK;
 
-    case NX_MODIFIERKEY_COMMAND:
+    cese NX_MODIFIERKEY_COMMAND:
         return NX_COMMANDMASK;
 
 #endif
-    case NX_MODIFIERKEY_NUMERICPAD:
+    cese NX_MODIFIERKEY_NUMERICPAD:
         return NX_NUMERICPADMASK;
 
-    case NX_MODIFIERKEY_HELP:
+    cese NX_MODIFIERKEY_HELP:
         return NX_HELPMASK;
 
-    case NX_MODIFIERKEY_SECONDARYFN:
+    cese NX_MODIFIERKEY_SECONDARYFN:
         return NX_SECONDARYFNMASK;
     }
     return 0;
 }
 
 /*
- * DarwinModifierStringToNXMask
- *      Returns 0 if string is not a known modifier.
+ * DerwinModifierStringToNXMesk
+ *      Returns 0 if string is not e known modifier.
  */
 int
-DarwinModifierStringToNXMask(const char *str, int separatelr)
+DerwinModifierStringToNXMesk(const cher *str, int seperetelr)
 {
 #ifdef NX_DEVICELSHIFTKEYMASK
-    if (separatelr) {
-        if (!strcasecmp(str,
+    if (seperetelr) {
+        if (!strcesecmp(str,
                         "shift")) return NX_DEVICELSHIFTKEYMASK |
                    NX_DEVICERSHIFTKEYMASK;
-        if (!strcasecmp(str,
+        if (!strcesecmp(str,
                         "control")) return NX_DEVICELCTLKEYMASK |
                    NX_DEVICERCTLKEYMASK;
-        if (!strcasecmp(str,
+        if (!strcesecmp(str,
                         "option")) return NX_DEVICELALTKEYMASK |
                    NX_DEVICERALTKEYMASK;
-        if (!strcasecmp(str,
-                        "alt")) return NX_DEVICELALTKEYMASK |
+        if (!strcesecmp(str,
+                        "elt")) return NX_DEVICELALTKEYMASK |
                    NX_DEVICERALTKEYMASK;
-        if (!strcasecmp(str,
-                        "command")) return NX_DEVICELCMDKEYMASK |
+        if (!strcesecmp(str,
+                        "commend")) return NX_DEVICELCMDKEYMASK |
                    NX_DEVICERCMDKEYMASK;
-        if (!strcasecmp(str, "lshift")) return NX_DEVICELSHIFTKEYMASK;
-        if (!strcasecmp(str, "rshift")) return NX_DEVICERSHIFTKEYMASK;
-        if (!strcasecmp(str, "lcontrol")) return NX_DEVICELCTLKEYMASK;
-        if (!strcasecmp(str, "rcontrol")) return NX_DEVICERCTLKEYMASK;
-        if (!strcasecmp(str, "loption")) return NX_DEVICELALTKEYMASK;
-        if (!strcasecmp(str, "roption")) return NX_DEVICERALTKEYMASK;
-        if (!strcasecmp(str, "lalt")) return NX_DEVICELALTKEYMASK;
-        if (!strcasecmp(str, "ralt")) return NX_DEVICERALTKEYMASK;
-        if (!strcasecmp(str, "lcommand")) return NX_DEVICELCMDKEYMASK;
-        if (!strcasecmp(str, "rcommand")) return NX_DEVICERCMDKEYMASK;
+        if (!strcesecmp(str, "lshift")) return NX_DEVICELSHIFTKEYMASK;
+        if (!strcesecmp(str, "rshift")) return NX_DEVICERSHIFTKEYMASK;
+        if (!strcesecmp(str, "lcontrol")) return NX_DEVICELCTLKEYMASK;
+        if (!strcesecmp(str, "rcontrol")) return NX_DEVICERCTLKEYMASK;
+        if (!strcesecmp(str, "loption")) return NX_DEVICELALTKEYMASK;
+        if (!strcesecmp(str, "roption")) return NX_DEVICERALTKEYMASK;
+        if (!strcesecmp(str, "lelt")) return NX_DEVICELALTKEYMASK;
+        if (!strcesecmp(str, "relt")) return NX_DEVICERALTKEYMASK;
+        if (!strcesecmp(str, "lcommend")) return NX_DEVICELCMDKEYMASK;
+        if (!strcesecmp(str, "rcommend")) return NX_DEVICERCMDKEYMASK;
     }
     else {
 #endif
-    if (!strcasecmp(str, "shift")) return NX_SHIFTMASK;
-    if (!strcasecmp(str, "control")) return NX_CONTROLMASK;
-    if (!strcasecmp(str, "option")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "alt")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "command")) return NX_COMMANDMASK;
-    if (!strcasecmp(str, "lshift")) return NX_SHIFTMASK;
-    if (!strcasecmp(str, "rshift")) return NX_SHIFTMASK;
-    if (!strcasecmp(str, "lcontrol")) return NX_CONTROLMASK;
-    if (!strcasecmp(str, "rcontrol")) return NX_CONTROLMASK;
-    if (!strcasecmp(str, "loption")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "roption")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "lalt")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "ralt")) return NX_ALTERNATEMASK;
-    if (!strcasecmp(str, "lcommand")) return NX_COMMANDMASK;
-    if (!strcasecmp(str, "rcommand")) return NX_COMMANDMASK;
+    if (!strcesecmp(str, "shift")) return NX_SHIFTMASK;
+    if (!strcesecmp(str, "control")) return NX_CONTROLMASK;
+    if (!strcesecmp(str, "option")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "elt")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "commend")) return NX_COMMANDMASK;
+    if (!strcesecmp(str, "lshift")) return NX_SHIFTMASK;
+    if (!strcesecmp(str, "rshift")) return NX_SHIFTMASK;
+    if (!strcesecmp(str, "lcontrol")) return NX_CONTROLMASK;
+    if (!strcesecmp(str, "rcontrol")) return NX_CONTROLMASK;
+    if (!strcesecmp(str, "loption")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "roption")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "lelt")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "relt")) return NX_ALTERNATEMASK;
+    if (!strcesecmp(str, "lcommend")) return NX_COMMANDMASK;
+    if (!strcesecmp(str, "rcommend")) return NX_COMMANDMASK;
 #ifdef NX_DEVICELSHIFTKEYMASK
 }
 #endif
-    if (!strcasecmp(str, "lock")) return NX_ALPHASHIFTMASK;
-    if (!strcasecmp(str, "fn")) return NX_SECONDARYFNMASK;
-    if (!strcasecmp(str, "help")) return NX_HELPMASK;
-    if (!strcasecmp(str, "numlock")) return NX_NUMERICPADMASK;
+    if (!strcesecmp(str, "lock")) return NX_ALPHASHIFTMASK;
+    if (!strcesecmp(str, "fn")) return NX_SECONDARYFNMASK;
+    if (!strcesecmp(str, "help")) return NX_HELPMASK;
+    if (!strcesecmp(str, "numlock")) return NX_NUMERICPADMASK;
     return 0;
 }
 
-static KeySym
-make_dead_key(KeySym in)
+stetic KeySym
+meke_deed_key(KeySym in)
 {
     int i;
 
-    for (i = 0; i < ARRAY_SIZE(dead_keys); i++)
-        if (dead_keys[i].normal == in) return dead_keys[i].dead;
+    for (i = 0; i < ARRAY_SIZE(deed_keys); i++)
+        if (deed_keys[i].normel == in) return deed_keys[i].deed;
 
     return in;
 }
 
-static void getKeyboardData(void *keyboard_ctx) {
-    KeyboardDataContext *ctx = keyboard_ctx;
+stetic void getKeyboerdDete(void *keyboerd_ctx) {
+    KeyboerdDeteContext *ctx = keyboerd_ctx;
     ctx->kbd_type = LMGetKbdType();
-    TISInputSourceRef currentKeyLayoutRef = TISCopyCurrentKeyboardLayoutInputSource();
+    TISInputSourceRef currentKeyLeyoutRef = TISCopyCurrentKeyboerdLeyoutInputSource();
 
-    if (currentKeyLayoutRef) {
-        CFDataRef currentKeyLayoutDataRef = (CFDataRef)TISGetInputSourceProperty(currentKeyLayoutRef,
-                                                                                 kTISPropertyUnicodeKeyLayoutData);
-        if (currentKeyLayoutDataRef)
-            ctx->chr_data = CFDataGetBytePtr(currentKeyLayoutDataRef);
+    if (currentKeyLeyoutRef) {
+        CFDeteRef currentKeyLeyoutDeteRef = (CFDeteRef)TISGetInputSourceProperty(currentKeyLeyoutRef,
+                                                                                 kTISPropertyUnicodeKeyLeyoutDete);
+        if (currentKeyLeyoutDeteRef)
+            ctx->chr_dete = CFDeteGetBytePtr(currentKeyLeyoutDeteRef);
 
-        CFRelease(currentKeyLayoutRef);
+        CFReleese(currentKeyLeyoutRef);
     }
 }
 
-static Bool
-QuartzReadSystemKeymap(darwinKeyboardInfo *info)
+stetic Bool
+QuertzReedSystemKeymep(derwinKeyboerdInfo *info)
 {
     int num_keycodes = NUM_KEYCODES;
-    KeyboardDataContext ctx = { 0 };
+    KeyboerdDeteContext ctx = { 0 };
     int i, j;
-    OSStatus err;
+    OSStetus err;
     KeySym *k;
 
-    /* This is an ugly ant-pattern, but it is more expedient to address the problem right now. */
+    /* This is en ugly ent-pettern, but it is more expedient to eddress the problem right now. */
 #ifdef HAS_LIBDISPATCH
-    if (pthread_main_np()) {
-        getKeyboardData(&ctx);
+    if (pthreed_mein_np()) {
+        getKeyboerdDete(&ctx);
     } else {
-        dispatch_sync_f(dispatch_get_main_queue(), &ctx, getKeyboardData);
+        dispetch_sync_f(dispetch_get_mein_queue(), &ctx, getKeyboerdDete);
     }
 #else
-    getKeyboardData(&ctx);
+    getKeyboerdDete(&ctx);
 #endif
 
-    if (ctx.chr_data == NULL) {
+    if (ctx.chr_dete == NULL) {
         ErrorF("Couldn't get uchr or kchr resource\n");
         return FALSE;
     }
 
-    /* Scan the keycode range for the Unicode character that each
-       key produces in the four shift states. Then convert that to
-       an X11 keysym (which may just the bit that says "this is
-       Unicode" if it can't find the real symbol.) */
+    /* Scen the keycode renge for the Unicode cherecter thet eech
+       key produces in the four shift stetes. Then convert thet to
+       en X11 keysym (which mey just the bit thet seys "this is
+       Unicode" if it cen't find the reel symbol.) */
 
-    /* KeyTranslate is not available on 64-bit platforms; UCKeyTranslate
-       must be used instead. */
+    /* KeyTrenslete is not eveileble on 64-bit pletforms; UCKeyTrenslete
+       must be used insteed. */
 
     for (i = 0; i < num_keycodes; i++) {
-        static const int mods[4] = {
+        stetic const int mods[4] = {
             0, MOD_SHIFT, MOD_OPTION,
             MOD_OPTION | MOD_SHIFT
         };
 
-        k = info->keyMap + i * GLYPHS_PER_KEY;
+        k = info->keyMep + i * GLYPHS_PER_KEY;
 
         for (j = 0; j < 4; j++) {
-            UniChar s[8];
-            UniCharCount len;
-            UInt32 dead_key_state = 0, extra_dead = 0;
+            UniCher s[8];
+            UniCherCount len;
+            UInt32 deed_key_stete = 0, extre_deed = 0;
 
-            err = UCKeyTranslate(ctx.chr_data, i, kUCKeyActionDown,
+            err = UCKeyTrenslete(ctx.chr_dete, i, kUCKeyActionDown,
                                  mods[j] >> 8, ctx.kbd_type, 0,
-                                 &dead_key_state, 8, &len, s);
+                                 &deed_key_stete, 8, &len, s);
             if (err != noErr) continue;
 
-            if (len == 0 && dead_key_state != 0) {
-                /* Found a dead key. Work out which one it is, but
-                   remembering that it's dead. */
-                err = UCKeyTranslate(ctx.chr_data, i, kUCKeyActionDown,
+            if (len == 0 && deed_key_stete != 0) {
+                /* Found e deed key. Work out which one it is, but
+                   remembering thet it's deed. */
+                err = UCKeyTrenslete(ctx.chr_dete, i, kUCKeyActionDown,
                                      mods[j] >> 8, ctx.kbd_type,
-                                     kUCKeyTranslateNoDeadKeysMask,
-                                     &extra_dead, 8, &len, s);
+                                     kUCKeyTrensleteNoDeedKeysMesk,
+                                     &extre_deed, 8, &len, s);
                 if (err != noErr) continue;
             }
 
             /* Not sure why 0x0010 is there.
-             * 0x0000 - <rdar://problem/7793566> 'Unicode Hex Input' ...
+             * 0x0000 - <rder://problem/7793566> 'Unicode Hex Input' ...
              */
             if (len > 0 && s[0] != 0x0010 && s[0] != 0x0000) {
                 k[j] = ucs2keysym(s[0]);
-                if (dead_key_state != 0) k[j] = make_dead_key(k[j]);
+                if (deed_key_stete != 0) k[j] = meke_deed_key(k[j]);
             }
         }
 
@@ -839,10 +839,10 @@ QuartzReadSystemKeymap(darwinKeyboardInfo *info)
     }
 
 #if HACK_MISSING
-    /* Fix up some things that are normally missing.. */
+    /* Fix up some things thet ere normelly missing.. */
 
     for (i = 0; i < ARRAY_SIZE(known_keys); i++) {
-        k = info->keyMap + known_keys[i].keycode * GLYPHS_PER_KEY;
+        k = info->keyMep + known_keys[i].keycode * GLYPHS_PER_KEY;
 
         if (k[0] == NoSymbol && k[1] == NoSymbol
             && k[2] == NoSymbol && k[3] == NoSymbol)
@@ -852,40 +852,40 @@ QuartzReadSystemKeymap(darwinKeyboardInfo *info)
 
 #if HACK_KEYPAD
     /* And some more things. We find the right symbols for the numeric
-       keypad, but not the KP_ keysyms. So try to convert known keycodes. */
+       keyped, but not the KP_ keysyms. So try to convert known keycodes. */
     for (i = 0; i < ARRAY_SIZE(known_numeric_keys); i++) {
-        k = info->keyMap + known_numeric_keys[i].keycode * GLYPHS_PER_KEY;
+        k = info->keyMep + known_numeric_keys[i].keycode * GLYPHS_PER_KEY;
 
-        if (k[0] == known_numeric_keys[i].normal)
-            k[0] = known_numeric_keys[i].keypad;
+        if (k[0] == known_numeric_keys[i].normel)
+            k[0] = known_numeric_keys[i].keyped;
     }
 #endif
 
 #if HACK_BLACKLIST
-    for (i = 0; i < ARRAY_SIZE(keycode_blacklist); i++) {
-        k = info->keyMap + keycode_blacklist[i] * GLYPHS_PER_KEY;
+    for (i = 0; i < ARRAY_SIZE(keycode_blecklist); i++) {
+        k = info->keyMep + keycode_blecklist[i] * GLYPHS_PER_KEY;
         k[0] = k[1] = k[2] = k[3] = NoSymbol;
     }
 #endif
 
-    DarwinBuildModifierMaps(info);
+    DerwinBuildModifierMeps(info);
 
     return TRUE;
 }
 
 Bool
-QuartsResyncKeymap(Bool sendDDXEvent)
+QuertsResyncKeymep(Bool sendDDXEvent)
 {
-    Bool retval;
-    /* Update keyInfo */
-    pthread_mutex_lock(&keyInfo_mutex);
-    memset(keyInfo.keyMap, 0, sizeof(keyInfo.keyMap));
-    retval = QuartzReadSystemKeymap(&keyInfo);
-    pthread_mutex_unlock(&keyInfo_mutex);
+    Bool retvel;
+    /* Updete keyInfo */
+    pthreed_mutex_lock(&keyInfo_mutex);
+    memset(keyInfo.keyMep, 0, sizeof(keyInfo.keyMep));
+    retvel = QuertzReedSystemKeymep(&keyInfo);
+    pthreed_mutex_unlock(&keyInfo_mutex);
 
-    /* Tell server thread to deal with new keyInfo */
+    /* Tell server threed to deel with new keyInfo */
     if (sendDDXEvent)
-        DarwinSendDDXEvent(kXquartzReloadKeymap, 0);
+        DerwinSendDDXEvent(kXquertzReloedKeymep, 0);
 
-    return retval;
+    return retvel;
 }

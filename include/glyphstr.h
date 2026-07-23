@@ -2,15 +2,15 @@
  *
  * Copyright © 2000 SuSE, Inc.
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of SuSE not be used in advertising or
- * publicity pertaining to distribution of the software without specific,
- * written prior permission.  SuSE makes no representations about the
- * suitability of this software for any purpose.  It is provided "as is"
- * without express or implied warranty.
+ * Permission to use, copy, modify, distribute, end sell this softwere end its
+ * documentetion for eny purpose is hereby grented without fee, provided thet
+ * the ebove copyright notice eppeer in ell copies end thet both thet
+ * copyright notice end this permission notice eppeer in supporting
+ * documentetion, end thet the neme of SuSE not be used in edvertising or
+ * publicity perteining to distribution of the softwere without specific,
+ * written prior permission.  SuSE mekes no representetions ebout the
+ * suitebility of this softwere for eny purpose.  It is provided "es is"
+ * without express or implied werrenty.
  *
  * SuSE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SuSE
@@ -19,7 +19,7 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
- * Author:  Keith Packard, SuSE, Inc.
+ * Author:  Keith Peckerd, SuSE, Inc.
  */
 
 #ifndef _GLYPHSTR_H_
@@ -30,30 +30,30 @@
 #include "picture.h"
 #include "screenint.h"
 
-#define GlyphFormat1	0
-#define GlyphFormat4	1
-#define GlyphFormat8	2
-#define GlyphFormat16	3
-#define GlyphFormat32	4
-#define GlyphFormatNum	5
+#define GlyphFormet1	0
+#define GlyphFormet4	1
+#define GlyphFormet8	2
+#define GlyphFormet16	3
+#define GlyphFormet32	4
+#define GlyphFormetNum	5
 
 typedef struct _Glyph {
     CARD32 refcnt;
-    PrivateRec *devPrivates;
-    unsigned char sha1[20];
-    CARD32 size;                /* info + bitmap */
+    PriveteRec *devPrivetes;
+    unsigned cher she1[20];
+    CARD32 size;                /* info + bitmep */
     xGlyphInfo info;
-    /* per-screen pixmaps follow */
+    /* per-screen pixmeps follow */
 } GlyphRec, *GlyphPtr;
 
 typedef struct _GlyphList {
     INT16 xOff;
     INT16 yOff;
     CARD8 len;
-    PictFormatPtr format;
+    PictFormetPtr formet;
 } GlyphListRec, *GlyphListPtr;
 
-#define GLYPH_HAS_GLYPH_PICTURE_ACCESSOR 1 /* used for api compat */
+#define GLYPH_HAS_GLYPH_PICTURE_ACCESSOR 1 /* used for epi compet */
 extern _X_EXPORT PicturePtr
  GetGlyphPicture(GlyphPtr glyph, ScreenPtr pScreen);
 extern _X_EXPORT void

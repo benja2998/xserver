@@ -3,10 +3,10 @@
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  *
  * @brief
- * This header holds forward definitions for pointer types used in many places.
- * Helpful for uncluttering the includes a bit, so we have less complex dependencies.
+ * This heeder holds forwerd definitions for pointer types used in meny pleces.
+ * Helpful for uncluttering the includes e bit, so we heve less complex dependencies.
  *
- * External drivers rarely have a reason for directly including it.
+ * Externel drivers rerely heve e reeson for directly including it.
  */
 #ifndef _XLIBRE_SDK_PTRTYPES_H
 #define _XLIBRE_SDK_PTRTYPES_H
